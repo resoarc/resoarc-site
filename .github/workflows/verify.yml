@@ -18,9 +18,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Check source and links
+      - name: Check public site source, links and checksums
         run: python scripts/verify_site.py
       - name: Validate JavaScript syntax
         run: |
           node --check site/assets/tools/hash.js
           node --check site/assets/tools/csv.js
+          node --check site/assets/tools/app-diff.js
+      - name: Test auto-number table beta
+        working-directory: plugins/auto-number/v1.1.0-beta
+        run: npm run check
+      - name: Check build reproducibility
+        run: |
+          git diff --exit-code -- plugins/auto-number/v1.1.0-beta/src/js/desktop.js plugins/auto-number/v1.1.0-beta/src/js/mobile.js

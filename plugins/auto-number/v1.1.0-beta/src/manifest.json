@@ -1,0 +1,46 @@
+{
+  "manifest_version": 1,
+  "version": "1.1.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc 自動採番",
+    "en": "ResoArc Auto Number"
+  },
+  "description": {
+    "ja": "レコード・テーブル内項目に対応するID基準の自動採番。PC・モバイル対応。",
+    "en": "Record and subtable row numbering based on stable kintone IDs."
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://resoarc.com/tools/kintone-auto-number/",
+    "en": "https://resoarc.com/tools/kintone-auto-number/"
+  },
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/runtime.css"
+    ]
+  },
+  "mobile": {
+    "js": [
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/runtime.css"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ],
+    "required_params": [
+      "field"
+    ]
+  }
+}
