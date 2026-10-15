@@ -1,0 +1,46 @@
+{
+    "manifest_version":  1,
+    "version":  "0.1.0",
+    "type":  "APP",
+    "name":  {
+                 "ja":  "ResoArc タブ表示",
+                 "en":  "ResoArc Field Tabs"
+             },
+    "description":  {
+                        "ja":  "kintoneの公式JavaScript APIでフィールドをタブ切り替え表示します。外部通信なし。",
+                        "en":  "Native field show/hide API tab navigation. No third-party data transfer."
+                    },
+    "icon":  "image/icon.png",
+    "homepage_url":  {
+                         "ja":  "https://resoarc.com/products/kintone/",
+                         "en":  "https://resoarc.com/products/kintone/"
+                     },
+    "desktop":  {
+                    "js":  [
+                               "js/desktop.js"
+                           ],
+                    "css":  [
+                                "css/runtime.css"
+                            ]
+                },
+    "mobile":  {
+                   "js":  [
+                              "js/mobile.js"
+                          ],
+                   "css":  [
+                               "css/runtime.css"
+                           ]
+               },
+    "config":  {
+                   "html":  "html/config.html",
+                   "js":  [
+                              "js/config.js"
+                          ],
+                   "css":  [
+                               "css/config.css"
+                           ],
+                   "required_params":  [
+                                           "tabs"
+                                       ]
+               }
+}

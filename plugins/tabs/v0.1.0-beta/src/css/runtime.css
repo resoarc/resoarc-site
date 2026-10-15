@@ -1,0 +1,6 @@
+.ra-tabs{display:flex;gap:6px;align-items:stretch;flex-wrap:wrap;padding:6px 0 15px;border-bottom:1px solid #c3d2e2;margin:4px 0 20px;font-family:"Noto Serif JP","Yu Mincho",serif}
+.ra-tab,.ra-tab-all{background:#f1f4f8;color:#1b3550;border:1px solid #bccbda;border-radius:0;padding:10px 17px;font-size:13px;cursor:pointer}
+.ra-tab[aria-selected="true"]{color:white;background:#1e4062;border-color:#1e4062}
+.ra-tab:focus-visible,.ra-tab-all:focus-visible{outline:3px solid #8cb8db;outline-offset:2px}
+.ra-tab-all{margin-left:auto;background:white}
+@media(max-width:600px){.ra-tab,.ra-tab-all{flex:1 1 auto;padding:12px 10px}.ra-tab-all{margin-left:0}}
