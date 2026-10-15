@@ -25,3 +25,7 @@ Public source repository: https://github.com/resoarc/resoarc-site
 AI usage policy: https://github.com/resoarc/resoarc-site/blob/main/AI_USAGE.md
 SHA-256 manifest: https://github.com/resoarc/resoarc-site/blob/main/site-manifest.sha256
 Local verification: https://github.com/resoarc/resoarc-site/blob/main/docs/VERIFICATION.md
+
+## kintone plugins
+- https://resoarc.com/products/kintone/ : Free kintone plugins
+- https://resoarc.com/tools/kintone-auto-number/ : Free auto-number plugin
