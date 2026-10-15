@@ -1,0 +1,79 @@
+name: Build ResoArcOS PC developer preview
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/resoarcos-preview-release.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: resoarcos-preview-20261016
+  cancel-in-progress: false
+
+jobs:
+  build-verify-publish:
+    if: github.repository == 'resoarc/resoarc-site'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Fetch and verify official source snapshot
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --connect-timeout 15             https://resoarc.com/downloads/resoarcos-pc-v0.1.0-dev-source.zip             -o source.zip
+          echo '72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20  source.zip' | sha256sum --check
+          mkdir source
+          unzip -q source.zip -d source
+          test -f source/LICENSE
+          test -f source/scripts/verify-iso.sh
+      - name: Source regression and security checks
+        working-directory: source
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python3 -m unittest discover -s tests -q
+          python3 -m compileall -q src scripts
+          bash -n images/pc/build.sh scripts/verify-iso.sh tests/smoke_gui_xvfb.sh
+      - name: Build reproducibly inside Debian 13 Docker
+        working-directory: source
+        run: |
+          set -euo pipefail
+          docker build --pull -t resoarcos-builder:ci -f images/pc/Dockerfile.build .
+          docker volume create resoarcos-ci-work
+          docker run --rm --privileged --cpus=2 --memory=5g --memory-swap=5g             --mount "type=bind,src=$PWD,dst=/source,readonly"             --mount "type=volume,src=resoarcos-ci-work,dst=/work"             -w /work resoarcos-builder:ci bash -lc             'set -e; cp -a /source/images /source/scripts /source/src /work/; bash images/pc/build.sh'
+      - name: Verify ISO internals and boot parameters
+        working-directory: source
+        run: |
+          set -euo pipefail
+          docker run --rm --cpus=2 --memory=2g             --mount "type=bind,src=$PWD,dst=/source,readonly"             --mount "type=volume,src=resoarcos-ci-work,dst=/work,readonly"             -w /source resoarcos-builder:ci             bash scripts/verify-iso.sh /work/out/pc-build/resoarcos-amd64-amd64.hybrid.iso
+          mkdir -p release
+          docker run --rm             --mount "type=volume,src=resoarcos-ci-work,dst=/work,readonly"             --mount "type=bind,src=$PWD/release,dst=/release"             resoarcos-builder:ci             cp /work/out/pc-build/resoarcos-amd64-amd64.hybrid.iso /release/resoarcos-pc-v0.1.0-dev-amd64.iso
+      - name: QEMU headless-to-GUI boot regression
+        working-directory: source
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends qemu-system-x86 xorriso
+          python3 scripts/qemu-headless-gui-smoke.py             release/resoarcos-pc-v0.1.0-dev-amd64.iso             --out-dir release --boot-wait 180 --gui-wait 50
+          test -s release/resoarc-gui-qa.json
+          sha256sum release/resoarcos-pc-v0.1.0-dev-amd64.iso > release/SHA256SUMS
+      - name: Publish GitHub prerelease (never a stable OS release)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: resoarcos-pc-v0.1.0-dev-20261016
+        working-directory: source
+        run: |
+          set -euo pipefail
+          cat > release/RELEASE_NOTES.txt <<'NOTES'
+          ResoArcOS PC v0.1.0-dev: developer preview, not production-ready.
+
+          Verified during this workflow: source SHA-256, unit tests, ISO content and managed-code permissions, BIOS/UEFI default boot parameters and QEMU direct-kernel headless-to-GUI smoke test.
+
+          Not yet supported: safe disk installer, persistence, password-protected installed accounts, signed updates, rollback, production network hardening, unattended security support and physical-PC hardware certification. This Live image has a temporary autologin user. Never install to your primary PC or process sensitive data.
+
+          Source and instructions: https://resoarc.com/os/
+          Base: Debian 13; upstream packages retain their own licenses. Obtain corresponding upstream source from Debian source repositories and package source entries.
+          NOTES
+          gh release create "$TAG"             release/resoarcos-pc-v0.1.0-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             source.zip             --title 'ResoArcOS PC v0.1.0-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false             --target "$GITHUB_SHA"
