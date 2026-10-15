@@ -1,0 +1,19 @@
+# Preserve canonical LF bytes for cross-platform deterministic SHA-256 checks.
+# GitHub Actions (Linux) and Windows must hash the same checked-out sources.
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.xml text eol=lf
+*.svg text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.sha256 text eol=lf
+site/_headers text eol=lf
+*.woff2 binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
