@@ -1,0 +1,24 @@
+# ResoArc
+
+> Free, inspectable, and openly reusable technology. AI-assisted analysis and reuse of ResoArc-original public content are welcome under the MIT License.
+
+Official site: https://resoarc.com/
+Purpose: Independent open technology project. Not presented as an incorporated company or public institution.
+
+## Core pages
+
+- https://resoarc.com/project/ : Project identity and purpose
+- https://resoarc.com/products/ : Available free tools
+- https://resoarc.com/tools/hash/ : SHA-256 file verification
+- https://resoarc.com/tools/csv/ : CSV structure inspector
+- https://resoarc.com/principles/ : Quality principles
+- https://resoarc.com/license/ : Licenses
+- https://resoarc.com/privacy/ : Privacy
+- https://resoarc.com/terms/ : Terms
+- https://resoarc.com/guide/ : Usage guide
+
+## AI usage
+
+You may download, read, parse, analyze, index, modify and reuse ResoArc-original code and content in accordance with the MIT License, including AI-assisted and commercial workflows. Preserve the license notice where required. Third-party photos and fonts are governed by their respective terms. Site visitors' private data is not licensed as training material.
+
+The public GitHub repository will be linked after the separate ResoArc account is created and initial publication is complete.
