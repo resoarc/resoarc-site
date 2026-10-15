@@ -21,4 +21,7 @@ Purpose: Independent open technology project. Not presented as an incorporated c
 
 You may download, read, parse, analyze, index, modify and reuse ResoArc-original code and content in accordance with the MIT License, including AI-assisted and commercial workflows. Preserve the license notice where required. Third-party photos and fonts are governed by their respective terms. Site visitors' private data is not licensed as training material.
 
-The public GitHub repository will be linked after the separate ResoArc account is created and initial publication is complete.
+Public source repository: https://github.com/resoarc/resoarc-site
+AI usage policy: https://github.com/resoarc/resoarc-site/blob/main/AI_USAGE.md
+SHA-256 manifest: https://github.com/resoarc/resoarc-site/blob/main/site-manifest.sha256
+Local verification: https://github.com/resoarc/resoarc-site/blob/main/docs/VERIFICATION.md
