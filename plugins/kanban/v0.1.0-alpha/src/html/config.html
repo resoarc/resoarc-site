@@ -1,1 +1,8 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main class="ra-rule-config"><h1>ResoArc カード・カンバン表示</h1><p>試験版です。設定はJSON形式で入力します。保存後、アプリを更新してください。</p><label for="rules">ルール定義（JSON配列）</label><textarea id="rules" rows="16" spellcheck="false"></textarea><div><button id="save" type="button">設定を保存</button><button id="cancel" type="button">戻る</button></div><p role="alert" id="error"></p></main></body></html>
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body><main class="ra-rule-config">
+<h1>ResoArc カード・カンバン表示</h1>
+<p>フィールドコードを指定してルールを作成します。実際のレコードを変更する前にテストアプリで検証してください。</p>
+<div id="rule-list"></div>
+<div class="ra-actions"><button type="button" id="add">＋ ルールを追加</button><button type="button" id="save">設定を保存</button><button type="button" id="cancel">戻る</button></div>
+<p role="alert" id="error"></p><p role="status" id="note"></p></main></body></html>

@@ -28,6 +28,7 @@
   "config": {
     "html": "html/config.html",
     "js": [
+      "js/core.js",
       "js/config.js"
     ],
     "css": [

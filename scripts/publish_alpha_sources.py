@@ -34,7 +34,7 @@ for slug,title,desc,example,limit in ITEMS:
       +'<section class="section inner-section"><div class="container reading-width"><h2>開発α版・ソース公開</h2><p><strong>この版は実機導入試験が完了していません。プラグインとしてインストールできる署名ZIPは配布していません。</strong>コード、設定画面、ロジック、単体テストを確認するためのソースパッケージです。</p>'
       +'<p>'+html.escape(limit)+'</p><div class="article-strip"><div><strong>ソース一式・設定例</strong><p>ソースパッケージに、manifest・設定画面・PC/モバイルJS・ビルド手順・テストを収録しています。</p></div>'
       +'<a class="inline-link" href="/downloads/resoarc-'+slug+'-v0.1.0-alpha-source.zip" download>α版ソースZIPを取得 <span>↗</span></a></div>'
-      +'<h3>設定ルール例</h3><pre class="suite-result" style="overflow:auto;background:#17343d;color:white;padding:16px">'+html.escape(example)+'</pre><p>開発環境での動作確認・アクセス権試験・他プラグインとの競合検証を完了してからインストール用ZIPを提供します。</p>'
+      +'<p><strong>設定画面をフォーム化。</strong>JSONを直接編集せず、フィールドコード候補の補完・ルール追加・保存前の形式検証を利用できます。旧JSON設定も引き継ぎます。</p><h3>設定ルール例</h3><pre class="suite-result" style="overflow:auto;background:#17343d;color:white;padding:16px">'+html.escape(example)+'</pre><p>開発環境での動作確認・アクセス権試験・他プラグインとの競合検証を完了してからインストール用ZIPを提供します。</p>'
       +'<p><a href="/products/kintone/">kintoneツール一覧に戻る ↗</a></p></div></section></main>')
     target=SITE/'tools'/('kintone-'+slug)/'index.html'
     target.parent.mkdir(parents=True,exist_ok=True)
