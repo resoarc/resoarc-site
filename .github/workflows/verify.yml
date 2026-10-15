@@ -27,6 +27,11 @@ jobs:
           node --check site/assets/tools/app-diff.js
           node --check site/assets/tools/import-diagnose-core.js
           node --check site/assets/tools/import-diagnose-ui.js
+      - name: Test ResoArc local-only suite
+        run: |
+          node --check site/assets/tools/suite-core.js
+          node --check site/assets/tools/suite-ui.js
+          node --test tests/suite.test.cjs
       - name: Test kintone CSV import preflight
         run: node --test tests/import-diagnose.test.cjs
       - name: Test auto-number subtable beta
@@ -38,6 +43,13 @@ jobs:
       - name: Test conditional fields alpha
         working-directory: plugins/conditional/v0.1.0-alpha
         run: npm run check
+      - name: Test five alpha kintone features
+        run: |
+          cd plugins/conditional-format/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/date-calculator/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/list-search/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/grid-editor/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/kanban/v0.1.0-alpha && npm run check && cd ../../..
       - name: Verify reproducible plugin builds
         run: |
           git diff --exit-code -- plugins/auto-number/v1.1.0-beta/src/js/desktop.js plugins/auto-number/v1.1.0-beta/src/js/mobile.js

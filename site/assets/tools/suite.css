@@ -1,0 +1,18 @@
+/* ResoArc Suite local analysis UIs */
+.suite-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
+.suite-panel{padding:26px;background:#fff;border:1px solid #d9e1df;border-radius:4px;box-shadow:0 8px 22px rgba(24,53,59,.05)}
+.suite-panel label{display:block;font-weight:700;margin:17px 0 8px}
+.suite-panel input[type=file],.suite-panel textarea{display:block;width:100%;padding:12px;border:1px solid #9caba8;border-radius:3px;background:#fbfbf8;color:#17343a}
+.suite-panel textarea{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;line-height:1.5;resize:vertical}
+.suite-panel button{font:inherit;cursor:pointer;padding:11px 18px;border:1px solid #245257;background:#245257;color:#fff;margin:12px 10px 4px 0}
+.suite-panel button:disabled{opacity:.6;cursor:progress}
+.suite-panel button.suite-outline{background:#fff;color:#245257}
+.suite-panel button[hidden],.suite-print[hidden]{display:none}
+.suite-status{font-weight:600;min-height:2em}
+.suite-note{font-size:.89rem;color:#3e595b;line-height:1.7}
+.suite-result{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow:auto;white-space:pre-wrap;word-break:break-word;max-height:510px;min-height:90px;padding:16px;background:#102b34;color:#eff9f5;border:1px solid #30515a;font-size:.83rem}
+.suite-preview{overflow-x:auto;margin-top:26px;padding:20px;background:#fff;border:1px solid #a9b4b6}
+.print-table{border-collapse:collapse;width:100%;font-size:.9rem}
+.print-table th,.print-table td{padding:9px;border:1px solid #bccac8;text-align:left;vertical-align:top}
+@media(max-width:780px){.suite-layout{grid-template-columns:1fr}.suite-panel{padding:18px}}
+@media print{header,footer,.inside-hero,.suite-layout,.suite-guide,.skip-link,.suite-panel,.article-strip{display:none!important}body{background:white!important}.suite-preview{display:block!important;border:0;margin:0;padding:0}table{break-inside:auto}tr{break-inside:avoid}}

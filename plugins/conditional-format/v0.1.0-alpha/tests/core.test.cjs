@@ -1,0 +1,13 @@
+const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),path=require('node:path');
+const core=require('../src/js/core.js');
+const rule={source:'score',target:'flag',operator:'gte',value:'80',theme:'green'};
+test('format rules normalize',()=>assert.equal(core.normalize([rule]).length,1));
+test('reject injected styles',()=>assert.equal(core.normalize([{...rule,theme:'url(evil)'}]),null));
+test('reject duplicate targets',()=>assert.equal(core.normalize([rule,{...rule,source:'other'}]),null));
+test('numeric threshold inclusive',()=>assert.equal(core.match(rule,'80'),true));
+test('numeric invalid does not match',()=>assert.equal(core.match(rule,'x'),false));
+test('empty matches only empty',()=>{assert.equal(core.match({...rule,operator:'empty'},''),true);assert.equal(core.match({...rule,operator:'empty'},'x'),false);});
+test('evaluation is read-only and default reset',()=>{const record={score:{value:'30'},flag:{value:'stable'}};const e=core.evaluate([rule],record)[0];assert.equal(e.style,'DEFAULT');assert.equal(record.flag.value,'stable');});
+test('format positive uses fixed palette',()=>{const out=core.evaluate([rule],{score:{value:'99'},flag:{value:''}})[0];assert.equal(out.active,true);assert.ok(out.style.background.backgroundColor.startsWith('#'));});
+test('missing fields are skipped',()=>assert.equal(core.evaluate([rule],{score:{value:'1'}})[0].missing,true));
+test('runtime registers events without content writes',async()=>{let registered,callback;const styles=[];const context={kintone:{$PLUGIN_ID:'a',plugin:{app:{getConfig:()=>({rules:JSON.stringify([rule])})}},app:{record:{setFieldStyle:(...args)=>{styles.push(args);return Promise.resolve();}}},events:{on:(e,f)=>{registered=e;callback=f;}}},console};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/js/desktop.js'),'utf8'),context);assert.ok(registered.includes('app.record.detail.show'));const record={score:{value:'98'},flag:{value:'unchanged'}};callback({type:'app.record.detail.show',record});await new Promise(r=>setImmediate(r));assert.equal(record.flag.value,'unchanged');assert.equal(styles.length,1);});

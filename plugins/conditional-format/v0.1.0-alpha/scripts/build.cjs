@@ -1,0 +1,1 @@
+const fs=require('node:fs'),path=require('node:path');const root=path.resolve(__dirname,'../src/js');const code=fs.readFileSync(path.join(root,'core.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'runtime.js'),'utf8');for(const file of ['desktop.js','mobile.js'])fs.writeFileSync(path.join(root,file),code,'utf8');
