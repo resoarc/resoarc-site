@@ -1,4 +1,5 @@
 import {makeArchive,inspectArchive,createRestorePlan,materializeRestoreRow,MAX_BYTES} from './core.js';
+import {planNewApp,createDraftApp} from './migration.js';
 
 const K=window.kintone;
 const api=(path,method,body)=>K.api(K.api.url(path,true),method,body);
@@ -97,12 +98,28 @@ function initialize(){
   if(!header || header.querySelector('[data-resoarc-backup]'))return;
   const root=el('section');root.dataset.resoarcBackup='true';
   root.style.cssText='padding:9px;margin:8px 0;border:1px solid #b8d0d4;border-radius:8px;background:#f9fcfd;color:#18353b;max-width:980px';
-  root.appendChild(el('strong','ResoArc Backup & Migration | 0.1 alpha'));
+  root.appendChild(el('strong','ResoArc Backup & Migration | 0.2 alpha'));
   const actions=el('div');root.appendChild(actions);
   const msg=el('div','専用のバックアップ管理アプリです。書き込みは手動操作時だけ実行します。');
   msg.style.cssText='white-space:pre-wrap;font-size:13px;margin-top:7px;line-height:1.6';root.appendChild(msg);
   const progress=el('div');progress.style.cssText='font-size:13px;color:#394';root.appendChild(progress);
-  let current=null;
+  let current=null, draft=null;
+  const draftButton=addButton(actions,'新規アプリの下書きを作成 (データは書かない)',async()=>{
+    if(!draft)return;
+    const plan=draft;
+    const typed=window.prompt('新規アプリ「'+plan.name+'」を作成し、'+plan.fieldCount+' フィールドを設定します。\n既存のアプリには変更を加えません。\n作成するには次を正確に入力してください: CREATE '+plan.name,'');
+    if(typed!=='CREATE '+plan.name)return;
+    if(!window.confirm('最終確認: 新しいアプリの動作テスト環境にフィールドを追加します。レコードの復元・アプリ設定の本番反映は行いません。'))return;
+    for(const b of actions.querySelectorAll('button'))b.disabled=true;
+    try{
+      const done=await createDraftApp(plan,api,text=>{progress.textContent=text;});
+      msg.textContent='新規アプリ #'+done.appId+' の下書きを作成しました。\nアプリの管理者設定画面で内容を確認し、手動で「アプリを更新」してください。\n更新後、復元プレビューから同じアプリIDを指定してください。\nレコードはまだ0件、既存アプリは変更していません。';
+      draft=null;
+      draftButton.hidden=true;
+    }catch(e){msg.textContent='新規アプリの作成処理が中断しました。作成されたアプリが残っている可能性があります。\n'+e.message;console.error(e);}
+    finally{for(const b of actions.querySelectorAll('button'))b.disabled=false;}
+  });
+  draftButton.hidden=true;
   const restoreButton=addButton(actions,'復元を実行 (追記のみ)',async()=>{
     if(!current)return;
     const {archive,plan,backupRecordId}=current;
@@ -125,7 +142,7 @@ function initialize(){
   restoreButton.hidden=true;
   async function safeRun(job){
     for(const b of actions.querySelectorAll('button'))b.disabled=true;
-    restoreButton.hidden=true;current=null;progress.textContent='';
+    restoreButton.hidden=true;current=null;draft=null;draftButton.hidden=true;progress.textContent='';
     try{await job();}catch(e){msg.textContent='エラー: '+e.message;console.error(e);}
     finally{for(const b of actions.querySelectorAll('button'))b.disabled=false;}
   }
@@ -175,6 +192,37 @@ function initialize(){
     msg.textContent='外部ZIPの内部整合性: OK (送信元の真正性は別途確認してください)\n元アプリ: '+plan.sourceAppId+' / 移行先: '+targetId+'\n追加予定: '+plan.recordCount+' 件 / マップ項目: '+Object.keys(plan.mapped).length+' 件'+skipped+'\n※追記専用。元のレコードID・操作履歴・アクセス権は移行できません。';
     current={archive,plan,backupRecordId:'外部ZIP'};
     restoreButton.hidden=false;
+  }));
+  async function showNewAppPreview(archive){
+    const proposed='ResoArc Copy '+archive.manifest.sourceAppId;
+    const name=window.prompt('新しいアプリ名を入力してください。既存アプリは変更しません。',proposed);
+    if(name===null)return;
+    const plan=planNewApp(archive,name);
+    const detail=plan.skipped.length?'\n非対応フィールド:\n'+plan.skipped.join('\n'):'';
+    msg.textContent='【新規アプリ構造のプレビュー】\n元アプリ: '+plan.sourceAppId+
+      '\n作成予定: '+plan.name+'\n対応フィールド: '+plan.fieldCount+
+      '\nレコード移行予定: この操作では 0 件（復元は別操作です）'+detail+
+      '\n\n制約:\n'+plan.warnings.join('\n');
+    draft=plan;
+    draftButton.hidden=false;
+  }
+  addButton(actions,'管理レコードから新規アプリ構造プレビュー',()=>safeRun(async()=>{
+    const input=window.prompt('バックアップ管理アプリのレコードIDを指定してください','');
+    if(input===null)return;
+    msg.textContent='保存済みZIPの整合性を検証しています。';
+    await showNewAppPreview(await loadBackup(positiveId(input)));
+  }));
+  addButton(actions,'外部ZIPから新規アプリ構造プレビュー',()=>safeRun(async()=>{
+    const file=await new Promise(resolve=>{
+      const input=el('input'); input.type='file';input.accept='.zip,application/zip';
+      input.onchange=()=>resolve(input.files?.[0]||null);
+      input.oncancel=()=>resolve(null);
+      input.click();
+    });
+    if(!file)return;
+    if(file.size>MAX_BYTES)throw Error('ZIPの容量上限を超えています');
+    msg.textContent='外部ZIPの整合性を検証しています。';
+    await showNewAppPreview(await inspectArchive(new Uint8Array(await file.arrayBuffer())));
   }));
   header.appendChild(root);
 }

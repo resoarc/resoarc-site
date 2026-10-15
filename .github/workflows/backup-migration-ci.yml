@@ -1,0 +1,35 @@
+name: Verify ResoArc Backup Migration
+
+on:
+  push:
+    paths:
+      - ".github/workflows/backup-migration-ci.yml"
+      - "plugins/backup-migration/**"
+  pull_request:
+    paths:
+      - ".github/workflows/backup-migration-ci.yml"
+      - "plugins/backup-migration/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugins/backup-migration
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: plugins/backup-migration/package-lock.json
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Unit tests and browser JS build
+        run: npm run check
+      - name: Ensure checked-in distribution matches build
+        run: git diff --exit-code -- dist/resoarc-backup.js

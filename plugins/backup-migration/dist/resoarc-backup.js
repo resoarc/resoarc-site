@@ -783,17 +783,17 @@ SOFTWARE.
         r += String.fromCharCode((c & 15) << 12 | (d[i++] & 63) << 6 | d[i++] & 63);
     }
   };
-  function strToU8(str, latin1) {
+  function strToU8(str2, latin1) {
     if (latin1) {
-      var ar_1 = new u8(str.length);
-      for (var i = 0; i < str.length; ++i)
-        ar_1[i] = str.charCodeAt(i);
+      var ar_1 = new u8(str2.length);
+      for (var i = 0; i < str2.length; ++i)
+        ar_1[i] = str2.charCodeAt(i);
       return ar_1;
     }
     if (te)
-      return te.encode(str);
-    var l = str.length;
-    var ar = new u8(str.length + (str.length >> 1));
+      return te.encode(str2);
+    var l = str2.length;
+    var ar = new u8(str2.length + (str2.length >> 1));
     var ai = 0;
     var w = function(v) {
       ar[ai++] = v;
@@ -804,13 +804,13 @@ SOFTWARE.
         n.set(ar);
         ar = n;
       }
-      var c = str.charCodeAt(i);
+      var c = str2.charCodeAt(i);
       if (c < 128 || latin1)
         w(c);
       else if (c < 2048)
         w(192 | c >> 6), w(128 | c & 63);
       else if (c > 55295 && c < 57344)
-        c = 65536 + (c & 1023 << 10) | str.charCodeAt(++i) & 1023, w(240 | c >> 18), w(128 | c >> 12 & 63), w(128 | c >> 6 & 63), w(128 | c & 63);
+        c = 65536 + (c & 1023 << 10) | str2.charCodeAt(++i) & 1023, w(240 | c >> 18), w(128 | c >> 12 & 63), w(128 | c >> 6 & 63), w(128 | c & 63);
       else
         w(224 | c >> 12), w(128 | c >> 6 & 63), w(128 | c & 63);
     }
@@ -989,7 +989,7 @@ SOFTWARE.
 
   // src/core.js
   var FORMAT = "resoarc.kintone.backup";
-  var VERSION = 1;
+  var VERSION = 2;
   var MAX_BYTES = 25 * 1024 * 1024;
   var MAX_RECORDS = 2e4;
   var WRITABLE = /* @__PURE__ */ new Set(["SINGLE_LINE_TEXT", "MULTI_LINE_TEXT", "RICH_TEXT", "NUMBER", "RADIO_BUTTON", "DROP_DOWN", "CHECK_BOX", "MULTI_SELECT", "DATE", "TIME", "DATETIME", "LINK", "USER_SELECT", "ORGANIZATION_SELECT", "GROUP_SELECT", "FILE"]);
@@ -1051,7 +1051,7 @@ SOFTWARE.
     }
   }
   var checkPath = (name) => {
-    if (!/^(manifest\.json|schema\/(fields|layout)\.json|data\/records\.jsonl|attachments\/[0-9a-f]{64})$/.test(name)) stop("ZIP\u5185\u306E\u4E0D\u6B63\u306A\u30D1\u30B9: " + name);
+    if (!/^(manifest\.json|schema\/(fields|layout|source-fields)\.json|data\/records\.jsonl|attachments\/[0-9a-f]{64})$/.test(name)) stop("ZIP\u5185\u306E\u4E0D\u6B63\u306A\u30D1\u30B9: " + name);
   };
   function sizeCheck(bytes, limit = MAX_BYTES) {
     if (bytes > limit) stop("\u5BB9\u91CF\u4E0A\u9650\uFF0825MiB\uFF09\u3092\u8D85\u3048\u307E\u3057\u305F\u3002\u5B89\u5168\u306E\u305F\u3081\u51E6\u7406\u3092\u4E2D\u6B62\u3057\u307E\u3059");
@@ -1090,6 +1090,9 @@ SOFTWARE.
     const texts = {
       "schema/fields.json": s(schema),
       "schema/layout.json": s(layout || {}),
+      // Full source field definitions are only used to create a NEW app draft.
+      // Never apply raw definitions to an existing app.
+      "schema/source-fields.json": s({ properties: fields?.properties || fields || {} }),
       "data/records.jsonl": out.map((r) => s(r)).join("\n") + (out.length ? "\n" : "")
     };
     const digests = {};
@@ -1109,7 +1112,7 @@ SOFTWARE.
       recordCount: out.length,
       files: uniqueFiles,
       digests,
-      limitations: ["append-only restore", "no system fields or audit history", "no process status reconstruction", "no app creation", "no permissions or views", "lookup values omitted"]
+      limitations: ["append-only restore", "no system fields or audit history", "no process status reconstruction", "new-app draft only", "no permissions or views", "lookup values omitted"]
     };
     const manifestBytes = strToU8(s(manifest));
     size += manifestBytes.length;
@@ -1140,7 +1143,7 @@ SOFTWARE.
       if (!entries[path]) stop("\u5FC5\u9808\u30D5\u30A1\u30A4\u30EB\u304C\u3042\u308A\u307E\u305B\u3093: " + path);
       return strFromU8(entries[path]);
     };
-    let manifest, schema, layout, records;
+    let manifest, schema, layout, sourceFields = null, records;
     try {
       manifest = JSON.parse(load("manifest.json"));
       schema = JSON.parse(load("schema/fields.json"));
@@ -1150,11 +1153,24 @@ SOFTWARE.
     } catch (e) {
       throw new Error("\u5185\u5BB9\u3092\u8AAD\u307F\u53D6\u308C\u307E\u305B\u3093: " + e.message);
     }
-    if (manifest?.format !== FORMAT || manifest?.version !== VERSION) stop("\u672A\u5BFE\u5FDC\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u5F62\u5F0F\u3067\u3059");
+    if (manifest?.format !== FORMAT || ![1, 2].includes(manifest?.version)) stop("\u672A\u5BFE\u5FDC\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u5F62\u5F0F\u3067\u3059");
+    const expectedTextPaths = ["schema/fields.json", "schema/layout.json", "data/records.jsonl"];
+    if (manifest.version === 2) {
+      try {
+        sourceFields = JSON.parse(load("schema/source-fields.json"));
+      } catch (e) {
+        stop("v2\u5F62\u5F0F\u306E\u30D5\u30A9\u30FC\u30E0\u5B9A\u7FA9\u304C\u4E0D\u6B63\u3067\u3059: " + e.message);
+      }
+      if (!obj(sourceFields) || !obj(sourceFields.properties)) stop("\u30D5\u30A9\u30FC\u30E0\u5B9A\u7FA9\u304C\u4E0D\u6B63\u3067\u3059");
+      expectedTextPaths.push("schema/source-fields.json");
+    }
+    if (manifest.version === 1 && entries["schema/source-fields.json"]) stop("v1\u5F62\u5F0F\u306B\u672A\u691C\u8A3C\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u8A2D\u5B9A\u304C\u3042\u308A\u307E\u3059");
     if (!obj(schema) || !Array.isArray(records) || records.length > MAX_RECORDS || records.length !== manifest.recordCount) stop("\u4EF6\u6570\u307E\u305F\u306F\u30D5\u30A3\u30FC\u30EB\u30C9\u69CB\u9020\u304C\u4E0D\u6B63\u3067\u3059");
-    for (const p of ["schema/fields.json", "schema/layout.json", "data/records.jsonl"]) {
+    for (const p of expectedTextPaths) {
       if (await sha256(entries[p]) !== manifest.digests?.[p]) stop("\u5185\u5BB9\u306E\u30CF\u30C3\u30B7\u30E5\u304C\u4E00\u81F4\u3057\u307E\u305B\u3093: " + p);
     }
+    if (sourceFields && JSON.stringify(writableSchema(sourceFields)) !== JSON.stringify(schema))
+      stop("\u30EC\u30B3\u30FC\u30C9\u69CB\u9020\u3068\u5143\u30A2\u30D7\u30EA\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u5B9A\u7FA9\u304C\u77DB\u76FE\u3057\u3066\u3044\u307E\u3059");
     if (!Array.isArray(manifest.files)) stop("\u30D5\u30A1\u30A4\u30EB\u4E00\u89A7\u304C\u4E0D\u6B63\u3067\u3059");
     const manifestPaths = /* @__PURE__ */ new Set();
     for (const f of manifest.files) {
@@ -1172,7 +1188,7 @@ SOFTWARE.
         if (!manifestPaths.has("attachments/" + f.ref)) stop("\u30EC\u30B3\u30FC\u30C9\u304C\u53C2\u7167\u3059\u308B\u6DFB\u4ED8\u30D5\u30A1\u30A4\u30EB\u304C\u6B20\u843D\u3057\u3066\u3044\u307E\u3059");
       });
     }
-    return { manifest, schema, layout, records, files: entries };
+    return { manifest, schema, layout, sourceFields, records, files: entries };
   }
   function createRestorePlan(archive, targetFields, targetAppId, managementAppId) {
     if (!archive?.manifest || !obj(archive.schema) || !Array.isArray(archive.records)) stop("\u691C\u8A3C\u6E08\u307F\u30A2\u30FC\u30AB\u30A4\u30D6\u304C\u5FC5\u8981\u3067\u3059");
@@ -1233,6 +1249,128 @@ SOFTWARE.
       f.fileKey = key;
     }
     return out;
+  }
+
+  // src/migration.js
+  var TYPES = /* @__PURE__ */ new Set([
+    "SINGLE_LINE_TEXT",
+    "MULTI_LINE_TEXT",
+    "RICH_TEXT",
+    "NUMBER",
+    "RADIO_BUTTON",
+    "DROP_DOWN",
+    "CHECK_BOX",
+    "MULTI_SELECT",
+    "DATE",
+    "TIME",
+    "DATETIME",
+    "LINK",
+    "USER_SELECT",
+    "ORGANIZATION_SELECT",
+    "GROUP_SELECT",
+    "FILE"
+  ]);
+  var SELECT = /* @__PURE__ */ new Set(["RADIO_BUTTON", "DROP_DOWN", "CHECK_BOX", "MULTI_SELECT"]);
+  var TABLE_TYPES = new Set([...TYPES].filter((t) => t !== "RICH_TEXT"));
+  var SAFE_CODE = /^[^\s.\[\]\\/]{1,128}$/u;
+  var bad = (message) => {
+    throw new Error(message);
+  };
+  var plain = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+  var str = (x) => typeof x === "string" ? x : "";
+  var copy = (o, keys, into) => {
+    for (const key of keys) if (Object.hasOwn(o, key)) into[key] = structuredClone(o[key]);
+  };
+  function definition(code, raw, inTable, skipped) {
+    if (!plain(raw) || !SAFE_CODE.test(code) || ["__proto__", "prototype", "constructor"].includes(code)) {
+      skipped.push(code + ": \u672A\u5BFE\u5FDC\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9");
+      return null;
+    }
+    if (raw.type === "SUBTABLE") {
+      if (inTable) {
+        skipped.push(code + ": \u30C6\u30FC\u30D6\u30EB\u306E\u5165\u308C\u5B50\u306F\u672A\u5BFE\u5FDC");
+        return null;
+      }
+      const fields = {};
+      for (const [child, def2] of Object.entries(raw.fields || {})) {
+        const built = definition(child, def2, true, skipped);
+        if (built) Object.defineProperty(fields, child, { value: built, enumerable: true, writable: true, configurable: true });
+      }
+      if (!Object.keys(fields).length) {
+        skipped.push(code + ": \u30C6\u30FC\u30D6\u30EB\u5185\u306E\u79FB\u884C\u53EF\u80FD\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u305B\u3093");
+        return null;
+      }
+      return { type: "SUBTABLE", code, label: str(raw.label) || code, fields };
+    }
+    if (!TYPES.has(raw.type) || raw.lookup || raw.referenceTable || inTable && !TABLE_TYPES.has(raw.type)) {
+      skipped.push(code + ": \u5BFE\u5FDC\u3067\u304D\u306A\u3044\u30D5\u30A3\u30FC\u30EB\u30C9\u7A2E\u5225\u307E\u305F\u306F\u53C2\u7167\u8A2D\u5B9A (" + (raw.type || "unknown") + ")");
+      return null;
+    }
+    const def = { type: raw.type, code, label: str(raw.label) || code, required: false, unique: false };
+    if (SELECT.has(raw.type)) {
+      if (!plain(raw.options) || Object.keys(raw.options).length === 0) {
+        skipped.push(code + ": \u9078\u629E\u80A2\u304C\u306A\u304F\u518D\u4F5C\u6210\u3067\u304D\u307E\u305B\u3093");
+        return null;
+      }
+      const options = {};
+      for (const [label, opt] of Object.entries(raw.options)) {
+        if (!plain(opt) || !label || !Number.isFinite(Number(opt.index))) {
+          skipped.push(code + ": \u9078\u629E\u80A2\u8A2D\u5B9A\u304C\u4E0D\u6B63\u3067\u3059");
+          return null;
+        }
+        Object.defineProperty(options, label, { value: { label, index: String(opt.index) }, enumerable: true, writable: true, configurable: true });
+      }
+      def.options = options;
+      if (raw.type === "RADIO_BUTTON" || raw.type === "CHECK_BOX" || raw.type === "MULTI_SELECT") {
+        if (["VERTICAL", "HORIZONTAL"].includes(raw.align)) def.align = raw.align;
+      }
+    }
+    if (raw.type === "LINK") def.protocol = ["WEB", "CALL", "MAIL"].includes(raw.protocol) ? raw.protocol : "WEB";
+    if (raw.type === "NUMBER") copy(raw, ["digit", "displayScale", "unit", "unitPosition"], def);
+    if (raw.type === "FILE" && ["50", "150", "250", "500"].includes(String(raw.thumbnailSize))) def.thumbnailSize = String(raw.thumbnailSize);
+    return def;
+  }
+  function planNewApp(archive, name) {
+    if (!archive || !archive.manifest || !plain(archive.sourceFields?.properties))
+      bad("\u3053\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u306B\u306F\u30A2\u30D7\u30EA\u69CB\u9020\u518D\u73FE\u7528\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u8A2D\u5B9A\u304C\u3042\u308A\u307E\u305B\u3093\u3002v2\u5F62\u5F0F\u3067\u518D\u53D6\u5F97\u3057\u3066\u304F\u3060\u3055\u3044");
+    if (archive.manifest.version !== 2) bad("\u81EA\u52D5\u30D5\u30A9\u30FC\u30E0\u518D\u73FE\u306Fv2\u5F62\u5F0F\u3060\u3051\u5BFE\u5FDC\u3057\u307E\u3059");
+    if (typeof name !== "string" || !name.trim() || name.length > 64) bad("\u30A2\u30D7\u30EA\u540D\u306F1\uFF5E64\u6587\u5B57\u306B\u3057\u3066\u304F\u3060\u3055\u3044");
+    const props = {};
+    const skipped = [];
+    for (const [code, def] of Object.entries(archive.sourceFields.properties)) {
+      const compiled = definition(code, def, false, skipped);
+      if (compiled) Object.defineProperty(props, code, { value: compiled, enumerable: true, writable: true, configurable: true });
+    }
+    if (!Object.keys(props).length) bad("\u79FB\u884C\u3067\u304D\u308B\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u305B\u3093");
+    const sourceCodes = Object.keys(archive.schema);
+    const missing = sourceCodes.filter((code) => !Object.hasOwn(props, code));
+    for (const code of missing) if (!skipped.some((s2) => s2.startsWith(code + ":"))) skipped.push(code + ": \u79FB\u884C\u5BFE\u8C61\u304B\u3089\u9664\u5916");
+    return {
+      name: name.trim(),
+      properties: props,
+      skipped,
+      fieldCount: Object.keys(props).length,
+      sourceAppId: archive.manifest.sourceAppId,
+      recordCount: archive.records.length,
+      warnings: ["\u65E2\u5B58\u306E\u30A2\u30D7\u30EA\u306B\u306F\u9069\u7528\u3057\u307E\u305B\u3093", "\u5143\u306E\u8868\u793A\u914D\u7F6E\u30FB\u6A29\u9650\u30FB\u4E00\u89A7\u30FB\u30D7\u30ED\u30BB\u30B9\u30FB\u30EB\u30C3\u30AF\u30A2\u30C3\u30D7\u53C2\u7167\u306F\u518D\u73FE\u3057\u307E\u305B\u3093", "\u5FC5\u9808\u30FB\u4E00\u610F\u5236\u7D04\u306F\u79FB\u884C\u512A\u5148\u306E\u305F\u3081\u7121\u52B9\u306B\u3057\u307E\u3059", "\u30C7\u30FC\u30BF\u5FA9\u5143\u306F\u5225\u9014\u30D7\u30EC\u30D3\u30E5\u30FC\u3068\u660E\u793A\u627F\u8A8D\u304C\u5FC5\u8981\u3067\u3059"]
+    };
+  }
+  async function createDraftApp(plan, api2, onStep = () => {
+  }) {
+    if (typeof api2 !== "function") bad("kintone API\u95A2\u6570\u304C\u3042\u308A\u307E\u305B\u3093");
+    if (!plan?.name || !plain(plan.properties) || !Object.keys(plan.properties).length) bad("\u4F5C\u6210\u8A08\u753B\u304C\u4E0D\u6B63\u3067\u3059");
+    onStep("\u52D5\u4F5C\u30C6\u30B9\u30C8\u74B0\u5883\u306B\u65B0\u898F\u30A2\u30D7\u30EA\u3092\u4F5C\u6210\u3057\u3066\u3044\u307E\u3059");
+    const created = await api2("/k/v1/preview/app.json", "POST", { name: plan.name });
+    const id = Number(created?.app);
+    if (!Number.isSafeInteger(id) || id <= 0) bad("\u65B0\u898F\u30A2\u30D7\u30EAID\u3092\u53D6\u5F97\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F");
+    try {
+      onStep("\u65B0\u898F\u30A2\u30D7\u30EA #" + id + " \u306B\u30D5\u30A3\u30FC\u30EB\u30C9\u3092\u8A2D\u5B9A\u3057\u3066\u3044\u307E\u3059");
+      await api2("/k/v1/preview/app/form/fields.json", "POST", { app: id, properties: plan.properties });
+      onStep("\u65B0\u898F\u30A2\u30D7\u30EA #" + id + " \u306E\u4E0B\u66F8\u304D\u304C\u3067\u304D\u307E\u3057\u305F\u3002\u30A2\u30D7\u30EA\u306E\u8A2D\u5B9A\u753B\u9762\u3067\u5185\u5BB9\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044");
+    } catch (e) {
+      throw new Error("\u30A2\u30D7\u30EA #" + id + " \u306F\u4F5C\u6210\u3055\u308C\u307E\u3057\u305F\u304C\u3001\u30D5\u30A3\u30FC\u30EB\u30C9\u8FFD\u52A0\u304C\u5931\u6557\u3057\u307E\u3057\u305F\u3002\u8A2D\u5B9A\u753B\u9762\u3067\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u539F\u56E0: " + e.message);
+    }
+    return { appId: id, deployed: false, recordsCopied: 0, requiresManualDeploy: true };
   }
 
   // src/browser.js
@@ -1350,7 +1488,7 @@ SOFTWARE.
     const root = el("section");
     root.dataset.resoarcBackup = "true";
     root.style.cssText = "padding:9px;margin:8px 0;border:1px solid #b8d0d4;border-radius:8px;background:#f9fcfd;color:#18353b;max-width:980px";
-    root.appendChild(el("strong", "ResoArc Backup & Migration | 0.1 alpha"));
+    root.appendChild(el("strong", "ResoArc Backup & Migration | 0.2 alpha"));
     const actions = el("div");
     root.appendChild(actions);
     const msg = el("div", "\u5C02\u7528\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u7BA1\u7406\u30A2\u30D7\u30EA\u3067\u3059\u3002\u66F8\u304D\u8FBC\u307F\u306F\u624B\u52D5\u64CD\u4F5C\u6642\u3060\u3051\u5B9F\u884C\u3057\u307E\u3059\u3002");
@@ -1359,7 +1497,29 @@ SOFTWARE.
     const progress = el("div");
     progress.style.cssText = "font-size:13px;color:#394";
     root.appendChild(progress);
-    let current = null;
+    let current = null, draft = null;
+    const draftButton = addButton(actions, "\u65B0\u898F\u30A2\u30D7\u30EA\u306E\u4E0B\u66F8\u304D\u3092\u4F5C\u6210 (\u30C7\u30FC\u30BF\u306F\u66F8\u304B\u306A\u3044)", async () => {
+      if (!draft) return;
+      const plan = draft;
+      const typed = window.prompt("\u65B0\u898F\u30A2\u30D7\u30EA\u300C" + plan.name + "\u300D\u3092\u4F5C\u6210\u3057\u3001" + plan.fieldCount + " \u30D5\u30A3\u30FC\u30EB\u30C9\u3092\u8A2D\u5B9A\u3057\u307E\u3059\u3002\n\u65E2\u5B58\u306E\u30A2\u30D7\u30EA\u306B\u306F\u5909\u66F4\u3092\u52A0\u3048\u307E\u305B\u3093\u3002\n\u4F5C\u6210\u3059\u308B\u306B\u306F\u6B21\u3092\u6B63\u78BA\u306B\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044: CREATE " + plan.name, "");
+      if (typed !== "CREATE " + plan.name) return;
+      if (!window.confirm("\u6700\u7D42\u78BA\u8A8D: \u65B0\u3057\u3044\u30A2\u30D7\u30EA\u306E\u52D5\u4F5C\u30C6\u30B9\u30C8\u74B0\u5883\u306B\u30D5\u30A3\u30FC\u30EB\u30C9\u3092\u8FFD\u52A0\u3057\u307E\u3059\u3002\u30EC\u30B3\u30FC\u30C9\u306E\u5FA9\u5143\u30FB\u30A2\u30D7\u30EA\u8A2D\u5B9A\u306E\u672C\u756A\u53CD\u6620\u306F\u884C\u3044\u307E\u305B\u3093\u3002")) return;
+      for (const b of actions.querySelectorAll("button")) b.disabled = true;
+      try {
+        const done = await createDraftApp(plan, api, (text) => {
+          progress.textContent = text;
+        });
+        msg.textContent = "\u65B0\u898F\u30A2\u30D7\u30EA #" + done.appId + " \u306E\u4E0B\u66F8\u304D\u3092\u4F5C\u6210\u3057\u307E\u3057\u305F\u3002\n\u30A2\u30D7\u30EA\u306E\u7BA1\u7406\u8005\u8A2D\u5B9A\u753B\u9762\u3067\u5185\u5BB9\u3092\u78BA\u8A8D\u3057\u3001\u624B\u52D5\u3067\u300C\u30A2\u30D7\u30EA\u3092\u66F4\u65B0\u300D\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n\u66F4\u65B0\u5F8C\u3001\u5FA9\u5143\u30D7\u30EC\u30D3\u30E5\u30FC\u304B\u3089\u540C\u3058\u30A2\u30D7\u30EAID\u3092\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n\u30EC\u30B3\u30FC\u30C9\u306F\u307E\u30600\u4EF6\u3001\u65E2\u5B58\u30A2\u30D7\u30EA\u306F\u5909\u66F4\u3057\u3066\u3044\u307E\u305B\u3093\u3002";
+        draft = null;
+        draftButton.hidden = true;
+      } catch (e) {
+        msg.textContent = "\u65B0\u898F\u30A2\u30D7\u30EA\u306E\u4F5C\u6210\u51E6\u7406\u304C\u4E2D\u65AD\u3057\u307E\u3057\u305F\u3002\u4F5C\u6210\u3055\u308C\u305F\u30A2\u30D7\u30EA\u304C\u6B8B\u3063\u3066\u3044\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\n" + e.message;
+        console.error(e);
+      } finally {
+        for (const b of actions.querySelectorAll("button")) b.disabled = false;
+      }
+    });
+    draftButton.hidden = true;
     const restoreButton = addButton(actions, "\u5FA9\u5143\u3092\u5B9F\u884C (\u8FFD\u8A18\u306E\u307F)", async () => {
       if (!current) return;
       const { archive, plan, backupRecordId } = current;
@@ -1389,6 +1549,8 @@ SOFTWARE.
       for (const b of actions.querySelectorAll("button")) b.disabled = true;
       restoreButton.hidden = true;
       current = null;
+      draft = null;
+      draftButton.hidden = true;
       progress.textContent = "";
       try {
         await job();
@@ -1449,6 +1611,36 @@ SOFTWARE.
       msg.textContent = "\u5916\u90E8ZIP\u306E\u5185\u90E8\u6574\u5408\u6027: OK (\u9001\u4FE1\u5143\u306E\u771F\u6B63\u6027\u306F\u5225\u9014\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044)\n\u5143\u30A2\u30D7\u30EA: " + plan.sourceAppId + " / \u79FB\u884C\u5148: " + targetId + "\n\u8FFD\u52A0\u4E88\u5B9A: " + plan.recordCount + " \u4EF6 / \u30DE\u30C3\u30D7\u9805\u76EE: " + Object.keys(plan.mapped).length + " \u4EF6" + skipped + "\n\u203B\u8FFD\u8A18\u5C02\u7528\u3002\u5143\u306E\u30EC\u30B3\u30FC\u30C9ID\u30FB\u64CD\u4F5C\u5C65\u6B74\u30FB\u30A2\u30AF\u30BB\u30B9\u6A29\u306F\u79FB\u884C\u3067\u304D\u307E\u305B\u3093\u3002";
       current = { archive, plan, backupRecordId: "\u5916\u90E8ZIP" };
       restoreButton.hidden = false;
+    }));
+    async function showNewAppPreview(archive) {
+      const proposed = "ResoArc Copy " + archive.manifest.sourceAppId;
+      const name = window.prompt("\u65B0\u3057\u3044\u30A2\u30D7\u30EA\u540D\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u65E2\u5B58\u30A2\u30D7\u30EA\u306F\u5909\u66F4\u3057\u307E\u305B\u3093\u3002", proposed);
+      if (name === null) return;
+      const plan = planNewApp(archive, name);
+      const detail = plan.skipped.length ? "\n\u975E\u5BFE\u5FDC\u30D5\u30A3\u30FC\u30EB\u30C9:\n" + plan.skipped.join("\n") : "";
+      msg.textContent = "\u3010\u65B0\u898F\u30A2\u30D7\u30EA\u69CB\u9020\u306E\u30D7\u30EC\u30D3\u30E5\u30FC\u3011\n\u5143\u30A2\u30D7\u30EA: " + plan.sourceAppId + "\n\u4F5C\u6210\u4E88\u5B9A: " + plan.name + "\n\u5BFE\u5FDC\u30D5\u30A3\u30FC\u30EB\u30C9: " + plan.fieldCount + "\n\u30EC\u30B3\u30FC\u30C9\u79FB\u884C\u4E88\u5B9A: \u3053\u306E\u64CD\u4F5C\u3067\u306F 0 \u4EF6\uFF08\u5FA9\u5143\u306F\u5225\u64CD\u4F5C\u3067\u3059\uFF09" + detail + "\n\n\u5236\u7D04:\n" + plan.warnings.join("\n");
+      draft = plan;
+      draftButton.hidden = false;
+    }
+    addButton(actions, "\u7BA1\u7406\u30EC\u30B3\u30FC\u30C9\u304B\u3089\u65B0\u898F\u30A2\u30D7\u30EA\u69CB\u9020\u30D7\u30EC\u30D3\u30E5\u30FC", () => safeRun(async () => {
+      const input = window.prompt("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u7BA1\u7406\u30A2\u30D7\u30EA\u306E\u30EC\u30B3\u30FC\u30C9ID\u3092\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044", "");
+      if (input === null) return;
+      msg.textContent = "\u4FDD\u5B58\u6E08\u307FZIP\u306E\u6574\u5408\u6027\u3092\u691C\u8A3C\u3057\u3066\u3044\u307E\u3059\u3002";
+      await showNewAppPreview(await loadBackup(positiveId(input)));
+    }));
+    addButton(actions, "\u5916\u90E8ZIP\u304B\u3089\u65B0\u898F\u30A2\u30D7\u30EA\u69CB\u9020\u30D7\u30EC\u30D3\u30E5\u30FC", () => safeRun(async () => {
+      const file = await new Promise((resolve) => {
+        const input = el("input");
+        input.type = "file";
+        input.accept = ".zip,application/zip";
+        input.onchange = () => resolve(input.files?.[0] || null);
+        input.oncancel = () => resolve(null);
+        input.click();
+      });
+      if (!file) return;
+      if (file.size > MAX_BYTES) throw Error("ZIP\u306E\u5BB9\u91CF\u4E0A\u9650\u3092\u8D85\u3048\u3066\u3044\u307E\u3059");
+      msg.textContent = "\u5916\u90E8ZIP\u306E\u6574\u5408\u6027\u3092\u691C\u8A3C\u3057\u3066\u3044\u307E\u3059\u3002";
+      await showNewAppPreview(await inspectArchive(new Uint8Array(await file.arrayBuffer())));
     }));
     header.appendChild(root);
   }

@@ -1,8 +1,8 @@
-// ResoArc Backup v1. Portable data model; no kintone API calls in this module.
+// ResoArc Backup v2. Portable data model; supports reading legacy v1 ZIPs.
 import {zipSync, unzipSync, strToU8, strFromU8} from 'fflate';
 
 export const FORMAT = 'resoarc.kintone.backup';
-export const VERSION = 1;
+export const VERSION = 2;
 export const MAX_BYTES = 25 * 1024 * 1024;
 export const MAX_RECORDS = 20000;
 const WRITABLE = new Set(['SINGLE_LINE_TEXT','MULTI_LINE_TEXT','RICH_TEXT','NUMBER','RADIO_BUTTON','DROP_DOWN','CHECK_BOX','MULTI_SELECT','DATE','TIME','DATETIME','LINK','USER_SELECT','ORGANIZATION_SELECT','GROUP_SELECT','FILE']);
@@ -61,7 +61,7 @@ function visitFiles(rec, schema, visit) {
     }
   }
 }
-const checkPath = name => { if (!/^(manifest\.json|schema\/(fields|layout)\.json|data\/records\.jsonl|attachments\/[0-9a-f]{64})$/.test(name)) stop('ZIP内の不正なパス: '+name); };
+const checkPath = name => { if (!/^(manifest\.json|schema\/(fields|layout|source-fields)\.json|data\/records\.jsonl|attachments\/[0-9a-f]{64})$/.test(name)) stop('ZIP内の不正なパス: '+name); };
 function sizeCheck(bytes, limit=MAX_BYTES) { if (bytes>limit) stop('容量上限（25MiB）を超えました。安全のため処理を中止します'); }
 export async function makeArchive({appId,fields,layout,records,download,now=new Date().toISOString(), maxBytes=MAX_BYTES}) {
   if (!Number.isSafeInteger(Number(appId)) || Number(appId)<=0) stop('アプリIDが不正です');
@@ -94,6 +94,9 @@ export async function makeArchive({appId,fields,layout,records,download,now=new 
   const texts={
     'schema/fields.json':s(schema),
     'schema/layout.json':s(layout || {}),
+    // Full source field definitions are only used to create a NEW app draft.
+    // Never apply raw definitions to an existing app.
+    'schema/source-fields.json':s({properties:fields?.properties||fields||{}}),
     'data/records.jsonl':out.map(r=>s(r)).join('\n')+(out.length?'\n':'')
   };
   const digests={};
@@ -105,7 +108,7 @@ export async function makeArchive({appId,fields,layout,records,download,now=new 
   const manifest={
     format:FORMAT,version:VERSION,createdAt:now,sourceAppId:Number(appId),
     recordCount:out.length, files:uniqueFiles, digests,
-    limitations:['append-only restore','no system fields or audit history','no process status reconstruction','no app creation','no permissions or views','lookup values omitted'],
+    limitations:['append-only restore','no system fields or audit history','no process status reconstruction','new-app draft only','no permissions or views','lookup values omitted'],
   };
   const manifestBytes=strToU8(s(manifest)); size+=manifestBytes.length; sizeCheck(size,maxBytes);
   contents['manifest.json']=manifestBytes;
@@ -126,7 +129,7 @@ export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES}
     }});
   } catch(e) { throw new Error('ZIP展開・検証に失敗しました: '+e.message); }
   const load = path => { if(!entries[path])stop('必須ファイルがありません: '+path); return strFromU8(entries[path]); };
-  let manifest,schema,layout,records;
+  let manifest,schema,layout,sourceFields=null,records;
   try {
     manifest=JSON.parse(load('manifest.json'));
     schema=JSON.parse(load('schema/fields.json'));
@@ -134,11 +137,24 @@ export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES}
     const text=load('data/records.jsonl');
     records=text.trim()?text.trimEnd().split('\n').map(line=>JSON.parse(line)):[];
   } catch(e) { throw new Error('内容を読み取れません: '+e.message); }
-  if (manifest?.format!==FORMAT||manifest?.version!==VERSION) stop('未対応のバックアップ形式です');
+  if (manifest?.format!==FORMAT||![1,2].includes(manifest?.version)) stop('未対応のバックアップ形式です');
+  const expectedTextPaths=['schema/fields.json','schema/layout.json','data/records.jsonl'];
+  if(manifest.version===2){
+    try { sourceFields=JSON.parse(load('schema/source-fields.json')); }
+    catch(e){stop('v2形式のフォーム定義が不正です: '+e.message);}
+    if (!obj(sourceFields)||!obj(sourceFields.properties))stop('フォーム定義が不正です');
+    expectedTextPaths.push('schema/source-fields.json');
+  }
+  // Do not permit an attacker to present a legacy archive with unchecked new metadata.
+  if(manifest.version===1&&entries['schema/source-fields.json'])stop('v1形式に未検証のフィールド設定があります');
   if (!obj(schema)||!Array.isArray(records)||records.length>MAX_RECORDS||records.length!==manifest.recordCount)stop('件数またはフィールド構造が不正です');
-  for (const p of ['schema/fields.json','schema/layout.json','data/records.jsonl']) {
+  for (const p of expectedTextPaths) {
     if (await sha256(entries[p])!==manifest.digests?.[p]) stop('内容のハッシュが一致しません: '+p);
   }
+  // v2 schema and complete field definitions must describe the same writable
+  // field codes/types. Prevent a validly re-hashed but contradictory ZIP.
+  if (sourceFields && JSON.stringify(writableSchema(sourceFields))!==JSON.stringify(schema))
+    stop('レコード構造と元アプリのフィールド定義が矛盾しています');
   if (!Array.isArray(manifest.files))stop('ファイル一覧が不正です');
   const manifestPaths=new Set();
   for (const f of manifest.files) {
@@ -154,7 +170,7 @@ export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES}
     if (!obj(r))stop('レコードが不正です');
     visitFiles(r,schema,f=>{if(!manifestPaths.has('attachments/'+f.ref))stop('レコードが参照する添付ファイルが欠落しています');});
   }
-  return {manifest,schema,layout,records,files:entries};
+  return {manifest,schema,layout,sourceFields,records,files:entries};
 }
 export function createRestorePlan(archive, targetFields, targetAppId, managementAppId) {
   if (!archive?.manifest||!obj(archive.schema)||!Array.isArray(archive.records)) stop('検証済みアーカイブが必要です');
