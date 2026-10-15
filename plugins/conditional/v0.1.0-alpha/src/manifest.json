@@ -1,0 +1,40 @@
+{
+  "manifest_version": 1,
+  "version": "0.1.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc 条件付き表示",
+    "en": "ResoArc Conditional Fields"
+  },
+  "description": {
+    "ja": "条件付きのフィールド表示と保存時入力チェック。データを消さない方式。",
+    "en": "Conditional field visibility and submit-time input validation."
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://resoarc.com/products/kintone/",
+    "en": "https://resoarc.com/products/kintone/"
+  },
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ]
+  },
+  "mobile": {
+    "js": [
+      "js/mobile.js"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ],
+    "required_params": [
+      "rules"
+    ]
+  }
+}

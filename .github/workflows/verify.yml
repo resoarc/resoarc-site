@@ -31,7 +31,11 @@ jobs:
       - name: Test field tabs beta
         working-directory: plugins/tabs/v0.1.0-beta
         run: npm run check
+      - name: Test conditional fields alpha
+        working-directory: plugins/conditional/v0.1.0-alpha
+        run: npm run check
       - name: Verify reproducible plugin builds
         run: |
           git diff --exit-code -- plugins/auto-number/v1.1.0-beta/src/js/desktop.js plugins/auto-number/v1.1.0-beta/src/js/mobile.js
           git diff --exit-code -- plugins/tabs/v0.1.0-beta/src/js/desktop.js plugins/tabs/v0.1.0-beta/src/js/mobile.js
+          git diff --exit-code -- plugins/conditional/v0.1.0-alpha/src/js/desktop.js plugins/conditional/v0.1.0-alpha/src/js/mobile.js
