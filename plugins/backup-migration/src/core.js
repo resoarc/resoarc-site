@@ -174,7 +174,14 @@ export async function makeArchive({appId,fields,layout,records,download,now=new 
   const manifestBytes=strToU8(s(manifest)); size+=manifestBytes.length; sizeCheck(size,maxBytes);
   contents['manifest.json']=manifestBytes;
   if(Object.keys(contents).length>MAX_ZIP_ENTRIES)stop('ZIP内のファイル数が上限を超えました');
-  const zip=zipSync(contents,{level:6}); sizeCheck(zip.length,maxBytes);
+  // An explicit archive timestamp also fixes the ZIP entry timestamps.
+  // Repeatable inputs can then yield the same archive SHA-256 on later QA runs,
+  // ensuring the append-only restore marker recognizes prior test records.
+  const mtime=new Date(now);
+  if(!Number.isFinite(mtime.getTime())||mtime.getUTCFullYear()<1980||mtime.getUTCFullYear()>2107)
+    stop('バックアップ日時が不正です');
+  const timestamped=Object.fromEntries(Object.entries(contents).map(([name,bytes])=>[name,[bytes,{mtime}]]));
+  const zip=zipSync(timestamped,{level:6}); sizeCheck(zip.length,maxBytes);
   return {zip,manifest,hash:await sha256(zip)};
 }
 export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES, maxEntries=MAX_ZIP_ENTRIES}={}) {
