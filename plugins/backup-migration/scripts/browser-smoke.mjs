@@ -25,12 +25,12 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
    Title:{value:'Sample '+i},Amount:{value:String(i)},
    Notes:{value:[{value:{Memo:{value:'line '+i}}}]}
  }));
- const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false};
+ const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false,destinationFields:dest};
  window.prompt=()=>h.answers.shift()??'';
  window.confirm=()=>true;
  const api=async(url,method,args)=>{
    h.calls.push({url,method});
-   if(url==='/k/v1/app/form/fields.json' && method==='GET')return args.app===42?src:dest;
+   if(url==='/k/v1/app/form/fields.json' && method==='GET')return args.app===42?src:h.destinationFields;
    if(url==='/k/v1/app/form/layout.json' && method==='GET')return {layout:[]};
    if(url==='/k/v1/records/cursor.json' && method==='POST'){
      const id=String(++h.number);
@@ -132,9 +132,26 @@ try{
   const backup=await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('バックアップ作成完了') && {text:document.querySelector('[data-resoarc-backup]').innerText,files:window.__test.zip?.length,hash:window.__test.hash}",25000);
   assert.match(backup.text,/501 件/);
   assert.ok(backup.files>100);
+
+  // Browser-level safety checks must finish before any destination writes.
+  // 1. A changed ZIP with its original management-record hash is rejected.
+  await evaluate("window.__test.originalZip=window.__test.zip.slice(); window.__test.zip[25]^=1; window.__test.answers=['1','55','']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元プレビュー').click(); true");
+  await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('ZIP全体のSHA-256が一致しません') && true",20000);
+  assert.equal(await evaluate("window.__test.target.length"),0,'modified ZIP must never write a record');
+  await evaluate("window.__test.zip=window.__test.originalZip; true");
+
+  // 2. Missing unique marker on the destination must reject a restore.
+  await evaluate("window.__test.destinationFields.properties.ResoArcRestoreKey.unique=false; window.__test.answers=['1','55','']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元プレビュー').click(); true");
+  await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('重複禁止の文字列') && true",20000);
+  assert.equal(await evaluate("window.__test.target.length"),0,'missing unique marker must never write a record');
+  await evaluate("window.__test.destinationFields.properties.ResoArcRestoreKey.unique=true; true");
+
+  // 3. Confirmation must refuse any input that differs from the exact phrase.
   await evaluate("window.__test.answers=['1','55','']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元プレビュー').click(); true");
   const preview=await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('新規追加予定: 501 件') && true",20000);
   assert.equal(preview,true);
+  await evaluate("window.__test.answers=['INVALID CONFIRMATION']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元を実行 (追記のみ)').click(); true");
+  assert.equal(await evaluate("window.__test.target.length"),0,'wrong confirmation phrase must never write a record');
   await evaluate("window.__test.answers=['RESTORE 55 501']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元を実行 (追記のみ)').click(); true");
   const restored=await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('復元処理完了') && {total:window.__test.target.length,last:window.__test.target.at(-1)?.Notes.value[0].value.Memo.value,post:window.__test.calls.filter(c=>c.url==='/k/v1/records.json'&&c.method==='POST').length}",30000);
   assert.equal(restored.total,501);
@@ -142,7 +159,7 @@ try{
   assert.equal(restored.post,26);
   await evaluate("window.__test.answers=['1','55','']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元プレビュー').click(); true");
   await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('新規追加予定: 0 件') && true",15000);
-  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,credentialsUsed:false}));
+  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,rejectedWithoutWrites:['tampered-zip','missing-unique-marker','wrong-confirmation'],credentialsUsed:false}));
 }finally{
   try{socket?.close();}catch{}
   if(target?.id)try{await fetch(dev+'/json/close/'+target.id);}catch{}
