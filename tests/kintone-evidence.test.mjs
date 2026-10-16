@@ -1,0 +1,63 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
+
+const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const evidencePath = 'docs/kintone-progress/evidence/';
+const baseline = {
+  tracker: JSON.parse(readFileSync(join(repo, 'docs/kintone-progress/tracker.json'), 'utf8')),
+  unit: JSON.parse(readFileSync(join(repo, evidencePath, 'unit-tests-20261017.json'), 'utf8')),
+  manifest: JSON.parse(readFileSync(join(repo, evidencePath, 'manifest-preflight-20261017.json'), 'utf8'))
+};
+
+function run(modify = () => {}) {
+  const tmp = mkdtempSync(join(tmpdir(), 'resoarc-evidence-'));
+  try {
+    const d = structuredClone(baseline);
+    modify(d);
+    mkdirSync(join(tmp, evidencePath), { recursive: true });
+    writeFileSync(join(tmp, 'docs/kintone-progress/tracker.json'), JSON.stringify(d.tracker));
+    writeFileSync(join(tmp, evidencePath, 'unit-tests-20261017.json'), JSON.stringify(d.unit));
+    writeFileSync(join(tmp, evidencePath, 'manifest-preflight-20261017.json'), JSON.stringify(d.manifest));
+    return spawnSync(process.execPath, [join(repo, 'scripts/kintone-evidence.mjs'), '--root', tmp], {
+      encoding: 'utf8', timeout: 10000
+    });
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
+}
+
+test('all 187 unit tests and 9 preflights are traceable', () => {
+  const result = run();
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Evidence cross-check passed/);
+});
+test('missing a product evidence entry is rejected', () => {
+  const result = run(d => { d.unit.entries.pop(); });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /unexpected source evidence count/);
+});
+test('inflated test result is rejected', () => {
+  const result = run(d => { d.unit.entries[0].passed += 1; });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /unit count or exit code differs/);
+});
+test('manifest pass cannot be asserted without evidence', () => {
+  const result = run(d => { d.manifest.entries[0].passed = false; });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /manifest evidence differs/);
+});
+test('duplicate evidence slug is rejected', () => {
+  const result = run(d => { d.unit.entries[0].slug = d.unit.entries[1].slug; });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /duplicate evidence slugs/);
+});
+test('mini product may not claim unsubstantiated unit pass', () => {
+  const result = run(d => { d.tracker.items.find(x => x.group === 'mini').gates.unit = 'passed'; });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /mini test pass is unverified/);
+});
