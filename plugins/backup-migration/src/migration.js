@@ -73,6 +73,13 @@ export function planNewApp(archive, name){
     if(compiled)Object.defineProperty(props,code,{value:compiled,enumerable:true,writable:true,configurable:true});
   }
   if(!Object.keys(props).length)bad('移行できるフィールドがありません');
+  // Mandatory unique record identity for resumable append-only restores.
+  // Even if the source already has a field with this code, do not copy its
+  // original values. Each migrated row receives a NEW deterministic marker.
+  Object.defineProperty(props,'ResoArcRestoreKey',{value:{
+    type:'SINGLE_LINE_TEXT',code:'ResoArcRestoreKey',label:'ResoArc復元識別子',
+    required:false,unique:true
+  },writable:true,enumerable:true,configurable:true});
   // Use no implicit auto-mapping for skipped required fields.
   const sourceCodes=Object.keys(archive.schema);
   const missing=sourceCodes.filter(code=>!Object.hasOwn(props,code));
