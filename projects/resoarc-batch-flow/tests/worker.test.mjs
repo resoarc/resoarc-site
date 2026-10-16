@@ -10,7 +10,7 @@ const env=extra=>({
   KINTONE_DOMAIN:'example.cybozu.com',
   KINTONE_API_TOKENS:'SAMPLE123',
   WORKFLOWS_JSON:JSON.stringify({workflows:[f]}),
-  RA_ALLOW_WRITES:'false',...extra
+  RA_CLOCK_ENABLED:'true',RA_ALLOW_WRITES:'false',...extra
 });
 
 test('scheduled dry-run fetches data without updates',async()=>{

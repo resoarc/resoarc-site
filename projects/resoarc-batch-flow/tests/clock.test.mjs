@@ -16,7 +16,7 @@ const due=()=>({
   Steps:val([{value:{TaskType:val('登録'),TargetApp:val('8'),Query:val(''),FieldsJSON:val('{"Memo":"clock-test"}')}}])
 });
 function env(allow='false'){
-  return {KINTONE_DOMAIN:'example.cybozu.com',KINTONE_API_TOKENS:'SAMPLE123',RA_CONTROL_APP_ID:'99',RA_ALLOW_WRITES:allow};
+  return {KINTONE_DOMAIN:'example.cybozu.com',KINTONE_API_TOKENS:'SAMPLE123',RA_CONTROL_APP_ID:'99',RA_CLOCK_ENABLED:'true',RA_ALLOW_WRITES:allow};
 }
 test('clock configuration uses exactly one minute trigger',()=>{
   assert.deepEqual(settings.triggers.crons,['* * * * *']);

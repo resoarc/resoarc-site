@@ -35,6 +35,8 @@
        const current=await api('/k/v1/record.json','GET',{app,id});
        const data=current.record;
        if(data.RunState?.value==='実行中')throw Error('現在実行中です。時間を置いて再確認してください');
+       if(!dryRun && data.RunState?.value==='要確認')throw Error('前回の処理結果が要確認です。業務データを点検し、重複がないことを確認してから実行状態を「待機」に変更してください');
+       if(!dryRun && data.ScheduleType?.value==='一回' && data.RunState?.value==='正常終了')throw Error('一回実行のバッチは実行済みです。再実行する場合は業務データを確認し、実行状態を「待機」に変更してください');
        const flow=center.parseRecord(data,core);
        let revision=current.record.$revision.value;
        if(!dryRun){

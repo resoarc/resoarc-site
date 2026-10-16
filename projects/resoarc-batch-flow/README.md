@@ -1,4 +1,4 @@
-# ResoArc Batch Flow + ResoArc Clock v0.3.1（検証版）
+# ResoArc Batch Flow + ResoArc Clock v0.3.2（検証版）
 
 kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複数タスクを順次実行する無料／オープンソースのツールです。MIT License。
 
@@ -25,7 +25,7 @@ kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複�
 
 - 設計: [control-app/README.md](control-app/README.md)
 - 初期設定: [control-app/SETUP.md](control-app/SETUP.md)
-- **kintone管理アプリの新規作成補助**: `npm run build:installer` で `release/resoarc-clock-bootstrap-v0.3.1.js` を生成し、管理者本人がログインしたテストテナントの開発者ツールで実行。既存アプリは変更せず、実行前の確認が必要。プラグインのシステム管理へのアップロードは別作業。
+- **kintone管理アプリの新規作成補助**: `npm run build:installer` で `release/resoarc-clock-bootstrap-v0.3.2.js` を生成し、管理者本人がログインしたテストテナントの開発者ツールで実行。既存アプリは変更せず、実行前の確認が必要。プラグインのシステム管理へのアップロードは別作業。
 - 無人実行・Cloudflare: [worker/CLOCK.md](worker/CLOCK.md)
 - 設定テンプレート: [worker/center-wrangler.example.jsonc](worker/center-wrangler.example.jsonc)
 
@@ -49,3 +49,10 @@ kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複�
 ## 制約
 
 kintone側のレコード更新はバッチ全体のトランザクションではありません。先行タスクが成功して後続が失敗した場合、先行変更は戻りません。日時の厳密な秒精度は保証しません。カスタムドメイン、ゲストスペース、任意のサーバー側JavaScriptの実行は現在非対応です。
+
+## v0.3.2 安全性の追加（検証版）
+
+- Workerの定期起動は `RA_CLOCK_ENABLED=true` を明示した場合のみ有効です。設定を省略した場合、定期処理は動作しません。
+- 前回失敗で `要確認` のバッチは手動再実行できません。転記・登録の二重実行がないことを確認後、管理アプリで実行状態を `待機` に戻します。
+- 一回実行済みのバッチも同様に、意図的な再実行操作が必要です。テスト実行（書き込みなし）は引き続き可能です。
+- `release/RELEASE-0.3.2.md` に変更点と正式リリース前の未確認項目を記載しています。

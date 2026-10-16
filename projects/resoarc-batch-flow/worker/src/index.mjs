@@ -11,17 +11,20 @@ function hostname(domain) {
   }
   return domain;
 }
-function adapter(env) {
+export function adapter(env) {
   const host=hostname(env.KINTONE_DOMAIN);
   const tokens=env.KINTONE_API_TOKENS;
   if (!tokens || !/^[A-Za-z0-9,]+$/.test(tokens)) throw Error('APIトークンをSecretに設定してください');
   return async (path, method, params) => {
-    if(!['/k/v1/records.json','/k/v1/record.json'].includes(path) || !['GET','POST','PUT'].includes(method)) throw Error('未対応のAPIです');
+    if(!((path==='/k/v1/records.json' && ['GET','POST','PUT'].includes(method)) || (path==='/k/v1/record.json' && ['GET','PUT'].includes(method)))) throw Error('未対応のAPIです');
     const url=new URL('https://'+host+path);
     const init={method, headers:{'X-Cybozu-API-Token':tokens, 'Accept':'application/json'}};
     if(method==='GET') {
       url.searchParams.set('app',String(params.app));
-      url.searchParams.set('query',params.query);
+      if(path==='/k/v1/record.json'){
+        if(!params.id)throw Error('単一レコード取得にはレコードIDが必要です');
+        url.searchParams.set('id',String(params.id));
+      }else if(typeof params.query==='string')url.searchParams.set('query',params.query);
     }else{
       init.headers['Content-Type']='application/json';
       init.body=JSON.stringify(params);
@@ -50,8 +53,8 @@ function parseWorkflows(env) {
 }
 export default {
   async scheduled(controller,env,ctx) {
-    // Installation starts disabled; old installations remain compatible when unset.
-    if(env.RA_CLOCK_ENABLED==='false'){
+    // Fail closed: scheduled execution is impossible until explicitly enabled.
+    if(env.RA_CLOCK_ENABLED!=='true'){
       console.info('ResoArc Clock is disabled');
       return;
     }

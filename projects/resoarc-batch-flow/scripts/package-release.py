@@ -8,7 +8,7 @@ import re
 import json
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.3.1"
+VERSION = "0.3.2"
 SRC_NAME = f"resoarc-clock-source-v{VERSION}.zip"
 KIT_NAME = f"resoarc-clock-kit-v{VERSION}.zip"
 SOURCES = [
@@ -18,9 +18,9 @@ SOURCES = [
     "worker/center-wrangler.example.jsonc",
     "worker/scripts/verify-live-cron.mjs",
 ]
-INSTALLER = ROOT / "release" / "resoarc-clock-bootstrap-v0.3.1.js"
-PLUGIN = ROOT / "center-plugin" / "release" / "resoarc-batch-center-v0.2.0.zip"
-DOC = ROOT / "release" / "RELEASE-0.3.1.md"
+INSTALLER = ROOT / "release" / "resoarc-clock-bootstrap-v0.3.2.js"
+PLUGIN = ROOT / "center-plugin" / "release" / "resoarc-batch-center-v0.2.1.zip"
+DOC = ROOT / "release" / "RELEASE-0.3.2.md"
 def collect_files():
     output=[]
     for item in SOURCES:
@@ -36,7 +36,7 @@ def collect_files():
             raise RuntimeError("Refusing potentially private path: "+rel)
         if path.suffix.lower() in {".js",".mjs",".json",".jsonc",".md",".css",".html",".txt"}:
             raw=path.read_bytes()
-            if b"C:\\Users\\" in raw or b"@gmail.com" in raw or b"zin1985" in raw:
+            if b"C:\\Users\\" in raw or re.search(rb"(?i)[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}", raw):
                 raise RuntimeError("Potential identifying text in "+rel)
     return sorted(set(output),key=lambda x:x.relative_to(ROOT).as_posix())
 def archive(files):

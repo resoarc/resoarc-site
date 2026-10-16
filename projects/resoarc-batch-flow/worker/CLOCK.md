@@ -1,4 +1,4 @@
-# ResoArc Clock：1分共通クロック導入（v0.3.1 検証版）
+# ResoArc Clock：1分共通クロック導入（v0.3.2 検証版）
 
 Cloudflare WorkersのCron Triggersを1つだけ使い、kintoneのバッチ管理アプリのNextRunAtを毎分チェックします。予定に達したバッチだけ、管理アプリに記録された20ステップ以内の処理を実行します。
 
@@ -55,3 +55,7 @@ PowerShell（リポジトリ直下から）:
 - https://developers.cloudflare.com/workers/configuration/cron-triggers/
 - https://developers.cloudflare.com/workers/platform/limits/
 - https://kintone.dev/en/docs/kintone/rest-api/records/update-record/
+
+## v0.3.2 起動時の安全条件
+
+Clockは `RA_CLOCK_ENABLED` が文字列の `true` と完全一致する場合にのみ起動します。設定が欠けていたり `yes` や `1` となっていたりする場合は、kintoneへ通信しません。旧JSON直接実行モードでも同様です。
