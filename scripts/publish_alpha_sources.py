@@ -34,7 +34,7 @@ for slug,title,desc,example,limit in ITEMS:
       +'<section class="section inner-section"><div class="container reading-width"><h2>開発α版・検証用ソース公開</h2><p><strong>この版はkintone実環境への導入試験が完了していません。署名付き評価用ZIPは別ページで公開していますが、運用アプリに導入しないでください。</strong>コード、設定画面、ロジック、単体テストを確認するためのソースパッケージです。</p>'
       +'<p>'+html.escape(limit)+'</p><div class="article-strip"><div><strong>ソース一式・設定例</strong><p>ソースパッケージに、manifest・設定画面・PC/モバイルJS・ビルド手順・テストを収録しています。</p></div>'
       +'<a class="inline-link" href="/downloads/resoarc-'+slug+'-v0.1.0-alpha-source.zip" download>α版ソースZIPを取得 <span>↗</span></a></div>'
-      +'<p><strong>設定画面をフォーム化。</strong>JSONを直接編集せず、フィールドコード候補の補完・ルール追加・保存前の形式検証を利用できます。旧JSON設定も引き継ぎます。</p><h3>設定ルール例</h3><pre class="suite-result" style="overflow:auto;background:#17343d;color:white;padding:16px">'+html.escape(example)+'</pre><p>署名付き評価用ZIPは<a href="/products/kintone/qa/">こちら</a>にまとめています。導入前に専用のテストアプリで権限、API動作、他プラグインとの競合を確認してください。</p>'
+      +'<p><strong>設定画面をフォーム化。</strong>JSONを直接編集せず、公式APIからアプリのフィールド定義を取得して存在確認と型の適合性を検証します。フィールド定義が取得できない場合は設定を保存できません。ルール追加・保存前の形式検証に対応します。旧JSON設定も引き継ぎます。</p><h3>設定ルール例</h3><pre class="suite-result" style="overflow:auto;background:#17343d;color:white;padding:16px">'+html.escape(example)+'</pre><p>署名付き評価用ZIPは<a href="/products/kintone/qa/">こちら</a>にまとめています。導入前に専用のテストアプリで権限、API動作、他プラグインとの競合を確認してください。</p>'
       +'<p><a href="/products/kintone/">kintoneツール一覧に戻る ↗</a></p></div></section></main>')
     target=SITE/'tools'/('kintone-'+slug)/'index.html'
     target.parent.mkdir(parents=True,exist_ok=True)

@@ -43,3 +43,41 @@ test('runtime clears target when either date is erased',()=>{
  events[0]({record,type:'app.record.edit.change.end'});
  assert.equal(record.days.value,'3');
 });
+
+test('date calculation recomputes on save, including mobile',()=>{
+ for(const eventType of ['app.record.create.submit','app.record.edit.submit','mobile.app.record.create.submit','mobile.app.record.edit.submit']){
+  const handlers=[];
+  const settings={rules:JSON.stringify([{start:'start',end:'end',target:'days',mode:'calendar'}])};
+  const context={kintone:{$PLUGIN_ID:'test',plugin:{app:{getConfig:()=>settings}},events:{on:(types,callback)=>handlers.push({types,callback})}},console};
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/js/desktop.js'),'utf8'),context);
+  assert.equal(handlers.length,1);
+  assert.ok(Array.from(handlers[0].types).includes(eventType));
+  const record={start:{type:'DATE',value:'2026-10-16'},end:{type:'DATE',value:'2026-10-21'},days:{type:'NUMBER',value:'999'}};
+  const event={type:eventType,record};
+  assert.equal(handlers[0].callback(event),event);
+  assert.equal(record.days.value,'5');
+ }
+});
+test('date save rejects inaccessible or deleted configured field',()=>{
+ const handlers=[];
+ const cfg={rules:JSON.stringify([{start:'start',end:'end',target:'days'}])};
+ const sandbox={kintone:{$PLUGIN_ID:'test',plugin:{app:{getConfig:()=>cfg}},events:{on:(types,handler)=>handlers.push(handler)}},console};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/js/desktop.js'),'utf8'),sandbox);
+ const record={start:{type:'DATE',value:'2026-10-16'},end:{type:'DATE',value:'2026-10-19'}};
+ const shown={type:'app.record.create.show',record};
+ handlers[0](shown);
+ assert.equal(shown.error,undefined);
+ const submitted={type:'app.record.create.submit',record};
+ handlers[0](submitted);
+ assert.match(submitted.error,/保存を中止/);
+});
+test('invalid date input prevents save instead of keeping old calculated value',()=>{
+ const handlers=[];
+ const cfg={rules:JSON.stringify([{start:'start',end:'end',target:'days'}])};
+ const sandbox={kintone:{$PLUGIN_ID:'test',plugin:{app:{getConfig:()=>cfg}},events:{on:(types,handler)=>handlers.push(handler)}},console};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/js/desktop.js'),'utf8'),sandbox);
+ const record={start:{type:'DATE',value:'2026-02-30'},end:{type:'DATE',value:'2026-10-19'},days:{type:'NUMBER',value:'999'}};
+ handlers[0]({type:'app.record.edit.submit',record});
+ assert.match(record.days.error,/存在しない日付/);
+ assert.equal(record.days.value,'999');
+});

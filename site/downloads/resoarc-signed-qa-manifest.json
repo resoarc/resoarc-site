@@ -6,7 +6,7 @@
       "name": "自動採番",
       "plugin_id": "nnhajggbglcfnmlpopfnfkeinhfckpgb",
       "version": "v1.1.0-beta",
-      "sha256": "f2f8f82ab64be6dca56f1488bc00c988974b7ea8903d913336658b7c2231990b",
+      "sha256": "761224ac70ddd01159cef0ae6dbef657cb3432d72322b2fb13ba2a37580c5ac8",
       "bytes": 9902,
       "filename": "resoarc-auto-number-signed-qa.zip"
     },
@@ -15,7 +15,7 @@
       "name": "タブ表示",
       "plugin_id": "pjjhmdiklieacchcmlgihpkkdjppefeb",
       "version": "v0.1.0-beta",
-      "sha256": "4a9f0718c2a0454092814ed63dbdaa1a7b78dbc6f5d8573ce81bc414d486eb27",
+      "sha256": "5a9847558a71af67bfbbbec5d8a299172e88b039495da20030a13958afc72ad9",
       "bytes": 7998,
       "filename": "resoarc-tabs-signed-qa.zip"
     },
@@ -24,8 +24,8 @@
       "name": "条件付き表示・必須制御",
       "plugin_id": "kblemnnhfaajjimbhklbaonbbppfgjph",
       "version": "v0.1.0-alpha",
-      "sha256": "9a3878e156c83f341540d44ea4a0a9f765bc41ca950b4d52a4057ce3969adb14",
-      "bytes": 7695,
+      "sha256": "1f706267511884ff9771a5c1ebb0a126e065d382869c67e769e001b675ff9bbc",
+      "bytes": 7697,
       "filename": "resoarc-conditional-signed-qa.zip"
     },
     {
@@ -33,8 +33,8 @@
       "name": "条件付き書式",
       "plugin_id": "kbgoaoinfgammdnghheolcjhhnbfjjeb",
       "version": "v0.1.0-alpha",
-      "sha256": "d19c9cf5eef3d0440dbc8f6764189d7f2f36c7197236bab696d9eecebb7de924",
-      "bytes": 8762,
+      "sha256": "b9a0d7db277e8efba835c7fb8914b22d6ee13274fc41db0d5c9e52fbd2c03401",
+      "bytes": 9432,
       "filename": "resoarc-conditional-format-signed-qa.zip"
     },
     {
@@ -42,8 +42,8 @@
       "name": "日付・期間計算",
       "plugin_id": "gdehichjjjgmfphdpmnmecdjkhlpgdkc",
       "version": "v0.1.0-alpha",
-      "sha256": "12fef9143c3efba5fed8fc7a6963f4547fa56dd1f70ba5765261f5429c85e03f",
-      "bytes": 9059,
+      "sha256": "b2d74dcb6467d44015ba3364eb8f904916d44449ce8a21cba164c5318bbd2e87",
+      "bytes": 9882,
       "filename": "resoarc-date-calculator-signed-qa.zip"
     },
     {
@@ -51,8 +51,8 @@
       "name": "高機能検索・絞り込み",
       "plugin_id": "bnbdhhmoeaalneidelghecehobghfonk",
       "version": "v0.1.0-alpha",
-      "sha256": "f38efcd1423ab922d9ab63a1efaaf984de8c78f52136588aaae2d77929bf3f39",
-      "bytes": 10834,
+      "sha256": "f4aa2680f68b6c0a50941a42a4968bd0618993ba201b9b691ae067fd42dafd01",
+      "bytes": 11503,
       "filename": "resoarc-list-search-signed-qa.zip"
     },
     {
@@ -60,8 +60,8 @@
       "name": "Excel風一覧編集",
       "plugin_id": "jkcgddnhmgioaikakeabncmbpfchmlph",
       "version": "v0.1.0-alpha",
-      "sha256": "e105575314f86f68feb2df79cbff7cd93af896ca61d7944020101686aaaa68c5",
-      "bytes": 11241,
+      "sha256": "391568b0381fb99ce07a34f30d68505688fdf7684a2db8196dc59d4201ac5baf",
+      "bytes": 11921,
       "filename": "resoarc-grid-editor-signed-qa.zip"
     },
     {
@@ -69,8 +69,8 @@
       "name": "カード・カンバン表示",
       "plugin_id": "deojmjandhcedjnaiijdaabllcecbadn",
       "version": "v0.1.0-alpha",
-      "sha256": "c60586285dab763db76d819c9706b3492b37df57e9cf3949229e5fce42f63c7f",
-      "bytes": 7921,
+      "sha256": "4d16cd3a8145d54376a107fb9a3fbfe0126505c1929bc704f957f502c200a59a",
+      "bytes": 8590,
       "filename": "resoarc-kanban-signed-qa.zip"
     }
   ]
