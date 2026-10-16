@@ -30,7 +30,9 @@
     "Mini plugin source is not present as additional files on the referenced development branch; artifact search is incomplete. Lack of confirmation is unverified, not absent.",
     "GitHub push from Windows via SSH was denied (publickey); this canonical tracker was written via ResoArc connected GitHub identity.",
     "2026-10-17: Sanitized per-package unit and manifest preflight evidence snapshots committed under docs/kintone-progress/evidence; detailed logs are kept on the user-owned PC.",
-    "2026-10-17: Filename searches across Documents (210,691 files), Local Temp (~15,445 files, some access errors), and selected local ResoArc roots did not locate mini plugin source/ZIP names. This is not exhaustive; source gate remains unverified."
+    "2026-10-17: Filename searches across Documents (210,691 files), Local Temp (~15,445 files, some access errors), and selected local ResoArc roots did not locate mini plugin source/ZIP names. This is not exhaustive; source gate remains unverified.",
+    "2026-10-17: All 11 inspected signed ZIP wrappers verified as RSA PKCS#1 v1.5 with SHA-1 against each embedded PUBKEY. Nine known package releases now have a passed mathematical signature-integrity gate; no source trust anchor or publisher identity is asserted.",
+    "2026-10-17: Live ResoArc Auto Number E2E succeeded in isolated test app, creating exactly 1 record, verifying RA numbering, and deleting the record. Installed plugin ID maps to both stable and beta signing key, so tenant gates remain UNVERIFIED for each specific build."
   ],
   "source_refs": [
     "docs/mini-plugins/RELEASE-NOTES-v0.1.1-beta.md on feature/mini-plugins-beta-20261016",
@@ -38,7 +40,9 @@
     "Windows-only Documents/AI-Work/MR-kintone-tests/reports/plugin-unit-tests-20261017.json",
     "Windows-only Documents/AI-Work/MR-kintone-tests/reports/preflight-all-20261017.json",
     "docs/kintone-progress/evidence/unit-tests-20261017.json",
-    "docs/kintone-progress/evidence/manifest-preflight-20261017.json"
+    "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
+    "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+    "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json"
   ],
   "items": [
     {
@@ -55,7 +59,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -71,7 +75,9 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "採番衝突・テーブル内項目・他プラグインとの競合",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "テスト環境に導入済みのAuto Numberビルドを安定版/β版へ同定し、当該版のテナント合格に反映。モバイル・異常系と共存を検証。",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "tenant_observation": "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json"
     },
     {
       "id": "PKG-02",
@@ -87,7 +93,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -103,7 +109,9 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "テーブル内項目・既存版からの移行",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "テスト環境に導入済みのAuto Numberビルドを安定版/β版へ同定し、当該版のテナント合格に反映。モバイル・異常系と共存を検証。",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "tenant_observation": "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json"
     },
     {
       "id": "PKG-03",
@@ -151,7 +159,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -167,7 +175,8 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "サブテーブル・非表示/必須の相互作用",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "署名済みZIPの独立検証と実テナント導入試験",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
     },
     {
       "id": "PKG-05",
@@ -183,7 +192,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -199,7 +208,8 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "条件・色覚・一覧と詳細の差",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "署名済みZIPの独立検証と実テナント導入試験",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
     },
     {
       "id": "PKG-06",
@@ -215,7 +225,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -231,7 +241,8 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "タイムゾーン・休日・日付境界",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "署名済みZIPの独立検証と実テナント導入試験",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
     },
     {
       "id": "PKG-07",
@@ -247,7 +258,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -263,7 +274,8 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "編集権限・一括保存・競合更新",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "署名済みZIPの独立検証と実テナント導入試験",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
     },
     {
       "id": "PKG-08",
@@ -279,7 +291,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -295,7 +307,8 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "モバイル・ゲストスペース・レコード移動権限",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "署名済みZIPの独立検証と実テナント導入試験",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
     },
     {
       "id": "PKG-09",
@@ -311,7 +324,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -327,7 +340,8 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "大量件数・絞込・権限・API上限",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "署名済みZIPの独立検証と実テナント導入試験",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
     },
     {
       "id": "PKG-10",
@@ -343,7 +357,7 @@
         "source": "passed",
         "unit": "passed",
         "manifest": "passed",
-        "signature": "unverified",
+        "signature": "passed",
         "tenant": "unverified",
         "desktop": "unverified",
         "mobile": "unverified",
@@ -359,7 +373,8 @@
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "フォーム切替・レイアウト崩れ・モバイル",
-      "next_action": "署名済みZIPの独立検証と実テナント導入試験"
+      "next_action": "署名済みZIPの独立検証と実テナント導入試験",
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
     },
     {
       "id": "PKG-11",
