@@ -1,0 +1,21 @@
+# Enforce license metadata and copyright attribution for every tracked public file.
+name: REUSE Specification compliance
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  reuse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public source
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Check REUSE compliance
+        run: |
+          python3 -m venv /tmp/resoarc-reuse
+          /tmp/resoarc-reuse/bin/pip install 'reuse[charset-normalizer]'
+          /tmp/resoarc-reuse/bin/reuse lint
