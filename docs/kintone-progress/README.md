@@ -21,24 +21,24 @@
 
 | 優先 | ID | 機能 | 現行記録 | ソース | 単体 | 署名 | テナント | 承認 |
 |---:|---|---|---|---|---|---|---|---|
-| 1 | `MINI-01` | 入力テンプレート | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 2 | `MINI-02` | レコード再利用制御 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 3 | `MINI-03` | 入力文字自動整形 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 4 | `MINI-04` | フィールド説明表示 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 5 | `MINI-05` | 保存後画面遷移 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 6 | `MINI-06` | メール作成ボタン | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 7 | `MINI-07` | 一覧合計バー | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 8 | `MINI-08` | CSVワンクリック出力 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 9 | `MINI-09` | 添付ファイル有無表示 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 10 | `MINI-10` | サブテーブル行コピー | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 11 | `MINI-11` | QRコード生成 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 12 | `MINI-12` | レコード目次 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 13 | `MINI-13` | 関連アプリリンク | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 14 | `MINI-14` | 一覧表示固定 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 15 | `MINI-15` | 添付ファイルプレビュー | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 16 | `MINI-16` | ルックアップ候補表示 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 17 | `MINI-17` | 郵便番号住所入力 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
-| 18 | `MINI-18` | バーコード読取 | 0.1.1-beta (release notes) | 未確認 | 未確認 | 未確認 | 未確認 | 保留 |
+| 1 | `MINI-01` | 入力テンプレート | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 2 | `MINI-02` | レコード再利用制御 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 3 | `MINI-03` | 入力文字自動整形 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 4 | `MINI-04` | フィールド説明表示 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 5 | `MINI-05` | 保存後画面遷移 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 6 | `MINI-06` | メール作成ボタン | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 7 | `MINI-07` | 一覧合計バー | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 8 | `MINI-08` | CSVワンクリック出力 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 9 | `MINI-09` | 添付ファイル有無表示 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 10 | `MINI-10` | サブテーブル行コピー | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 11 | `MINI-11` | QRコード生成 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 12 | `MINI-12` | レコード目次 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 13 | `MINI-13` | 関連アプリリンク | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 14 | `MINI-14` | 一覧表示固定 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 15 | `MINI-15` | 添付ファイルプレビュー | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 16 | `MINI-16` | ルックアップ候補表示 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 17 | `MINI-17` | 郵便番号住所入力 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
+| 18 | `MINI-18` | バーコード読取 | 0.1.2-beta (original archive) | 合格 | 未確認 | 未確認 | 未確認 | 保留 |
 
 ## 既存11パッケージ
 
