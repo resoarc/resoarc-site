@@ -2,7 +2,7 @@ import {readFileSync,writeFileSync,mkdirSync,copyFileSync} from 'node:fs';
 import {resolve,dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const dir=dirname(fileURLToPath(import.meta.url));
-const root=resolve(dir,'../../../..');
+const root=resolve(dir,'../..');
 const out=resolve(dir,'out/src');
 const core=readFileSync(join(root,'src/core.mjs'),'utf8').replaceAll('export function ','function ');
 const bridge=readFileSync(join(dir,'runtime.mjs'),'utf8').replaceAll('export function ','function ');
