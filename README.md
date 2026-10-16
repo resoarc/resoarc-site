@@ -12,6 +12,15 @@
 - **確認できる品質:** 検証方法と実行結果は、誰でも確認できる形で残します。テストが通ったことと安全性が完全保証されることは別です。
 - **依存関係と権利を明示:** 第三者素材は固有のライセンスを保持します。詳細は [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
+## 第三者が確認できる技術実績
+
+[![REUSE status](https://api.reuse.software/badge/github.com/resoarc/resoarc-site)](https://api.reuse.software/info/github.com/resoarc/resoarc-site)
+
+- **REUSE Specification 3.3 準拠:** [Free Software Foundation Europe の検査結果](https://api.reuse.software/info/github.com/resoarc/resoarc-site)で、著作権表示・ライセンス情報の準拠状況を確認できます。
+- **OpenSSF Scorecard:** [自動セキュリティ評価結果](https://scorecard.dev/viewer/?uri=github.com/resoarc/resoarc-site)を公開しています。点数は時点によって変わり、品質・安全性を保証するものではありません。
+
+これらは種類の異なる取り組みです。REUSE準拠はライセンス情報の整備、Scorecardは自動評価であり、ResoArcに対する団体加盟認定、受賞、製品保証を意味しません。
+
 ## 収録物
 
 - `site/`: 公開Webサイトの静的な実装。HTML/CSS/JavaScriptを含み、このディレクトリ自体が公開用の実装です。
