@@ -80,4 +80,17 @@ for(const product of mini){
   }else if(product.v1_preparation?.mobile_manifest!=='not_implemented_due_to_mobile_api_behavior')
     throw Error('Unsupported mobile feature must not claim runtime: '+product.slug);
 }
-console.log('Mini source provenance and 16 mobile candidates verified; all 29 releases remain HOLD.');
+const machine=read('docs/kintone-progress/evidence/mini-v1-mobile16-machine-qa-20261017.json');
+if(machine.original_untouched!==true||
+    machine.original_source_file_count!==152||
+    machine.original_tree_sha256!=='64c1954c736a8e72ed33e3da6afbb94255714847601e83a70ae30f18e2f0ea3a'||
+    machine.unit_tests?.count!==28||machine.unit_tests?.pass!==28||
+    machine.unit_tests?.fail!==0||machine.desktop_registered_handlers!==31||
+    machine.edge_mock_cases!==17||machine.mobile_manifest_count!==16||
+    machine.javascript_syntax_count!==53||machine.source_bundle?.sha256!==mobile16.source_bundle.sha256||
+    machine.source_bundle?.file_count!==mobile16.source_bundle.file_count||
+    machine.live_tenant!==false||machine.physical_mobile!==false||
+    machine.release_approved!==false||
+    Object.values(machine.runs||{}).some(run=>run.exit_code!==0))
+    throw Error('Sanitized machine QA transcript inconsistent with portfolio evidence');
+console.log('Mini source provenance and 16 mobile candidates verified against Windows run logs; releases remain HOLD.');
