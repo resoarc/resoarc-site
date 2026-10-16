@@ -23,12 +23,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run deterministic tests
-        working-directory: projects/resoarc-batch-flow
-        run: npm test
       - name: Verify kintone installer generation
         working-directory: projects/resoarc-batch-flow
         run: npm run build:installer
+      - name: Run deterministic tests
+        working-directory: projects/resoarc-batch-flow
+        run: npm test
       - name: Verify Cloudflare Worker bundle without deploying
         working-directory: projects/resoarc-batch-flow/worker
         run: npx --yes wrangler@4.151.1 deploy --dry-run --config center-wrangler.example.jsonc
