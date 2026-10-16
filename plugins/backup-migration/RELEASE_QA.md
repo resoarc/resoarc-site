@@ -7,14 +7,15 @@ Updated: 2026-10-16 (JST)
 
 - [x] All 41 Node test cases passed on the Windows development computer.
 - [x] A simulated kintone API round-trip transferred **501 source records**, including a nested table and a shared attachment. It created only a new *preview* app, simulated a lost response after 50 committed rows, resumed the remaining 451 rows, and confirmed that a third run added zero duplicates.
-- [x] **Actual Edge headless browser smoke test with mocked kintone APIs**: dedicated BrowserCDP Edge loaded the production JavaScript bundle, rendered the management-app controls, created and read a 501-record ZIP, previewed and restored 501 records in 26 batches, and confirmed a second preview offered zero new records. The browser test exited successfully. No tenant login, cookies, or real API writes were used. Reproduce with `node scripts/browser-smoke.mjs` on the main PC.
+- [x] **Actual Edge headless browser smoke test with mocked kintone APIs**: dedicated BrowserCDP Edge loaded the production JavaScript bundle, rendered the management-app controls, created and read a 501-record ZIP, previewed and restored 501 records in 26 batches, and confirmed a second preview offered zero new records. The browser test exited successfully. No tenant login, cookies, or real API writes were used. Reproduce with `npm run test:browser` on Windows Edge or Linux Chrome; the runner uses a disposable browser profile.
 - [x] Cursor tests cover multi-page reads, invalid pages, stalls, excessive row counts, cleanup on failure, and stopping before destination writes.
 - [x] Archive tests cover SHA-256, corrupted contents, attachments, a large compressed payload, ZIP traversal names, and dangerous field-code rejection.
 - [x] Field-planning tests cover compatible mappings, incompatible types, required/choice checks, and rejection of unsupported kintone field codes.
 - [x] Patched `fflate` to `0.8.3` after detecting CVE-2026-45820 in `0.8.2`; the npm production dependency audit reports **0 known vulnerabilities**. The redistributed MIT license matches the installed upstream file.
 - [x] A malformed ZIP64 sentinel parsing case runs in a child process with a hard timeout, so a decompression regression cannot hang the entire test suite.
 - [x] Browser build reproduces the committed distribution in CI.
-- [x] GitHub Actions: Verify ResoArc Backup Migration and Verify public source passed for hardening commit `00a35194de67d8fa744819b08293a3d082048a49`. **The later dependency-security update requires its own CI run before release approval.**
+- [x] A standalone browser-smoke launcher has passed with an isolated **fresh Edge profile** on Windows. This is now also a required step in the dedicated GitHub Actions workflow, subject to its first CI run.
+- [x] GitHub Actions: Verify ResoArc Backup Migration and Verify public source passed for merge commit `2df9bc70377989fe52edb2d91bc1ebffc93e9b11`. Awaiting the updated workflow run that includes the browser test.
 - [x] No desktop files created. Work is under the project's Documents/GitHub folder.
 - [ ] **Authenticated, real kintone tenant API round-trip** (not completed). The isolated BrowserCDP profile has been verified on the tenant login page, but is not authenticated; the normal Edge sign-in is a different browser profile.
 - [ ] **User permission variation and inaccessible records** on a real tenant (not completed).
