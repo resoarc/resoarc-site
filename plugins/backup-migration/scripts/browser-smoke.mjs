@@ -18,14 +18,16 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
  const src={properties:{
    Title:{type:'SINGLE_LINE_TEXT',code:'Title',label:'題名'},
    Amount:{type:'NUMBER',code:'Amount',label:'数値'},
-   Notes:{type:'SUBTABLE',code:'Notes',label:'備考',fields:{Memo:{type:'MULTI_LINE_TEXT',code:'Memo',label:'メモ'}}}
+   Attachment:{type:'FILE',code:'Attachment',label:'添付'},
+   Notes:{type:'SUBTABLE',code:'Notes',label:'備考',fields:{Memo:{type:'MULTI_LINE_TEXT',code:'Memo',label:'メモ'},NestedAttachment:{type:'FILE',code:'NestedAttachment',label:'表内添付'}}}
  }};
  const dest={properties:{...src.properties,ResoArcRestoreKey:{type:'SINGLE_LINE_TEXT',unique:true,code:'ResoArcRestoreKey'}}};
  const rows=Array.from({length:501},(_,i)=>({
    Title:{value:'Sample '+i},Amount:{value:String(i)},
-   Notes:{value:[{value:{Memo:{value:'line '+i}}}]}
+   Attachment:{value:i===0?[{fileKey:'source-attachment',name:'memo.txt',size:'17',contentType:'text/plain'}]:[]},
+   Notes:{value:[{value:{Memo:{value:'line '+i},NestedAttachment:{value:i===0?[{fileKey:'source-attachment',name:'memo.txt',size:'17',contentType:'text/plain'}]:[]}}}]}
  }));
- const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false,destinationFields:dest,draftApp:null,draftFields:null,failNextRestoreResponse:false};
+ const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false,destinationFields:dest,draftApp:null,draftFields:null,failNextRestoreResponse:false,failNextSourceCursorRead:false,managementRecordsCreated:0,downloadCalls:0,uploadedAttachments:[]};
  window.prompt=()=>h.answers.shift()??'';
  window.confirm=()=>true;
  const api=async(url,method,args)=>{
@@ -49,6 +51,7 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
    if(url==='/k/v1/records/cursor.json' && method==='GET'){
      const c=h.cursors.get(args.id);
      if(!c)throw Error('unknown cursor');
+     if(h.failNextSourceCursorRead){h.failNextSourceCursorRead=false;throw Error('Simulated 403: source records not accessible');}
      const result=c.rows.slice(c.index,c.index+c.size);
      c.index+=c.size;
      const next=c.index<c.rows.length;
@@ -56,7 +59,7 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
      return {records:result,next};
    }
    if(url==='/k/v1/records/cursor.json' && method==='DELETE'){h.cursors.delete(args.id);return {};}
-   if(url==='/k/v1/record.json' && method==='POST')return {id:'1'};
+   if(url==='/k/v1/record.json' && method==='POST'){h.managementRecordsCreated++;return {id:'1'};}
    if(url==='/k/v1/record.json' && method==='GET')return {record:{
      SourceAppId:{value:'42'},ArchiveHash:{value:h.hash},
      Archive:{value:[{fileKey:'fake-zip',size:String(h.zip.byteLength)}]}
@@ -89,10 +92,20 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
    if(u.startsWith('/k/v1/file.json')){
      if(opts.method==='POST'){
        const blob=opts.body.get('file');
-       h.zip=new Uint8Array(await blob.arrayBuffer());
-       const digest=await crypto.subtle.digest('SHA-256',h.zip);
-       h.hash=Array.from(new Uint8Array(digest)).map(n=>n.toString(16).padStart(2,'0')).join('');
-       return new Response(JSON.stringify({fileKey:'fake-zip'}),{status:200,headers:{'Content-Type':'application/json'}});
+       const bytes=new Uint8Array(await blob.arrayBuffer());
+       if(blob.name.endsWith('.zip')){
+         h.zip=bytes;
+         const digest=await crypto.subtle.digest('SHA-256',h.zip);
+         h.hash=Array.from(new Uint8Array(digest)).map(n=>n.toString(16).padStart(2,'0')).join('');
+         return new Response(JSON.stringify({fileKey:'fake-zip'}),{status:200,headers:{'Content-Type':'application/json'}});
+       }
+       const fileKey='restored-attachment-'+(h.uploadedAttachments.length+1);
+       h.uploadedAttachments.push({fileKey,name:blob.name,data:Array.from(bytes)});
+       return new Response(JSON.stringify({fileKey}),{status:200,headers:{'Content-Type':'application/json'}});
+     }
+     if(u.includes('fileKey=source-attachment')){
+       h.downloadCalls++;
+       return new Response(new TextEncoder().encode('shared attachment'),{status:200});
      }
      return new Response(h.zip,{status:200});
    }
@@ -141,10 +154,17 @@ try{
     throw Error('Browser condition timeout: '+expression);
   };
   await wait("window.__test?.ready && document.querySelector('[data-resoarc-backup]')?.querySelectorAll('button').length >= 7");
+
+  // Reject incomplete source reads. No ZIP or management record may be created.
+  await evaluate("window.__test.failNextSourceCursorRead=true; window.__test.answers=['42','Read denial test']; [...document.querySelectorAll('button')].find(b=>b.textContent==='バックアップを作成').click(); true");
+  await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('Simulated 403: source records not accessible') && true",20000);
+  assert.deepEqual(await evaluate("({records:window.__test.managementRecordsCreated,zip:Boolean(window.__test.zip),cursors:window.__test.cursors.size})"),{records:0,zip:false,cursors:0},'read failure must not create an incomplete backup record');
   await evaluate("window.__test.answers=['42','BrowserCDP smoke']; [...document.querySelectorAll('button')].find(b=>b.textContent==='バックアップを作成').click(); true");
   const backup=await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('バックアップ作成完了') && {text:document.querySelector('[data-resoarc-backup]').innerText,files:window.__test.zip?.length,hash:window.__test.hash}",25000);
   assert.match(backup.text,/501 件/);
   assert.ok(backup.files>100);
+  assert.equal(await evaluate("window.__test.downloadCalls"),1,'shared attachment must be downloaded only once');
+  assert.equal(await evaluate("window.__test.managementRecordsCreated"),1,'only the complete backup may create a management record');
 
   // Browser-level safety checks must finish before any destination writes.
   // 1. A changed ZIP with its original management-record hash is rejected.
@@ -180,6 +200,13 @@ try{
   assert.equal(restored.total,501);
   assert.equal(restored.last,'line 500');
   assert.equal(restored.post,26);
+  const attachmentRoundTrip=await evaluate("({sourceReads:window.__test.downloadCalls,uploads:window.__test.uploadedAttachments,top:window.__test.target[0].Attachment.value[0].fileKey,nested:window.__test.target[0].Notes.value[0].value.NestedAttachment.value[0].fileKey})");
+  assert.equal(attachmentRoundTrip.sourceReads,1);
+  assert.equal(attachmentRoundTrip.uploads.length,2,'top and nested table attachment copies must be uploaded');
+  const expectedFile=Array.from(new TextEncoder().encode('shared attachment'));
+  assert.deepEqual(attachmentRoundTrip.uploads.map(x=>x.data),[expectedFile,expectedFile]);
+  assert.equal(attachmentRoundTrip.top,attachmentRoundTrip.uploads[0].fileKey);
+  assert.equal(attachmentRoundTrip.nested,attachmentRoundTrip.uploads[1].fileKey);
   await evaluate("window.__test.answers=['1','55','']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元プレビュー').click(); true");
   await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('新規追加予定: 0 件') && true",15000);
 
@@ -194,7 +221,7 @@ try{
   assert.equal(draft.records,501,'draft creation must never alter the restored rows');
   assert.equal(draft.deploymentCalls,0,'draft creation must not deploy the app');
 
-  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,rejectedWithoutWrites:['tampered-zip','missing-unique-marker','wrong-confirmation'],resumedAfterCommittedLostResponse:true,newAppDraftId:draft.app.id,deployCalls:0,credentialsUsed:false}));
+  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,rejectedWithoutWrites:['tampered-zip','missing-unique-marker','wrong-confirmation'],resumedAfterCommittedLostResponse:true,sourceReadDeniedWithoutBackup:true,attachmentRoundTrips:attachmentRoundTrip.uploads.length,newAppDraftId:draft.app.id,deployCalls:0,credentialsUsed:false}));
 }finally{
   try{socket?.close();}catch{}
   if(target?.id)try{await fetch(dev+'/json/close/'+target.id);}catch{}
