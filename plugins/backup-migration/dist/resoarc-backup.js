@@ -1042,6 +1042,46 @@ SOFTWARE.
       } else if (!WRITABLE.has(def.type)) stop("\u30EC\u30B3\u30FC\u30C9\u69CB\u9020\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u7A2E\u5225\u304C\u4E0D\u6B63\u3067\u3059: " + code2);
     }
   }
+  function validatePortableRecord(record, schema, location = "record") {
+    if (!obj(record)) stop("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u306E\u30EC\u30B3\u30FC\u30C9\u69CB\u9020\u304C\u4E0D\u6B63\u3067\u3059: " + location);
+    const scalar = /* @__PURE__ */ new Set(["SINGLE_LINE_TEXT", "MULTI_LINE_TEXT", "RICH_TEXT", "RADIO_BUTTON", "DROP_DOWN", "DATE", "TIME", "DATETIME", "LINK"]);
+    const multi = /* @__PURE__ */ new Set(["CHECK_BOX", "MULTI_SELECT"]);
+    const codes = /* @__PURE__ */ new Set(["USER_SELECT", "ORGANIZATION_SELECT", "GROUP_SELECT"]);
+    for (const [code2, payload] of Object.entries(record)) {
+      if (!Object.hasOwn(schema, code2)) stop("\u5B9A\u7FA9\u3055\u308C\u3066\u3044\u306A\u3044\u30EC\u30B3\u30FC\u30C9\u9805\u76EE\u304C\u3042\u308A\u307E\u3059: " + location + "." + code2);
+      if (!obj(payload) || !Object.hasOwn(payload, "value"))
+        stop("\u30EC\u30B3\u30FC\u30C9\u9805\u76EE\u306E\u5024\u304C\u4E0D\u6B63\u3067\u3059: " + location + "." + code2);
+      const def = schema[code2];
+      const value = payload.value;
+      const where = location + "." + code2;
+      if (def.type === "SUBTABLE") {
+        if (!Array.isArray(value)) stop("\u30C6\u30FC\u30D6\u30EB\u306E\u5024\u304C\u4E0D\u6B63\u3067\u3059: " + where);
+        for (const [i, row] of value.entries()) {
+          if (!obj(row) || !obj(row.value) || Object.keys(row).some((k) => k !== "value"))
+            stop("\u30C6\u30FC\u30D6\u30EB\u884C\u306E\u69CB\u9020\u304C\u4E0D\u6B63\u3067\u3059: " + where + "[" + i + "]");
+          validatePortableRecord(row.value, def.fields, where + "[" + i + "]");
+        }
+      } else if (def.type === "FILE") {
+        if (!Array.isArray(value)) stop("\u6DFB\u4ED8\u30D5\u30A1\u30A4\u30EB\u9805\u76EE\u306E\u5024\u304C\u4E0D\u6B63\u3067\u3059: " + where);
+        for (const item of value) {
+          if (!obj(item) || typeof item.ref !== "string" || !/^[0-9a-f]{64}$/.test(item.ref) || typeof item.name !== "string" || typeof item.contentType !== "string" || !Number.isSafeInteger(item.size) || item.size < 0 || Object.hasOwn(item, "fileKey"))
+            stop("\u6DFB\u4ED8\u30D5\u30A1\u30A4\u30EB\u53C2\u7167\u306E\u69CB\u9020\u304C\u4E0D\u6B63\u3067\u3059: " + where);
+        }
+      } else if (multi.has(def.type)) {
+        if (!Array.isArray(value) || value.some((x) => typeof x !== "string"))
+          stop("\u8907\u6570\u9078\u629E\u30D5\u30A3\u30FC\u30EB\u30C9\u306E\u5024\u304C\u4E0D\u6B63\u3067\u3059: " + where);
+      } else if (codes.has(def.type)) {
+        if (!Array.isArray(value) || value.some((x) => !obj(x) || typeof x.code !== "string"))
+          stop("\u30E6\u30FC\u30B6\u30FC\u30FB\u7D44\u7E54\u30FB\u30B0\u30EB\u30FC\u30D7\u9805\u76EE\u306E\u5024\u304C\u4E0D\u6B63\u3067\u3059: " + where);
+      } else if (def.type === "NUMBER") {
+        if (value !== null && typeof value !== "string" && typeof value !== "number")
+          stop("\u6570\u5024\u30D5\u30A3\u30FC\u30EB\u30C9\u306E\u5024\u304C\u4E0D\u6B63\u3067\u3059: " + where);
+      } else if (scalar.has(def.type)) {
+        if (value !== null && typeof value !== "string")
+          stop("\u6587\u5B57\u5217\u30FB\u65E5\u4ED8\u30D5\u30A3\u30FC\u30EB\u30C9\u306E\u5024\u304C\u4E0D\u6B63\u3067\u3059: " + where);
+      }
+    }
+  }
   function filterValue(value, def) {
     if (def.type === "SUBTABLE") {
       if (!Array.isArray(value)) return [];
@@ -1219,8 +1259,8 @@ SOFTWARE.
       checkPath(p);
       if (p.startsWith("attachments/") && !manifestPaths.has(p)) stop("\u672A\u7533\u544A\u306E\u6DFB\u4ED8\u30D5\u30A1\u30A4\u30EB\u304C\u3042\u308A\u307E\u3059");
     }
-    for (const r of records) {
-      if (!obj(r)) stop("\u30EC\u30B3\u30FC\u30C9\u304C\u4E0D\u6B63\u3067\u3059");
+    for (const [index, r] of records.entries()) {
+      validatePortableRecord(r, schema, "record[" + index + "]");
       visitFiles(r, schema, (f) => {
         if (!manifestPaths.has("attachments/" + f.ref)) stop("\u30EC\u30B3\u30FC\u30C9\u304C\u53C2\u7167\u3059\u308B\u6DFB\u4ED8\u30D5\u30A1\u30A4\u30EB\u304C\u6B20\u843D\u3057\u3066\u3044\u307E\u3059");
       });
