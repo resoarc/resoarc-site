@@ -10,7 +10,7 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const evidencePath = 'docs/kintone-progress/evidence/';
 const baseline = {
   tracker: JSON.parse(readFileSync(join(repo, 'docs/kintone-progress/tracker.json'), 'utf8')),
-  unit: JSON.parse(readFileSync(join(repo, evidencePath, 'unit-tests-20261017.json'), 'utf8')),
+  unit: JSON.parse(readFileSync(join(repo, evidencePath, 'unit-rebuild-20261017.json'), 'utf8')),
   manifest: JSON.parse(readFileSync(join(repo, evidencePath, 'manifest-preflight-20261017.json'), 'utf8')),
   signatures: JSON.parse(readFileSync(join(repo, evidencePath, 'signed-zip-audit-20261017.json'), 'utf8')),
   smoke: JSON.parse(readFileSync(join(repo, evidencePath, 'auto-number-tenant-smoke-20261017.json'), 'utf8'))
@@ -23,7 +23,7 @@ function run(modify = () => {}) {
     modify(d);
     mkdirSync(join(tmp, evidencePath), { recursive: true });
     writeFileSync(join(tmp, 'docs/kintone-progress/tracker.json'), JSON.stringify(d.tracker));
-    writeFileSync(join(tmp, evidencePath, 'unit-tests-20261017.json'), JSON.stringify(d.unit));
+    writeFileSync(join(tmp, evidencePath, 'unit-rebuild-20261017.json'), JSON.stringify(d.unit));
     writeFileSync(join(tmp, evidencePath, 'manifest-preflight-20261017.json'), JSON.stringify(d.manifest));
     writeFileSync(join(tmp, evidencePath, 'signed-zip-audit-20261017.json'), JSON.stringify(d.signatures));
     writeFileSync(join(tmp, evidencePath, 'auto-number-tenant-smoke-20261017.json'), JSON.stringify(d.smoke));
@@ -35,7 +35,7 @@ function run(modify = () => {}) {
   }
 }
 
-test('all 187 unit tests and 9 preflights are traceable', () => {
+test('all 203 unit tests and 9 preflights are traceable', () => {
   const result = run();
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /Evidence cross-check passed/);
