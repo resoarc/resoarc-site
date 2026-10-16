@@ -5,10 +5,10 @@ Updated: 2026-10-16 (JST)
 
 ## Automated evidence
 
-- [x] All 44 Node test cases passed on the Windows development computer.
+- [x] All 46 Node test cases passed on the Windows development computer.
 - [x] A simulated kintone API round-trip transferred **501 source records**, including a nested table and a shared attachment. It created only a new *preview* app, simulated a lost response after 50 committed rows, resumed the remaining 451 rows, and confirmed that a third run added zero duplicates.
 - [x] **Actual Edge headless browser smoke test with mocked kintone APIs**: dedicated BrowserCDP Edge loaded the production JavaScript bundle, rendered the management-app controls, created and read a 501-record ZIP, previewed and restored 501 records in 26 batches, and confirmed a second preview offered zero new records. The same real-browser script rejects a tampered ZIP, a destination without a unique restore marker, and an incorrect manual confirmation phrase **before any destination record write**. It also creates a **new app preview draft** via browser UI, verifies the unique restore marker exists, and asserts that **no deploy endpoint or existing-record modification** was used. The browser test exited successfully. No tenant login, cookies, or real API writes were used. Reproduce with `npm run test:browser` on Windows Edge or Linux Chrome; the runner uses a disposable browser profile.
-- [x] ZIP archive hardening rejects duplicate entry names and enforces a non-disableable 50,000-entry ceiling, in addition to the existing 25MiB byte limit. Three regression tests cover duplicate entries and entry-count limits.
+- [x] ZIP archive hardening rejects duplicate entry names and enforces a non-disableable 50,000-entry ceiling, in addition to the existing 25MiB byte limit. Three regression tests cover duplicate entries and entry-count limits. Two more tests confirm that the tenant probe rejects unsafe origins and invalid app IDs.
 - [x] Browser UI regression simulates a first batch committed but its HTTP response lost: the UI stops, an explicit re-preview reports 20 completed and 481 pending, and a confirmed resume finishes all 501 with no duplicates.
 - [x] Cursor tests cover multi-page reads, invalid pages, stalls, excessive row counts, cleanup on failure, and stopping before destination writes.
 - [x] Archive tests cover SHA-256, corrupted contents, attachments, a large compressed payload, ZIP traversal names, and dangerous field-code rejection.
@@ -19,7 +19,8 @@ Updated: 2026-10-16 (JST)
 - [x] A standalone browser-smoke launcher has passed with an isolated **fresh Edge profile** on Windows. This is now also a required step in the dedicated GitHub Actions workflow, subject to its first CI run.
 - [x] GitHub Actions: Verify ResoArc Backup Migration and Verify public source passed for merge commit `2df9bc70377989fe52edb2d91bc1ebffc93e9b11`. The updated workflow also passed on GitHub Linux Chrome for commit `a77f56e3e889d39d1a91b70ad5214d3062a99633` (both the migration CI and public source CI); three additional UI safety checks require the next run.
 - [x] No desktop files created. Work is under the project's Documents/GitHub folder.
-- [ ] **Authenticated, real kintone tenant API round-trip** (not completed). The isolated BrowserCDP profile has been verified on the tenant login page, but is not authenticated; the normal Edge sign-in is a different browser profile.
+- [x] A safe, read-only CDP tenant readiness script is available at `scripts/tenant-api-probe.mjs`. On the development tenant, it returned **HTTP 401** for both GET app details and GET form fields. It never accesses response bodies or authentication secrets; malformed origins and IDs are rejected before browser access.
+- [ ] **Authenticated, real kintone tenant API round-trip** (not completed). The isolated BrowserCDP profile remains unauthenticated; the normal Edge sign-in is a different browser profile.
 - [ ] **User permission variation and inaccessible records** on a real tenant (not completed).
 - [ ] **Actual preview app creation/deployment and restore** in an isolated real tenant (not completed).
 - [ ] **Actual browser cancellation/session expiration and recovery** (not completed).
