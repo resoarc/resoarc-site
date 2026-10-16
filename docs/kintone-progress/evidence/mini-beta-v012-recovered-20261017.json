@@ -79,13 +79,24 @@
       "js_syntax": "37 files passed"
     },
     "signing_identity_pins": "docs/kintone-progress/evidence/mini-v012-public-key-pins.json",
-    "output_policy": "Never rotate installed plugin IDs silently; original beta archives untouched. Needs Windows import, isolated tenant UI verification, and signatures of existing release identities."
+    "output_policy": "Never rotate installed plugin IDs silently; original beta archives untouched. Needs Windows import, isolated tenant UI verification, and signatures of existing release identities.",
+    "windows_validation": {
+      "verified_full_tree_sha256": "7e4039c144f84d4143e49fffe409c791f7bb67f6017622d9e636c7bbc00a4db4",
+      "source_file_count": 159,
+      "validated_in_isolated_windows_qa": true,
+      "unsigned": true,
+      "mobile_plugin_manifests": 0,
+      "local_evidence": "Documents/AI-Work/MR-kintone-tests/v012-windows-v1/qa-results.json",
+      "github_evidence": "docs/kintone-progress/evidence/mini-v012-windows-e2e-mock-20261017.json"
+    }
   },
   "windows_transfer": {
-    "original_source_in_windows_development_folder": false,
-    "prepared_importer": "scripts/import_mini_v012.py",
-    "importer_expected_sha256": "22f22159407063a90fc354cf0ee1af1283f402f25fe554d5f7c49026a4da0edb",
-    "current_result": "blocked until canonical ZIP is present in Documents/AI-Work/MR-kintone-tests/inbox",
+    "original_source_in_windows_development_folder": true,
+    "target": "Documents/GitHub/resoarc-mini-plugins",
+    "source_sha256": "22f22159407063a90fc354cf0ee1af1283f402f25fe554d5f7c49026a4da0edb",
+    "tree_sha256": "64c1954c736a8e72ed33e3da6afbb94255714847601e83a70ae30f18e2f0ea3a",
+    "file_count": 152,
+    "result": "verified source transferred via Mole Remote v2 Realtime and imported without overwriting existing source",
     "local_report": "Documents/AI-Work/MR-kintone-tests/reports/mini-source-import-20261017.json"
   }
 }
