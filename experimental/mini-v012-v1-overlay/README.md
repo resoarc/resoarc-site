@@ -23,7 +23,8 @@ Windows側の正本: `Documents/GitHub/resoarc-mini-plugins` に展開済み。*
 - 18機能のイベント登録31件、Edgeモックブラウザー17件、追加安全性8件：全合格。
 - 追加したモバイル用ソースを含め、JavaScript 38ファイルの構文・manifest 18件の参照アセット：全合格。
 - 元秘密鍵がない場合の署名生成拒否：合格。秘密鍵・配布ZIPは作成されていません。
-- **モバイル用manifestは18件中1件**（入力文字自動整形）。4件のモバイルイベント模擬テストは合格。他17機能のモバイル実装と、実機モバイル受入は未達。
+- **モバイル用manifestは18件中16件**（16機能のモバイルイベント登録／模擬操作20件合格）。PCソースは維持。実テナント・実機モバイル受入は未達。
+- 保存後画面遷移（モバイルでのPC用リダイレクト操作は未対応）、一覧表示固定（PC専用CSS）の2機能は意図的にモバイル非対応のままです。
 - すべてテスト環境の模擬kintoneであり、実テナントへの導入・共存・権限テストは未実施。
 
 証拠：[Windows候補版QA](../../docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json)、[モバイル試作と未署名ソースZIP](../../docs/kintone-progress/evidence/mini-v1-text-mobile-20261017.json)。
@@ -31,3 +32,14 @@ Windows側の正本: `Documents/GitHub/resoarc-mini-plugins` に展開済み。*
 ローカルの未署名ソースZIP：`resoarc-mini-v1-candidate-source-only-20261017.zip`（157ファイル、SHA-256 `8d153f2dfda3969d53bcb4a5e069d72ef5fa0a94a30e8f784a16408ec626dff3`）。これはkintoneへ直接導入できる形式ではありません。
 
 正式版にするには、元鍵の所有確認、機能別テストアプリでのPC・モバイル受入、異常系と共存試験、リリース台帳の承認が必要です。
+
+## v1-mobile16 QAコピー（2026-10-17）
+
+- 基準：正本v0.1.2の152ファイル。Mole Remote上のQAコピーにのみ適用。
+- 追加したモバイルソース：16件。モバイルmock 20/20、安全性8/8、PCイベント登録31件、Edge17/17合格。
+- 署名鍵欠落時のfail-closed確認。新規秘密鍵や配布ZIPの作成なし。
+- JavaScript構文53件、18manifestのアセット欠落ゼロ。
+- 未署名ソースZIP：`resoarc-mini-v1-mobile16-source-only-20261017.zip`（**174ファイル**、SHA-256 `0e4fd2354f9054a9b409be168b81bb9f0425021fc0de69c2f4934c66c8476467`）。kintoneにインストールするZIPではありません。
+- [検証の構造化証拠](../../docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json) ／ [Windows実行ログ（個人パス伏せ）](../../docs/kintone-progress/evidence/mini-v1-mobile16-machine-qa-20261017.json)
+
+16機能のモバイルソースは試験段階です。**正式v1.0、モバイル本番対応、29製品のリリース承認を宣言しません。**
