@@ -62,13 +62,14 @@
   },
   "source_bundle": {
     "filename": "resoarc-mini-v1-mobile16-source-only-20261017.zip",
-    "sha256": "c12b5fe00e30eb6c60a923db1d4415da047fb034d2f0846b2d67d15006742025",
-    "file_count": 173,
+    "sha256": "0e4fd2354f9054a9b409be168b81bb9f0425021fc0de69c2f4934c66c8476467",
+    "file_count": 174,
     "plugin_sources": 18,
     "mobile_source_candidates": 16,
     "is_kintone_installable": false,
     "is_signed": false,
-    "was_published_to_site": false
+    "was_published_to_site": false,
+    "note": "Includes an additional standalone signer rejection regression test, reproducibly generated and verified against canonical original source files."
   },
   "limits": [
     "20 mobile tests are mocked API and UI tests, not real smartphone tests or signed tenant installations.",
@@ -77,5 +78,6 @@
     "Each product requires dedicated real kintone test app acceptance and authorization/coexistence tests before mobile release approval.",
     "Original RSA/SHA-1 signing private keys are unavailable; rebuilding the installed plugin with new keys would break upgrade identity."
   ],
-  "release_decision": "hold"
+  "release_decision": "hold",
+  "local_machine_report": "Documents/AI-Work/MR-kintone-tests/reports/mini-v1-mobile16-machine-qa-20261017.json"
 }
