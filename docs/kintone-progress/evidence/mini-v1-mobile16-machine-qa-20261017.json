@@ -1,0 +1,114 @@
+{
+  "as_of": "2026-10-17",
+  "scope": "local Windows isolated candidate and mock kintone/Edge only",
+  "original_source_file_count": 152,
+  "original_tree_sha256": "64c1954c736a8e72ed33e3da6afbb94255714847601e83a70ae30f18e2f0ea3a",
+  "original_untouched": true,
+  "unit_tests": {
+    "count": 28,
+    "pass": 28,
+    "fail": 0
+  },
+  "desktop_registered_handlers": 31,
+  "edge_mock_cases": 17,
+  "mobile_manifest_count": 16,
+  "desktop_manifest_count": 18,
+  "javascript_syntax_count": 53,
+  "source_bundle": {
+    "status": "unsigned_source_only_not_a_kintone_installable_plugin",
+    "path": "LOCAL_QA_DIR\\resoarc-mini-v1-mobile16-source-only-20261017.zip",
+    "sha256": "0e4fd2354f9054a9b409be168b81bb9f0425021fc0de69c2f4934c66c8476467",
+    "file_count": 174,
+    "mini_products": 18,
+    "javascript_files": 53,
+    "missing_assets": 0,
+    "mobile_draft_features": [
+      "attachment-count",
+      "barcode-scan",
+      "csv-export",
+      "field-help",
+      "file-preview",
+      "input-template",
+      "list-aggregate",
+      "lookup-suggest",
+      "mail-compose",
+      "postal-address",
+      "qr-code",
+      "record-toc",
+      "related-links",
+      "reuse-reset",
+      "table-row-tools",
+      "text-normalizer"
+    ],
+    "mobile_candidate_count": 16,
+    "signed": false,
+    "v1_release_approved": false,
+    "original_beta_untouched": true,
+    "tenant_e2e": false
+  },
+  "runs": {
+    "node_unit": {
+      "exit_code": 0,
+      "seconds": 0.22,
+      "stdout_tail": [
+        "ℹ suites 0",
+        "ℹ pass 28",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 173.263"
+      ],
+      "stderr_tail": []
+    },
+    "desktop_smoke": {
+      "exit_code": 0,
+      "seconds": 0.12,
+      "stdout_tail": [
+        "PASS related-links 2 hooks",
+        "PASS sticky-list 1 hooks",
+        "PASS file-preview 1 hooks",
+        "PASS lookup-suggest 2 hooks",
+        "PASS postal-address 2 hooks",
+        "PASS barcode-scan 2 hooks",
+        "PASS 18 plugins 31 registered event handlers"
+      ],
+      "stderr_tail": []
+    },
+    "edge_ui_mocks": {
+      "exit_code": 0,
+      "seconds": 10.5,
+      "stdout_tail": [
+        "PASS browser: file fetch cancelled on modal close",
+        "PASS browser: dangerous URI scheme rejected",
+        "PASS browser: CSV spreadsheet formula injection escaped",
+        "PASS browser: redirect blocks foreign origins",
+        "PASS browser: postal address lookup populates configured field",
+        "PASS browser: 18 runtimes execute across supported event types",
+        "PASS 17 browser integration cases"
+      ],
+      "stderr_tail": []
+    },
+    "signer_negative": {
+      "exit_code": 0,
+      "seconds": 0.27,
+      "stdout_tail": [
+        "{\"fail_closed\": true, \"return_code\": 1, \"created_private_keys\": false, \"created_distribution\": false}"
+      ],
+      "stderr_tail": []
+    },
+    "source_bundle": {
+      "exit_code": 0,
+      "seconds": 3.69,
+      "stdout_tail": [
+        "Scaffold: 18 modules, 18 implemented",
+        "QR bundle: 28925 bytes",
+        "{\"status\": \"unsigned_source_only_not_a_kintone_installable_plugin\", \"path\": \"C:\\\\Users\\\\zin\\\\Documents\\\\AI-Work\\\\MR-kintone-tests\\\\v012-windows-qa\\\\resoarc-mini-v1-mobile16-source-only-20261017.zip\", \"sha256\": \"0e4fd2354f9054a9b409be168b81bb9f0425021fc0de69c2f4934c66c8476467\", \"file_count\": 174, \"mini_products\": 18, \"javascript_files\": 53, \"missing_assets\": 0, \"mobile_draft_features\": [\"attachment-count\", \"barcode-scan\", \"csv-export\", \"field-help\", \"file-preview\", \"input-template\", \"list-aggregate\", \"lookup-suggest\", \"mail-compose\", \"postal-address\", \"qr-code\", \"record-toc\", \"related-links\", \"reuse-reset\", \"table-row-tools\", \"text-normalizer\"], \"mobile_candidate_count\": 16, \"signed\": false, \"v1_release_approved\": false, \"original_beta_untouched\": true, \"tenant_e2e\": false}"
+      ],
+      "stderr_tail": []
+    }
+  },
+  "live_tenant": false,
+  "physical_mobile": false,
+  "release_approved": false
+}
