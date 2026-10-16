@@ -1,6 +1,7 @@
 import {makeArchive,inspectArchive,MAX_BYTES} from './core.js';
 import {createMappedRestorePlan,runResumableRestore,previewRestoreProgress,MARKER_CODE} from './restore.js';
 import {planNewApp,createDraftApp} from './migration.js';
+import {fetchAllRecords} from './transport.js';
 
 const K=window.kintone;
 const api=(path,method,body)=>K.api(K.api.url(path,true),method,body);
@@ -9,23 +10,6 @@ function managementApp(){const id=Number(K.app.getId());if(!id)throw Error('kint
 function ensureExternalId(id){if(id===managementApp())throw Error('バックアップ管理アプリ自体は対象にできません');}
 const getFields=app=>api('/k/v1/app/form/fields.json','GET',{app});
 const getLayout=app=>api('/k/v1/app/form/layout.json','GET',{app});
-async function listRecords(app){
-  const created=await api('/k/v1/records/cursor.json','POST',{app,size:500});
-  let cursor=created.id,done=false;
-  const records=[];
-  try{
-    while(!done){
-      const page=await api('/k/v1/records/cursor.json','GET',{id:cursor});
-      records.push(...page.records);
-      if(records.length>20000)throw Error('一度に処理できるレコードは20,000件までです');
-      done=!page.next;
-    }
-  } finally {
-    // The last page deletes the cursor automatically. Cleanup on failure.
-    if(!done)try{await api('/k/v1/records/cursor.json','DELETE',{id:cursor});}catch(e){console.warn('cursor cleanup failed',e);}
-  }
-  return records;
-}
 async function downloadFile(fileKey){
   const resp=await fetch('/k/v1/file.json?fileKey='+encodeURIComponent(fileKey),{method:'GET',headers:{'X-Requested-With':'XMLHttpRequest'}});
   if(!resp.ok)throw Error('ファイルの取得に失敗しました (HTTP '+resp.status+')');
@@ -46,7 +30,7 @@ async function uploadFile(bytes,name,type='application/octet-stream'){
 }
 async function backup(app,name){
   ensureExternalId(app);
-  const [fields,layout,records]=await Promise.all([getFields(app),getLayout(app),listRecords(app)]);
+  const [fields,layout,records]=await Promise.all([getFields(app),getLayout(app),fetchAllRecords(app,api)]);
   const {zip,hash,manifest}=await makeArchive({appId:app,fields,layout,records,download:downloadFile});
   const key=await uploadFile(zip,'resoarc-backup-'+app+'-'+new Date().toISOString().replace(/[:.]/g,'-')+'.zip','application/zip');
   const record={
