@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 100
     steps:
       - name: Checkout immutable source archive
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
       - name: Verify checked-in OS source and extract safely
@@ -67,7 +67,7 @@ jobs:
           sha256sum release/resoarcos-pc-v0.1.1-dev-amd64.iso > release/SHA256SUMS
       - name: Preserve verified ISO as a short-lived workflow artifact
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: resoarcos-pc-v0.1.1-dev-verified
           path: |
