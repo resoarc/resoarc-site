@@ -66,8 +66,8 @@ if(mobile16.tests?.mobile_event_mock_cases!==20||
    mobile16.tests?.signer_fail_closed_without_original_keys!==true||
    mobile16.tests?.signing_keys_generated!==false||
    mobile16.tests?.release_zip_generated!==false)throw Error('Mobile QA evidence mismatch');
-if(mobile16.source_bundle?.sha256!=='c12b5fe00e30eb6c60a923db1d4415da047fb034d2f0846b2d67d15006742025'||
-   mobile16.source_bundle?.file_count!==173||
+if(mobile16.source_bundle?.sha256!=='0e4fd2354f9054a9b409be168b81bb9f0425021fc0de69c2f4934c66c8476467'||
+   mobile16.source_bundle?.file_count!==174||
    mobile16.source_bundle?.is_signed!==false||
    mobile16.source_bundle?.is_kintone_installable!==false||
    mobile16.release_decision!=='hold')throw Error('Mobile source-only bundle mislabelled');
