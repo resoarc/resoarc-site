@@ -25,13 +25,22 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
    Title:{value:'Sample '+i},Amount:{value:String(i)},
    Notes:{value:[{value:{Memo:{value:'line '+i}}}]}
  }));
- const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false,destinationFields:dest};
+ const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false,destinationFields:dest,draftApp:null,draftFields:null};
  window.prompt=()=>h.answers.shift()??'';
  window.confirm=()=>true;
  const api=async(url,method,args)=>{
    h.calls.push({url,method});
    if(url==='/k/v1/app/form/fields.json' && method==='GET')return args.app===42?src:h.destinationFields;
    if(url==='/k/v1/app/form/layout.json' && method==='GET')return {layout:[]};
+   if(url==='/k/v1/preview/app.json' && method==='POST'){
+     h.draftApp={id:77,name:args.name};
+     return {app:'77'};
+   }
+   if(url==='/k/v1/preview/app/form/fields.json' && method==='POST'){
+     if(args.app!==77)throw Error('draft app ID mismatch');
+     h.draftFields=structuredClone(args.properties);
+     return {revision:'2'};
+   }
    if(url==='/k/v1/records/cursor.json' && method==='POST'){
      const id=String(++h.number);
      h.cursors.set(id,{rows:[...(args.app===42?rows:h.target)],index:0,size:args.size});
@@ -159,7 +168,19 @@ try{
   assert.equal(restored.post,26);
   await evaluate("window.__test.answers=['1','55','']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元プレビュー').click(); true");
   await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('新規追加予定: 0 件') && true",15000);
-  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,rejectedWithoutWrites:['tampered-zip','missing-unique-marker','wrong-confirmation'],credentialsUsed:false}));
+
+  // 4. New app creation is draft-only: only preview endpoints may be used.
+  await evaluate("window.__test.answers=['1','ResoArc Draft UI']; [...document.querySelectorAll('button')].find(b=>b.textContent==='管理レコードから新規アプリ構造プレビュー').click(); true");
+  await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('新規アプリ構造のプレビュー') && true",20000);
+  await evaluate("window.__test.answers=['CREATE ResoArc Draft UI']; [...document.querySelectorAll('button')].find(b=>b.textContent==='新規アプリの下書きを作成 (データは書かない)').click(); true");
+  const draft=await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('新規アプリ #77 の下書きを作成しました') && {app:window.__test.draftApp,fields:window.__test.draftFields && Object.keys(window.__test.draftFields).length,unique:window.__test.draftFields?.ResoArcRestoreKey?.unique,records:window.__test.target.length,deploymentCalls:window.__test.calls.filter(c=>c.url.includes('deploy')).length}",20000);
+  assert.equal(draft.app.name,'ResoArc Draft UI');
+  assert.ok(draft.fields>=4);
+  assert.equal(draft.unique,true);
+  assert.equal(draft.records,501,'draft creation must never alter the restored rows');
+  assert.equal(draft.deploymentCalls,0,'draft creation must not deploy the app');
+
+  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,rejectedWithoutWrites:['tampered-zip','missing-unique-marker','wrong-confirmation'],newAppDraftId:draft.app.id,deployCalls:0,credentialsUsed:false}));
 }finally{
   try{socket?.close();}catch{}
   if(target?.id)try{await fetch(dev+'/json/close/'+target.id);}catch{}
