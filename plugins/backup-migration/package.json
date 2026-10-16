@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.js",
-    "check": "npm run test && npm run build"
+    "check": "npm run test && npm run build",
+    "test:browser": "node scripts/run-browser-smoke.mjs"
   },
   "dependencies": {
     "fflate": "0.8.3"
