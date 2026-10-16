@@ -23,3 +23,23 @@ test('permission matrix does not claim effective rights', () => {const r=api.per
 test('report escapes HTML and is print friendly', () => {const r=api.reportHTML([{a:'<img src=x onerror=alert(1)>'}],['a'],'<script>');assert.match(r,/&lt;script&gt;/);assert.doesNotMatch(r,/<script>/);assert.match(r,/<table/);});
 test('load text recognizes CSV and JSON', () => {assert.equal(api.loadText('a\n1','x.csv')[0].a,'1');assert.equal(api.loadText('[{"a":1}]','x.json')[0].a,1);});
 test('rows reject nonsensical input', () => assert.throws(() => api.dataRows({foo:1})));
+
+test('CSV forbids stray quotes inside unquoted columns',()=>assert.throws(()=>api.parseDelimited('name\nnot"valid'),/引用符/));
+test('CSV extension overrides JSON sniffing on bracket-led cell',()=>{
+ const rows=api.loadText('code,value\n[abc],42','batch.csv');assert.equal(rows[0].code,'[abc]');
+});
+test('record loader caps row count to prevent browser exhaustion',()=>assert.throws(()=>api.dataRows(Array.from({length:50001},()=>({foo:'x'}))),/50,000/));
+test('duplicate compare fields must be distinct and bounded',()=>{
+ assert.throws(()=>api.duplicateGroups([{id:'1'}],['id','id']),/重複/);
+ assert.throws(()=>api.duplicateGroups([{id:'1'}],Array.from({length:21},(_,i)=>'field'+i)),/1～20/);
+});
+test('lookup audit rejects missing keys instead of false positives',()=>{
+ assert.throws(()=>api.lookupAudit([{key:'a'}],[{key:'a'}],'','key'),/照合キー/);
+ assert.throws(()=>api.lookupAudit([{key:'a'}],[{key:'a'}],'key','key',[]),/対応表/);
+});
+test('aggregate rejects finite individual numbers with infinite sum',()=>assert.throws(()=>api.aggregate([{c:'x',v:'1e308'},{c:'x',v:'1e308'}],'c','v','sum'),/範囲/));
+test('permission audit rejects malformed rule elements',()=>assert.throws(()=>api.permissionAudit([null]),/権限ルール/));
+test('printed reports reject oversized records and excessive columns',()=>{
+ assert.throws(()=>api.reportHTML(Array.from({length:5001},()=>({v:'x'}))),/5,000/);
+ assert.throws(()=>api.reportHTML([{x:'1'}],Array.from({length:51},(_,i)=>String(i))),/1～50/);
+});

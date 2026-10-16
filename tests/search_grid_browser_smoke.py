@@ -57,8 +57,8 @@ with sync_playwright() as p:
    const api=async(url,method,body)=>{
     if(method!=='PUT')throw Error('unexpected API call');
     window.writes.push({url,method,body});
-    if(shouldFail&&body.id==='2')throw Error('simulated conflict');
-    return {revision:'2'};
+    if(shouldFail)throw Error('simulated atomic revision conflict');
+    return {records:body.records.map((r,i)=>({id:r.id,revision:String(i+2)}))};
    };
    window.kintone={$PLUGIN_ID:'plugin2',plugin:{app:{getConfig:()=>({rules:'[{"field":"Amount","limit":30}]'})}},
      app:{getHeaderSpaceElement:()=>mount,getId:()=>42},api:Object.assign(api,{url:p=>p}),
@@ -80,14 +80,15 @@ with sync_playwright() as p:
   page.locator('#resoarc-grid-alpha input').nth(1).fill('21')
   page.get_by_role('button',name='変更をプレビュー').click()
   page.get_by_role('button',name='確認して更新').click()
-  expected='途中停止' if should_fail else '完了'
+  expected='成立しませんでした' if should_fail else '完了'
   page.wait_for_function("""expected=>document.querySelector('#resoarc-grid-alpha [role=status]').textContent.includes(expected)""",arg=expected)
-  assert page.evaluate('window.writes.length')==2
-  assert page.evaluate('window.writes[0].body.revision')=='1'
-  assert page.evaluate('window.writes[1].body.revision')=='3'
+  assert page.evaluate('window.writes.length')==1
+  assert page.evaluate('window.writes[0].url')=='/k/v1/records.json'
+  assert [r['revision'] for r in page.evaluate('window.writes[0].body.records')]==['1','3']
+  assert page.evaluate('window.writes[0].body.records.length')==2
   assert page.get_by_role('button',name='確認して更新').is_disabled()
   assert page.get_by_role('button',name='変更をプレビュー').is_disabled()
-  print('PASS grid', 'partial failure' if should_fail else 'success','type-block, confirmed PUT, revision, no re-submit')
+  print('PASS grid', 'atomic failure' if should_fail else 'atomic success','type-block, single PUT, revisions, no re-submit')
   page.close()
  browser.close()
 print('BROWSER_RUNTIME_PASS')

@@ -10,3 +10,15 @@ test('invalid and conflicting rule rejected',()=>{assert.equal(core.normalize('[
 test('evaluates value without mutating original',()=>{const rec={start:{value:'2026-10-16'},end:{value:'2026-10-19'},days:{value:''}};assert.equal(core.evaluate([{start:'start',end:'end',target:'days',mode:'business'}],rec)[0].value,'1');assert.equal(rec.days.value,'');});
 test('incomplete record does not write',()=>assert.equal(core.evaluate([{start:'s',end:'e',target:'t'}],{s:{value:'2026-10-19'}})[0].missing,true));
 test('runtime changes only configured target',()=>{const events=[];const cfg={rules:JSON.stringify([{start:'s',end:'e',target:'n',mode:'calendar'}])};const context={kintone:{$PLUGIN_ID:'id',plugin:{app:{getConfig:()=>cfg}},events:{on:(ev,fn)=>events.push([ev,fn])}},console};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/js/desktop.js'),'utf8'),context);assert.equal(events.length,1);const record={s:{value:'2026-10-16'},e:{value:'2026-10-19'},n:{value:''},unrelated:{value:'safe'}};events[0][1]({record,type:'app.record.create.show'});assert.equal(record.n.value,'3');assert.equal(record.unrelated.value,'safe');});
+
+test('date calculator skips unsupported calculated/status targets',()=>{
+ const src={start:{type:'DATE',value:'2026-10-16'},end:{type:'DATE',value:'2026-10-19'},target:{type:'CALC',value:''}};
+ const rules=[{start:'start',end:'end',target:'target',mode:'calendar'}];
+ const result=core.evaluate(rules,src)[0];
+ assert.equal(result.missing,true);
+ assert.equal(src.target.value,'');
+ src.target.type='NUMBER';
+ assert.equal(core.evaluate(rules,src)[0].value,'3');
+ src.start.type='SINGLE_LINE_TEXT';
+ assert.equal(core.evaluate(rules,src)[0].missing,true);
+});

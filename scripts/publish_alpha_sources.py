@@ -8,9 +8,9 @@ header=re.search(r'<header\b.*?</header>',reference,re.S).group()
 footer=re.search(r'<footer\b.*?</footer>',reference,re.S).group()
 ITEMS=[
  ('conditional-format','条件付き書式','条件に応じてレコード項目の背景色・文字を強調。固定カラーのみ。','[{"source":"risk","target":"amount","operator":"gte","value":"80","theme":"red"}]','通常フィールドが対象です。テーブル内フィールドや非対応フィールドには適用できません。'),
- ('date-calculator','日付・期間計算','開始日・終了日からカレンダー日数と営業日数を算出。休日指定に対応。','[{"start":"start_date","end":"end_date","target":"days","mode":"business","holidays":["2026-10-19"]}]','フォームで日付を入力したときに指定の数値項目を書き換えます。開始日を含まず終了日を含みます。'),
+ ('date-calculator','日付・期間計算','開始日・終了日からカレンダー日数と営業日数を算出。休日指定に対応。','[{"start":"start_date","end":"end_date","target":"days","mode":"business","holidays":["2026-10-19"]}]','フォームでDATE型の開始日と終了日から計算し、数値・文字列型の出力先のみを書き換えます。開始日を含まず終了日を含みます。'),
  ('list-search','高機能検索・絞り込み','現在ページ内検索と、一覧の絞り込み条件を尊重した最大2,000件の範囲検索に対応。','[{"code":"Name","label":"名称","operator":"contains"}]','通常は表示中ページのみ検索。明示的な操作で一覧条件に合う最大2,000件を読み取り検索します。上限を超えたデータは未検索であり、全件検索ではありません。変更APIは使いません。'),
- ('grid-editor','Excel風一覧編集','単一フィールドの編集プレビューとリビジョン検査付き更新。','[{"field":"Notes","limit":25}]','現在の一覧ページのみ。更新対象は通常文字列・複数行文字列・数値に限定し、リビジョン付きで逐次実行します。部分成功時の自動取消・複数列編集は未実装です。'),
+ ('grid-editor','Excel風一覧編集','単一フィールドを最大100件、リビジョン検査付きで一括更新。失敗時は全件取消。','[{"field":"Notes","limit":25}]','現在の一覧ページのみ。通常文字列・複数行文字列・数値フィールドを最大100件、1回の原子的なAPIリクエストで更新します。1件でも失敗すれば全件取消。ネットワーク障害では実際の結果を再読込で確認してください。複数列編集は未実装です。'),
  ('kanban','カード・カンバン表示','現在の一覧ページをグループ化して読み取り専用カードで表示。','[{"groupField":"Status","labelField":"Title","limit":60}]','現在の一覧ページのみ。ドラッグ＆ドロップ更新、全レコード取得は未実装です。'),
 ]
 for slug,title,desc,example,limit in ITEMS:
@@ -31,10 +31,10 @@ for slug,title,desc,example,limit in ITEMS:
       +'<link rel="canonical" href="'+url+'"><link rel="stylesheet" href="/assets/site-20261015-v10.css">'
       +'<link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg"><title>'+html.escape(title)+'（αソース） | ResoArc</title></head><body><a class="skip-link" href="#main">本文へ移動</a>')
     main=('<main id="main"><section class="inside-hero"><div class="container inside-hero-inner"><div class="kicker"><span class="kicker-no">A</span><span class="kicker-en">DEVELOPER PREVIEW</span><span class="kicker-jp">kintoneプラグイン</span></div><h1>'+html.escape(title)+'</h1><p>'+html.escape(desc)+'</p></div></section>'
-      +'<section class="section inner-section"><div class="container reading-width"><h2>開発α版・ソース公開</h2><p><strong>この版は実機導入試験が完了していません。プラグインとしてインストールできる署名ZIPは配布していません。</strong>コード、設定画面、ロジック、単体テストを確認するためのソースパッケージです。</p>'
+      +'<section class="section inner-section"><div class="container reading-width"><h2>開発α版・検証用ソース公開</h2><p><strong>この版はkintone実環境への導入試験が完了していません。署名付き評価用ZIPは別ページで公開していますが、運用アプリに導入しないでください。</strong>コード、設定画面、ロジック、単体テストを確認するためのソースパッケージです。</p>'
       +'<p>'+html.escape(limit)+'</p><div class="article-strip"><div><strong>ソース一式・設定例</strong><p>ソースパッケージに、manifest・設定画面・PC/モバイルJS・ビルド手順・テストを収録しています。</p></div>'
       +'<a class="inline-link" href="/downloads/resoarc-'+slug+'-v0.1.0-alpha-source.zip" download>α版ソースZIPを取得 <span>↗</span></a></div>'
-      +'<p><strong>設定画面をフォーム化。</strong>JSONを直接編集せず、フィールドコード候補の補完・ルール追加・保存前の形式検証を利用できます。旧JSON設定も引き継ぎます。</p><h3>設定ルール例</h3><pre class="suite-result" style="overflow:auto;background:#17343d;color:white;padding:16px">'+html.escape(example)+'</pre><p>開発環境での動作確認・アクセス権試験・他プラグインとの競合検証を完了してからインストール用ZIPを提供します。</p>'
+      +'<p><strong>設定画面をフォーム化。</strong>JSONを直接編集せず、フィールドコード候補の補完・ルール追加・保存前の形式検証を利用できます。旧JSON設定も引き継ぎます。</p><h3>設定ルール例</h3><pre class="suite-result" style="overflow:auto;background:#17343d;color:white;padding:16px">'+html.escape(example)+'</pre><p>署名付き評価用ZIPは<a href="/products/kintone/qa/">こちら</a>にまとめています。導入前に専用のテストアプリで権限、API動作、他プラグインとの競合を確認してください。</p>'
       +'<p><a href="/products/kintone/">kintoneツール一覧に戻る ↗</a></p></div></section></main>')
     target=SITE/'tools'/('kintone-'+slug)/'index.html'
     target.parent.mkdir(parents=True,exist_ok=True)
@@ -69,7 +69,7 @@ if 'kintone追加5機能の開発α版' not in h:
     history.write_text(h,encoding='utf-8',newline='\n')
 docs=ROOT/'docs'/'SUITE16_PROGRESS.md'
 d=docs.read_text(encoding='utf-8')
-d=d.replace('- 他5種類: 継続開発。完成と表示しない。','- 他5種類: 条件付き書式、日付・期間計算、高機能検索、Excel風一覧編集、カンバン表示。開発α版ソース・単体テストを追加。kintone実機未検証のため署名ZIPは未配布。')
+d=d.replace('- 他5種類: 継続開発。完成と表示しない。','- 他5種類: 条件付き書式、日付・期間計算、高機能検索、Excel風一覧編集、カンバン表示。開発α版ソース・単体テストを追加。kintone実環境未検証のため安定版扱いしない。')
 docs.write_text(d,encoding='utf-8',newline='\n')
 wf=ROOT/'.github'/'workflows'/'verify.yml'
 w=wf.read_text(encoding='utf-8')

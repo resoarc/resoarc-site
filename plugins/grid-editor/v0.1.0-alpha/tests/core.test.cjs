@@ -26,3 +26,25 @@ test('grid unsupported type has no write preview',()=>{
  const rec={$id:{value:'1'},$revision:{value:'1'},Date:{type:'DATE',value:'2026-01-01'}};
  a.throws(()=>core.preview([rec],'Date',{'1':'2026-02-01'}),/更新可能/);
 });
+
+test('grid atomic update payload includes all records and revisions in one request',()=>{
+ const plan=core.preview(rows,'Name',{'12':'Next','13':'Final'});
+ const request=core.batchRequest(plan,42);
+ a.equal(request.app,42);
+ a.equal(request.records.length,2);
+ a.equal(request.records[0].id,'12');
+ a.equal(request.records[0].revision,'2');
+ a.deepEqual(request.records[0].record,{Name:{value:'Next'}});
+ a.equal(request.records[1].revision,'3');
+});
+test('grid atomic request forbids >100 and empty plans',()=>{
+ const one=core.preview(rows,'Name',{'12':'Next'});
+ a.throws(()=>core.batchRequest({...one,changedCount:0,changes:[]},42),/1～100/);
+ a.throws(()=>core.batchRequest({...one,changedCount:101,changes:Array.from({length:101},()=>one.changes[0])},42),/1～100/);
+});
+test('grid atomic request rejects tampered plan and duplicate IDs',()=>{
+ const plan=core.preview(rows,'Name',{'12':'Next','13':'Final'});
+ a.throws(()=>core.batchRequest({...plan,changes:[plan.changes[0],plan.changes[0]]},42),/不正/);
+ a.throws(()=>core.batchRequest({...plan,changes:[{...plan.changes[0],field:'Else'},plan.changes[1]]},42),/不正/);
+ a.throws(()=>core.batchRequest(plan,'bad'),/アプリ/);
+});

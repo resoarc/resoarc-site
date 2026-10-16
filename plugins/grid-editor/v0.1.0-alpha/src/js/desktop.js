@@ -40,10 +40,21 @@ function preview(records,field,inputs){
  }
  return {mode:'PREVIEW',field,recordCount:records.length,changedCount:changes.length,changes};
 }
-return {normalize,canEdit,validateValue,preview,EDITABLE_TYPES};
+function batchRequest(plan,app){
+ if(!plan||plan.mode!=='PREVIEW'||!Number.isInteger(plan.changedCount)||!Array.isArray(plan.changes)||plan.changes.length!==plan.changedCount||plan.changedCount<1||plan.changedCount>100)throw Error('一括更新は1～100件までです');
+ if(!/^[1-9]\d*$/.test(String(app)))throw Error('アプリ番号が不正です');
+ const ids=new Set();
+ const records=plan.changes.map(change=>{
+  if(!change||!/^\d+$/.test(change.id)||!/^\d+$/.test(change.revision)||ids.has(change.id)||change.field!==plan.field||typeof change.after!=='string')throw Error('変更プレビューが不正です');
+  ids.add(change.id);
+  return {id:change.id,revision:change.revision,record:{[change.field]:{value:change.after}}};
+ });
+ return {app,records};
+}
+return {normalize,canEdit,validateValue,preview,batchRequest,EDITABLE_TYPES};
 });
 
-/* ResoArc grid editor experimental alpha: preview, type and revision checks */
+/* ResoArc grid editor experimental alpha: single atomic request, type and revision checks */
 (function(pid){
 'use strict';
 const core=typeof ResoArcGrid==='undefined'?null:ResoArcGrid;
@@ -60,7 +71,7 @@ function onShow(e){
  const panel=add('section','',holder);panel.id='resoarc-grid-alpha';
  panel.style.cssText='padding:16px;background:#f7f9fa;border:1px solid #aab7c3;margin:12px 0';
  add('h3','ResoArc 一覧編集 α（文字列・数値のみ）',panel);
- add('p','現在の一覧ページのみ編集可能。変更前の差分確認とリビジョン検査を実施します。更新の取り消しはできません。',panel);
+ add('p','現在の一覧ページのみ編集可能。最大100件を1回のAPIで一括更新します。1件でもエラーなら全件変更しません。更新成功後の取り消し機能はありません。',panel);
  const table=add('table','',panel),head=add('tr','',table);
  ['ID','現在値','更新する値'].forEach(v=>add('th',v,head));
  const editors=new Map();let skipped=0;
@@ -96,22 +107,16 @@ function onShow(e){
   if(busy||settled||!staged||!staged.changedCount)return;
   if(!window.confirm(settings.field+' の '+staged.changedCount+'件を実際に更新します。取り消しできません。実行しますか？'))return;
   lock();
-  let succeeded=0;const ids=[];
   try{
    const app=kintone.app.getId();
-   if(!app)throw Error('アプリIDを取得できません');
-   for(const change of staged.changes){
-    status.textContent='更新中: '+succeeded+'/'+staged.changedCount+' 件';
-    await kintone.api(kintone.api.url('/k/v1/record.json',true),'PUT',{
-     app,id:change.id,revision:change.revision,record:{[settings.field]:{value:change.after}}
-    });
-    succeeded++;ids.push(change.id);
-   }
-   status.textContent='完了: '+succeeded+'件更新しました。ID: '+ids.join(', ')+'。ページを再読込してください。';
+   const payload=core.batchRequest(staged,app);
+   status.textContent='一括更新リクエスト中: '+staged.changedCount+'件';
+   await kintone.api(kintone.api.url('/k/v1/records.json',true),'PUT',payload);
+   status.textContent='一括更新完了: '+staged.changedCount+'件。ページを再読込してください。';
   }catch(error){
-   status.textContent='途中停止: 成功 '+succeeded+'件（ID: '+ids.join(', ')+ '）。失敗以降のレコードは未処理です。原因: '+(error.message||error)+'。再読込して状態を確認してください。';
+   status.textContent='一括更新は成立しませんでした。kintoneからの結果を再確認してください: '+(error.message||error)+'。再読込するまで再実行できません。';
   }finally{
-   settled=true; // No second write from stale revisions. Reload to retry.
+   settled=true; // Avoid ambiguous retry if the connection dropped after the server committed.
   }
  });
  return e;

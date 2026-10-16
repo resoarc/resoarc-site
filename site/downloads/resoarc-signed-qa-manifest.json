@@ -1,0 +1,77 @@
+{
+  "notice": "SIGNED_QA_ONLY_NOT_TENANT_TESTED",
+  "plugins": [
+    {
+      "slug": "auto-number",
+      "name": "自動採番",
+      "plugin_id": "nnhajggbglcfnmlpopfnfkeinhfckpgb",
+      "version": "v1.1.0-beta",
+      "sha256": "982a9f1f72f691a277eff20dccc9f63ed3c3df541324bae8dbee39db80b1a747",
+      "bytes": 9902,
+      "filename": "resoarc-auto-number-signed-qa.zip"
+    },
+    {
+      "slug": "tabs",
+      "name": "タブ表示",
+      "plugin_id": "pjjhmdiklieacchcmlgihpkkdjppefeb",
+      "version": "v0.1.0-beta",
+      "sha256": "499e8772ca2f827196b0be267f95f9a55f6f097652ec8c1bf137fd78316a7d7b",
+      "bytes": 7999,
+      "filename": "resoarc-tabs-signed-qa.zip"
+    },
+    {
+      "slug": "conditional",
+      "name": "条件付き表示・必須制御",
+      "plugin_id": "kblemnnhfaajjimbhklbaonbbppfgjph",
+      "version": "v0.1.0-alpha",
+      "sha256": "f76f83406234f747a3bbcaab74ec0267664eabbf723021df5cb9f6d8aa664fff",
+      "bytes": 7697,
+      "filename": "resoarc-conditional-signed-qa.zip"
+    },
+    {
+      "slug": "conditional-format",
+      "name": "条件付き書式",
+      "plugin_id": "kbgoaoinfgammdnghheolcjhhnbfjjeb",
+      "version": "v0.1.0-alpha",
+      "sha256": "450df0566f50b5fc7f59bf9a2c9eb41059bf62586675001e6d88a8de07d03c1f",
+      "bytes": 8765,
+      "filename": "resoarc-conditional-format-signed-qa.zip"
+    },
+    {
+      "slug": "date-calculator",
+      "name": "日付・期間計算",
+      "plugin_id": "gdehichjjjgmfphdpmnmecdjkhlpgdkc",
+      "version": "v0.1.0-alpha",
+      "sha256": "98d18c42970cf13558e19008bec047fc1d574add0cf51dce402295585022c8cc",
+      "bytes": 9007,
+      "filename": "resoarc-date-calculator-signed-qa.zip"
+    },
+    {
+      "slug": "list-search",
+      "name": "高機能検索・絞り込み",
+      "plugin_id": "bnbdhhmoeaalneidelghecehobghfonk",
+      "version": "v0.1.0-alpha",
+      "sha256": "d93579091a680f487faab2480c7087b06efa00a2844851a48ecc16091822bb93",
+      "bytes": 10834,
+      "filename": "resoarc-list-search-signed-qa.zip"
+    },
+    {
+      "slug": "grid-editor",
+      "name": "Excel風一覧編集",
+      "plugin_id": "jkcgddnhmgioaikakeabncmbpfchmlph",
+      "version": "v0.1.0-alpha",
+      "sha256": "d5a17878b5c6804ffdeca136c0420b18a057d6725f7226a3780707ff2f48ca8a",
+      "bytes": 10272,
+      "filename": "resoarc-grid-editor-signed-qa.zip"
+    },
+    {
+      "slug": "kanban",
+      "name": "カード・カンバン表示",
+      "plugin_id": "deojmjandhcedjnaiijdaabllcecbadn",
+      "version": "v0.1.0-alpha",
+      "sha256": "45926fa3a53b1cda43c6bd8bf21de7bf5193b5c1080876d196c7b6f01e5b56a3",
+      "bytes": 7921,
+      "filename": "resoarc-kanban-signed-qa.zip"
+    }
+  ]
+}

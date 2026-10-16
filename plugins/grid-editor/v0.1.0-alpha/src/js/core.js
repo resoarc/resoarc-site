@@ -40,5 +40,16 @@ function preview(records,field,inputs){
  }
  return {mode:'PREVIEW',field,recordCount:records.length,changedCount:changes.length,changes};
 }
-return {normalize,canEdit,validateValue,preview,EDITABLE_TYPES};
+function batchRequest(plan,app){
+ if(!plan||plan.mode!=='PREVIEW'||!Number.isInteger(plan.changedCount)||!Array.isArray(plan.changes)||plan.changes.length!==plan.changedCount||plan.changedCount<1||plan.changedCount>100)throw Error('一括更新は1～100件までです');
+ if(!/^[1-9]\d*$/.test(String(app)))throw Error('アプリ番号が不正です');
+ const ids=new Set();
+ const records=plan.changes.map(change=>{
+  if(!change||!/^\d+$/.test(change.id)||!/^\d+$/.test(change.revision)||ids.has(change.id)||change.field!==plan.field||typeof change.after!=='string')throw Error('変更プレビューが不正です');
+  ids.add(change.id);
+  return {id:change.id,revision:change.revision,record:{[change.field]:{value:change.after}}};
+ });
+ return {app,records};
+}
+return {normalize,canEdit,validateValue,preview,batchRequest,EDITABLE_TYPES};
 });

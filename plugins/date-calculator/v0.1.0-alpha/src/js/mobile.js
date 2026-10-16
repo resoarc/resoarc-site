@@ -45,6 +45,8 @@ function evaluate(rules,record){
  return checked.map(r=>{
   const start=record[r.start],end=record[r.end],target=record[r.target];
   if(!start||!end||!target)return {target:r.target,missing:true};
+  // kintone API may omit type in lightweight test objects; enforce whenever present.
+  if((start.type&&start.type!=='DATE')||(end.type&&end.type!=='DATE')||(target.type&&!['NUMBER','SINGLE_LINE_TEXT','MULTI_LINE_TEXT'].includes(target.type)))return {target:r.target,missing:true,reason:'設定されたフィールド型が対象外です'};
   if(!start.value||!end.value)return {target:r.target,missing:false,skip:true};
   try{return {target:r.target,missing:false,skip:false,value:String(calculate(start.value,end.value,r.mode,r.holidays))};}
   catch(error){return {target:r.target,missing:false,skip:true,error:error.message};}
