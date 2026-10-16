@@ -34,7 +34,8 @@
     "2026-10-17: All 11 inspected signed ZIP wrappers verified as RSA PKCS#1 v1.5 with SHA-1 against each embedded PUBKEY. Nine known package releases now have a passed mathematical signature-integrity gate; no source trust anchor or publisher identity is asserted.",
     "2026-10-17: Live ResoArc Auto Number E2E succeeded in isolated test app, creating exactly 1 record, verifying RA numbering, and deleting the record. Installed plugin ID maps to both stable and beta signing key, so tenant gates remain UNVERIFIED for each specific build.",
     "2026-10-17: fresh isolated rebuild and npm tests: all 11 package copies built successfully; 203/203 tests passed, including batch-flow v0.3.2 with 63 tests. Source manifest assets detected 12 and all present. This evidence supersedes previous 187/187 count, without deleting historical evidence.",
-    "2026-10-17: separate clean-room mini-v1 experiment has 18 core pure operations with 22/22 unit and negative tests. It is NOT an 18-plugin runtime release or tenant E2E evidence."
+    "2026-10-17: separate clean-room mini-v1 experiment has 18 core pure operations with 22/22 unit and negative tests. It is NOT an 18-plugin runtime release or tenant E2E evidence.",
+    "2026-10-17: mini text-normalizer runtime bridge and settings UI implemented as experimental 0.2 source; 4 event mock tests plus 22 shared pure-operation tests succeeded in CI. Plugin install/tenant PC/mobile remain unverified. Other 17 mini features are pure core only."
   ],
   "source_refs": [
     "docs/mini-plugins/RELEASE-NOTES-v0.1.1-beta.md on feature/mini-plugins-beta-20261016",
@@ -46,7 +47,8 @@
     "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
     "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json",
     "docs/kintone-progress/evidence/unit-rebuild-20261017.json",
-    "experimental/mini-v1-core/tests/core.test.mjs"
+    "experimental/mini-v1-core/tests/core.test.mjs",
+    "experimental/mini-v1-core/plugins/text-normalizer/runtime.mjs"
   ],
   "items": [
     {
@@ -618,8 +620,8 @@
       "slug": "text-normalizer",
       "version": "0.1.1-beta (release notes)",
       "priority": 3,
-      "source_location": null,
-      "stage": "locate_existing_beta",
+      "source_location": "experimental/mini-v1-core/plugins/text-normalizer",
+      "stage": "experimental_runtime",
       "release_decision": "hold",
       "gates": {
         "source": "unverified",
@@ -636,10 +638,10 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "IME確定・Unicode・全半角・空白・電話番号",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "next_action": "v0.2開発ソースの署名付きZIP生成・隔離kintone実機のPC/モバイル登録・設定・保存・再利用・共存・異常系を検証してからv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
-        "experimental_pure_core": "tests_running_separately",
+        "experimental_pure_core": "passed_22_shared",
         "blocked_on": [
           "full_kintone_plugin_implementation",
           "signed_archive",
@@ -647,7 +649,9 @@
           "desktop_mobile_e2e",
           "negative_permissions_and_coexistence",
           "release_approval"
-        ]
+        ],
+        "draft_runtime": "passed_4_mock_tests",
+        "standalone_source_build": "passed_ci"
       }
     },
     {
