@@ -5,7 +5,8 @@ const MAX_DUE=2;
 const MAX_CANDIDATES=MAX_DUE+1;
 const SYNC_MS=10*60*1000;
 const WRITE_INTERVAL_MS=2*60*1000;
-const keyFor=id=>'resoarc-clock:v1:app:'+id;
+const keyFor=(id,scope,writes)=>'resoarc-clock:v1:app:'+id+
+  (scope?':e2e:'+scope.id+':'+(writes?'write':'dry'):'');
 const iso=d=>new Date(d).toISOString().replace('.000Z','Z');
 const validMillis=t=>typeof t==='number'&&Number.isFinite(t)&&t>=0;
 
@@ -17,7 +18,10 @@ export async function runAdaptiveClock(env,transport,core,reference){
   const now=reference?new Date(reference):new Date();
   const ts=now.getTime();
   if(!Number.isFinite(ts))throw Error('基準時刻が不正です');
-  const key=keyFor(app);
+  const scope=e2eScope(env);
+  // E2E and normal schedules must never reuse each other's next-run cache.
+  // The dry-run and write phases likewise get distinct initial sync states.
+  const key=keyFor(app,scope,env.RA_ALLOW_WRITES==='true');
   // KV unavailable: do NOT silently fall back to costly one-minute kintone polling.
   const raw=await env.RA_CLOCK_STATE.get(key);
   let state=null;
@@ -37,7 +41,6 @@ export async function runAdaptiveClock(env,transport,core,reference){
   // One query retrieves overdue jobs AND the earliest future job. No separate due query.
   // A blank NextRunAt is not a scheduled job. Exclude it before the top-N sort,
   // otherwise draft records can fill the result window and starve real jobs.
-  const scope=e2eScope(env);
   const query='BatchEnabled in ("有効") and RunState in ("待機","正常終了")'
     +' and NextRunAt != ""'+(scope?' and $id = "'+scope.id+'"':'')
     +' order by NextRunAt asc limit '+MAX_CANDIDATES;

@@ -9,7 +9,7 @@ import {buildClockLayout,provisionClockApp} from '../control-app/provision-core.
 
 const dir=dirname(fileURLToPath(import.meta.url));
 const schema=createRequire(import.meta.url)('../control-app/fields.json').properties;
-const installer=readFileSync(resolve(dir,'../release/resoarc-clock-bootstrap-v0.3.6.js'),'utf8');
+const installer=readFileSync(resolve(dir,'../release/resoarc-clock-bootstrap-v0.3.7.js'),'utf8');
 function fakeAppSession(confirmResult){
   const requests=[];
   const messages=[];

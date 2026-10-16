@@ -61,3 +61,25 @@ test('deployment read requires valid version detail, no mere login/empty list ac
  assert.deepEqual(checkDeployedSafety(valid(),()=>({status:0,stdout:'[]'})),{targetAccessible:true,remoteReadOnlyVerified:false});
  assert.deepEqual(checkDeployedSafety(valid(),()=>({status:1,stderr:'auth expired'})),{targetAccessible:false,remoteReadOnlyVerified:false});
 });
+
+test('normal-mode preflight rejects temporary E2E and unrestricted-write flags, including remote stale bindings',()=>{
+  const {verifyRemoteBindings}=require('../scripts/cloud-auth-preflight.cjs');
+  for(const key of ['RA_E2E_ONLY_BATCH_ID','RA_E2E_ALLOWED_APP_ID','RA_ALLOW_UNSCOPED_WRITES']){
+    const local=valid();local.vars[key]='10';
+    assert.equal(safeConfig(local),false);
+  }
+  const base=[
+    {name:'RA_CONTROL_APP_ID',type:'plain_text',text:'50'},
+    {name:'RA_CLOCK_ENABLED',type:'plain_text',text:'true'},
+    {name:'RA_POLL_MODE',type:'plain_text',text:'adaptive'},
+    {name:'RA_ALLOW_WRITES',type:'plain_text',text:'false'},
+    {name:'RA_CLOCK_STATE',type:'kv_namespace'},
+    {name:'KINTONE_DOMAIN',type:'secret_text'},
+    {name:'KINTONE_API_TOKENS',type:'secret_text'}
+  ];
+  assert.equal(verifyRemoteBindings({resources:{bindings:base}},valid()),true);
+  for(const key of ['RA_E2E_ONLY_BATCH_ID','RA_E2E_ALLOWED_APP_ID','RA_ALLOW_UNSCOPED_WRITES']){
+    const bindings=[...base,{name:key,type:'plain_text',text:'10'}];
+    assert.equal(verifyRemoteBindings({resources:{bindings}},valid()),false);
+  }
+});

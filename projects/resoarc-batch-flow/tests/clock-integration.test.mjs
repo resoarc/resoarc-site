@@ -13,7 +13,7 @@ const job=()=>({
 });
 const env=(patch={})=>({
   KINTONE_DOMAIN:'example.cybozu.com',KINTONE_API_TOKENS:'UNITTESTTOKEN',
-  RA_CONTROL_APP_ID:'9',RA_CLOCK_ENABLED:'true',RA_ALLOW_WRITES:'true',...patch
+  RA_CONTROL_APP_ID:'9',RA_CLOCK_ENABLED:'true',RA_ALLOW_WRITES:'true',RA_ALLOW_UNSCOPED_WRITES:'true',...patch
 });
 
 test('disabled Clock makes no outbound requests',async()=>{

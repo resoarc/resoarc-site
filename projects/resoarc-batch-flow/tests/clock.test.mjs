@@ -16,8 +16,18 @@ const due=()=>({
   Steps:val([{value:{TaskType:val('登録'),TargetApp:val('8'),Query:val(''),FieldsJSON:val('{"Memo":"clock-test"}')}}])
 });
 function env(allow='false'){
-  return {KINTONE_DOMAIN:'example.cybozu.com',KINTONE_API_TOKENS:'SAMPLE123',RA_CONTROL_APP_ID:'99',RA_CLOCK_ENABLED:'true',RA_ALLOW_WRITES:allow};
+  return {KINTONE_DOMAIN:'example.cybozu.com',KINTONE_API_TOKENS:'SAMPLE123',RA_CONTROL_APP_ID:'99',RA_CLOCK_ENABLED:'true',RA_ALLOW_WRITES:allow,RA_ALLOW_UNSCOPED_WRITES:'true'};
 }
+test('scheduled write mode refuses unscoped writes unless independently enabled',async()=>{
+  const before=globalThis.fetch;let requests=0;
+  globalThis.fetch=async()=>{requests++;throw Error('No request expected');};
+  try{
+    const config=env('true');
+    delete config.RA_ALLOW_UNSCOPED_WRITES;
+    await assert.rejects(worker.scheduled({cron:'* * * * *'},config,{}),/Unscoped write execution/);
+    assert.equal(requests,0);
+  }finally{globalThis.fetch=before;}
+});
 test('clock configuration uses exactly one minute trigger',()=>{
   assert.deepEqual(settings.triggers.crons,['* * * * *']);
   assert.equal(settings.vars.RA_ALLOW_WRITES,'false');

@@ -149,3 +149,19 @@ test('draft records with missing NextRunAt cannot starve a due batch',async()=>{
   assert.equal(tenant.calls.business,1);
   assert.equal(due.BatchEnabled.value,'停止');
 });
+
+test('E2E scope and run modes use separate KV keys, without masking a newly enabled write test',async()=>{
+  const store=kv(), tenant=fakeTenant([]);
+  const settings={...env(store),RA_E2E_ONLY_BATCH_ID:'7',RA_E2E_ALLOWED_APP_ID:'52'};
+  const first=await quiet(()=>runAdaptiveClock({...settings,RA_ALLOW_WRITES:'false'},tenant.transport,core,when(0)));
+  const second=await quiet(()=>runAdaptiveClock({...settings,RA_ALLOW_WRITES:'true'},tenant.transport,core,when(0)));
+  const third=await quiet(()=>runAdaptiveClock({...env(store),RA_ALLOW_WRITES:'false'},tenant.transport,core,when(0)));
+  assert.equal(first.polled,true);
+  assert.equal(second.polled,true);
+  assert.equal(third.polled,true);
+  assert.equal(tenant.calls.control,3);
+  const keys=[...store.raw.keys()];
+  assert.ok(keys.some(k=>k.endsWith(':e2e:7:dry')));
+  assert.ok(keys.some(k=>k.endsWith(':e2e:7:write')));
+  assert.ok(keys.includes('resoarc-clock:v1:app:99'));
+});

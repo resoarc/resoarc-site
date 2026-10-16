@@ -11,6 +11,7 @@ function safeConfig(c){
  const v=c.vars||{};
  return c.name==='resoarc-clock-self-hosted'&&v.RA_CLOCK_ENABLED==='true'&&
    v.RA_ALLOW_WRITES==='false'&&v.RA_POLL_MODE==='adaptive'&&
+   !['RA_E2E_ONLY_BATCH_ID','RA_E2E_ALLOWED_APP_ID','RA_ALLOW_UNSCOPED_WRITES'].some(k=>k in v)&&
    /^[1-9]\d*$/.test(String(v.RA_CONTROL_APP_ID||''))&&
    c.workers_dev===false&&c.preview_urls===false&&
    Array.isArray(c.kv_namespaces)&&c.kv_namespaces.length===1&&
@@ -59,7 +60,8 @@ function verifyRemoteBindings(data,expected){
    eq('RA_ALLOW_WRITES','false')&&eq('RA_POLL_MODE','adaptive')&&
    named.get('RA_CLOCK_STATE')?.type==='kv_namespace'&&
    named.get('KINTONE_DOMAIN')?.type==='secret_text'&&
-   named.get('KINTONE_API_TOKENS')?.type==='secret_text';
+   named.get('KINTONE_API_TOKENS')?.type==='secret_text'&&
+   !['RA_E2E_ONLY_BATCH_ID','RA_E2E_ALLOWED_APP_ID','RA_ALLOW_UNSCOPED_WRITES'].some(k=>named.has(k));
 }
 function checkDeployedSafety(config,run=cp.spawnSync){
  const deployments=getDeployments(run);

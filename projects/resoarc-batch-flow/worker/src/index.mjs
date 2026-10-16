@@ -70,6 +70,13 @@ export default {
     if((env.RA_E2E_ONLY_BATCH_ID!==undefined || env.RA_E2E_ALLOWED_APP_ID!==undefined) && !env.RA_CONTROL_APP_ID)
       throw Error('E2E限定設定では管理アプリIDが必須です');
     if(env.RA_CONTROL_APP_ID) {
+      // A newly enabled write flag must not silently turn all registered jobs
+      // into writable targets. Unscoped production writes need a second opt-in.
+      if(env.RA_ALLOW_WRITES==='true' &&
+        !(env.RA_E2E_ONLY_BATCH_ID && env.RA_E2E_ALLOWED_APP_ID) &&
+        env.RA_ALLOW_UNSCOPED_WRITES!=='true'){
+        throw Error('Unscoped write execution requires RA_ALLOW_UNSCOPED_WRITES=true');
+      }
       const transport=adapter(env);
       if(env.RA_POLL_MODE==='adaptive')return runAdaptiveClock(env,transport,core);
       if(!env.RA_POLL_MODE||env.RA_POLL_MODE==='minute')return runFromCenter(env,transport,core);
