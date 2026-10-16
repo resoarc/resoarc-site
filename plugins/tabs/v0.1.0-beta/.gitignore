@@ -1,0 +1,8 @@
+private/
+release/
+toolchain/
+*.ppk
+*.pem
+.env
+node_modules/
+__pycache__/

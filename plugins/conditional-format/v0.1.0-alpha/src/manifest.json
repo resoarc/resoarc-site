@@ -1,0 +1,41 @@
+{
+  "manifest_version": 1,
+  "version": "0.1.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc 条件付き書式",
+    "en": "ResoArc Conditional Formatting"
+  },
+  "description": {
+    "ja": "レコードフィールドの条件付き強調表示。CSS注入なし。",
+    "en": "レコードフィールドの条件付き強調表示。CSS注入なし。"
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://resoarc.com/products/kintone/",
+    "en": "https://resoarc.com/products/kintone/"
+  },
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ]
+  },
+  "mobile": {
+    "js": [
+      "js/mobile.js"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/core.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ],
+    "required_params": [
+      "rules"
+    ]
+  }
+}

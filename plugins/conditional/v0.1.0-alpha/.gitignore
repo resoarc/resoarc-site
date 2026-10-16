@@ -1,0 +1,6 @@
+private/
+release/
+node_modules/
+*.ppk
+*.zip
+.env

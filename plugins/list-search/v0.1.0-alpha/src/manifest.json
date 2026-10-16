@@ -1,0 +1,41 @@
+{
+  "manifest_version": 1,
+  "version": "0.1.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc 高機能検索・絞り込み",
+    "en": "ResoArc List Search"
+  },
+  "description": {
+    "ja": "レコード一覧の表示中データを条件検索する開発版。",
+    "en": "レコード一覧の表示中データを条件検索する開発版。"
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://resoarc.com/products/kintone/",
+    "en": "https://resoarc.com/products/kintone/"
+  },
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ]
+  },
+  "mobile": {
+    "js": [
+      "js/mobile.js"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/core.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ],
+    "required_params": [
+      "rules"
+    ]
+  }
+}

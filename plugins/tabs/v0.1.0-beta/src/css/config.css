@@ -1,0 +1,16 @@
+.ra-config{box-sizing:border-box;max-width:920px;margin:30px auto;padding:0 26px 75px;font:14px/1.9 "Noto Serif JP","Yu Mincho",serif;color:#1c354e}.ra-config *{box-sizing:border-box}
+.ra-config small{font:700 11px sans-serif;letter-spacing:.08em;color:#54728f}.ra-config h1{font-size:28px;padding-bottom:16px;border-bottom:2px solid #173954}
+.ra-config h2{font-size:19px;margin:20px 0 5px}.ra-config p{color:#556a7d;font-size:13px}
+.ra-warning{background:#f0f5fa;border-left:3px solid #315d86;padding:16px 20px;margin:25px 0}
+.ra-setting{margin:20px 0 32px}.ra-setting>label{font-weight:bold;display:block;margin-bottom:8px}
+.ra-setting input,.ra-setting select{font:14px sans-serif;color:#173954;border:1px solid #a2b7c9;border-radius:0;padding:10px;min-height:42px}
+.ra-setting>input{width:100%}.ra-tab-editor{border:1px solid #c8d5df;padding:18px;margin:15px 0;background:#fbfcfd}
+.ra-tab-head{display:flex;gap:14px;justify-content:space-between}.ra-tab-editor label{display:block;font-weight:bold;font-size:13px}.ra-tab-editor input{width:100%;max-width:420px}
+.ra-field-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 17px;margin:14px 0}
+.ra-field-options label{display:flex;align-items:center;gap:8px;padding:6px;border-bottom:1px solid #edf0f5;font:13px sans-serif}
+.ra-field-options input{width:15px;min-height:auto}.ra-field-options span{overflow-wrap:anywhere}
+.ra-config button{border:1px solid #163653;background:#163653;color:white;padding:10px 20px;cursor:pointer;font:700 13px sans-serif;border-radius:0}
+.ra-config button.ra-secondary{color:#163653;background:white}.ra-config button:disabled{opacity:.5}
+.ra-actions{display:flex;gap:12px;margin-top:30px}.ra-error{color:#a12727;font-weight:bold;min-height:18px}
+.ra-foot{border-top:1px solid #c9d6e4;margin-top:30px;padding-top:18px}
+@media(max-width:640px){.ra-field-options{grid-template-columns:1fr}.ra-config{padding:0 15px}.ra-tab-head{flex-direction:column}}

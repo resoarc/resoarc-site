@@ -1,0 +1,8 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<main class="ra-config"><small>RESOARC / KINTONE PLUGIN / BETA 0.1.0</small><h1>タブ表示プラグイン</h1>
+<p>kintoneの公式フィールド表示・非表示APIで、通常フィールドをタブ切り替え表示します。画面構造を直接書き換えない方式です。</p>
+<div class="ra-warning"><strong>事前にフォームへスペースを追加</strong><p>フォームの先頭に「スペース」フィールドを追加し、要素IDを <code>resoarc_tabs</code> にしてください。対象はテーブル内を除く通常フィールドです。必須フィールドを隠す場合、保存前に「すべて表示」で確認してください。</p></div>
+<form id="ra-config-form"><div class="ra-setting"><label for="ra-space">スペースの要素ID</label><input id="ra-space" value="resoarc_tabs" required maxlength="128"></div>
+<div class="ra-setting"><h2>タブと対象フィールド</h2><p>各タブに1つ以上のフィールドを割り当ててください。フィールドの重複指定はできません。</p><div id="ra-tabs-settings"></div><button id="ra-add" class="ra-secondary" type="button">＋ タブを追加</button></div>
+<div class="ra-error" id="ra-error" role="alert"></div><div class="ra-actions"><button id="ra-save" type="submit">設定を保存</button><button id="ra-cancel" class="ra-secondary" type="button">キャンセル</button></div></form>
+<p class="ra-foot">保存後、必ず「アプリを更新」してください。開発環境で動作確認後に運用利用してください。</p></main></body></html>

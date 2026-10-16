@@ -1,0 +1,46 @@
+{
+  "manifest_version": 1,
+  "version": "1.0.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc 自動採番",
+    "en": "ResoArc Auto Number"
+  },
+  "description": {
+    "ja": "レコードIDに基づく重複しない採番。PC・モバイル対応、外部送信なし。",
+    "en": "Collision-free numbering from record IDs. Desktop/mobile, no external network."
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://resoarc.com/tools/kintone-auto-number/",
+    "en": "https://resoarc.com/tools/kintone-auto-number/"
+  },
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/runtime.css"
+    ]
+  },
+  "mobile": {
+    "js": [
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/runtime.css"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ],
+    "required_params": [
+      "field"
+    ]
+  }
+}

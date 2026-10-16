@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<main class="ra-config"><div class="ra-kicker">RESOARC / KINTONE PLUGIN / V1.1.0</div>
+<h1>自動採番プラグイン</h1>
+<p class="ra-intro">kintoneのレコードIDから、重複しない識別番号を設定します。連番の穴埋めや年次リセットではなく、同時保存時の重複防止を優先しています。</p>
+<form id="ra-config-form" novalidate>
+<div class="ra-row"><label for="ra-field">採番先のフィールド <b>必須</b></label><select id="ra-field" required><option value="">読み込み中…</option></select>
+<p>通常フィールドおよびテーブル内の「文字列（1行）」に対応します。必須入力・ルックアップ・自動計算は対象外です。</p></div>
+<div class="ra-split"><div class="ra-row"><label for="ra-prefix">接頭辞（任意）</label><input id="ra-prefix" maxlength="20" placeholder="例：INV-"><p>半角英数字・ハイフン・アンダースコア（20文字以内）</p></div>
+<div class="ra-row"><label for="ra-width">ゼロ埋め桁数</label><select id="ra-width"><option value="3">3桁</option><option value="4">4桁</option><option value="5">5桁</option><option value="6" selected>6桁</option><option value="7">7桁</option><option value="8">8桁</option><option value="9">9桁</option><option value="10">10桁</option><option value="11">11桁</option><option value="12">12桁</option></select><p>上限桁数を超えた場合、番号は切り捨てません。</p></div></div>
+<div class="ra-row"><label for="ra-start">先頭番号（オフセット）</label><input id="ra-start" type="number" min="1" max="999999999" step="1" value="1"><p>レコードIDが1のときの番号です。通常は1のままにしてください。</p></div>
+<section class="ra-preview"><span>表示例</span><strong id="ra-preview-number">000001</strong><small id="ra-preview-caption">レコードID＝1として計算</small></section>
+<div id="ra-error" class="ra-error" role="alert" aria-live="polite"></div>
+<div class="ra-actions"><button type="submit" id="ra-save">設定を保存</button><button type="button" id="ra-cancel" class="ra-cancel">キャンセル</button></div>
+</form>
+<div class="ra-warning"><strong>運用上の注意</strong>
+<ul><li>保存に成功した後、REST APIで採番欄を更新します。レコードに編集権限がない場合は更新できません。</li>
+<li>レコードを削除しても番号は再利用しません。テーブル内の場合は「レコード番号-行ID」とし、行の移動・削除でも既存値は変更しません。</li>
+<li>採番前の空欄を許可するため、採番先フィールドを「必須」にしないでください。</li>
+<li>CSVインポート・REST APIによるレコード新規登録には本プラグインのブラウザーイベントが発生しません。</li>
+<li>テーブルは保存後に行IDが確定するため、採番に失敗した場合は再試行してください。既存の全行IDを指定して更新し、削除の事故を防ぎます。</li><li>採番ルールは運用開始後に変更しないでください。過去の番号は自動変更されません。</li></ul></div>
+<p class="ra-footer"><a href="https://resoarc.com/tools/kintone-auto-number/" target="_blank" rel="noopener noreferrer">利用ガイド・ソースコード・利用条件</a> · ResoArc Open Technology Project</p>
+</main></body></html>

@@ -18,9 +18,58 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Check source and links
+      - name: Check immutable ResoArcOS source ZIP
+        run: |
+          python scripts/verify_resoarcos_snapshot.py
+          python -m unittest discover -s tests -p test_resoarcos_snapshot.py -v
+      - name: Verify Pi first-boot alpha source ZIP
+        run: python scripts/verify_pi_preview.py
+      - name: Check public site source, links and checksums
         run: python scripts/verify_site.py
-      - name: Validate JavaScript syntax
+      - name: Validate browser tool JavaScript
         run: |
           node --check site/assets/tools/hash.js
           node --check site/assets/tools/csv.js
+          node --check site/assets/tools/app-diff.js
+          node --check site/assets/tools/import-diagnose-core.js
+          node --check site/assets/tools/import-diagnose-ui.js
+      - name: Test ResoArc local-only suite
+        run: |
+          node --check site/assets/tools/suite-core.js
+          node --check site/assets/tools/suite-ui.js
+          node --test tests/suite.test.cjs
+      - name: Test kintone CSV import preflight
+        run: node --test tests/import-diagnose.test.cjs
+      - name: Test auto-number subtable beta
+        working-directory: plugins/auto-number/v1.1.0-beta
+        run: npm run check
+      - name: Test field tabs beta
+        working-directory: plugins/tabs/v0.1.0-beta
+        run: npm run check
+      - name: Test conditional fields alpha
+        working-directory: plugins/conditional/v0.1.0-alpha
+        run: npm run check
+      - name: Test five alpha kintone features
+        run: |
+          cd plugins/conditional-format/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/date-calculator/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/list-search/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/grid-editor/v0.1.0-alpha && npm run check && cd ../../..
+          cd plugins/kanban/v0.1.0-alpha && npm run check && cd ../../..
+      - name: Install browser test runner
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+      - name: Run browser smoke and safety scenarios
+        run: |
+          python tests/alpha_configs_smoke.py
+          python tests/search_grid_browser_smoke.py
+          python tests/browser_suite_smoke.py
+          python tests/pi_site_smoke.py
+      - name: Verify public source ZIP integrity
+        run: python scripts/verify_alpha_archives.py
+      - name: Verify reproducible plugin builds
+        run: |
+          git diff --exit-code -- plugins/auto-number/v1.1.0-beta/src/js/desktop.js plugins/auto-number/v1.1.0-beta/src/js/mobile.js
+          git diff --exit-code -- plugins/tabs/v0.1.0-beta/src/js/desktop.js plugins/tabs/v0.1.0-beta/src/js/mobile.js
+          git diff --exit-code -- plugins/conditional/v0.1.0-alpha/src/js/desktop.js plugins/conditional/v0.1.0-alpha/src/js/mobile.js

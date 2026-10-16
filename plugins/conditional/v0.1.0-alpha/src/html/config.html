@@ -1,0 +1,6 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<main class="ra-conditional"><small>RESOARC / CONDITIONAL FIELDS / ALPHA 0.1.0</small><h1>条件付き表示・入力チェック</h1><p>条件が成立した場合に対象フィールドを表示し、必要なら保存時に入力必須として検証します。非表示にしても入力済みの値は削除されません。</p>
+<div class="ra-info"><strong>注意</strong><p>対象フィールドにkintoneの「必須」を設定すると、条件不成立時でもkintone標準の入力検証が働く場合があります。条件付き必須にするフィールドはフォーム設定で必須をOFFにしてください。実業務導入前に必ず検証してください。</p></div>
+<form id="ra-form"><h2>ルール一覧</h2><div id="ra-rules"></div><button type="button" class="ra-secondary" id="ra-add">＋ ルールを追加</button><p id="ra-error" role="alert" aria-live="polite"></p><div class="ra-actions"><button type="submit" id="ra-save">設定を保存</button><button type="button" class="ra-secondary" id="ra-cancel">キャンセル</button></div></form>
+<p class="ra-info">最大30ルールです。対象のフィールドを別のルールで繰り返し指定することはできません。設定変更後はアプリの更新が必要です。</p>
+</main></body></html>

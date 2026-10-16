@@ -1,0 +1,1 @@
+const fs=require('node:fs'),path=require('node:path');const base=path.resolve(__dirname,'../src/js');const out=fs.readFileSync(path.join(base,'core.js'),'utf8')+'\n'+fs.readFileSync(path.join(base,'runtime.js'),'utf8');for(const n of ['desktop.js','mobile.js'])fs.writeFileSync(path.join(base,n),out,'utf8');console.log('built conditional runtime',Buffer.byteLength(out));

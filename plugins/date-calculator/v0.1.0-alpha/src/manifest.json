@@ -1,0 +1,41 @@
+{
+  "manifest_version": 1,
+  "version": "0.1.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc 日付・期間計算",
+    "en": "ResoArc Date Calculations"
+  },
+  "description": {
+    "ja": "カレンダー日数と営業日数をフォーム上で算出。外部通信なし。",
+    "en": "カレンダー日数と営業日数をフォーム上で算出。外部通信なし。"
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://resoarc.com/products/kintone/",
+    "en": "https://resoarc.com/products/kintone/"
+  },
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ]
+  },
+  "mobile": {
+    "js": [
+      "js/mobile.js"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/core.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ],
+    "required_params": [
+      "rules"
+    ]
+  }
+}
