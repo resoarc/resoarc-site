@@ -1,5 +1,5 @@
 /*
-ResoArc Backup & Migration 0.1 alpha (MIT)
+ResoArc Backup & Migration 0.3 alpha (MIT)
 Includes fflate 0.8.2, licensed under the MIT License:
 
 MIT License
@@ -999,15 +999,15 @@ SOFTWARE.
     throw new Error(reason);
   };
   var sha256 = async (b) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", u82(b)))).map((v) => v.toString(16).padStart(2, "0")).join("");
-  var allowedField = (d) => !!d && WRITABLE.has(d.type) && !d.lookup && !d.referenceTable;
+  var allowedField = (d) => !!d && WRITABLE.has(d.type) && !d.lookup && !d.referenceTable && !(d.type === "SINGLE_LINE_TEXT" && typeof d.expression === "string" && d.expression.trim());
   var obj = (v) => v && typeof v === "object" && !Array.isArray(v);
   function fieldContents(props) {
     const fields = {};
-    for (const [code, def] of Object.entries(props || {})) {
+    for (const [code2, def] of Object.entries(props || {})) {
       if (def?.type === "SUBTABLE") {
         const members = fieldContents(def.fields);
-        if (Object.keys(members).length) fields[code] = { type: "SUBTABLE", fields: members };
-      } else if (allowedField(def)) fields[code] = { type: def.type };
+        if (Object.keys(members).length) fields[code2] = { type: "SUBTABLE", fields: members };
+      } else if (allowedField(def)) fields[code2] = { type: def.type };
     }
     return fields;
   }
@@ -1017,8 +1017,8 @@ SOFTWARE.
       if (!Array.isArray(value)) return [];
       return value.map((row) => {
         const result = {};
-        for (const [code, fd2] of Object.entries(def.fields)) {
-          if (row?.value?.[code]) result[code] = { value: filterValue(row.value[code].value, fd2) };
+        for (const [code2, fd2] of Object.entries(def.fields)) {
+          if (row?.value?.[code2]) result[code2] = { value: filterValue(row.value[code2].value, fd2) };
         }
         return { value: result };
       });
@@ -1035,14 +1035,14 @@ SOFTWARE.
   function normalizeRecord(record, schema) {
     if (!obj(record) || !obj(schema)) stop("\u4E0D\u6B63\u306A\u30EC\u30B3\u30FC\u30C9\u5F62\u5F0F\u3067\u3059");
     const result = {};
-    for (const [code, def] of Object.entries(schema)) {
-      if (record[code]) result[code] = { value: filterValue(record[code].value, def) };
+    for (const [code2, def] of Object.entries(schema)) {
+      if (record[code2]) result[code2] = { value: filterValue(record[code2].value, def) };
     }
     return result;
   }
   function visitFiles(rec, schema, visit) {
-    for (const [code, def] of Object.entries(schema)) {
-      const val = rec[code]?.value;
+    for (const [code2, def] of Object.entries(schema)) {
+      const val = rec[code2]?.value;
       if (def.type === "FILE" && Array.isArray(val)) {
         for (const f of val) visit(f);
       } else if (def.type === "SUBTABLE" && Array.isArray(val)) {
@@ -1188,7 +1188,7 @@ SOFTWARE.
         if (!manifestPaths.has("attachments/" + f.ref)) stop("\u30EC\u30B3\u30FC\u30C9\u304C\u53C2\u7167\u3059\u308B\u6DFB\u4ED8\u30D5\u30A1\u30A4\u30EB\u304C\u6B20\u843D\u3057\u3066\u3044\u307E\u3059");
       });
     }
-    return { manifest, schema, layout, sourceFields, records, files: entries };
+    return { manifest, schema, layout, sourceFields, records, files: entries, archiveHash: await sha256(bytes) };
   }
   function createRestorePlan(archive, targetFields, targetAppId, managementAppId) {
     if (!archive?.manifest || !obj(archive.schema) || !Array.isArray(archive.records)) stop("\u691C\u8A3C\u6E08\u307F\u30A2\u30FC\u30AB\u30A4\u30D6\u304C\u5FC5\u8981\u3067\u3059");
@@ -1196,33 +1196,33 @@ SOFTWARE.
     if (!Number.isSafeInteger(id) || id <= 0 || id === Number(managementAppId)) stop("\u5FA9\u5143\u5148\u30A2\u30D7\u30EAID\u304C\u4E0D\u6B63\u307E\u305F\u306F\u7BA1\u7406\u30A2\u30D7\u30EA\u3067\u3059");
     const target = writableSchema(targetFields);
     const mapped = {}, skipped = [];
-    for (const [code, def] of Object.entries(archive.schema)) {
-      const t = target[code];
+    for (const [code2, def] of Object.entries(archive.schema)) {
+      const t = target[code2];
       if (!t) {
-        skipped.push(code + ": \u5FA9\u5143\u5148\u306B\u5B58\u5728\u3057\u307E\u305B\u3093");
+        skipped.push(code2 + ": \u5FA9\u5143\u5148\u306B\u5B58\u5728\u3057\u307E\u305B\u3093");
         continue;
       }
-      if (t.type !== def.type) stop("\u4E92\u63DB\u6027\u306E\u306A\u3044\u30D5\u30A3\u30FC\u30EB\u30C9\u578B: " + code + " (" + def.type + " -> " + t.type + ")");
+      if (t.type !== def.type) stop("\u4E92\u63DB\u6027\u306E\u306A\u3044\u30D5\u30A3\u30FC\u30EB\u30C9\u578B: " + code2 + " (" + def.type + " -> " + t.type + ")");
       if (def.type === "SUBTABLE") {
         const members = {};
         for (const [sub, sd] of Object.entries(def.fields)) {
           if (!t.fields[sub]) {
-            skipped.push(code + "." + sub + ": \u5FA9\u5143\u5148\u306B\u5B58\u5728\u3057\u307E\u305B\u3093");
+            skipped.push(code2 + "." + sub + ": \u5FA9\u5143\u5148\u306B\u5B58\u5728\u3057\u307E\u305B\u3093");
             continue;
           }
-          if (t.fields[sub].type !== sd.type) stop("\u30C6\u30FC\u30D6\u30EB\u5185\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u578B\u304C\u4E00\u81F4\u3057\u307E\u305B\u3093: " + code + "." + sub);
+          if (t.fields[sub].type !== sd.type) stop("\u30C6\u30FC\u30D6\u30EB\u5185\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u578B\u304C\u4E00\u81F4\u3057\u307E\u305B\u3093: " + code2 + "." + sub);
           members[sub] = sd;
         }
-        mapped[code] = { type: "SUBTABLE", fields: members };
-      } else mapped[code] = def;
+        mapped[code2] = { type: "SUBTABLE", fields: members };
+      } else mapped[code2] = def;
     }
     const copyMapped = (r, defs) => {
       const targetRecord = {};
-      for (const [code, def] of Object.entries(defs)) {
-        if (!r[code]) continue;
+      for (const [code2, def] of Object.entries(defs)) {
+        if (!r[code2]) continue;
         if (def.type === "SUBTABLE") {
-          targetRecord[code] = { value: (r[code].value || []).map((row) => ({ value: copyMapped(row.value || {}, def.fields) })) };
-        } else targetRecord[code] = { value: structuredClone(r[code].value) };
+          targetRecord[code2] = { value: (r[code2].value || []).map((row) => ({ value: copyMapped(row.value || {}, def.fields) })) };
+        } else targetRecord[code2] = { value: structuredClone(r[code2].value) };
       }
       return targetRecord;
     };
@@ -1251,6 +1251,197 @@ SOFTWARE.
     return out;
   }
 
+  // src/restore.js
+  var MARKER_CODE = "ResoArcRestoreKey";
+  var bad = (message) => {
+    throw new Error(message);
+  };
+  var object = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+  var unsafe = /* @__PURE__ */ new Set(["__proto__", "prototype", "constructor"]);
+  var code = (v) => typeof v === "string" && v.length > 0 && v.length <= 128 && !unsafe.has(v) && !/[/\\\[\].\s]/u.test(v);
+  var ensureCode = (v) => {
+    if (!code(v)) bad("\u4E0D\u6B63\u306A\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9: " + String(v));
+    return v;
+  };
+  var put = (obj2, key, value) => Object.defineProperty(obj2, key, { value, writable: true, enumerable: true, configurable: true });
+  var own = (obj2, key) => Object.hasOwn(obj2, key);
+  function createMappedRestorePlan(archive, targetFields, targetAppId, managementAppId, mapping = {}) {
+    if (!object(mapping)) bad("\u30D5\u30A3\u30FC\u30EB\u30C9\u5BFE\u5FDC\u8868\u306FJSON\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306B\u3057\u3066\u304F\u3060\u3055\u3044");
+    if (!archive?.schema || !Array.isArray(archive?.records)) bad("\u691C\u8A3C\u6E08\u307F\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u304C\u5FC5\u8981\u3067\u3059");
+    const src = archive.schema, usedTargets = /* @__PURE__ */ new Set();
+    const target = targetFields?.properties || targetFields;
+    if (!object(target)) bad("\u79FB\u884C\u5148\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u8A2D\u5B9A\u304C\u3042\u308A\u307E\u305B\u3093");
+    const sourcePaths = /* @__PURE__ */ new Set();
+    for (const [name, def] of Object.entries(src)) {
+      sourcePaths.add(name);
+      if (def.type === "SUBTABLE") for (const child of Object.keys(def.fields || {})) sourcePaths.add(name + "." + child);
+    }
+    for (const [from, to] of Object.entries(mapping)) {
+      if (!sourcePaths.has(from)) bad("\u5BFE\u5FDC\u8868\u306B\u5B58\u5728\u3057\u306A\u3044\u5143\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u3059: " + from);
+      if (typeof to !== "string") bad("\u79FB\u884C\u5148\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9\u306F\u6587\u5B57\u5217\u3067\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044: " + from);
+      for (const p of to.split(".")) ensureCode(p);
+      if (from.split(".").length !== to.split(".").length) bad("\u30C6\u30FC\u30D6\u30EB\u968E\u5C64\u304C\u4E00\u81F4\u3057\u307E\u305B\u3093: " + from);
+      if (to.split(".").length > 2) bad("\u30C6\u30FC\u30D6\u30EB\u306E\u5165\u308C\u5B50\u306F\u672A\u5BFE\u5FDC\u3067\u3059");
+      if (to === MARKER_CODE || to.endsWith("." + MARKER_CODE)) bad("\u5FA9\u5143\u7BA1\u7406\u7528\u30D5\u30A3\u30FC\u30EB\u30C9\u306F\u5BFE\u5FDC\u5148\u306B\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093");
+    }
+    const renamedSchema = /* @__PURE__ */ Object.create(null);
+    const schemaCopy = (defs, mappedDefs, tableSource = "", tableTarget = "") => {
+      for (const [name, def] of Object.entries(defs)) {
+        if (!tableSource && name === MARKER_CODE) continue;
+        const from = tableSource ? tableSource + "." + name : name;
+        const destName = own(mapping, from) ? mapping[from] : tableTarget ? tableTarget + "." + name : name;
+        const destParts = destName.split(".");
+        const expectedDepth = tableSource ? 2 : 1;
+        if (destParts.length !== expectedDepth) bad("\u30D5\u30A3\u30FC\u30EB\u30C9\u5BFE\u5FDC\u306E\u968E\u5C64\u304C\u4E0D\u6B63\u3067\u3059: " + from);
+        destParts.forEach(ensureCode);
+        if (tableSource && destParts[0] !== tableTarget) bad("\u30C6\u30FC\u30D6\u30EB\u5185\u30D5\u30A3\u30FC\u30EB\u30C9\u306E\u5BFE\u5FDC\u5148\u304C\u89AA\u30C6\u30FC\u30D6\u30EB\u3068\u7570\u306A\u308A\u307E\u3059: " + from);
+        const destField = destParts.at(-1);
+        if (!tableSource && destField === MARKER_CODE) bad("\u5FA9\u5143\u7BA1\u7406\u7528\u30D5\u30A3\u30FC\u30EB\u30C9\u3092\u4E0A\u66F8\u304D\u3067\u304D\u307E\u305B\u3093");
+        const complete = tableSource ? destParts.join(".") : destField;
+        if (usedTargets.has(complete)) bad("\u8907\u6570\u306E\u5143\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u540C\u3058\u79FB\u884C\u5148\u3092\u53C2\u7167\u3057\u3066\u3044\u307E\u3059: " + complete);
+        usedTargets.add(complete);
+        if (def.type === "SUBTABLE") {
+          const nestedSchema = /* @__PURE__ */ Object.create(null);
+          schemaCopy(def.fields, nestedSchema, name, destField);
+          put(mappedDefs, destField, { type: "SUBTABLE", fields: nestedSchema });
+        } else put(mappedDefs, destField, { type: def.type });
+      }
+    };
+    schemaCopy(src, renamedSchema);
+    const remapRow = (defs, row, tableSource = "", tableTarget = "") => {
+      const out = /* @__PURE__ */ Object.create(null);
+      for (const [name, def] of Object.entries(defs)) {
+        if (!tableSource && name === MARKER_CODE) continue;
+        if (!own(row || {}, name)) continue;
+        const from = tableSource ? tableSource + "." + name : name;
+        const targetPath = own(mapping, from) ? mapping[from] : tableTarget ? tableTarget + "." + name : name;
+        const dest = targetPath.split(".").at(-1);
+        if (def.type === "SUBTABLE") {
+          put(out, dest, { value: (row[name].value || []).map((r) => ({ value: remapRow(def.fields, r.value, name, dest) })) });
+        } else put(out, dest, { value: structuredClone(row[name].value) });
+      }
+      return out;
+    };
+    const rows = archive.records.map((r) => remapRow(src, r));
+    const mappedArchive = { ...archive, schema: renamedSchema, records: rows };
+    const plan = createRestorePlan(mappedArchive, targetFields, targetAppId, managementAppId);
+    plan.mapping = structuredClone(mapping);
+    for (const [from, to] of Object.entries(mapping)) {
+      const targetParts = to.split(".");
+      const schemaEntry = targetParts.length === 1 ? target[targetParts[0]] : target[targetParts[0]]?.fields?.[targetParts[1]];
+      if (!schemaEntry) bad("\u5BFE\u5FDC\u8868\u306E\u79FB\u884C\u5148\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u5B58\u5728\u3057\u307E\u305B\u3093: " + to);
+      if (plan.skipped.some((x) => x === to + ": \u5FA9\u5143\u5148\u306B\u5B58\u5728\u3057\u307E\u305B\u3093")) bad("\u5BFE\u5FDC\u5148\u3092\u79FB\u884C\u3067\u304D\u307E\u305B\u3093: " + to);
+    }
+    const validChoices = /* @__PURE__ */ new Set(["DROP_DOWN", "RADIO_BUTTON", "CHECK_BOX", "MULTI_SELECT"]);
+    const checkRow = (row, defs, fieldDefs, location) => {
+      for (const [field, info] of Object.entries(defs)) {
+        const dest = fieldDefs?.[field];
+        if (!dest) continue;
+        const value = row[field]?.value;
+        if (info.type === "SUBTABLE") {
+          for (const [index, sub] of (Array.isArray(value) ? value : []).entries())
+            checkRow(sub.value || {}, info.fields, dest.fields, location + field + "[" + index + "].");
+        } else if (validChoices.has(info.type) && value !== void 0 && value !== null) {
+          const choices = new Set(Object.keys(dest.options || {}));
+          const chosen = Array.isArray(value) ? value : [value];
+          for (const selected of chosen) {
+            if (selected !== "" && selected !== null && !choices.has(String(selected)))
+              bad("\u79FB\u884C\u5148\u306E\u9078\u629E\u80A2\u306B\u5B58\u5728\u3057\u306A\u3044\u5024: " + location + field + " = " + String(selected));
+          }
+        }
+      }
+    };
+    for (const [index, row] of plan.rows.entries()) checkRow(row, plan.mapped, target, "record[" + index + "].");
+    for (const [name, definition2] of Object.entries(target)) {
+      if (name === MARKER_CODE) continue;
+      if (definition2.required === true && !own(plan.mapped, name) && (definition2.defaultValue === void 0 || definition2.defaultValue === null || definition2.defaultValue === ""))
+        bad("\u5FA9\u5143\u5148\u306B\u672A\u5BFE\u5FDC\u306E\u5FC5\u9808\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u3059: " + name);
+    }
+    const marker = target[MARKER_CODE];
+    if (!marker || marker.type !== "SINGLE_LINE_TEXT" || marker.unique !== true || marker.lookup || marker.expression)
+      bad("\u79FB\u884C\u5148\u306B\u91CD\u8907\u7981\u6B62\u306E\u6587\u5B57\u5217\uFF081\u884C\uFF09\u30D5\u30A3\u30FC\u30EB\u30C9 " + MARKER_CODE + " \u304C\u5FC5\u8981\u3067\u3059\u3002\u65E2\u5B58\u30A2\u30D7\u30EA\u306E\u5834\u5408\u306F\u7BA1\u7406\u8005\u304C\u8FFD\u52A0\u3057\u3066\u304F\u3060\u3055\u3044");
+    if (plan.rows.some((row) => own(row, MARKER_CODE))) bad("\u5FA9\u5143\u7BA1\u7406\u7528\u30D5\u30A3\u30FC\u30EB\u30C9\u306F\u30C7\u30FC\u30BF\u306B\u542B\u3081\u3089\u308C\u307E\u305B\u3093");
+    plan.markerCode = MARKER_CODE;
+    return plan;
+  }
+  function digestUtf8(s2) {
+    return sha256(new TextEncoder().encode(s2));
+  }
+  async function restoreKeyBase(archive, plan) {
+    if (!/^[0-9a-f]{64}$/.test(archive?.archiveHash || "")) bad("\u691C\u8A3C\u6E08\u307F\u30A2\u30FC\u30AB\u30A4\u30D6\u306E\u30CF\u30C3\u30B7\u30E5\u304C\u5FC5\u8981\u3067\u3059");
+    const canonicalMapping = Object.fromEntries(Object.entries(plan.mapping || {}).sort(([a], [b]) => a.localeCompare(b, "en")));
+    const mapDigest = await digestUtf8(JSON.stringify(canonicalMapping));
+    const base = "RA3_" + archive.archiveHash.slice(0, 32) + "_" + mapDigest.slice(0, 12) + "_";
+    return { base, archivePrefix: "RA3_" + archive.archiveHash.slice(0, 32) + "_", mappingFingerprint: mapDigest.slice(0, 12) };
+  }
+  function keyForIndex(base, index) {
+    if (!Number.isSafeInteger(index) || index < 0) bad("\u5FA9\u5143\u884C\u756A\u53F7\u304C\u4E0D\u6B63\u3067\u3059");
+    const key = base + index.toString(36);
+    if (key.length > 64) bad("\u5FA9\u5143\u8B58\u5225\u5B50\u304C\u9577\u3059\u304E\u307E\u3059");
+    return key;
+  }
+  async function scanRestoreKeys(app, api2, { maxRows = 2e5 } = {}) {
+    const response = await api2("/k/v1/records/cursor.json", "POST", { app, fields: [MARKER_CODE], size: 500 });
+    if (!response?.id) bad("\u5FA9\u5143\u6E08\u307F\u78BA\u8A8D\u7528\u306ECursor\u3092\u4F5C\u6210\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F");
+    let finished = false, count = 0;
+    const keys = /* @__PURE__ */ new Set();
+    try {
+      while (!finished) {
+        const page = await api2("/k/v1/records/cursor.json", "GET", { id: response.id });
+        if (!Array.isArray(page?.records)) bad("\u79FB\u884C\u5148\u306E\u53D6\u5F97\u7D50\u679C\u304C\u4E0D\u6B63\u3067\u3059");
+        count += page.records.length;
+        if (count > maxRows) bad("\u79FB\u884C\u5148\u306E\u30EC\u30B3\u30FC\u30C9\u6570\u304C\u691C\u7D22\u4E0A\u9650\u3092\u8D85\u3048\u3066\u3044\u307E\u3059");
+        for (const record of page.records) {
+          const k = record?.[MARKER_CODE]?.value;
+          if (typeof k === "string" && k) keys.add(k);
+        }
+        finished = !page.next;
+      }
+    } finally {
+      if (!finished) try {
+        await api2("/k/v1/records/cursor.json", "DELETE", { id: response.id });
+      } catch {
+      }
+    }
+    return keys;
+  }
+  async function previewRestoreProgress({ archive, plan, api: api2 }) {
+    if (plan?.markerCode !== MARKER_CODE || !Array.isArray(plan?.rows)) bad("\u5FA9\u5143\u7528\u30D7\u30E9\u30F3\u304C\u4E0D\u6B63\u3067\u3059");
+    const { base, archivePrefix } = await restoreKeyBase(archive, plan);
+    const keys = await scanRestoreKeys(plan.targetAppId, api2);
+    if ([...keys].some((k) => k.startsWith(archivePrefix) && !k.startsWith(base)))
+      bad("\u540C\u3058\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u3092\u5225\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u5BFE\u5FDC\u4ED8\u3051\u3067\u79FB\u884C\u3057\u305F\u5C65\u6B74\u304C\u3042\u308A\u307E\u3059\u3002\u30C7\u30FC\u30BF\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044");
+    const missingIndexes = [];
+    for (let i = 0; i < plan.rows.length; i++) if (!keys.has(keyForIndex(base, i))) missingIndexes.push(i);
+    return { base, missingIndexes, total: plan.rows.length, already: plan.rows.length - missingIndexes.length, remaining: missingIndexes.length };
+  }
+  async function runResumableRestore({ archive, plan, api: api2, upload, onProgress = () => {
+  }, batchSize = 20 }) {
+    if (typeof api2 !== "function" || typeof upload !== "function") bad("kintone API\u306E\u5B9F\u88C5\u304C\u5FC5\u8981\u3067\u3059");
+    if (!Number.isSafeInteger(batchSize) || batchSize < 1 || batchSize > 100) bad("\u30D0\u30C3\u30C1\u4EF6\u6570\u304C\u4E0D\u6B63\u3067\u3059");
+    if (plan?.markerCode !== MARKER_CODE || !Array.isArray(plan?.rows)) bad("\u5FA9\u5143\u7528\u30D7\u30E9\u30F3\u304C\u4E0D\u6B63\u3067\u3059");
+    const snapshot = await previewRestoreProgress({ archive, plan, api: api2 });
+    const { base } = snapshot;
+    const missing = snapshot.missingIndexes;
+    onProgress({ total: plan.rows.length, already: snapshot.already, added: 0, remaining: missing.length });
+    let completed = 0;
+    for (let start = 0; start < missing.length; start += batchSize) {
+      const indexes = missing.slice(start, start + batchSize);
+      const records = [];
+      for (const index of indexes) {
+        const row = await materializeRestoreRow(plan.rows[index], plan.mapped, upload, archive.files);
+        row[MARKER_CODE] = { value: keyForIndex(base, index) };
+        records.push(row);
+      }
+      const result = await api2("/k/v1/records.json", "POST", { app: plan.targetAppId, records });
+      if (!Array.isArray(result?.ids) || result.ids.length !== records.length)
+        bad("\u767B\u9332\u7D50\u679C\u3092\u78BA\u8A8D\u3067\u304D\u307E\u305B\u3093\u3002\u5FA9\u5143\u5148\u3092\u518D\u78BA\u8A8D\u3057\u3066\u304B\u3089\u518D\u958B\u3057\u3066\u304F\u3060\u3055\u3044");
+      completed += records.length;
+      onProgress({ total: plan.rows.length, already: plan.rows.length - missing.length, added: completed, remaining: missing.length - completed });
+    }
+    return { total: plan.rows.length, added: completed, already: plan.rows.length - missing.length, completed: true };
+  }
+
   // src/migration.js
   var TYPES = /* @__PURE__ */ new Set([
     "SINGLE_LINE_TEXT",
@@ -1273,7 +1464,7 @@ SOFTWARE.
   var SELECT = /* @__PURE__ */ new Set(["RADIO_BUTTON", "DROP_DOWN", "CHECK_BOX", "MULTI_SELECT"]);
   var TABLE_TYPES = new Set([...TYPES].filter((t) => t !== "RICH_TEXT"));
   var SAFE_CODE = /^[^\s.\[\]\\/]{1,128}$/u;
-  var bad = (message) => {
+  var bad2 = (message) => {
     throw new Error(message);
   };
   var plain = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
@@ -1281,14 +1472,14 @@ SOFTWARE.
   var copy = (o, keys, into) => {
     for (const key of keys) if (Object.hasOwn(o, key)) into[key] = structuredClone(o[key]);
   };
-  function definition(code, raw, inTable, skipped) {
-    if (!plain(raw) || !SAFE_CODE.test(code) || ["__proto__", "prototype", "constructor"].includes(code)) {
-      skipped.push(code + ": \u672A\u5BFE\u5FDC\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9");
+  function definition(code2, raw, inTable, skipped) {
+    if (!plain(raw) || !SAFE_CODE.test(code2) || ["__proto__", "prototype", "constructor"].includes(code2)) {
+      skipped.push(code2 + ": \u672A\u5BFE\u5FDC\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9");
       return null;
     }
     if (raw.type === "SUBTABLE") {
       if (inTable) {
-        skipped.push(code + ": \u30C6\u30FC\u30D6\u30EB\u306E\u5165\u308C\u5B50\u306F\u672A\u5BFE\u5FDC");
+        skipped.push(code2 + ": \u30C6\u30FC\u30D6\u30EB\u306E\u5165\u308C\u5B50\u306F\u672A\u5BFE\u5FDC");
         return null;
       }
       const fields = {};
@@ -1297,25 +1488,25 @@ SOFTWARE.
         if (built) Object.defineProperty(fields, child, { value: built, enumerable: true, writable: true, configurable: true });
       }
       if (!Object.keys(fields).length) {
-        skipped.push(code + ": \u30C6\u30FC\u30D6\u30EB\u5185\u306E\u79FB\u884C\u53EF\u80FD\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u305B\u3093");
+        skipped.push(code2 + ": \u30C6\u30FC\u30D6\u30EB\u5185\u306E\u79FB\u884C\u53EF\u80FD\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u305B\u3093");
         return null;
       }
-      return { type: "SUBTABLE", code, label: str(raw.label) || code, fields };
+      return { type: "SUBTABLE", code: code2, label: str(raw.label) || code2, fields };
     }
     if (!TYPES.has(raw.type) || raw.lookup || raw.referenceTable || inTable && !TABLE_TYPES.has(raw.type)) {
-      skipped.push(code + ": \u5BFE\u5FDC\u3067\u304D\u306A\u3044\u30D5\u30A3\u30FC\u30EB\u30C9\u7A2E\u5225\u307E\u305F\u306F\u53C2\u7167\u8A2D\u5B9A (" + (raw.type || "unknown") + ")");
+      skipped.push(code2 + ": \u5BFE\u5FDC\u3067\u304D\u306A\u3044\u30D5\u30A3\u30FC\u30EB\u30C9\u7A2E\u5225\u307E\u305F\u306F\u53C2\u7167\u8A2D\u5B9A (" + (raw.type || "unknown") + ")");
       return null;
     }
-    const def = { type: raw.type, code, label: str(raw.label) || code, required: false, unique: false };
+    const def = { type: raw.type, code: code2, label: str(raw.label) || code2, required: false, unique: false };
     if (SELECT.has(raw.type)) {
       if (!plain(raw.options) || Object.keys(raw.options).length === 0) {
-        skipped.push(code + ": \u9078\u629E\u80A2\u304C\u306A\u304F\u518D\u4F5C\u6210\u3067\u304D\u307E\u305B\u3093");
+        skipped.push(code2 + ": \u9078\u629E\u80A2\u304C\u306A\u304F\u518D\u4F5C\u6210\u3067\u304D\u307E\u305B\u3093");
         return null;
       }
       const options = {};
       for (const [label, opt] of Object.entries(raw.options)) {
         if (!plain(opt) || !label || !Number.isFinite(Number(opt.index))) {
-          skipped.push(code + ": \u9078\u629E\u80A2\u8A2D\u5B9A\u304C\u4E0D\u6B63\u3067\u3059");
+          skipped.push(code2 + ": \u9078\u629E\u80A2\u8A2D\u5B9A\u304C\u4E0D\u6B63\u3067\u3059");
           return null;
         }
         Object.defineProperty(options, label, { value: { label, index: String(opt.index) }, enumerable: true, writable: true, configurable: true });
@@ -1332,19 +1523,26 @@ SOFTWARE.
   }
   function planNewApp(archive, name) {
     if (!archive || !archive.manifest || !plain(archive.sourceFields?.properties))
-      bad("\u3053\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u306B\u306F\u30A2\u30D7\u30EA\u69CB\u9020\u518D\u73FE\u7528\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u8A2D\u5B9A\u304C\u3042\u308A\u307E\u305B\u3093\u3002v2\u5F62\u5F0F\u3067\u518D\u53D6\u5F97\u3057\u3066\u304F\u3060\u3055\u3044");
-    if (archive.manifest.version !== 2) bad("\u81EA\u52D5\u30D5\u30A9\u30FC\u30E0\u518D\u73FE\u306Fv2\u5F62\u5F0F\u3060\u3051\u5BFE\u5FDC\u3057\u307E\u3059");
-    if (typeof name !== "string" || !name.trim() || name.length > 64) bad("\u30A2\u30D7\u30EA\u540D\u306F1\uFF5E64\u6587\u5B57\u306B\u3057\u3066\u304F\u3060\u3055\u3044");
+      bad2("\u3053\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u306B\u306F\u30A2\u30D7\u30EA\u69CB\u9020\u518D\u73FE\u7528\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u8A2D\u5B9A\u304C\u3042\u308A\u307E\u305B\u3093\u3002v2\u5F62\u5F0F\u3067\u518D\u53D6\u5F97\u3057\u3066\u304F\u3060\u3055\u3044");
+    if (archive.manifest.version !== 2) bad2("\u81EA\u52D5\u30D5\u30A9\u30FC\u30E0\u518D\u73FE\u306Fv2\u5F62\u5F0F\u3060\u3051\u5BFE\u5FDC\u3057\u307E\u3059");
+    if (typeof name !== "string" || !name.trim() || name.length > 64) bad2("\u30A2\u30D7\u30EA\u540D\u306F1\uFF5E64\u6587\u5B57\u306B\u3057\u3066\u304F\u3060\u3055\u3044");
     const props = {};
     const skipped = [];
-    for (const [code, def] of Object.entries(archive.sourceFields.properties)) {
-      const compiled = definition(code, def, false, skipped);
-      if (compiled) Object.defineProperty(props, code, { value: compiled, enumerable: true, writable: true, configurable: true });
+    for (const [code2, def] of Object.entries(archive.sourceFields.properties)) {
+      const compiled = definition(code2, def, false, skipped);
+      if (compiled) Object.defineProperty(props, code2, { value: compiled, enumerable: true, writable: true, configurable: true });
     }
-    if (!Object.keys(props).length) bad("\u79FB\u884C\u3067\u304D\u308B\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u305B\u3093");
+    if (!Object.keys(props).length) bad2("\u79FB\u884C\u3067\u304D\u308B\u30D5\u30A3\u30FC\u30EB\u30C9\u304C\u3042\u308A\u307E\u305B\u3093");
+    Object.defineProperty(props, "ResoArcRestoreKey", { value: {
+      type: "SINGLE_LINE_TEXT",
+      code: "ResoArcRestoreKey",
+      label: "ResoArc\u5FA9\u5143\u8B58\u5225\u5B50",
+      required: false,
+      unique: true
+    }, writable: true, enumerable: true, configurable: true });
     const sourceCodes = Object.keys(archive.schema);
-    const missing = sourceCodes.filter((code) => !Object.hasOwn(props, code));
-    for (const code of missing) if (!skipped.some((s2) => s2.startsWith(code + ":"))) skipped.push(code + ": \u79FB\u884C\u5BFE\u8C61\u304B\u3089\u9664\u5916");
+    const missing = sourceCodes.filter((code2) => !Object.hasOwn(props, code2));
+    for (const code2 of missing) if (!skipped.some((s2) => s2.startsWith(code2 + ":"))) skipped.push(code2 + ": \u79FB\u884C\u5BFE\u8C61\u304B\u3089\u9664\u5916");
     return {
       name: name.trim(),
       properties: props,
@@ -1357,12 +1555,12 @@ SOFTWARE.
   }
   async function createDraftApp(plan, api2, onStep = () => {
   }) {
-    if (typeof api2 !== "function") bad("kintone API\u95A2\u6570\u304C\u3042\u308A\u307E\u305B\u3093");
-    if (!plan?.name || !plain(plan.properties) || !Object.keys(plan.properties).length) bad("\u4F5C\u6210\u8A08\u753B\u304C\u4E0D\u6B63\u3067\u3059");
+    if (typeof api2 !== "function") bad2("kintone API\u95A2\u6570\u304C\u3042\u308A\u307E\u305B\u3093");
+    if (!plan?.name || !plain(plan.properties) || !Object.keys(plan.properties).length) bad2("\u4F5C\u6210\u8A08\u753B\u304C\u4E0D\u6B63\u3067\u3059");
     onStep("\u52D5\u4F5C\u30C6\u30B9\u30C8\u74B0\u5883\u306B\u65B0\u898F\u30A2\u30D7\u30EA\u3092\u4F5C\u6210\u3057\u3066\u3044\u307E\u3059");
     const created = await api2("/k/v1/preview/app.json", "POST", { name: plan.name });
     const id = Number(created?.app);
-    if (!Number.isSafeInteger(id) || id <= 0) bad("\u65B0\u898F\u30A2\u30D7\u30EAID\u3092\u53D6\u5F97\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F");
+    if (!Number.isSafeInteger(id) || id <= 0) bad2("\u65B0\u898F\u30A2\u30D7\u30EAID\u3092\u53D6\u5F97\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F");
     try {
       onStep("\u65B0\u898F\u30A2\u30D7\u30EA #" + id + " \u306B\u30D5\u30A3\u30FC\u30EB\u30C9\u3092\u8A2D\u5B9A\u3057\u3066\u3044\u307E\u3059");
       await api2("/k/v1/preview/app/form/fields.json", "POST", { app: id, properties: plan.properties });
@@ -1456,18 +1654,6 @@ SOFTWARE.
     if (String(result.manifest.sourceAppId) !== String(record?.SourceAppId?.value)) throw Error("\u7BA1\u7406\u30EC\u30B3\u30FC\u30C9\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u5143ID\u3068ZIP\u304C\u4E00\u81F4\u3057\u307E\u305B\u3093");
     return result;
   }
-  async function appendRestore(plan, archive, onProgress) {
-    let completed = 0;
-    for (let index = 0; index < plan.rows.length; index += 100) {
-      const slice = plan.rows.slice(index, index + 100);
-      const records = [];
-      for (const row of slice) records.push(await materializeRestoreRow(row, plan.mapped, uploadFile, archive.files));
-      await api("/k/v1/records.json", "POST", { app: plan.targetAppId, records });
-      completed += slice.length;
-      onProgress(completed);
-    }
-    return completed;
-  }
   function el(tag, text, cls) {
     const node = document.createElement(tag);
     if (text !== void 0) node.textContent = text;
@@ -1488,7 +1674,7 @@ SOFTWARE.
     const root = el("section");
     root.dataset.resoarcBackup = "true";
     root.style.cssText = "padding:9px;margin:8px 0;border:1px solid #b8d0d4;border-radius:8px;background:#f9fcfd;color:#18353b;max-width:980px";
-    root.appendChild(el("strong", "ResoArc Backup & Migration | 0.2 alpha"));
+    root.appendChild(el("strong", "ResoArc Backup & Migration | 0.3 alpha"));
     const actions = el("div");
     root.appendChild(actions);
     const msg = el("div", "\u5C02\u7528\u306E\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u7BA1\u7406\u30A2\u30D7\u30EA\u3067\u3059\u3002\u66F8\u304D\u8FBC\u307F\u306F\u624B\u52D5\u64CD\u4F5C\u6642\u3060\u3051\u5B9F\u884C\u3057\u307E\u3059\u3002");
@@ -1524,18 +1710,24 @@ SOFTWARE.
       if (!current) return;
       const { archive, plan, backupRecordId } = current;
       const confirmText = "RESTORE " + plan.targetAppId + " " + plan.recordCount;
-      const typed = window.prompt("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u30EC\u30B3\u30FC\u30C9 #" + backupRecordId + " \u304B\u3089\u30A2\u30D7\u30EA " + plan.targetAppId + " \u306B " + plan.recordCount + " \u4EF6\u3092\u8FFD\u52A0\u3057\u307E\u3059\u3002\n\u65E2\u5B58\u30C7\u30FC\u30BF\u306F\u524A\u9664\u3057\u307E\u305B\u3093\u304C\u3001\u8FFD\u52A0\u306E\u53D6\u308A\u6D88\u3057\u306F\u81EA\u52D5\u3067\u306F\u3067\u304D\u307E\u305B\u3093\u3002\n\u5B9F\u884C\u3059\u308B\u306B\u306F\u6B63\u78BA\u306B\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044:\n" + confirmText, "");
+      const typed = window.prompt("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u30EC\u30B3\u30FC\u30C9 #" + backupRecordId + " \u304B\u3089\u30A2\u30D7\u30EA " + plan.targetAppId + " \u306B " + plan.recordCount + " \u4EF6\u3092\u8FFD\u52A0\u3057\u307E\u3059\u3002\n\u65E2\u5B58\u30C7\u30FC\u30BF\u3092\u524A\u9664\u30FB\u4E0A\u66F8\u304D\u3057\u307E\u305B\u3093\u3002\u5FA9\u5143\u6E08\u307F\u306E\u884C\u306F\u4E00\u610F\u30AD\u30FC\u3067\u8B58\u5225\u3057\u3001\u518D\u958B\u6642\u306B\u30B9\u30AD\u30C3\u30D7\u3057\u307E\u3059\u3002\u8FFD\u52A0\u306E\u53D6\u308A\u6D88\u3057\u306F\u81EA\u52D5\u3067\u306F\u3067\u304D\u307E\u305B\u3093\u3002\n\u5B9F\u884C\u3059\u308B\u306B\u306F\u6B63\u78BA\u306B\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044:\n" + confirmText, "");
       if (typed !== confirmText) return;
       if (!window.confirm("\u6700\u7D42\u78BA\u8A8D: \u30EC\u30B3\u30FC\u30C9\u3092 " + plan.recordCount + " \u4EF6\u8FFD\u52A0\u3057\u307E\u3059\u3002\u8907\u6570\u30D0\u30C3\u30C1\u306E\u9014\u4E2D\u3067\u505C\u6B62\u3057\u305F\u5834\u5408\u3001\u9014\u4E2D\u307E\u3067\u8FFD\u52A0\u6E08\u307F\u306E\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\u5B9F\u884C\u3057\u307E\u3059\u304B\uFF1F")) return;
       restoreButton.disabled = true;
       try {
         const refreshed = await getFields(plan.targetAppId);
-        const updatedPlan = createRestorePlan(archive, refreshed, plan.targetAppId, managementApp());
+        const updatedPlan = createMappedRestorePlan(archive, refreshed, plan.targetAppId, managementApp(), plan.mapping);
         if (JSON.stringify(updatedPlan.mapped) !== JSON.stringify(plan.mapped)) throw Error("\u5FA9\u5143\u5148\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u5B9A\u7FA9\u304C\u30D7\u30EC\u30D3\u30E5\u30FC\u304B\u3089\u5909\u5316\u3057\u307E\u3057\u305F\u3002\u30D7\u30EC\u30D3\u30E5\u30FC\u3092\u3084\u308A\u76F4\u3057\u3066\u304F\u3060\u3055\u3044");
-        const done = await appendRestore(plan, archive, (n) => {
-          progress.textContent = "\u5FA9\u5143\u4E2D: " + n + " / " + plan.recordCount + " \u4EF6";
+        const done = await runResumableRestore({
+          archive,
+          plan,
+          api,
+          upload: uploadFile,
+          onProgress: ({ total, already, added, remaining }) => {
+            progress.textContent = "\u5FA9\u5143\u6E08\u307F " + already + " \u4EF6 / \u65B0\u898F\u8FFD\u52A0 " + added + " \u4EF6 / \u6B8B\u308A " + remaining + " \u4EF6\uFF08\u5168 " + total + " \u4EF6\uFF09";
+          }
         });
-        msg.textContent = "\u5FA9\u5143\u5B8C\u4E86: " + done + " \u4EF6\u3092\u30A2\u30D7\u30EA " + plan.targetAppId + " \u306B\u8FFD\u52A0\u3057\u307E\u3057\u305F\u3002\u5143\u306E\u30EC\u30B3\u30FC\u30C9ID\u3084\u64CD\u4F5C\u5C65\u6B74\u306F\u7DAD\u6301\u3055\u308C\u307E\u305B\u3093\u3002";
+        msg.textContent = "\u5FA9\u5143\u51E6\u7406\u5B8C\u4E86: " + done.added + " \u4EF6\u8FFD\u52A0\u3001" + done.already + " \u4EF6\u306F\u5FA9\u5143\u6E08\u307F\u306E\u305F\u3081\u30B9\u30AD\u30C3\u30D7\u3057\u307E\u3057\u305F\u3002\u5143ID\u3084\u5909\u66F4\u5C65\u6B74\u306F\u7DAD\u6301\u3055\u308C\u307E\u305B\u3093\u3002";
         current = null;
       } catch (e) {
         msg.textContent = "\u5FA9\u5143\u304C\u4E2D\u65AD\u3055\u308C\u307E\u3057\u305F\u3002\u4E00\u90E8\u304C\u8FFD\u52A0\u6E08\u307F\u306E\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\u518D\u5B9F\u884C\u524D\u306B\u5FA9\u5143\u5148\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n" + e.message;
@@ -1582,9 +1774,18 @@ SOFTWARE.
       ensureExternalId(targetId);
       msg.textContent = "\u30A2\u30FC\u30AB\u30A4\u30D6\u3092\u691C\u8A3C\u3057\u3066\u3044\u307E\u3059\u3002";
       const [archive, targetFields] = await Promise.all([loadBackup(backupRecordId), getFields(targetId)]);
-      const plan = createRestorePlan(archive, targetFields, targetId, managementApp());
+      const mapInput = window.prompt('\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9\u5BFE\u5FDC\u8868\u3092JSON\u3067\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n\u540C\u3058\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9\u540C\u58EB\u306A\u3089\u7A7A\u6B04\u3067OK\u3002\n\u4F8B: {"Title":"Name","Rows":"Lines","Rows.Memo":"Lines.Note"}', "");
+      if (mapInput === null) return;
+      let fieldMap;
+      try {
+        fieldMap = mapInput.trim() ? JSON.parse(mapInput) : {};
+      } catch (e) {
+        throw Error("\u5BFE\u5FDC\u8868\u306EJSON\u304C\u4E0D\u6B63\u3067\u3059: " + e.message);
+      }
+      const plan = createMappedRestorePlan(archive, targetFields, targetId, managementApp(), fieldMap);
       const skipped = plan.skipped.length ? "\n\u79FB\u884C\u5BFE\u8C61\u5916:\n" + plan.skipped.join("\n") : "";
-      msg.textContent = "\u6574\u5408\u6027\u691C\u8A3C: OK\n\u5143\u30A2\u30D7\u30EA: " + plan.sourceAppId + " / \u5FA9\u5143\u5148: " + targetId + "\n\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u65E5\u6642: " + plan.archiveCreatedAt + "\n\u8FFD\u52A0\u4E88\u5B9A: " + plan.recordCount + " \u4EF6 / \u30DE\u30C3\u30D7\u3055\u308C\u305F\u9805\u76EE: " + Object.keys(plan.mapped).length + " \u4EF6" + skipped + "\n\u203B\u8FFD\u8A18\u5C02\u7528\u3002\u5143ID\u30FB\u30A2\u30AF\u30BB\u30B9\u6A29\u30FB\u30EB\u30C3\u30AF\u30A2\u30C3\u30D7\u8A2D\u5B9A\u30FB\u76E3\u67FB\u5C65\u6B74\u306F\u5FA9\u5143\u3057\u307E\u305B\u3093\u3002";
+      const resume = await previewRestoreProgress({ archive, plan, api });
+      msg.textContent = "\u6574\u5408\u6027\u691C\u8A3C: OK\n\u5143\u30A2\u30D7\u30EA: " + plan.sourceAppId + " / \u5FA9\u5143\u5148: " + targetId + "\n\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u65E5\u6642: " + plan.archiveCreatedAt + "\n\u5168\u5BFE\u8C61: " + plan.recordCount + " \u4EF6 / \u5FA9\u5143\u6E08\u307F: " + resume.already + " \u4EF6 / \u65B0\u898F\u8FFD\u52A0\u4E88\u5B9A: " + resume.remaining + " \u4EF6 / \u30DE\u30C3\u30D7\u3055\u308C\u305F\u9805\u76EE: " + Object.keys(plan.mapped).length + " \u4EF6" + skipped + "\n\u203B\u5FA9\u5143\u5148\u306B\u91CD\u8907\u7981\u6B62\u306E " + MARKER_CODE + " \u304C\u5FC5\u8981\u3067\u3059\u3002\u9014\u4E2D\u3067\u505C\u6B62\u3057\u3066\u3082\u5FA9\u5143\u6E08\u307F\u30EC\u30B3\u30FC\u30C9\u3092\u7167\u5408\u3057\u3066\u518D\u958B\u3067\u304D\u307E\u3059\u3002\u5143ID\u30FB\u30A2\u30AF\u30BB\u30B9\u6A29\u30FB\u76E3\u67FB\u5C65\u6B74\u306F\u5FA9\u5143\u3057\u307E\u305B\u3093\u3002";
       current = { archive, plan, backupRecordId };
       restoreButton.hidden = false;
     }));
@@ -1606,9 +1807,18 @@ SOFTWARE.
       msg.textContent = "\u5916\u90E8ZIP\u3092\u691C\u8A3C\u3057\u3066\u3044\u307E\u3059\u3002";
       const archive = await inspectArchive(new Uint8Array(await file.arrayBuffer()));
       const fields = await getFields(targetId);
-      const plan = createRestorePlan(archive, fields, targetId, managementApp());
+      const mapInput = window.prompt('\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9\u5BFE\u5FDC\u8868\u3092JSON\u3067\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n\u540C\u3058\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9\u540C\u58EB\u306A\u3089\u7A7A\u6B04\u3067OK\u3002\n\u4F8B: {"Title":"Name"}', "");
+      if (mapInput === null) return;
+      let fieldMap;
+      try {
+        fieldMap = mapInput.trim() ? JSON.parse(mapInput) : {};
+      } catch (e) {
+        throw Error("\u5BFE\u5FDC\u8868\u306EJSON\u304C\u4E0D\u6B63\u3067\u3059: " + e.message);
+      }
+      const plan = createMappedRestorePlan(archive, fields, targetId, managementApp(), fieldMap);
       const skipped = plan.skipped.length ? "\n\u79FB\u884C\u5BFE\u8C61\u5916:\n" + plan.skipped.join("\n") : "";
-      msg.textContent = "\u5916\u90E8ZIP\u306E\u5185\u90E8\u6574\u5408\u6027: OK (\u9001\u4FE1\u5143\u306E\u771F\u6B63\u6027\u306F\u5225\u9014\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044)\n\u5143\u30A2\u30D7\u30EA: " + plan.sourceAppId + " / \u79FB\u884C\u5148: " + targetId + "\n\u8FFD\u52A0\u4E88\u5B9A: " + plan.recordCount + " \u4EF6 / \u30DE\u30C3\u30D7\u9805\u76EE: " + Object.keys(plan.mapped).length + " \u4EF6" + skipped + "\n\u203B\u8FFD\u8A18\u5C02\u7528\u3002\u5143\u306E\u30EC\u30B3\u30FC\u30C9ID\u30FB\u64CD\u4F5C\u5C65\u6B74\u30FB\u30A2\u30AF\u30BB\u30B9\u6A29\u306F\u79FB\u884C\u3067\u304D\u307E\u305B\u3093\u3002";
+      const resume = await previewRestoreProgress({ archive, plan, api });
+      msg.textContent = "\u5916\u90E8ZIP\u306E\u5185\u90E8\u6574\u5408\u6027: OK (\u9001\u4FE1\u5143\u306E\u771F\u6B63\u6027\u306F\u5225\u9014\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044)\n\u5143\u30A2\u30D7\u30EA: " + plan.sourceAppId + " / \u79FB\u884C\u5148: " + targetId + "\n\u5168\u5BFE\u8C61: " + plan.recordCount + " \u4EF6 / \u5FA9\u5143\u6E08\u307F: " + resume.already + " \u4EF6 / \u65B0\u898F\u8FFD\u52A0\u4E88\u5B9A: " + resume.remaining + " \u4EF6 / \u30DE\u30C3\u30D7\u9805\u76EE: " + Object.keys(plan.mapped).length + " \u4EF6" + skipped + "\n\u203B\u5FA9\u5143\u5148\u306B\u91CD\u8907\u7981\u6B62\u306E " + MARKER_CODE + " \u304C\u5FC5\u8981\u3067\u3059\u3002\u5143\u306E\u30EC\u30B3\u30FC\u30C9ID\u30FB\u64CD\u4F5C\u5C65\u6B74\u30FB\u30A2\u30AF\u30BB\u30B9\u6A29\u306F\u79FB\u884C\u3067\u304D\u307E\u305B\u3093\u3002";
       current = { archive, plan, backupRecordId: "\u5916\u90E8ZIP" };
       restoreButton.hidden = false;
     }));
