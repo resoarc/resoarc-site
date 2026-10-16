@@ -133,6 +133,14 @@ def main() -> int:
                 if not target.is_file():
                     fail(f"{relative}: missing local reference {ref}")
 
+    os_page = (SITE / "os/index.html").read_text(encoding="utf-8")
+    os_release_url = "https://github.com/resoarc/resoarc-site/releases/download/resoarcos-pc-v0.1.0-dev-20261016/resoarcos-pc-v0.1.0-dev-amd64.iso"
+    os_release_sha = "7706b665ef250be764cda9de43826edf9ad7c85baccbf7655f5ae43f0b5d61dd"
+    if os_release_url not in os_page or os_release_sha not in os_page:
+        fail("Missing pinned ResoArcOS ISO release link or checksum")
+    if "本番用OSとしては未対応です" not in os_page:
+        fail("Missing ResoArcOS non-production warning")
+
     source_archive = SITE / "downloads/resoarcos-pc-v0.1.0-dev-source.zip"
     if source_archive.is_file() and hashlib.sha256(source_archive.read_bytes()).hexdigest() != "72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20":
         fail("ResoArcOS source ZIP SHA-256 mismatch")
