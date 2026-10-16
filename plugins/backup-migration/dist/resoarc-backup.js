@@ -1189,7 +1189,11 @@ SOFTWARE.
     sizeCheck(size, maxBytes);
     contents["manifest.json"] = manifestBytes;
     if (Object.keys(contents).length > MAX_ZIP_ENTRIES) stop("ZIP\u5185\u306E\u30D5\u30A1\u30A4\u30EB\u6570\u304C\u4E0A\u9650\u3092\u8D85\u3048\u307E\u3057\u305F");
-    const zip = zipSync(contents, { level: 6 });
+    const mtime = new Date(now);
+    if (!Number.isFinite(mtime.getTime()) || mtime.getUTCFullYear() < 1980 || mtime.getUTCFullYear() > 2107)
+      stop("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u65E5\u6642\u304C\u4E0D\u6B63\u3067\u3059");
+    const timestamped = Object.fromEntries(Object.entries(contents).map(([name, bytes]) => [name, [bytes, { mtime }]]));
+    const zip = zipSync(timestamped, { level: 6 });
     sizeCheck(zip.length, maxBytes);
     return { zip, manifest, hash: await sha256(zip) };
   }
