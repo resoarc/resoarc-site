@@ -125,6 +125,7 @@ test('one minute tick only queries the control app if no job is due',async()=>{
   assert.deepEqual(result,[]);
   assert.equal(calls.length,1);
   assert.match(calls[0].body.query,/NextRunAt <=/);
+  assert.match(calls[0].body.query,/NextRunAt != ""/);
   assert.match(calls[0].body.query,/limit 3/);
 });
 test('backlog is limited to two jobs per minute without writes on a dry run',async()=>{

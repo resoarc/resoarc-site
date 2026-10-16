@@ -1,6 +1,7 @@
 /* ResoArc Batch Flow - owner-managed Cloudflare Worker. MIT */
 import '../../src/js/core.js';
 import {runFromCenter} from './center-runner.mjs';
+import {runAdaptiveClock} from './adaptive-clock.mjs';
 const core = globalThis.ResoArcBatchFlow;
 function hostname(domain) {
   if (typeof domain !== 'string' || domain.length > 253 || !/^[a-zA-Z0-9.-]+$/.test(domain) || domain.includes('..')) {
@@ -59,7 +60,10 @@ export default {
       return;
     }
     if(env.RA_CONTROL_APP_ID) {
-      return runFromCenter(env,adapter(env),core);
+      const transport=adapter(env);
+      if(env.RA_POLL_MODE==='adaptive')return runAdaptiveClock(env,transport,core);
+      if(!env.RA_POLL_MODE||env.RA_POLL_MODE==='minute')return runFromCenter(env,transport,core);
+      throw Error('RA_POLL_MODEにはadaptiveまたはminuteを明示してください');
     }
     const flows=parseWorkflows(env).filter(f=>f.cron===controller.cron);
     if (!flows.length){console.info('該当するフローなし: '+controller.cron);return;}

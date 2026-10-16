@@ -1,4 +1,4 @@
-# ResoArc Batch Flow + ResoArc Clock v0.3.2（検証版）
+# ResoArc Batch Flow + ResoArc Clock v0.3.4（検証版）
 
 kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複数タスクを順次実行する無料／オープンソースのツールです。MIT License。
 
@@ -25,7 +25,7 @@ kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複�
 
 - 設計: [control-app/README.md](control-app/README.md)
 - 初期設定: [control-app/SETUP.md](control-app/SETUP.md)
-- **kintone管理アプリの新規作成補助**: `npm run build:installer` で `release/resoarc-clock-bootstrap-v0.3.2.js` を生成し、管理者本人がログインしたテストテナントの開発者ツールで実行。既存アプリは変更せず、実行前の確認が必要。プラグインのシステム管理へのアップロードは別作業。
+- **kintone管理アプリの新規作成補助**: `npm run build:installer` で `release/resoarc-clock-bootstrap-v0.3.4.js` を生成し、管理者本人がログインしたテストテナントの開発者ツールで実行。既存アプリは変更せず、実行前の確認が必要。プラグインのシステム管理へのアップロードは別作業。
 - 無人実行・Cloudflare: [worker/CLOCK.md](worker/CLOCK.md)
 - 設定テンプレート: [worker/center-wrangler.example.jsonc](worker/center-wrangler.example.jsonc)
 
@@ -44,7 +44,7 @@ kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複�
     cd worker
     npx wrangler deploy --dry-run --config center-wrangler.example.jsonc
 
-コード・モックAPIを使ったNode.js試験とWranglerのビルド検証を実施しています。**kintone実テナントとの結合試験およびCloudflareへの実デプロイは未実施で、正式リリース前の検証版です。** WorkerのCronからブラウザ用プラグインJavaScriptを直接動かすことはできません。実行可能な処理は上記の共通アクションです。
+コード・モックAPIを使ったNode.js試験とWranglerのビルド検証を実施しています。**Cloudflareへの停止状態での実デプロイ・Cron発火、管理アプリと4タスク手動バッチのkintone実テナントE2Eは確認済みです。ただし、Cloudflare Cronからkintoneまでの無人実行E2Eは未実施のため、正式リリース前の検証版です。** WorkerのCronからブラウザ用プラグインJavaScriptを直接動かすことはできません。実行可能な処理は上記の共通アクションです。
 
 ## 制約
 
@@ -62,3 +62,24 @@ kintone側のレコード更新はバッチ全体のトランザクションで�
 実環境向け検証は [MR統合テスト手順](docs/MR-KINTONE-ACCEPTANCE.md) を参照してください。`npm run test:mr-readiness` で、Mole Remoteのプラグイン静的検査・kintone API疎通・専用Edgeログイン・Batch Center管理アプリの設定状態を**読み取り専用**で診断できます。自動採番専用テストアプリ48はBatch Centerの書き込み先として使用しません。
 
 管理アプリ未作成時は `center_app_not_ready` と表示し、リリース合格と誤認しないようにします。GitHub CIは環境に認証情報がないため、MR連携スクリプトの単体テストだけを実行します。
+
+## v0.3.3 API通信削減
+
+**kintoneへの常時毎分ポーリングを廃止**し、Cloudflare KVで次回実行時刻を覚える適応型モードを追加しました。予定がない場合は10分に1回の確認だけ行います。
+
+1日1,440回のCron起動に対して、予定がない場合のkintone照会は144回（**90%削減**）、KV読取りは1,440回、KV書き込みは144回です。毎分の実行が必要なバッチではkintoneの毎分照会が発生します。KV書き込みは2分の間隔を守り、無料枠を節約します。
+
+`RA_POLL_MODE=adaptive` を選ぶ場合、`RA_CLOCK_STATE` のCloudflare KVバインディングが必要です。KVが壊れている／未設定の場合は無断で毎分ポーリングに戻さず停止します。従来動作は `RA_POLL_MODE=minute` で明示可能です。セットアップは [worker/CLOCK.md](worker/CLOCK.md) を参照してください。
+
+kintoneへの設定反映は最大約10分＋KVの伝播遅延がかかる場合があります。秒単位の正確な実行や、予定変更直後の即時反映は保証していません。
+
+## v0.3.4 kintone検証テナントとの照合
+
+- 空欄の実行予定日時を持つレコードを検索時点で除外し、適応型・毎分型の双方で実行予定の取りこぼしを防ぐテストを追加。
+- アプリ設定の反映APIはkintone公式仕様に従いPOSTを使用。実kintone検証で成功したメソッドを回帰テストで確認。
+- Mole Remoteの専用kintoneテストテナントで認証・読み取りAPI・専用Edgeの利用可否を確認。
+- ResoArc Clock専用の検証管理アプリ（ID 50）が既に存在し、プラグイン有効・フィールド不足なし。重複作成しない設計。
+- 実テナントで日時空欄除外の検索クエリが正常に受け付けられることを確認。
+- 続いて専用QAデータアプリに対し、取得・更新・転記・登録の4ステップを書き込み実行し、結果を検証。作成したテストレコード3件は照合後に削除して残件0を確認。異常停止と再実行抑止も実画面で合格。
+- [実kintoneステージングE2Eレポート](docs/REAL-KINTONE-STAGING-E2E-20261017.md) に試験範囲、結果、未検証条件を記載。Cloudflare Clockの無人実行E2Eは引き続き未実施。
+- 変更点と未検証範囲は release/RELEASE-0.3.4.md に記載。kintone実データの書き込みE2Eが未了なので正式リリースではありません。

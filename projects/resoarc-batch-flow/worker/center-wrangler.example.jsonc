@@ -8,6 +8,7 @@
   "vars": {
     "RA_CONTROL_APP_ID": "0",
     "RA_CLOCK_ENABLED": "false",
+    "RA_POLL_MODE": "adaptive",
     "RA_ALLOW_WRITES": "false"
   }
 }

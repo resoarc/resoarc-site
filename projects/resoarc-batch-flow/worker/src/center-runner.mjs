@@ -17,14 +17,16 @@ function makePatch(record,entry){
     RunHistory:kfield(logValue(record.RunHistory?.value,entry))
   };
 }
-export async function runFromCenter(env,transport,core,reference){
+export async function runFromCenter(env,transport,core,reference,options){
   const controlApp=Number(env.RA_CONTROL_APP_ID);
   if(!Number.isSafeInteger(controlApp)||controlApp<1)throw Error('RA_CONTROL_APP_IDを設定してください');
   const now=reference?new Date(reference):new Date();
   if(!Number.isFinite(now.getTime()))throw Error('現在時刻が不正です');
   const at=timeISO(now);
-  const query='BatchEnabled in ("有効") and RunState in ("待機","正常終了") and NextRunAt <= "'+at+'" order by NextRunAt asc limit '+(MAX_DUE_PER_TICK+1);
-  const result=await transport('/k/v1/records.json','GET',{app:controlApp,query});
+  const query='BatchEnabled in ("有効") and RunState in ("待機","正常終了") and NextRunAt != "" and NextRunAt <= "'+at+'" order by NextRunAt asc limit '+(MAX_DUE_PER_TICK+1);
+  const result=options&&Array.isArray(options.records)
+    ?{records:options.records}
+    :await transport('/k/v1/records.json','GET',{app:controlApp,query});
   if(!result||!Array.isArray(result.records))throw Error('バッチ管理アプリの検索に失敗しました');
   if(result.records.length>MAX_DUE_PER_TICK)console.warn('ResoArc Clock: 実行待ちが'+MAX_DUE_PER_TICK+'件を超えています。次の周期で再確認します');
   const dryRun=env.RA_ALLOW_WRITES!=='true';
@@ -95,7 +97,8 @@ export async function runFromCenter(env,transport,core,reference){
     };
     // A finalize conflict must not silently trigger business steps again.
     await transport('/k/v1/record.json','PUT',{app:controlApp,id,revision:claim.revision,record:patch});
-    outcomes.push({id,ok:!error,tasks:taskCount,error:error?.message});
+    outcomes.push({id,ok:!error,tasks:taskCount,error:error?.message,
+      nextRunAt:!error&&rec.ScheduleType?.value!=='一回'?next:null});
     if(error)console.error('ResoArc Clock: 手動確認が必要:',id,error.message);
   }
   return outcomes;
