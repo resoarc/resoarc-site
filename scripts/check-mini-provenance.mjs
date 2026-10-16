@@ -35,4 +35,15 @@ if(win.source_import?.source_tree_sha256!==qa.windows_transfer.tree_sha256 ||
    throw Error('Windows proof or release holds are inconsistent');
 if(mini.some(x=>x.release_decision==='approved'||x.gates.tenant==='passed'))
    throw Error('No isolated tenant product acceptance evidence exists');
-console.log('Mini v0.1.2 provenance verified: 18 unique key pins; 29-product release holds intact.');
+const mobile=read('docs/kintone-progress/evidence/mini-v1-text-mobile-20261017.json');
+const bundle=mobile.source_only_bundle;
+if(mobile.product!=='text-normalizer'||mobile.unit_tests?.passed!==12||
+   mobile.unit_tests?.failed!==0||mobile.manifest_checks?.with_mobile_entrypoint!==1||
+   mobile.manifest_checks?.other_products_without_mobile!==17||
+   bundle?.sha256!=='8d153f2dfda3969d53bcb4a5e069d72ef5fa0a94a30e8f784a16408ec626dff3' ||
+   bundle?.file_count!==157||bundle?.javaScript_files!==38||
+   bundle?.digitally_signed!==false||bundle?.publicly_released!==false||
+   bundle?.kintone_installable!==false||
+   mini.find(x=>x.slug==='text-normalizer')?.gates?.mobile!=='unverified')
+   throw Error('Experimental source-only mobile proof or release hold differs from evidence');
+console.log('Mini source provenance and mobile draft verified; 18 v1 releases remain blocked.');
