@@ -12,7 +12,7 @@ if (args.length !== 0 && !(args.length === 2 && args[0] === '--root' && args[1])
 const root = args.length ? resolve(args[1]) : resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const path = name => join(root, 'docs/kintone-progress', name);
 const tracker = JSON.parse(readFileSync(path('tracker.json'), 'utf8'));
-const unit = JSON.parse(readFileSync(path('evidence/unit-tests-20261017.json'), 'utf8'));
+const unit = JSON.parse(readFileSync(path('evidence/unit-rebuild-20261017.json'), 'utf8'));
 const manifest = JSON.parse(readFileSync(path('evidence/manifest-preflight-20261017.json'), 'utf8'));
 const signatures = JSON.parse(readFileSync(path('evidence/signed-zip-audit-20261017.json'), 'utf8'));
 const smoke = JSON.parse(readFileSync(path('evidence/auto-number-tenant-smoke-20261017.json'), 'utf8'));
@@ -41,7 +41,7 @@ for (const item of packages) {
       test.passed !== item.unit_tests?.pass || item.unit_tests?.fail !== 0) {
     fail(item.slug + ': unit count or exit code differs from tracker');
   }
-  if (item.unit_tests.evidence !== 'docs/kintone-progress/evidence/unit-tests-20261017.json') {
+  if (item.unit_tests.evidence !== 'docs/kintone-progress/evidence/unit-rebuild-20261017.json') {
     fail(item.slug + ': incorrect evidence pointer');
   }
   passed += test.passed;
@@ -72,7 +72,7 @@ for (const item of mini) {
   if (item.gates.manifest === 'passed' && !manifests.has(item.slug)) fail(item.slug + ': mini manifest pass is unverified');
   if (item.gates.signature === 'passed' && !signing.has(item.slug)) fail(item.slug + ': mini signature pass is unverified');
 }
-if (passed !== 187 || unit.passed !== passed || unit.failed !== 0 || unit.total !== passed) {
+if (passed !== 203 || unit.summary?.passed !== passed || unit.summary?.failed !== 0 || unit.summary?.unit_tests !== passed || unit.summary?.builds !== 11) {
   fail('aggregate unit test counts differ');
 }
 if (observedManifest !== 9 || manifest.passed !== 9 || manifest.failed !== 0 || manifest.total !== 9) {
