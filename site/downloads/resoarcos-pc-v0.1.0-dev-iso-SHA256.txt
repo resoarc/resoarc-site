@@ -1,0 +1,2 @@
+# Metadata only: ISO binary is not hosted here.
+34adbe3b9d73997647d81313dd92e0be17af5518a7f8624039e90fc5dbe76918  resoarcos-cli-default-v4-amd64.iso

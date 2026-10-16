@@ -1,0 +1,47 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ResoArcOS PC版の実験的Live ISO、検証結果、ソースコード、利用上の制限を公開。GUIなしで起動し、必要なときだけ軽量デスクトップを利用できます。">
+<meta name="theme-color" content="#18353b">
+<link rel="canonical" href="https://resoarc.com/os/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ResoArc">
+<meta property="og:title" content="ResoArcOS PC 開発プレビュー | ResoArc">
+<meta property="og:description" content="CLI標準・必要時のみGUI。QEMU検証済みの開発プレビュー。実機、本番インストールは未対応。">
+<link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg">
+<link rel="stylesheet" href="/assets/site-20261015-v10.css"><link rel="stylesheet" href="/assets/resoarcos-20261016.css">
+<title>ResoArcOS PC 開発プレビュー | ResoArc</title></head><body><a class="skip-link" href="#main">本文へ移動</a>
+<header class="site-header"><div class="container header-inner"><a href="/" class="brand" aria-label="ResoArc トップページ"><svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#18304C"/><path d="M12 36V12H25C32 12 36 16 36 22C36 28 32 31 25 31H12 M25 31L35 39" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/></svg><span class="wordmark"><strong>ResoArc</strong><small>OPEN TECHNOLOGY PROJECT</small></span></a>
+<nav class="desktop-nav" aria-label="主要メニュー"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a href="/os/"><span>ResoArcOS</span><small>OS</small></a></nav>
+<a class="nav-action" href="/products/"><span>無料ツール</span><b aria-hidden="true">↗</b></a>
+<details class="mobile-menu"><summary><span>MENU</span><span class="menu-bars" aria-hidden="true"><i></i><i></i></span></summary><nav class="mobile-panel" aria-label="モバイルメニュー"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a href="/privacy/">プライバシー <span>↗</span></a><a href="/os/"><span>ResoArcOS</span><small>PC版</small></a></nav></details></div></header><main id="main" class="os-page">
+<section class="inside-hero"><div class="container inside-hero-inner">
+<div class="kicker"><span class="kicker-no">OS</span><span class="kicker-en">RESOARC OS</span><span class="kicker-jp">PC EDITION</span></div>
+<h1>軽く起動して、<br>必要なときだけGUI。</h1>
+<p>ResoArcOSはDebian 13をベースにしたCLI標準の実験的Live OSです。通常はコンソールだけを動かし、必要なときに軽量なOpenboxデスクトップを起動します。</p>
+</div><span class="inside-watermark" aria-hidden="true">ResoArcOS.</span></section>
+<section class="section inner-section"><div class="container">
+<div class="kicker"><span class="kicker-no">01</span><span class="kicker-en">RELEASE STATUS</span><span class="kicker-jp">公開状態</span></div>
+<h2>PC版 v0.1.0-dev：開発プレビュー</h2>
+<p class="catalog-lede">現在公開できるのはソースコードと検証記録です。ISOイメージは生成・検証済みですが、ファイル配布先の整備が必要なため、このサイトからのISOダウンロードはまだ提供していません。</p>
+<div class="article-strip"><div><strong>本番用OSとしては未対応です</strong>
+<p>自動ログインを使った実験用Live環境です。安全なディスクインストーラー、永続ストレージ、初期ユーザー認証、署名付き更新、復旧・ロールバック、実機互換性の検証は未完了です。本番機へのインストールや機密データの運用に使用しないでください。</p></div>
+<a class="inline-link" href="/principles/">品質方針を見る <span aria-hidden="true">↗</span></a></div>
+<div class="product-grid">
+<article class="product-card"><div class="product-meta"><span>PC / AMD64</span><span>v0.1.0-dev</span></div><h2>ソースコード</h2><p>MITライセンスのResoArcOS独自コードと、ビルド手順・検証プログラムを含みます。上流のLinuxソフトウェアは各自のライセンスに従います。</p><div class="product-tags"><span>ダウンロード可</span><span>ソース検証可</span></div><a class="product-cta" href="/downloads/resoarcos-pc-v0.1.0-dev-source.zip">ソースZIPを取得 <span aria-hidden="true">↘</span></a></article>
+<article class="product-card"><div class="product-meta"><span>LIVE ISO</span><span>583 MiB</span></div><h2>PC向けLive ISO</h2><p>Debian 13 / x86-64。Dockerで生成し、QEMUのBIOS・UEFI起動とGUI手動起動を検証しました。公開用の大容量ファイル配信は現在準備中です。</p><div class="product-tags"><span>配布準備中</span><span>本番非推奨</span></div><a class="product-cta" href="#verification">検証状況を見る <span aria-hidden="true">↓</span></a></article>
+</div>
+</div></section>
+<section id="verification" class="section inner-section muted-band"><div class="container"><div class="kicker"><span class="kicker-no">02</span><span class="kicker-en">INDEPENDENT VERIFICATION</span><span class="kicker-jp">検証結果</span></div>
+<h2>実施済みと未検証を分けて公開</h2>
+<div class="product-grid">
+<article class="product-card"><h3>確認済み</h3><p>DockerによるISO生成、SHA-256照合、ISO内部のファイル・権限検査、QEMU BIOS / UEFI起動、CLIログイン、手動 <code>resogui</code> によるOpenbox画面表示。</p><div class="product-tags"><span>仮想環境で確認</span></div></article>
+<article class="product-card"><h3>未完了</h3><p>実機PC・GPU相性、USB書込・起動試験、ディスクへの安全な導入と永続化、認証強化、更新・ロールバック、継続的な脆弱性監視、長期安定性。</p><div class="product-tags"><span>本番評価は保留</span></div></article></div>
+<p>ローカル検証でのISO SHA-256：<code>34adbe3b9d73997647d81313dd92e0be17af5518a7f8624039e90fc5dbe76918</code></p>
+<p>ソースZIP SHA-256：<code>72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20</code></p>
+<p><a class="inline-link" href="/downloads/resoarcos-pc-v0.1.0-dev-source.zip.sha256">ソースチェックサムファイル <span aria-hidden="true">↘</span></a></p>
+</div></section>
+<section class="section inner-section"><div class="container"><div class="kicker"><span class="kicker-no">03</span><span class="kicker-en">REPRODUCE</span><span class="kicker-jp">再現と利用</span></div>
+<h2>まずは仮想マシンで検証してください</h2><p>ソースZIPを展開し、<code>README.md</code> および <code>images/pc/README.md</code> に従ってDocker上で構築できます。CLIログイン後、画面が必要な場合だけ <code>resogui</code> を実行します。再起動時の変更内容は標準では保持されません。</p>
+<p>開発版の利用は自己責任です。ResoArcOS独自部分はMITライセンスですが、Debian・Linuxカーネル・組込パッケージはそれぞれのライセンスに従います。</p>
+<a class="inline-link" href="/releases/">更新履歴を見る <span aria-hidden="true">↗</span></a>
+</div></section>
+</main><footer class="footer"><div class="container footer-top"><div class="footer-brand"><svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#18304C"/><path d="M12 36V12H25C32 12 36 16 36 22C36 28 32 31 25 31H12 M25 31L35 39" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/></svg><div><strong>ResoArc</strong><small>OPEN TECHNOLOGY PROJECT</small><p>自由で、開かれた技術を。</p></div></div><div class="footer-nav"><div><b>EXPLORE</b><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/os/">ResoArcOS</a><a href="/products/">無料ツール</a><a href="/principles/">品質方針</a></div><div><b>INFORMATION</b><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/guide/">利用ガイド</a><a href="/releases/">更新履歴</a><a href="/license/">ライセンス</a><a href="/sitemap.xml">サイトマップ</a><a href="https://github.com/resoarc/resoarc-site" rel="noopener noreferrer">GitHub・公開ソース</a></div></div></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer></body></html>

@@ -27,6 +27,10 @@ REQUIRED = (
     "license/index.html",
     "tools/hash/index.html",
     "tools/csv/index.html",
+    "os/index.html",
+    "assets/resoarcos-20261016.css",
+    "downloads/resoarcos-pc-v0.1.0-dev-source.zip",
+    "downloads/resoarcos-pc-v0.1.0-dev-source.zip.sha256",
 )
 SENSITIVE = (
     re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
@@ -108,6 +112,8 @@ def main() -> int:
             fail(f"{relative}: html lang not ja")
         if not parser.title_present:
             fail(f"{relative}: missing page title")
+        if 'href="/os/"' not in text:
+            fail(f"{relative}: missing ResoArcOS navigation")
         for ref in parser.refs:
             if ref.startswith(("#", "mailto:", "tel:", "javascript:", "data:")):
                 continue
@@ -126,6 +132,10 @@ def main() -> int:
                     continue
                 if not target.is_file():
                     fail(f"{relative}: missing local reference {ref}")
+
+    source_archive = SITE / "downloads/resoarcos-pc-v0.1.0-dev-source.zip"
+    if source_archive.is_file() and hashlib.sha256(source_archive.read_bytes()).hexdigest() != "72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20":
+        fail("ResoArcOS source ZIP SHA-256 mismatch")
 
     for p in files:
         if p.suffix.lower() not in {".html", ".css", ".js", ".svg", ".txt", ".xml", ".json"}:
