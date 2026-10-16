@@ -1,3 +1,17 @@
+## 実kintone APIの自動結合試験（QA専用）
+
+メインPCでは認証済みの**専用Edge**を使って、隔離したテスト用アプリ3件（元・復元先・管理）を新規準備し、合成レコードと添付ファイルのバックアップ→管理アプリへの保存→ZIP読み戻し→復元→2度目の追加0件まで検証できます。
+
+```powershell
+npm run qa:start
+npm run qa:status
+npm run qa:plan
+# ログイン完了後、明示的に許可する場合だけ実行
+npm run qa:auto -- --confirm CREATE_AND_TEST_ISOLATED_QA
+```
+
+**テナント接続先はローカル非公開設定**で指定し、GitHubに公開しません。QA実行は本番アプリに対して動作せず、3アプリのIDと名前を毎回検査します。詳しい安全条件、試験手順、生成物の保存先は [QA_ENVIRONMENT.md](QA_ENVIRONMENT.md) を参照してください。
+
 # ResoArc Backup & Migration (0.3 alpha)
 
 kintoneの**専用管理アプリ内のレコードへ構造化ZIPを保存**し、既存の別アプリへ**追記だけ**で復元する、外部サーバー不要のブラウザーカスタマイズです。正式版ではありません。認証情報はコードやバックアップに格納しません。kintoneのログインセッション・アクセス権で操作します。
