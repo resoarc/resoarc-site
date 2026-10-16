@@ -63,6 +63,17 @@ jobs:
           python3 scripts/qemu-headless-gui-smoke.py             release/resoarcos-pc-v0.1.0-dev-amd64.iso             --out-dir release --boot-wait 180 --gui-wait 50
           test -s release/resoarc-gui-qa.json
           sha256sum release/resoarcos-pc-v0.1.0-dev-amd64.iso > release/SHA256SUMS
+      - name: Preserve verified ISO as a short-lived workflow artifact
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: resoarcos-pc-v0.1.0-dev-verified
+          path: |
+            source/release/resoarcos-pc-v0.1.0-dev-amd64.iso
+            source/release/SHA256SUMS
+            source/release/resoarc-gui-qa.json
+          retention-days: 7
+          compression-level: 0
       - name: Publish GitHub prerelease (never a stable OS release)
         env:
           GH_TOKEN: ${{ github.token }}
@@ -81,7 +92,7 @@ jobs:
           Source and instructions: https://resoarc.com/os/
           Base: Debian 13; upstream packages retain their own licenses. Obtain corresponding upstream source from Debian source repositories and package source entries.
           NOTES
-          gh release create "$TAG"             release/resoarcos-pc-v0.1.0-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             ../source.zip             --title 'ResoArcOS PC v0.1.0-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false             --target "$GITHUB_SHA"
+          gh release create "$TAG"             release/resoarcos-pc-v0.1.0-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             ../source.zip             --title 'ResoArcOS PC v0.1.0-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false
           gh release view "$TAG" --json isPrerelease,assets > release/release-metadata.json
           python3 - <<'PY'
           import json
