@@ -1,6 +1,6 @@
 # OpenSSF Best Practices Badge registration: ResoArc
 
-> Status (2026-10-17 JST): **Repository preparation only. Not formally registered and no badge earned yet.**
+> Status (2026-10-17 JST): **Official project #15597 registered. Baseline Level 1 not earned (0%, self-assessment pending).** See [assessment draft](OSPS_BASELINE1_15597_ASSESSMENT.md) and [official project](https://www.bestpractices.dev/projects/15597/baseline-1).
 
 ## Authoritative project details
 
@@ -18,7 +18,11 @@
 
 **推奨説明文（日本語）:** ResoArcは、ブラウザ上で利用できるWebツール、kintone向けツール、Raspberry Pi/Linux関連ソフトウェアを無料で開発・公開する独立したOSS技術プロジェクトです。
 
-## Steps for the project owner
+## Status update after registration
+
+The authorized ResoArc account successfully created [issuer project #15597](https://www.bestpractices.dev/projects/15597/baseline-1). The official JSON currently has empty name and description; registration is not a credential. The procedure below is preserved as a reference, not a request to create a duplicate project. The next action is to complete **this existing project** and validate every criterion against [the audit checklist](OSPS_BASELINE1_15597_ASSESSMENT.md).
+
+## Steps for the project owner (historical signup instructions)
 
 1. Open [the official OpenSSF Best Practices registration](https://www.bestpractices.dev/en/projects/new).
 2. Choose **Log in with GitHub** using the dedicated **resoarc** GitHub account. Verify the account shown in the OAuth consent screen before authorizing. The badge site states that the GitHub nickname and supplied public name will be shown publicly.
@@ -49,7 +53,7 @@
 
 ## Duplicate prevention and identity policy
 
-First check the [official project's lookup API](https://www.bestpractices.dev/en/projects.json?url=https%3A%2F%2Fgithub.com%2Fresoarc%2Fresoarc-site). On 2026-10-17 JST, it returned `[]` (no registered project matching the repository URL).
+First check the [official project's lookup API](https://www.bestpractices.dev/en/projects.json?url=https%3A%2F%2Fgithub.com%2Fresoarc%2Fresoarc-site). As of 2026-10-17 JST the official lookup now returns **project #15597**. Do not register a duplicate.
 
 Use the brand's GitHub profile `resoarc` and do not sign in using personal `zin1985` / `zin2000` identities. Avoid publishing non-public personal details or any login material in GitHub, badges or application documents. The registration should truthfully identify the project as an independent initiative rather than a company or endorsed member.
 
