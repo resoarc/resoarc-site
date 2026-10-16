@@ -39,6 +39,51 @@ function validatePortableSchema(schema, nested=false) {
   }
 }
 
+/** Reject malformed record shapes before a restore plan can upload attachments
+ * or write destination records. Hash integrity does not make untrusted JSON valid. */
+function validatePortableRecord(record, schema, location='record') {
+  if (!obj(record)) stop('バックアップのレコード構造が不正です: '+location);
+  const scalar=new Set(['SINGLE_LINE_TEXT','MULTI_LINE_TEXT','RICH_TEXT','RADIO_BUTTON','DROP_DOWN','DATE','TIME','DATETIME','LINK']);
+  const multi=new Set(['CHECK_BOX','MULTI_SELECT']);
+  const codes=new Set(['USER_SELECT','ORGANIZATION_SELECT','GROUP_SELECT']);
+  for (const [code,payload] of Object.entries(record)) {
+    if (!Object.hasOwn(schema,code)) stop('定義されていないレコード項目があります: '+location+'.'+code);
+    if (!obj(payload)||!Object.hasOwn(payload,'value'))
+      stop('レコード項目の値が不正です: '+location+'.'+code);
+    const def=schema[code];
+    const value=payload.value;
+    const where=location+'.'+code;
+    if(def.type==='SUBTABLE'){
+      if(!Array.isArray(value))stop('テーブルの値が不正です: '+where);
+      for(const [i,row] of value.entries()){
+        if(!obj(row)||!obj(row.value)||Object.keys(row).some(k=>k!=='value'))
+          stop('テーブル行の構造が不正です: '+where+'['+i+']');
+        validatePortableRecord(row.value,def.fields,where+'['+i+']');
+      }
+    }else if(def.type==='FILE'){
+      if(!Array.isArray(value))stop('添付ファイル項目の値が不正です: '+where);
+      for(const item of value){
+        if(!obj(item)||typeof item.ref!=='string'||!/^[0-9a-f]{64}$/.test(item.ref)||
+           typeof item.name!=='string'||typeof item.contentType!=='string'||
+           !Number.isSafeInteger(item.size)||item.size<0||Object.hasOwn(item,'fileKey'))
+          stop('添付ファイル参照の構造が不正です: '+where);
+      }
+    }else if(multi.has(def.type)){
+      if(!Array.isArray(value)||value.some(x=>typeof x!=='string'))
+        stop('複数選択フィールドの値が不正です: '+where);
+    }else if(codes.has(def.type)){
+      if(!Array.isArray(value)||value.some(x=>!obj(x)||typeof x.code!=='string'))
+        stop('ユーザー・組織・グループ項目の値が不正です: '+where);
+    }else if(def.type==='NUMBER'){
+      if(value!==null&&typeof value!=='string'&&typeof value!=='number')
+        stop('数値フィールドの値が不正です: '+where);
+    }else if(scalar.has(def.type)){
+      if(value!==null&&typeof value!=='string')
+        stop('文字列・日付フィールドの値が不正です: '+where);
+    }
+  }
+}
+
 function filterValue(value, def) {
   if (def.type === 'SUBTABLE') {
     if (!Array.isArray(value)) return [];
@@ -189,8 +234,8 @@ export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES,
     checkPath(p);
     if(p.startsWith('attachments/')&&!manifestPaths.has(p))stop('未申告の添付ファイルがあります');
   }
-  for(const r of records){
-    if (!obj(r))stop('レコードが不正です');
+  for(const [index,r] of records.entries()){
+    validatePortableRecord(r,schema,'record['+index+']');
     visitFiles(r,schema,f=>{if(!manifestPaths.has('attachments/'+f.ref))stop('レコードが参照する添付ファイルが欠落しています');});
   }
   return {manifest,schema,layout,sourceFields,records,files:entries,archiveHash:await sha256(bytes)};
