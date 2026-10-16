@@ -5,9 +5,11 @@ Updated: 2026-10-16 (JST)
 
 ## Automated evidence
 
-- [x] All 41 Node test cases passed on the Windows development computer.
+- [x] All 44 Node test cases passed on the Windows development computer.
 - [x] A simulated kintone API round-trip transferred **501 source records**, including a nested table and a shared attachment. It created only a new *preview* app, simulated a lost response after 50 committed rows, resumed the remaining 451 rows, and confirmed that a third run added zero duplicates.
 - [x] **Actual Edge headless browser smoke test with mocked kintone APIs**: dedicated BrowserCDP Edge loaded the production JavaScript bundle, rendered the management-app controls, created and read a 501-record ZIP, previewed and restored 501 records in 26 batches, and confirmed a second preview offered zero new records. The same real-browser script rejects a tampered ZIP, a destination without a unique restore marker, and an incorrect manual confirmation phrase **before any destination record write**. It also creates a **new app preview draft** via browser UI, verifies the unique restore marker exists, and asserts that **no deploy endpoint or existing-record modification** was used. The browser test exited successfully. No tenant login, cookies, or real API writes were used. Reproduce with `npm run test:browser` on Windows Edge or Linux Chrome; the runner uses a disposable browser profile.
+- [x] ZIP archive hardening rejects duplicate entry names and enforces a non-disableable 50,000-entry ceiling, in addition to the existing 25MiB byte limit. Three regression tests cover duplicate entries and entry-count limits.
+- [x] Browser UI regression simulates a first batch committed but its HTTP response lost: the UI stops, an explicit re-preview reports 20 completed and 481 pending, and a confirmed resume finishes all 501 with no duplicates.
 - [x] Cursor tests cover multi-page reads, invalid pages, stalls, excessive row counts, cleanup on failure, and stopping before destination writes.
 - [x] Archive tests cover SHA-256, corrupted contents, attachments, a large compressed payload, ZIP traversal names, and dangerous field-code rejection.
 - [x] Field-planning tests cover compatible mappings, incompatible types, required/choice checks, and rejection of unsupported kintone field codes.
@@ -48,7 +50,7 @@ Run the following checks in the authenticated browser. **Never copy session cook
 - It is **not a transaction** across all batches. Failed restores can leave some newly inserted records.
 - Record visibility is defined by current kintone permissions. A backup cannot assert that all tenant records were readable.
 - An external ZIP has internal SHA-256 integrity checks, not a cryptographic signature proving origin. Only import from a trusted source.
-- The 25 MiB uncompressed and ZIP size limit and the 20,000-record limit are explicit abort conditions, not silent truncation.
+- The 25 MiB uncompressed and ZIP size limit, the 50,000-entry ZIP limit, and the 20,000-record limit are explicit abort conditions, not silent truncation.
 - Store a separate encrypted/off-tenant copy if continuity after tenant loss is required.
 - No API tokens, session cookies, passwords, customer data or personally identifying evidence should be committed to the public repository.
 - Releasing a stable public build must not be confused with deploying into a user's kintone account.
