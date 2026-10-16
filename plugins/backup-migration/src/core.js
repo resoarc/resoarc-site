@@ -6,6 +6,7 @@ export const VERSION = 2;
 export const MAX_BYTES = 25 * 1024 * 1024;
 export const MAX_RECORDS = 20000;
 const WRITABLE = new Set(['SINGLE_LINE_TEXT','MULTI_LINE_TEXT','RICH_TEXT','NUMBER','RADIO_BUTTON','DROP_DOWN','CHECK_BOX','MULTI_SELECT','DATE','TIME','DATETIME','LINK','USER_SELECT','ORGANIZATION_SELECT','GROUP_SELECT','FILE']);
+const RESERVED_CODES = new Set(['__proto__','constructor','prototype']);
 const s = v => JSON.stringify(v);
 const u8 = v => v instanceof Uint8Array ? v : new Uint8Array(v);
 const stop = reason => { throw new Error(reason); };
@@ -13,8 +14,9 @@ export const sha256 = async b => Array.from(new Uint8Array(await crypto.subtle.d
 export const allowedField = d => !!d && WRITABLE.has(d.type) && !d.lookup && !d.referenceTable && !(d.type==='SINGLE_LINE_TEXT' && typeof d.expression==='string' && d.expression.trim());
 const obj = v => v && typeof v === 'object' && !Array.isArray(v);
 function fieldContents(props) {
-  const fields = {};
+  const fields = Object.create(null);
   for (const [code, def] of Object.entries(props || {})) {
+    if (RESERVED_CODES.has(code)) stop('予約済みのフィールドコードはバックアップできません: '+code);
     if (def?.type === 'SUBTABLE') {
       const members = fieldContents(def.fields);
       if (Object.keys(members).length) fields[code] = {type:'SUBTABLE', fields:members};
@@ -23,6 +25,19 @@ function fieldContents(props) {
   return fields;
 }
 export const writableSchema = raw => fieldContents(raw?.properties || raw);
+function validatePortableSchema(schema, nested=false) {
+  if (!obj(schema)) stop('レコード構造が不正です');
+  for (const [code, def] of Object.entries(schema)) {
+    if (RESERVED_CODES.has(code) || !code || code.length > 128)
+      stop('レコード構造に不正なフィールドコードがあります: '+code);
+    if (!obj(def)) stop('レコード構造のフィールド定義が不正です: '+code);
+    if (def.type === 'SUBTABLE') {
+      if (nested) stop('テーブルの入れ子は未対応です');
+      validatePortableSchema(def.fields, true);
+    } else if (!WRITABLE.has(def.type)) stop('レコード構造のフィールド種別が不正です: '+code);
+  }
+}
+
 function filterValue(value, def) {
   if (def.type === 'SUBTABLE') {
     if (!Array.isArray(value)) return [];
@@ -148,6 +163,7 @@ export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES}
   // Do not permit an attacker to present a legacy archive with unchecked new metadata.
   if(manifest.version===1&&entries['schema/source-fields.json'])stop('v1形式に未検証のフィールド設定があります');
   if (!obj(schema)||!Array.isArray(records)||records.length>MAX_RECORDS||records.length!==manifest.recordCount)stop('件数またはフィールド構造が不正です');
+  validatePortableSchema(schema);
   for (const p of expectedTextPaths) {
     if (await sha256(entries[p])!==manifest.digests?.[p]) stop('内容のハッシュが一致しません: '+p);
   }
