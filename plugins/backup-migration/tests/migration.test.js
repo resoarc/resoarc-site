@@ -32,7 +32,8 @@ test('v2 format retains verified source definitions and app plan reconstructs se
  assert.equal(a.sourceFields.properties.Priority.options.High.label,'High');
  const plan=planNewApp(a,'移行先アプリ');
  assert.equal(plan.name,'移行先アプリ');
- assert.equal(plan.fieldCount,5);
+ assert.equal(plan.fieldCount,6);
+ assert.equal(plan.properties.ResoArcRestoreKey.unique,true);
  assert.equal(plan.properties.Name.label,'顧客名');
  assert.equal(plan.properties.Name.required,false);
  assert.equal(plan.properties.Name.unique,false);
@@ -92,7 +93,7 @@ test('reject malicious reserved field names even when signed in a locally constr
    okay:{type:'SINGLE_LINE_TEXT',label:'ok'}
  }}};
  const plan=planNewApp(a,'clean');
- assert.deepEqual(Object.keys(plan.properties),['okay']);
+ assert.deepEqual(Object.keys(plan.properties),['okay','ResoArcRestoreKey']);
 });
 
 test('v2 source fields must agree with portable record schema even after rehashing',async()=>{
