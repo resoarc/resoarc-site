@@ -18,6 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Check immutable ResoArcOS source ZIP
+        run: |
+          python scripts/verify_resoarcos_snapshot.py
+          python -m unittest discover -s tests -p test_resoarcos_snapshot.py -v
       - name: Check public site source, links and checksums
         run: python scripts/verify_site.py
       - name: Validate browser tool JavaScript

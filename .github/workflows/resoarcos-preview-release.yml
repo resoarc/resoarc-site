@@ -19,10 +19,15 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 100
     steps:
-      - name: Fetch and verify official source snapshot
+      - name: Checkout immutable source archive
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify checked-in OS source and extract safely
         run: |
           set -euo pipefail
-          curl -fL --retry 3 --connect-timeout 15             https://resoarc.com/downloads/resoarcos-pc-v0.1.0-dev-source.zip             -o source.zip
+          python3 scripts/verify_resoarcos_snapshot.py
+          cp site/downloads/resoarcos-pc-v0.1.0-dev-source.zip source.zip
           echo '72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20  source.zip' | sha256sum --check
           mkdir source
           unzip -q source.zip -d source
@@ -77,3 +82,19 @@ jobs:
           Base: Debian 13; upstream packages retain their own licenses. Obtain corresponding upstream source from Debian source repositories and package source entries.
           NOTES
           gh release create "$TAG"             release/resoarcos-pc-v0.1.0-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             ../source.zip             --title 'ResoArcOS PC v0.1.0-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false             --target "$GITHUB_SHA"
+          gh release view "$TAG" --json isPrerelease,assets > release/release-metadata.json
+          python3 - <<'PY'
+          import json
+          data = json.load(open('release/release-metadata.json', encoding='utf-8'))
+          assert data['isPrerelease'] is True, 'Release must remain prerelease'
+          assets = {item['name']: item['size'] for item in data['assets']}
+          required = {
+              'resoarcos-pc-v0.1.0-dev-amd64.iso',
+              'SHA256SUMS',
+              'resoarc-gui-qa.json',
+              'source.zip',
+          }
+          assert required.issubset(assets), f'Missing release assets: {required - assets.keys()}'
+          assert all(assets[name] > 0 for name in required), 'A release asset is empty'
+          print('RESOARCOS_RELEASE_ASSET_METADATA_PASS', sorted(required))
+          PY
