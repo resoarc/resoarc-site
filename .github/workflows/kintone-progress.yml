@@ -6,12 +6,16 @@ on:
       - "docs/kintone-progress/**"
       - "scripts/kintone-progress.mjs"
       - "tests/kintone-progress.test.mjs"
+      - "tests/kintone-evidence.test.mjs"
+      - "scripts/kintone-evidence.mjs"
       - ".github/workflows/kintone-progress.yml"
   pull_request:
     paths:
       - "docs/kintone-progress/**"
       - "scripts/kintone-progress.mjs"
       - "tests/kintone-progress.test.mjs"
+      - "tests/kintone-evidence.test.mjs"
+      - "scripts/kintone-evidence.mjs"
       - ".github/workflows/kintone-progress.yml"
   workflow_dispatch:
 
@@ -32,5 +36,9 @@ jobs:
         run: node scripts/kintone-progress.mjs --check
       - name: Test invalid release statuses and evidence handling
         run: node --test tests/kintone-progress.test.mjs
+      - name: Verify unit and static preflight evidence
+        run: node scripts/kintone-evidence.mjs
+      - name: Test corrupted evidence is rejected
+        run: node --test tests/kintone-evidence.test.mjs
       - name: Report aggregate progress
         run: node scripts/kintone-progress.mjs --summary
