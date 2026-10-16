@@ -81,6 +81,7 @@ async function prepare(session,approval=confirm){
   if(approval!=='CREATE_ISOLATED_QA_APPS')fail('Provisioning requires --confirm CREATE_ISOLATED_QA_APPS');
   const current=await loadState();
   if(current)fail('QA state already exists; refusing duplicate app creation. State: '+QA_STATE);
+  if(/^\/login(?:\/|$)/.test(session.tabPath||''))fail('Sign in on the visible QA Edge before provisioning');
   const login=await session.sessionStatus(QA_APP_PROBE);
   if(!login.authenticated)fail('Sign in using the visible QA Edge first (read-only app and field checks must return 200)');
   const prefix='ResoArc QA '+randomBytes(5).toString('hex');
@@ -250,7 +251,14 @@ async function main(){
   try{
     session=await connectQA();
     if(command==='status'){
-      output({mode:'read-only',...(await session.sessionStatus(QA_APP_PROBE)),provisioned:state?.phase==='ready',
+      const onLoginPage=/^\/login(?:\/|$)/.test(session.tabPath);
+      let diagnostic;
+      if(onLoginPage)diagnostic={authenticated:false,loginRequired:true,reason:'LOGIN_PAGE'};
+      else{
+        try{diagnostic=await session.sessionStatus(QA_APP_PROBE);}
+        catch{diagnostic={authenticated:false,ready:false,reason:'BROWSER_API_TIMEOUT'};}
+      }
+      output({mode:'read-only',...diagnostic,provisioned:state?.phase==='ready',
         apps:state?.apps||null,profile:'ResoArcKintoneQA'});
     }else if(command==='provision')output(await prepare(session));
     else if(command==='auto'){
