@@ -51,5 +51,20 @@
     "A successful mobile mock does not satisfy the canonical mobile acceptance gate."
   ],
   "local_source": "Documents/AI-Work/MR-kintone-tests/v012-windows-qa/v1-candidate",
-  "release_decision": "hold"
+  "release_decision": "hold",
+  "source_only_bundle": {
+    "filename": "resoarc-mini-v1-candidate-source-only-20261017.zip",
+    "location": "User-owned Windows PC: Documents/AI-Work/MR-kintone-tests/v012-windows-qa/",
+    "sha256": "8d153f2dfda3969d53bcb4a5e069d72ef5fa0a94a30e8f784a16408ec626dff3",
+    "file_count": 157,
+    "plugin_count": 18,
+    "javaScript_files": 38,
+    "mobile_sources": [
+      "text-normalizer"
+    ],
+    "manifest_assets_missing": 0,
+    "digitally_signed": false,
+    "publicly_released": false,
+    "kintone_installable": false
+  }
 }
