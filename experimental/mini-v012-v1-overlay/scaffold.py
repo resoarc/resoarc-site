@@ -23,6 +23,7 @@ ITEMS=[
 ('postal-address','郵便番号住所入力','郵便番号から住所の入力を補助',{'postalField':'Zip','addressField':'Address'}),
 ('barcode-scan','バーコード読取','カメラからバーコードを読み取る',{'targetField':'Barcode'}),
 ]
+MOBILE_SLUGS={'attachment-count', 'barcode-scan', 'csv-export', 'field-help', 'file-preview', 'input-template', 'list-aggregate', 'lookup-suggest', 'mail-compose', 'postal-address', 'qr-code', 'record-toc', 'related-links', 'reuse-reset', 'table-row-tools', 'text-normalizer'}
 CONFIG_JS=r'''(function(id){'use strict';
 const initial=kintone.plugin.app.getConfig(id)||{};let saved={};try{saved=JSON.parse(initial.ra_settings||'{}')}catch(_){}
 const defaults=JSON.parse(document.getElementById('ra-defaults').textContent), root=document.getElementById('ra-fields'),fields={};
@@ -102,7 +103,8 @@ def build():
         target=ROOT/'plugins'/slug
         for d in ('js','html','css','image'):(target/d).mkdir(parents=True,exist_ok=True)
         manifest={'manifest_version':1,'version':'0.1.2','type':'APP','name':{'ja':'ResoArc '+name,'en':'ResoArc '+slug},'description':{'ja':description,'en':description},'icon':'image/icon.png','homepage_url':{'ja':'https://resoarc.com/tools/mini-plugins/','en':'https://resoarc.com/tools/mini-plugins/'},'desktop':{'js':['js/desktop.js']},'config':{'html':'html/config.html','js':['js/config.js'],'css':['css/config.css'],'required_params':['ra_settings']}}
-        if slug=='text-normalizer':manifest['mobile']={'js':['js/mobile.js']}
+        if slug in MOBILE_SLUGS:
+            manifest['mobile']={'js':(['js/qr-lib.js'] if slug=='qr-code' else [])+['js/mobile.js']}
         (target/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         (target/'js/config.js').write_text(CONFIG_JS,encoding='utf-8')
         (target/'css/config.css').write_text(STYLE,encoding='utf-8')
@@ -111,12 +113,29 @@ def build():
         (target/'image/icon.png').write_bytes(icon_bytes(i))
         impl=ROOT/'runtimes'/(slug+'.js')
         (target/'js/desktop.js').write_text(COMMON.replace('__DEFAULTS__',json.dumps(defaults,ensure_ascii=False)).replace('__SLUG__',json.dumps(slug))+(impl.read_text(encoding='utf-8') if impl.exists() else '// NOT IMPLEMENTED\n')+'\n})();\n',encoding='utf-8')
-        if slug=='text-normalizer':
-            desktop_src=(target/'js/desktop.js').read_text(encoding='utf-8')
-            before="on(['app.record.create.submit','app.record.edit.submit'],e=>{"
-            after="on(['mobile.app.record.create.submit','mobile.app.record.edit.submit'],e=>{"
-            if desktop_src.count(before)!=1:raise RuntimeError('Unexpected text-normalizer event registration')
-            (target/'js/mobile.js').write_text(desktop_src.replace(before,after),encoding='utf-8')
+        if slug in MOBILE_SLUGS:
+            if not impl.exists():raise RuntimeError('Mobile runtime source missing: '+slug)
+            mobile_common=COMMON
+            old_panel='space=kintone.app.record.getHeaderMenuSpaceElement?.()||kintone.app.getHeaderMenuSpaceElement?.()||kintone.app.getHeaderSpaceElement?.();'
+            if mobile_common.count(old_panel)!=1:raise RuntimeError('Common UI panel API unexpectedly changed')
+            mobile_common=mobile_common.replace(old_panel,'space=kintone.mobile.app.getHeaderSpaceElement?.();')
+            mobile_common=mobile_common.replace('kintone.app.','kintone.mobile.app.')
+            mobile_runtime=impl.read_text(encoding='utf-8')
+            # The runtime event names are quoted with single quotes, and this
+            # substitution deliberately does not touch other text or URLs.
+            import re
+            mobile_runtime=mobile_runtime.replace("'app.record.","'mobile.app.record.")
+            count=mobile_runtime.count("'mobile.app.record.")
+            # The preceding regex is escaped at two boundaries in scaffold;
+            # confirm no desktop-only event name remains in the emitted script.
+            if count==0:raise RuntimeError('Mobile event mapping failed: '+slug)
+            mobile_runtime=mobile_runtime.replace('kintone.app.','kintone.mobile.app.')
+            if slug=='field-help':
+                mobile_runtime=mobile_runtime.replace("e.type==='app.record.detail.show'","e.type==='mobile.app.record.detail.show'")
+            data=mobile_common.replace('__DEFAULTS__',json.dumps(defaults,ensure_ascii=False)).replace('__SLUG__',json.dumps(slug))+mobile_runtime+'\n})();\n'
+            if "'app.record." in data or 'kintone.app.' in data:
+                raise RuntimeError('Mobile still references desktop API: '+slug)
+            (target/'js/mobile.js').write_text(data,encoding='utf-8')
         catalog.append({'slug':slug,'name':name,'description':description,'implemented':impl.exists()})
     (ROOT/'catalog.json').write_text(json.dumps(catalog,ensure_ascii=False,indent=2),encoding='utf-8')
     print('Scaffold: %s modules, %s implemented'%(len(catalog),sum(x['implemented'] for x in catalog)))
