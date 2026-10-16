@@ -9,7 +9,7 @@
     "check": "npm run test && npm run build"
   },
   "dependencies": {
-    "fflate": "0.8.2"
+    "fflate": "0.8.3"
   },
   "devDependencies": {
     "esbuild": "0.25.12"
