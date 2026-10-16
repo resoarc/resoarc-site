@@ -76,9 +76,53 @@ jobs:
           retention-days: 7
           compression-level: 0
 
+  attest:
+    name: Generate signed provenance of verified ISO and source
+    needs: build-verify
+    if: github.repository == 'resoarc/resoarc-site'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    steps:
+      - name: Download verified output
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: resoarcos-pc-v0.1.1-dev-verified
+      - name: Verify source and ISO digests
+        working-directory: source
+        run: |
+          set -euo pipefail
+          echo 'ad60fd5629e91ae4c045d7411ff8a821eb4a442900127a6d89514b738e481ac4  ../source.zip' | sha256sum --check
+          sha256sum --check release/SHA256SUMS
+      - name: Produce GitHub-hosted Sigstore build provenance
+        id: provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          subject-path: |
+            source/release/resoarcos-pc-v0.1.1-dev-amd64.iso
+            source.zip
+      - name: Preserve portable attestation bundle
+        env:
+          ATTESTATION_BUNDLE: ${{ steps.provenance.outputs.bundle-path }}
+        run: |
+          set -euo pipefail
+          test -s "$ATTESTATION_BUNDLE"
+          cp "$ATTESTATION_BUNDLE" source/release/release-provenance.sigstore
+          test -s source/release/release-provenance.sigstore
+      - name: Transfer signing proof to release publisher
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: resoarcos-pc-v0.1.1-dev-verified-provenance
+          path: source/release/release-provenance.sigstore
+          retention-days: 7
+
   publish:
     name: Publish verified developer preview
-    needs: build-verify
+    needs: [build-verify, attest]
     if: github.event_name == 'workflow_dispatch' && github.repository == 'resoarc/resoarc-site'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -89,6 +133,11 @@ jobs:
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: resoarcos-pc-v0.1.1-dev-verified
+      - name: Download signed provenance bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: resoarcos-pc-v0.1.1-dev-verified-provenance
+          path: source/release/
       - name: Validate the transferred artifacts
         working-directory: source
         run: |
@@ -97,6 +146,16 @@ jobs:
           sha256sum --check release/SHA256SUMS
           test -s release/resoarc-gui-qa.json
           test -s release/resoarcos-pc-v0.1.1-dev-amd64.iso
+      - name: Cryptographically verify release identity and provenance
+        working-directory: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          test -s release/release-provenance.sigstore
+          gh attestation verify "release/resoarcos-pc-v0.1.1-dev-amd64.iso" --repo "$GH_REPO" --bundle release/release-provenance.sigstore
+          gh attestation verify "../source.zip" --repo "$GH_REPO" --bundle release/release-provenance.sigstore
       - name: Publish GitHub prerelease (never a stable OS release)
         env:
           GH_TOKEN: ${{ github.token }}
@@ -113,13 +172,14 @@ jobs:
           Not yet supported: safe disk installer, persistence, password-protected installed accounts, signed updates, rollback, production network hardening, unattended security support and physical-PC hardware certification. This Live image has a temporary autologin user. Never install to your primary PC or process sensitive data.
 
           Source and instructions: https://resoarc.com/os/
+          Signed build provenance: release-provenance.sigstore. Verify with gh attestation verify --repo resoarc/resoarc-site --bundle release-provenance.sigstore.
           Base: Debian 13; upstream packages retain their own licenses. Obtain corresponding upstream source from Debian source repositories and package source entries.
           NOTES
           if gh release view "$TAG" >/dev/null 2>&1; then
             echo "Refusing to overwrite existing immutable tag: $TAG" >&2
             exit 1
           fi
-          gh release create "$TAG"             release/resoarcos-pc-v0.1.1-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             ../source.zip             --title 'ResoArcOS PC v0.1.1-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false
+          gh release create "$TAG"             release/resoarcos-pc-v0.1.1-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             ../source.zip release/release-provenance.sigstore             --title 'ResoArcOS PC v0.1.1-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false
           gh release view "$TAG" --json isPrerelease,assets > release/release-metadata.json
           python3 - <<'PY'
           import json
@@ -131,6 +191,7 @@ jobs:
               'SHA256SUMS',
               'resoarc-gui-qa.json',
               'source.zip',
+              'release-provenance.sigstore',
           }
           assert required.issubset(assets), f'Missing release assets: {required - assets.keys()}'
           assert all(assets[name] > 0 for name in required), 'A release asset is empty'
