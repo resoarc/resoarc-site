@@ -1,0 +1,48 @@
+name: Verify ResoArc Backup Migration
+
+on:
+  push:
+    paths:
+      - ".github/workflows/backup-migration-ci.yml"
+      - "plugins/backup-migration/**"
+  pull_request:
+    paths:
+      - ".github/workflows/backup-migration-ci.yml"
+      - "plugins/backup-migration/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugins/backup-migration
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: plugins/backup-migration/package-lock.json
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+      - name: Unit tests and browser JS build
+        run: npm run check
+      - name: Ensure checked-in distribution matches build
+        run: git diff --exit-code -- dist/resoarc-backup.js
+      - name: Headless Chrome UI integration smoke
+        run: |
+          set -euo pipefail
+          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          if [ -z "$browser" ]; then
+            echo "Chrome unavailable on runner; installing a pinned Playwright Chromium"
+            npx --yes playwright@1.56.0 install chromium
+            browser="$(find "$HOME/.cache/ms-playwright" -type f \( -name chrome -o -name chromium \) | grep -E '/(chrome-linux64|chrome-linux)/' | head -n 1)"
+          fi
+          test -n "$browser"
+          RESOARC_BROWSER_EXECUTABLE="$browser" npm run test:browser

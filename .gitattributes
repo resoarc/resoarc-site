@@ -17,3 +17,4 @@ site/_headers text eol=lf
 *.png binary
 *.jpg binary
 *.jpeg binary
+plugins/backup-migration/scripts/*.cmd text eol=crlf
