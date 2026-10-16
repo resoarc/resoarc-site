@@ -29,6 +29,8 @@ jobs:
           cache-dependency-path: plugins/backup-migration/package-lock.json
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
       - name: Unit tests and browser JS build
         run: npm run check
       - name: Ensure checked-in distribution matches build
