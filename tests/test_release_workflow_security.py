@@ -26,7 +26,7 @@ class ReleaseWorkflowSecurityTests(unittest.TestCase):
                 self.assertNotIn("contents: write", build)
                 self.assertIn("permissions:\n      contents: write", publish)
                 self.assertIn("needs: [build-verify, attest]", publish)
-                attest = data.split("  attest:\\n", 1)[1].split("  publish:\\n", 1)[0]
+                attest = data.split("  attest:\n", 1)[1].split("  publish:\n", 1)[0]
                 self.assertIn("contents: read", attest)
                 self.assertIn("id-token: write", attest)
                 self.assertIn("attestations: write", attest)
