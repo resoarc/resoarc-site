@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 
-const base=path.join(os.homedir(),'Documents','MoleRemote','BrowserCDP');
+const base=process.env.RESOARC_CDP_PROFILE || path.join(os.homedir(),'Documents','MoleRemote','BrowserCDP');
 const devtools=await fs.readFile(path.join(base,'DevToolsActivePort'),'utf8');
 const port=Number(devtools.split(/\r?\n/)[0]);
 assert.ok(Number.isInteger(port)&&port>0);
