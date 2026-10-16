@@ -17,6 +17,7 @@ function handler(event){
   if(item.error){target.error='ResoArc: '+item.error;continue;}
   if(target.error&&target.error.startsWith('ResoArc:'))delete target.error;
   if(item.skip)continue;
+  // Erase obsolete calculations when a source date is cleared.
   target.value=item.value;
  }
  return event;

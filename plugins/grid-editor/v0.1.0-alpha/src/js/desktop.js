@@ -51,7 +51,39 @@ function batchRequest(plan,app){
  });
  return {app,records};
 }
-return {normalize,canEdit,validateValue,preview,batchRequest,EDITABLE_TYPES};
+function preflightRequest(plan,app){
+ const payload=batchRequest(plan,app);
+ const ids=payload.records.map(r=>r.id);
+ return {
+  app:payload.app,
+  fields:['$id','$revision',plan.field],
+  query:'$id in ('+ids.join(',')+') limit '+ids.length
+ };
+}
+function confirmUnchanged(plan,response,app){
+ const payload=batchRequest(plan,app);
+ if(!response||!Array.isArray(response.records)||response.records.length!==plan.changedCount){
+  throw Error('取得件数が変更プレビューと一致しません。更新は実行しません');
+ }
+ const read=new Map();
+ for(const record of response.records){
+  const id=record&&record.$id&&String(record.$id.value);
+  if(!id||read.has(id))throw Error('取得したレコードIDが不正です。更新は実行しません');
+  read.set(id,record);
+ }
+ for(const change of plan.changes){
+  const live=read.get(change.id);
+  if(!live)throw Error('更新対象のレコードが見つかりません: '+change.id);
+  const revision=live.$revision&&String(live.$revision.value);
+  const cell=live[change.field];
+  if(!canEdit(cell)||revision!==change.revision||
+      String(cell.value==null?'':cell.value)!==change.before){
+   throw Error('レコード '+change.id+' の内容または更新権限が変更されています。再読込してください');
+  }
+ }
+ return payload;
+}
+return {normalize,canEdit,validateValue,preview,batchRequest,preflightRequest,confirmUnchanged,EDITABLE_TYPES};
 });
 
 /* ResoArc grid editor experimental alpha: single atomic request, type and revision checks */
@@ -107,16 +139,23 @@ function onShow(e){
   if(busy||settled||!staged||!staged.changedCount)return;
   if(!window.confirm(settings.field+' の '+staged.changedCount+'件を実際に更新します。取り消しできません。実行しますか？'))return;
   lock();
+  let submitted=false;
   try{
    const app=kintone.app.getId();
-   const payload=core.batchRequest(staged,app);
-   status.textContent='一括更新リクエスト中: '+staged.changedCount+'件';
+   const request=core.preflightRequest(staged,app);
+   status.textContent='更新直前の状態を確認中: '+staged.changedCount+'件';
+   const current=await kintone.api(kintone.api.url('/k/v1/records.json',true),'GET',request);
+   const payload=core.confirmUnchanged(staged,current,app);
+   status.textContent='確認完了。一括更新リクエスト中: '+staged.changedCount+'件';
+   submitted=true;
    await kintone.api(kintone.api.url('/k/v1/records.json',true),'PUT',payload);
    status.textContent='一括更新完了: '+staged.changedCount+'件。ページを再読込してください。';
   }catch(error){
-   status.textContent='一括更新は成立しませんでした。kintoneからの結果を再確認してください: '+(error.message||error)+'。再読込するまで再実行できません。';
+   status.textContent=(submitted?
+    'APIの応答に失敗しました。更新結果が不明な場合があります。再実行せず、画面を再読込して確認してください: ':
+    '更新前の安全確認に失敗したため書き込みは行っていません。再読込して確認してください: ')+(error.message||error);
   }finally{
-   settled=true; // Avoid ambiguous retry if the connection dropped after the server committed.
+   settled=true; // A dropped PUT response is ambiguous; never retry automatically.
   }
  });
  return e;

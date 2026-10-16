@@ -48,3 +48,29 @@ test('grid atomic request rejects tampered plan and duplicate IDs',()=>{
  a.throws(()=>core.batchRequest({...plan,changes:[{...plan.changes[0],field:'Else'},plan.changes[1]]},42),/不正/);
  a.throws(()=>core.batchRequest(plan,'bad'),/アプリ/);
 });
+
+test('grid preflight only reads target record IDs, revision and field',()=>{
+ const plan=core.preview(rows,'Name',{'12':'Next','13':'Final'});
+ const query=core.preflightRequest(plan,42);
+ a.deepEqual(query,{app:42,fields:['$id','$revision','Name'],query:'$id in (12,13) limit 2'});
+});
+test('grid GET preflight accepts unchanged records',()=>{
+ const plan=core.preview(rows,'Name',{'12':'Next','13':'Final'});
+ const outgoing=core.confirmUnchanged(plan,{records:[rows[1],rows[0]]},42);
+ a.equal(outgoing.records.length,2);
+ a.equal(outgoing.records[0].revision,'2');
+});
+test('grid GET preflight refuses stale revision and changed source',()=>{
+ const plan=core.preview(rows,'Name',{'12':'Next','13':'Final'});
+ const stale=[{...rows[0],$revision:{value:'99'}},rows[1]];
+ a.throws(()=>core.confirmUnchanged(plan,{records:stale},42),/変更されています/);
+ const tampered=[{...rows[0],Name:{type:'SINGLE_LINE_TEXT',value:'Changed remotely'}},rows[1]];
+ a.throws(()=>core.confirmUnchanged(plan,{records:tampered},42),/変更されています/);
+});
+test('grid GET preflight rejects missing, extra and duplicate data, no PUT allowed',()=>{
+ const plan=core.preview(rows,'Name',{'12':'Next','13':'Final'});
+ a.throws(()=>core.confirmUnchanged(plan,{records:[rows[0]]},42),/取得件数/);
+ a.throws(()=>core.confirmUnchanged(plan,{records:[rows[0],rows[0]]},42),/レコードID/);
+ a.throws(()=>core.confirmUnchanged(plan,{records:[rows[0],{$id:{value:'99'},$revision:{value:'1'},Name:{type:'SINGLE_LINE_TEXT',value:'Something'}}]},42),/見つかりません/);
+ a.throws(()=>core.confirmUnchanged(plan,{records:[rows[0],{...rows[1],Name:{type:'DATE',value:'2026-10-16'}}]},42),/変更されています/);
+});

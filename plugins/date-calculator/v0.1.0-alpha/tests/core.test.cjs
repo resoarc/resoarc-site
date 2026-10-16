@@ -22,3 +22,24 @@ test('date calculator skips unsupported calculated/status targets',()=>{
  src.start.type='SINGLE_LINE_TEXT';
  assert.equal(core.evaluate(rules,src)[0].missing,true);
 });
+
+test('clearing a source date clears stale calculated values without mutating input',()=>{
+ const rules=[{start:'start',end:'end',target:'days',mode:'business'}];
+ const record={start:{type:'DATE',value:''},end:{type:'DATE',value:'2026-10-19'},days:{type:'NUMBER',value:'9'}};
+ const [result]=core.evaluate(rules,record);
+ assert.equal(result.clear,true);
+ assert.equal(result.value,'');
+ assert.equal(record.days.value,'9');
+});
+test('runtime clears target when either date is erased',()=>{
+ const events=[];
+ const config={rules:JSON.stringify([{start:'start',end:'end',target:'days',mode:'calendar'}])};
+ const sandbox={kintone:{$PLUGIN_ID:'test',plugin:{app:{getConfig:()=>config}},events:{on:(names,handler)=>events.push(handler)}},console};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/js/desktop.js'),'utf8'),sandbox);
+ const record={start:{type:'DATE',value:'2026-10-16'},end:{type:'DATE',value:''},days:{type:'NUMBER',value:'3'}};
+ events[0]({record,type:'app.record.edit.change.end'});
+ assert.equal(record.days.value,'');
+ record.end.value='2026-10-19';
+ events[0]({record,type:'app.record.edit.change.end'});
+ assert.equal(record.days.value,'3');
+});

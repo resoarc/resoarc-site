@@ -47,7 +47,7 @@ function evaluate(rules,record){
   if(!start||!end||!target)return {target:r.target,missing:true};
   // kintone API may omit type in lightweight test objects; enforce whenever present.
   if((start.type&&start.type!=='DATE')||(end.type&&end.type!=='DATE')||(target.type&&!['NUMBER','SINGLE_LINE_TEXT','MULTI_LINE_TEXT'].includes(target.type)))return {target:r.target,missing:true,reason:'設定されたフィールド型が対象外です'};
-  if(!start.value||!end.value)return {target:r.target,missing:false,skip:true};
+  if(!start.value||!end.value)return {target:r.target,missing:false,skip:false,clear:true,value:''};
   try{return {target:r.target,missing:false,skip:false,value:String(calculate(start.value,end.value,r.mode,r.holidays))};}
   catch(error){return {target:r.target,missing:false,skip:true,error:error.message};}
  });
@@ -74,6 +74,7 @@ function handler(event){
   if(item.error){target.error='ResoArc: '+item.error;continue;}
   if(target.error&&target.error.startsWith('ResoArc:'))delete target.error;
   if(item.skip)continue;
+  // Erase obsolete calculations when a source date is cleared.
   target.value=item.value;
  }
  return event;

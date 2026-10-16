@@ -47,23 +47,32 @@ with sync_playwright() as p:
   assert results[1]['body']['fields']==['$id','Name']
   print('PASS search', 'mobile' if mobile else 'desktop','GET-only, 2 pages, filter parentheses, bounded')
   page.close()
- for should_fail in (False,True):
+ for scenario in ('success','stale','get-fail','put-fail'):
   page=browser.new_page(viewport={'width':1280,'height':850})
   page.set_content('<main id="mount"></main>')
-  page.evaluate("""({shouldFail})=>{
+  page.evaluate("""({scenario})=>{
    const mount=document.getElementById('mount');
-   window.writes=[];
+   window.writes=[];window.calls=[];
    window.confirm=()=>true;
    const api=async(url,method,body)=>{
-    if(method!=='PUT')throw Error('unexpected API call');
+    window.calls.push({url,method,body});
+    if(method==='GET'){
+      if(scenario==='get-fail')throw Error('mock read permission refused');
+      const current=[
+        {$id:{value:'1'},$revision:{value:scenario==='stale'?'99':'1'},Amount:{type:'NUMBER',value:'10'}},
+        {$id:{value:'2'},$revision:{value:'3'},Amount:{type:'NUMBER',value:'20'}}
+      ];
+      return {records:current};
+    }
+    if(method!=='PUT')throw Error('unexpected method');
     window.writes.push({url,method,body});
-    if(shouldFail)throw Error('simulated atomic revision conflict');
+    if(scenario==='put-fail')throw Error('simulated atomic revision conflict');
     return {records:body.records.map((r,i)=>({id:r.id,revision:String(i+2)}))};
    };
    window.kintone={$PLUGIN_ID:'plugin2',plugin:{app:{getConfig:()=>({rules:'[{"field":"Amount","limit":30}]'})}},
      app:{getHeaderSpaceElement:()=>mount,getId:()=>42},api:Object.assign(api,{url:p=>p}),
      events:{on:(event,cb)=>{window.kintoneEvent=cb;}}};
-  }""",{'shouldFail':should_fail})
+  }""",{'scenario':scenario})
   page.add_script_tag(content=bundle('grid-editor'))
   event_records=[
    {'$id':{'value':'1'},'$revision':{'value':'1'},'Amount':{'type':'NUMBER','value':'10'}},
@@ -80,15 +89,20 @@ with sync_playwright() as p:
   page.locator('#resoarc-grid-alpha input').nth(1).fill('21')
   page.get_by_role('button',name='変更をプレビュー').click()
   page.get_by_role('button',name='確認して更新').click()
-  expected='成立しませんでした' if should_fail else '完了'
+  expected='完了' if scenario=='success' else ('書き込みは行っていません' if scenario in ('stale','get-fail') else '更新結果が不明')
   page.wait_for_function("""expected=>document.querySelector('#resoarc-grid-alpha [role=status]').textContent.includes(expected)""",arg=expected)
-  assert page.evaluate('window.writes.length')==1
-  assert page.evaluate('window.writes[0].url')=='/k/v1/records.json'
-  assert [r['revision'] for r in page.evaluate('window.writes[0].body.records')]==['1','3']
-  assert page.evaluate('window.writes[0].body.records.length')==2
+  assert page.evaluate('window.calls[0].method')=='GET'
+  assert page.evaluate('window.calls[0].body.fields')==['$id','$revision','Amount']
+  assert page.evaluate('window.calls[0].body.query')=='$id in (1,2) limit 2'
+  expected_writes=0 if scenario in ('stale','get-fail') else 1
+  assert page.evaluate('window.writes.length')==expected_writes,(scenario,page.evaluate('window.writes'))
+  if expected_writes:
+   assert page.evaluate('window.writes[0].url')=='/k/v1/records.json'
+   assert [r['revision'] for r in page.evaluate('window.writes[0].body.records')]==['1','3']
+   assert page.evaluate('window.writes[0].body.records.length')==2
   assert page.get_by_role('button',name='確認して更新').is_disabled()
   assert page.get_by_role('button',name='変更をプレビュー').is_disabled()
-  print('PASS grid', 'atomic failure' if should_fail else 'atomic success','type-block, single PUT, revisions, no re-submit')
+  print('PASS grid',scenario,'GET preflight, conditional atomic PUT, no retry')
   page.close()
  browser.close()
 print('BROWSER_RUNTIME_PASS')

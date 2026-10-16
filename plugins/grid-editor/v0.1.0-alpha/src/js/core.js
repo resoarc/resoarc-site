@@ -51,5 +51,37 @@ function batchRequest(plan,app){
  });
  return {app,records};
 }
-return {normalize,canEdit,validateValue,preview,batchRequest,EDITABLE_TYPES};
+function preflightRequest(plan,app){
+ const payload=batchRequest(plan,app);
+ const ids=payload.records.map(r=>r.id);
+ return {
+  app:payload.app,
+  fields:['$id','$revision',plan.field],
+  query:'$id in ('+ids.join(',')+') limit '+ids.length
+ };
+}
+function confirmUnchanged(plan,response,app){
+ const payload=batchRequest(plan,app);
+ if(!response||!Array.isArray(response.records)||response.records.length!==plan.changedCount){
+  throw Error('取得件数が変更プレビューと一致しません。更新は実行しません');
+ }
+ const read=new Map();
+ for(const record of response.records){
+  const id=record&&record.$id&&String(record.$id.value);
+  if(!id||read.has(id))throw Error('取得したレコードIDが不正です。更新は実行しません');
+  read.set(id,record);
+ }
+ for(const change of plan.changes){
+  const live=read.get(change.id);
+  if(!live)throw Error('更新対象のレコードが見つかりません: '+change.id);
+  const revision=live.$revision&&String(live.$revision.value);
+  const cell=live[change.field];
+  if(!canEdit(cell)||revision!==change.revision||
+      String(cell.value==null?'':cell.value)!==change.before){
+   throw Error('レコード '+change.id+' の内容または更新権限が変更されています。再読込してください');
+  }
+ }
+ return payload;
+}
+return {normalize,canEdit,validateValue,preview,batchRequest,preflightRequest,confirmUnchanged,EDITABLE_TYPES};
 });

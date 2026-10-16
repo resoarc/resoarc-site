@@ -51,16 +51,23 @@ function onShow(e){
   if(busy||settled||!staged||!staged.changedCount)return;
   if(!window.confirm(settings.field+' の '+staged.changedCount+'件を実際に更新します。取り消しできません。実行しますか？'))return;
   lock();
+  let submitted=false;
   try{
    const app=kintone.app.getId();
-   const payload=core.batchRequest(staged,app);
-   status.textContent='一括更新リクエスト中: '+staged.changedCount+'件';
+   const request=core.preflightRequest(staged,app);
+   status.textContent='更新直前の状態を確認中: '+staged.changedCount+'件';
+   const current=await kintone.api(kintone.api.url('/k/v1/records.json',true),'GET',request);
+   const payload=core.confirmUnchanged(staged,current,app);
+   status.textContent='確認完了。一括更新リクエスト中: '+staged.changedCount+'件';
+   submitted=true;
    await kintone.api(kintone.api.url('/k/v1/records.json',true),'PUT',payload);
    status.textContent='一括更新完了: '+staged.changedCount+'件。ページを再読込してください。';
   }catch(error){
-   status.textContent='一括更新は成立しませんでした。kintoneからの結果を再確認してください: '+(error.message||error)+'。再読込するまで再実行できません。';
+   status.textContent=(submitted?
+    'APIの応答に失敗しました。更新結果が不明な場合があります。再実行せず、画面を再読込して確認してください: ':
+    '更新前の安全確認に失敗したため書き込みは行っていません。再読込して確認してください: ')+(error.message||error);
   }finally{
-   settled=true; // Avoid ambiguous retry if the connection dropped after the server committed.
+   settled=true; // A dropped PUT response is ambiguous; never retry automatically.
   }
  });
  return e;
