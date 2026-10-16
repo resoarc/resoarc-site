@@ -1,0 +1,113 @@
+name: Build verified ResoArcOS PC v0.1.1-dev
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/resoarcos-pc-v0.1.1-dev.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: resoarcos-preview-011-20261016
+  cancel-in-progress: false
+
+jobs:
+  build-verify-publish:
+    if: github.repository == 'resoarc/resoarc-site'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout immutable source archive
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify checked-in OS source and extract safely
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_resoarcos_snapshot.py
+          cp site/downloads/resoarcos-pc-v0.1.1-dev-source.zip source.zip
+          echo 'ad60fd5629e91ae4c045d7411ff8a821eb4a442900127a6d89514b738e481ac4  source.zip' | sha256sum --check
+          mkdir source
+          unzip -q source.zip -d source
+          test -f source/LICENSE
+          test -f source/scripts/verify-iso.sh
+          test -f source/src/resoarcos/install.py
+      - name: Source regression and security checks
+        working-directory: source
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python3 -m unittest discover -s tests -q
+          python3 -m compileall -q src scripts
+          bash -n images/pc/build.sh scripts/verify-iso.sh tests/smoke_gui_xvfb.sh tests/smoke_install_stage.sh
+          bash tests/smoke_install_stage.sh
+      - name: Build reproducibly inside Debian 13 Docker
+        working-directory: source
+        run: |
+          set -euo pipefail
+          docker build --pull -t resoarcos-builder:ci -f images/pc/Dockerfile.build .
+          docker volume create resoarcos-ci-work
+          docker run --rm --privileged --cpus=2 --memory=5g --memory-swap=5g             --mount "type=bind,src=$PWD,dst=/source,readonly"             --mount "type=volume,src=resoarcos-ci-work,dst=/work"             -w /work resoarcos-builder:ci bash -lc             'set -e; cp -a /source/images /source/scripts /source/src /work/; bash images/pc/build.sh'
+      - name: Verify ISO internals and boot parameters
+        working-directory: source
+        run: |
+          set -euo pipefail
+          docker run --rm --cpus=2 --memory=2g -e RESOARC_REQUIRE_INSTALL_PLAN=1             --mount "type=bind,src=$PWD,dst=/source,readonly"             --mount "type=volume,src=resoarcos-ci-work,dst=/work,readonly"             -w /source resoarcos-builder:ci             bash scripts/verify-iso.sh /work/out/pc-build/resoarcos-amd64-amd64.hybrid.iso
+          mkdir -p release
+          docker run --rm             --mount "type=volume,src=resoarcos-ci-work,dst=/work,readonly"             --mount "type=bind,src=$PWD/release,dst=/release"             resoarcos-builder:ci             cp /work/out/pc-build/resoarcos-amd64-amd64.hybrid.iso /release/resoarcos-pc-v0.1.1-dev-amd64.iso
+      - name: QEMU headless-to-GUI boot regression
+        working-directory: source
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends qemu-system-x86 xorriso
+          python3 scripts/qemu-headless-gui-smoke.py             release/resoarcos-pc-v0.1.1-dev-amd64.iso             --out-dir release --boot-wait 180 --gui-wait 50
+          test -s release/resoarc-gui-qa.json
+          sha256sum release/resoarcos-pc-v0.1.1-dev-amd64.iso > release/SHA256SUMS
+      - name: Preserve verified ISO as a short-lived workflow artifact
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: resoarcos-pc-v0.1.1-dev-verified
+          path: |
+            source/release/resoarcos-pc-v0.1.1-dev-amd64.iso
+            source/release/SHA256SUMS
+            source/release/resoarc-gui-qa.json
+          retention-days: 7
+          compression-level: 0
+      - name: Publish GitHub prerelease (never a stable OS release)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: resoarcos-pc-v0.1.1-dev-20261016
+        working-directory: source
+        run: |
+          set -euo pipefail
+          cat > release/RELEASE_NOTES.txt <<'NOTES'
+          ResoArcOS PC v0.1.1-dev: developer preview, not production-ready. Read-only disk inventory and install plan commands added; no install apply exists.
+
+          Verified during this workflow: source SHA-256, Linux unit tests, read-only install command safety, ISO content and managed-code permissions, boot parameters and QEMU direct-kernel headless-to-GUI smoke test. BIOS/UEFI virtual-CD-ROM boots and in-guest install list were visually verified on a separate local candidate, not on this independently built CI ISO.
+
+          Not yet supported: safe disk installer, persistence, password-protected installed accounts, signed updates, rollback, production network hardening, unattended security support and physical-PC hardware certification. This Live image has a temporary autologin user. Never install to your primary PC or process sensitive data.
+
+          Source and instructions: https://resoarc.com/os/
+          Base: Debian 13; upstream packages retain their own licenses. Obtain corresponding upstream source from Debian source repositories and package source entries.
+          NOTES
+          gh release create "$TAG"             release/resoarcos-pc-v0.1.1-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             ../source.zip             --title 'ResoArcOS PC v0.1.1-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false
+          gh release view "$TAG" --json isPrerelease,assets > release/release-metadata.json
+          python3 - <<'PY'
+          import json
+          data = json.load(open('release/release-metadata.json', encoding='utf-8'))
+          assert data['isPrerelease'] is True, 'Release must remain prerelease'
+          assets = {item['name']: item['size'] for item in data['assets']}
+          required = {
+              'resoarcos-pc-v0.1.1-dev-amd64.iso',
+              'SHA256SUMS',
+              'resoarc-gui-qa.json',
+              'source.zip',
+          }
+          assert required.issubset(assets), f'Missing release assets: {required - assets.keys()}'
+          assert all(assets[name] > 0 for name in required), 'A release asset is empty'
+          print('RESOARCOS_RELEASE_ASSET_METADATA_PASS', sorted(required))
+          PY

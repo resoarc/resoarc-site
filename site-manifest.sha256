@@ -84,6 +84,7 @@ c1e673d2e49ba945fcdea988853f93d7eb8a5f1a6eef6de07a23c24cb3dee63d  site/downloads
 0e2d1f5790a83ea3b1b2289094a553e6153417eee78b5267d626bf2c474326c6  site/downloads/resoarcos-pc-v0.1.0-dev-iso-SHA256.txt
 72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20  site/downloads/resoarcos-pc-v0.1.0-dev-source.zip
 77ddb1077af5e565cfefd167843a18ec3bd0141b2954ff17041cab9424d6bd99  site/downloads/resoarcos-pc-v0.1.0-dev-source.zip.sha256
+ad60fd5629e91ae4c045d7411ff8a821eb4a442900127a6d89514b738e481ac4  site/downloads/resoarcos-pc-v0.1.1-dev-source.zip
 d8beeccf39f457b45fa469285af6b905b4d4dc11aa8dae36af7b1ac145dd47c1  site/downloads/resoarcos-pi-firstboot-v0.2.1-alpha-source.zip
 34d36e32f306dd801e2889c2fbf9b41ac2ec73298ebea695f3f249e0759f96b5  site/downloads/resoarcos-pi-firstboot-v0.2.1-alpha-source.zip.sha256
 9e09b3aac239053b19d06f239fdab8c07d8077b535b63af7f2e8f900d1b6a754  site/guide/index.html
@@ -92,6 +93,7 @@ c6a050128061ec5131684176cb170809727e1f2d89c797994b8acdecb3db5443  site/index.htm
 5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6  site/licenses/NOTOSERIFJP-OFL.txt
 4b1d5c0298f3626bb3639997084b30818fa13222be2a216c22bb91aa0c834b89  site/licenses/RESOARC-MIT.txt
 a57f54e5e39d85b14379d8c868a8b858ba8ec3d2e2d71abd168fba56857eff07  site/llms.txt
+e0909b054bbfbcad86d8fcf29f9b870c587dcc347b3a92629a55a37db895ae7f  site/os/download/__pycache__/resoarcos-download.cpython-310.pyc
 fece53af3c2b46815c5dfc8f9fcbcbc94bad8399adcf13bb22f1e47097cb3954  site/os/index.html
 224e516379b876348c249bc333b5403713b5bdfa27a4dde996e736e891bdbc65  site/os/pi/index.html
 54974c3fdca38ae1f5ca8d5c13d3eab55e49731ae901bd49196af05ef54ecfc9  site/principles/index.html
