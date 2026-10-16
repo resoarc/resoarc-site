@@ -5,6 +5,7 @@ export const FORMAT = 'resoarc.kintone.backup';
 export const VERSION = 2;
 export const MAX_BYTES = 25 * 1024 * 1024;
 export const MAX_RECORDS = 20000;
+export const MAX_ZIP_ENTRIES = 50000;
 const WRITABLE = new Set(['SINGLE_LINE_TEXT','MULTI_LINE_TEXT','RICH_TEXT','NUMBER','RADIO_BUTTON','DROP_DOWN','CHECK_BOX','MULTI_SELECT','DATE','TIME','DATETIME','LINK','USER_SELECT','ORGANIZATION_SELECT','GROUP_SELECT','FILE']);
 const RESERVED_CODES = new Set(['__proto__','constructor','prototype']);
 const s = v => JSON.stringify(v);
@@ -127,16 +128,22 @@ export async function makeArchive({appId,fields,layout,records,download,now=new 
   };
   const manifestBytes=strToU8(s(manifest)); size+=manifestBytes.length; sizeCheck(size,maxBytes);
   contents['manifest.json']=manifestBytes;
+  if(Object.keys(contents).length>MAX_ZIP_ENTRIES)stop('ZIP内のファイル数が上限を超えました');
   const zip=zipSync(contents,{level:6}); sizeCheck(zip.length,maxBytes);
   return {zip,manifest,hash:await sha256(zip)};
 }
-export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES}={}) {
+export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES, maxEntries=MAX_ZIP_ENTRIES}={}) {
+  if(!Number.isSafeInteger(maxEntries)||maxEntries<1||maxEntries>MAX_ZIP_ENTRIES)stop('ZIP内のファイル数上限が不正です');
   const bytes=u8(zipInput); sizeCheck(bytes.byteLength,maxBytes);
   if (expectedHash && (await sha256(bytes))!==expectedHash.toLowerCase()) stop('ZIP全体のSHA-256が一致しません');
-  let inflatedTotal=0, entries;
+  let inflatedTotal=0, entries, entryCount=0;
+  const seenPaths=new Set();
   try {
     entries=unzipSync(bytes,{filter:(file)=>{
+      if(++entryCount>maxEntries)stop('ZIP内のファイル数が上限を超えました');
       checkPath(file.name);
+      if(seenPaths.has(file.name))stop('ZIP内に同じファイルが重複しています: '+file.name);
+      seenPaths.add(file.name);
       const n=Number(file.originalSize);
       if (!Number.isSafeInteger(n)||n<0) stop('ZIPのサイズが不正です');
       inflatedTotal+=n; sizeCheck(inflatedTotal,maxBytes);
