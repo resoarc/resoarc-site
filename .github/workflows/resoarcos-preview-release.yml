@@ -76,4 +76,4 @@ jobs:
           Source and instructions: https://resoarc.com/os/
           Base: Debian 13; upstream packages retain their own licenses. Obtain corresponding upstream source from Debian source repositories and package source entries.
           NOTES
-          gh release create "$TAG"             release/resoarcos-pc-v0.1.0-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             source.zip             --title 'ResoArcOS PC v0.1.0-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false             --target "$GITHUB_SHA"
+          gh release create "$TAG"             release/resoarcos-pc-v0.1.0-dev-amd64.iso             release/SHA256SUMS release/resoarc-gui-qa.json             ../source.zip             --title 'ResoArcOS PC v0.1.0-dev (developer preview)'             --notes-file release/RELEASE_NOTES.txt             --prerelease --latest=false             --target "$GITHUB_SHA"
