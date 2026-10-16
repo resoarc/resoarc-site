@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "source_release": "v0.1.2-beta",
+  "key_hash_algorithm": "SHA-256",
+  "algorithm_notice": "Public-key identity only; does not attest trusted publisher or modern cryptographic strength",
+  "plugin_pubkey_sha256": {
+    "input-template": "f5cc94bf786c89fc63d1793ed2d58a0f18129b516a444eb48bf6da67975b136f",
+    "reuse-reset": "2897e68b7ada4d82e550fa16fd7dbc066bcdd86ca7a5cba18c764823b7446964",
+    "text-normalizer": "e8e6c6da9f01384f505e97a336d527c8a2f2aea93edada4c2660acc02ef87040",
+    "field-help": "c32919bda3c7e95577e3753469f2e0a4d00899d01967a59c89c07a0bdcc2145f",
+    "save-navigation": "1ea204f4d08753b5d1e1addceb06979652dbd2180b65ae63daf555607baa307a",
+    "mail-compose": "6a5cfe08071d868323b7846cb596ead1a4ee8049a031d54ec31a39d659df503c",
+    "list-aggregate": "05194e7aa63212a4aaa7dec3454bf6eb32b526d1cde7fb9fcbfe1631973e7acc",
+    "csv-export": "682dc9bc81aa80563c42d6500545ad49e61099acb41414a21f75431e95d40e45",
+    "attachment-count": "4716177992b3a10c6dceaba6fe4bcff615bcc9f9bb4e9fc6437dfcb2898cc40c",
+    "table-row-tools": "be9e928eca8b1bca67369f91b9f877f776a4db2b806a51afb6adbc560239ea40",
+    "qr-code": "838cba6139dd9687e60bb271d3fe754c18c07da0eafe8ecb92e0ad68507c4f1a",
+    "record-toc": "676603deb0745d01d755e729b7ba56655845b6fe3348267cbf8e1e53d9c83fb8",
+    "related-links": "69d954b2efb734720329d7ab98fcd1ad3194fdeecfd8c95882c966556f646cec",
+    "sticky-list": "247e459ec1403a3b36876c1731015c3e1e38939b4a753f31cb5f5feb2e361d45",
+    "file-preview": "547c6ae6879bae7572e8d75d029aa4bd9ac53419fdd72818729eb6df39d14936",
+    "lookup-suggest": "1ac7a41f80978c20b778cf4e56d7db754aa088dc3ad742de442e023a6624a42f",
+    "postal-address": "08428bd25be9c6a646b99914aa5637b15af7ef741bb7eaeaf58256f4d181bf1d",
+    "barcode-scan": "adbb4da524d8639908ada5e6d2bce252c27cda06c36e0da534a9debcc545be06"
+  }
+}
