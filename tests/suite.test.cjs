@@ -43,3 +43,35 @@ test('printed reports reject oversized records and excessive columns',()=>{
  assert.throws(()=>api.reportHTML(Array.from({length:5001},()=>({v:'x'}))),/5,000/);
  assert.throws(()=>api.reportHTML([{x:'1'}],Array.from({length:51},(_,i)=>String(i))),/1～50/);
 });
+
+test('CSV parser rejects excessive rows before materializing 50k+ objects',()=>{
+ const input='id\n'+Array.from({length:50001},(_,i)=>String(i)).join('\n');
+ assert.throws(()=>api.parseDelimited(input),/50,000/);
+});
+test('CSV parser rejects 251 columns even on empty data',()=>{
+ assert.throws(()=>api.parseDelimited(Array(251).fill('field').map((v,i)=>v+i).join(',')),/250列/);
+});
+test('CSV parser accepts exactly 250 columns',()=>{
+ const input=Array.from({length:250},(_,i)=>'h'+i).join(',')+'\n'+Array.from({length:250},(_,i)=>String(i)).join(',');
+ assert.equal(Object.keys(api.parseDelimited(input)[0]).length,250);
+});
+test('bulk preview treats number 1 and CSV string 1 as the same key',()=>{
+ const r=api.bulkPreview([{key:1,a:'before'}],[{key:'1',a:'after'}],'key');
+ assert.equal(r.changedRecords,1);
+ assert.equal(r.unmatched.length,0);
+});
+test('bulk preview rejects keys that are structured objects',()=>{
+ assert.throws(()=>api.bulkPreview([{key:{nested:1}}],[],'key'),/照合キー/);
+});
+test('permission audit handles explicit false text and absent rules safely',()=>{
+ const r=api.permissionAudit({rights:[{entity:{type:'GROUP',code:'g'},viewRecord:'false',addRecord:'true',editRecord:false,deleteRecord:0}]});
+ assert.equal(r.matrix[0].view,false);
+ assert.equal(r.matrix[0].add,true);
+ assert.equal(r.matrix[0].edit,false);
+ assert.equal(r.matrix[0].delete,false);
+ assert.throws(()=>api.permissionAudit({unrelated:[]}),/rights/);
+});
+test('report rejects duplicate column IDs or string for columns',()=>{
+ assert.throws(()=>api.reportHTML([{a:'A'}],'a'),/配列/);
+ assert.throws(()=>api.reportHTML([{a:'A'}],['a','a']),/重複/);
+});

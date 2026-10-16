@@ -24,6 +24,8 @@ jobs:
           python -m unittest discover -s tests -p test_resoarcos_snapshot.py -v
       - name: Verify Pi first-boot alpha source ZIP
         run: python scripts/verify_pi_preview.py
+      - name: Verify frozen Web8 GA v1.0.0 release
+        run: python scripts/verify_web8_v1.py
       - name: Verify signed kintone QA packages and all 16 feature routes
         run: python scripts/verify_suite16_readiness.py
       - name: Check public site source, links and checksums
@@ -67,6 +69,7 @@ jobs:
           python tests/alpha_configs_smoke.py
           python tests/search_grid_browser_smoke.py
           python tests/browser_suite_smoke.py
+          python tests/web8_acceptance_smoke.py
           python tests/pi_site_smoke.py
           python tests/suite16_release_smoke.py
           python tests/top_news_sync_smoke.py

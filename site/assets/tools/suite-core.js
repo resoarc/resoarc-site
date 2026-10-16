@@ -10,7 +10,10 @@
     const input = String(text || '').replace(/^\uFEFF/, '');
     const sep = delimiter || (input.split(/\r?\n/, 1)[0].includes('\t') ? '\t' : ',');
     if (sep !== ',' && sep !== '\t') throw Error('CSV/TSV の区切り文字が不正です');
+    if (input.length > 12 * 1024 * 1024) throw Error('入力文字列が12 MiBの上限を超えています');
     let rows = [], cells = [], cur = '', quoted = false, closed = false;
+    function finishCell() { if (cells.length >= 250) throw Error('列数が250列の上限を超えています'); cells.push(cur); cur = ''; closed = false; }
+    function finishRow() { if (cells.some(v => v !== '') || cells.length > 1) { if (rows.length >= 50001) throw Error('CSVは50,000行以内に分割してください'); rows.push(cells); } cells = []; }
     for (let i = 0; i < input.length; i++) {
       const c = input[i];
       if (quoted) {
@@ -19,20 +22,19 @@
         else cur += c;
       } else if (c === '"' && !cur && !closed) { quoted = true; }
       else if (c === '"' && !quoted) { throw Error('CSVの引用符が不正な位置にあります'); }
-      else if (c === sep) { cells.push(cur); cur = ''; closed = false; }
+      else if (c === sep) { finishCell(); }
       else if (c === '\r' || c === '\n') {
         if (c === '\r' && input[i + 1] === '\n') i++;
-        cells.push(cur); cur = ''; closed = false;
-        if (cells.some(v => v !== '') || cells.length > 1) rows.push(cells);
-        cells = [];
+        finishCell(); finishRow();
       } else if (closed && c !== ' ' && c !== '\t') { throw Error('閉じ引用符の後に余分な文字があります'); }
       else if (!closed) { cur += c; }
     }
     if (quoted) throw Error('CSVの引用符が閉じていません');
-    if (cur || cells.length || closed) { cells.push(cur); rows.push(cells); }
+    if (cur || cells.length || closed) { finishCell(); finishRow(); }
     if (!rows.length) return [];
     const headers = rows.shift().map(h => h.trim());
     if (headers.some(h => !h) || new Set(headers).size !== headers.length) throw Error('見出しが空欄、または重複しています');
+    if (rows.length > 50000) throw Error('CSVは50,000行以内に分割してください');
     return rows.map((cells, i) => {
       if (cells.length !== headers.length) throw Error('データ行' + (i + 2) + ': 列数が一致しません');
       return Object.fromEntries(headers.map((h, j) => [h, cells[j]]));
@@ -64,12 +66,17 @@
     return String(value == null ? '' : typeof value === 'object' ? JSON.stringify(value) : value).normalize('NFKC').trim().toLowerCase();
   }
   function keyOf(v) { return JSON.stringify(v); }
+  function matchKey(v) {
+    if (typeof v !== 'string' && typeof v !== 'number') throw Error('照合キーは文字列または数値にしてください');
+    if (typeof v === 'number' && !Number.isFinite(v)) throw Error('照合キーの数値が不正です');
+    return JSON.stringify(String(v));
+  }
   function uniqueIndex(rows, key, label) {
     const out = new Map();
     for (let i = 0; i < rows.length; i++) {
       const v = rows[i][key];
       if (v == null || String(v).trim() === '') throw Error(label + '行' + (i + 1) + 'の照合キーが空欄です');
-      const id = keyOf(v);
+      const id = matchKey(v);
       if (out.has(id)) throw Error(label + 'の照合キーが重複しています: ' + String(v));
       out.set(id, { row: rows[i], index: i });
     }
@@ -79,7 +86,7 @@
     const a = dataRows(baseline), b = dataRows(changes), field = key || '$id';
     const idx = uniqueIndex(a, field, '既存データ'), seen = new Set(), diffs = [], unmatched = [];
     for (const update of b) {
-      const id = keyOf(update[field]);
+      const id = matchKey(update[field]);
       if (update[field] == null || String(update[field]).trim() === '') throw Error('更新データの照合キーが空欄です');
       if (seen.has(id)) throw Error('更新データの照合キーが重複しています');
       seen.add(id);
@@ -156,8 +163,10 @@
   }
   function permissionAudit(source) {
     if (!source || typeof source !== 'object') throw Error('権限設定JSONが必要です');
-    const rules = Array.isArray(source) ? source : (source.rights || source.rules || []);
+    const rules = Array.isArray(source) ? source : (own(source, 'rights') ? source.rights : source.rules);
+    if (rules === undefined) throw Error('権限定義に rights または rules がありません');
     if (!Array.isArray(rules)) throw Error('rights / rules 配列を解釈できません');
+    const allow = value => value === true || value === 1 || value === 'true';
     const matrix = rules.map((r, i) => {
       if (!r || typeof r !== 'object' || Array.isArray(r)) throw Error('権限ルールの形式が不正です: ' + (i + 1));
       return ({
@@ -166,10 +175,10 @@
       entityType: r.entity && r.entity.type || '',
       condition: r.filterCond || r.condition || '',
       field: r.field || '',
-      view: Boolean(r.viewRecord || r.view || r.read),
-      add: Boolean(r.addRecord || r.add),
-      edit: Boolean(r.editRecord || r.edit),
-      delete: Boolean(r.deleteRecord || r.delete),
+      view: allow(r.viewRecord ?? r.view ?? r.read),
+      add: allow(r.addRecord ?? r.add),
+      edit: allow(r.editRecord ?? r.edit),
+      delete: allow(r.deleteRecord ?? r.delete),
       raw: r
     });
     });
@@ -180,8 +189,9 @@
     const rows = dataRows(source);
     if (!rows.length) throw Error('帳票に出力するデータがありません');
     if (rows.length > 5000) throw Error('印刷可能な上限は5,000件です。対象を分割してください');
+    if (selected != null && !Array.isArray(selected)) throw Error('印刷する列は配列で指定してください');
     const columns = selected && selected.length ? selected : Object.keys(rows[0]).filter(k => typeof rows[0][k] !== 'object');
-    if (!columns.length || columns.length > 50 || columns.some(c => typeof c !== 'string' || !c || c.length > 128)) throw Error('印刷する列は1～50個で指定してください');
+    if (!columns.length || columns.length > 50 || columns.some(c => typeof c !== 'string' || !c || c.length > 128) || new Set(columns).size !== columns.length) throw Error('印刷する列は1～50個、重複なしで指定してください');
     const head = columns.map(c => '<th scope="col">' + escapeHTML(c) + '</th>').join('');
     const body = rows.map(row => '<tr>' + columns.map(c => '<td>' + escapeHTML(row[c] == null ? '' : row[c]) + '</td>').join('') + '</tr>').join('');
     return '<h2>' + escapeHTML(title || 'ResoArc 帳票') + '</h2><p>' + rows.length + ' 件</p><table class="print-table"><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table>';

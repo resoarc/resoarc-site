@@ -1,0 +1,118 @@
+{
+  "release": "ResoArc Web Diagnostics",
+  "version": "1.0.0",
+  "date": "2026-10-16",
+  "category": "browser-only offline diagnostics",
+  "scope": "8 web utilities only",
+  "kintonePluginStatus": "NOT_GA - independent kintone tenant acceptance pending",
+  "zip": "resoarc-web8-v1.0.0-source.zip",
+  "sha256": "d9bee5d112c706b322037d4c2a595d24d39148b1d84e00856732f48114526374",
+  "tools": [
+    {
+      "path": "/tools/kintone-bulk-preview/",
+      "name": "一括更新・変更前プレビュー",
+      "limitation": "データへの書き込みは行いません。JSON／CSVのファイル照合のみです。"
+    },
+    {
+      "path": "/tools/kintone-app-diff/",
+      "name": "アプリ設定JSON差分比較",
+      "limitation": "設定JSONの構造的差分の表示のみです。実際のkintoneアプリの変更・同期は行いません。"
+    },
+    {
+      "path": "/tools/kintone-permission-audit/",
+      "name": "権限定義の可視化",
+      "limitation": "定義を一覧化するだけです。ユーザー・グループに適用される実効権限は判定しません。"
+    },
+    {
+      "path": "/tools/kintone-import-check/",
+      "name": "CSV取込前診断",
+      "limitation": "取り込みの成功を保証しません。テーブル行、ルックアップなど未対応の形式があります。"
+    },
+    {
+      "path": "/tools/kintone-duplicates/",
+      "name": "重複レコード候補の検出",
+      "limitation": "文字列正規化による候補抽出であり、重複レコードの削除はしません。"
+    },
+    {
+      "path": "/tools/kintone-lookup-audit/",
+      "name": "ルックアップ不整合診断",
+      "limitation": "手元の2ファイルを比較する静的診断です。参照関係の自動更新はしません。"
+    },
+    {
+      "path": "/tools/kintone-cross-aggregate/",
+      "name": "統合済みCSV／JSON集計",
+      "limitation": "統合済みデータを入力します。異なるkintoneアプリの直接API取得は行いません。"
+    },
+    {
+      "path": "/tools/kintone-print-report/",
+      "name": "ブラウザ帳票／PDF保存",
+      "limitation": "PDFはブラウザの印刷機能で保存します。帳票サーバーやPDF生成APIは使いません。"
+    }
+  ],
+  "sources": [
+    {
+      "path": "LICENSE",
+      "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+    },
+    {
+      "path": "docs/WEB8_V1_RELEASE.md",
+      "sha256": "4b5c92aeba8173a2b6962146aef2bcb279e53c1f47e185e30f3fffa2bcbccc1f"
+    },
+    {
+      "path": "site/assets/tools/app-diff.js",
+      "sha256": "0fbfc8e97d5da0a1059468a128aafd662a01a61f01cb6e2293468c267611cb7e"
+    },
+    {
+      "path": "site/assets/tools/import-diagnose-core.js",
+      "sha256": "6e302ea6b7ea31c0d457784a4593cb0c745cb2b56914d6b278ed807d2370039c"
+    },
+    {
+      "path": "site/assets/tools/import-diagnose-ui.js",
+      "sha256": "5081c11d76411c6486727ec0636e298a498638ec4cb1a2f3506353558e10fc09"
+    },
+    {
+      "path": "site/assets/tools/suite-core.js",
+      "sha256": "8a54999bdb5b7131758aefdf54b3f48032a17630c03e7933fb61372634e0aee8"
+    },
+    {
+      "path": "site/assets/tools/suite-ui.js",
+      "sha256": "0492d010dc8f99109e63bab4830b3e1a4e9307505a31595af4e883e32b5fc82e"
+    },
+    {
+      "path": "site/assets/tools/suite.css",
+      "sha256": "bae800ff1441d6b44ad69c346ee2d156f16b2971ccc59ee578f6399c8b1078cf"
+    },
+    {
+      "path": "site/tools/kintone-app-diff/index.html",
+      "sha256": "0bf3b952e22e3e7bd1ba4f7d0f236cda032fbb96019feea331c8c961e3b0a071"
+    },
+    {
+      "path": "site/tools/kintone-bulk-preview/index.html",
+      "sha256": "c6564e85c89699c3bb4e9e3cab61c5ed237b5ad3ce5918748c14202a8670b86b"
+    },
+    {
+      "path": "site/tools/kintone-cross-aggregate/index.html",
+      "sha256": "8d36eb290d420f344a11c3954a3e4145df3ed59de201bc6e1777af41a6321a70"
+    },
+    {
+      "path": "site/tools/kintone-duplicates/index.html",
+      "sha256": "d9ddef058191f708436297715064fe7a18b01e5564d8c4b597b355d9dbfb3150"
+    },
+    {
+      "path": "site/tools/kintone-import-check/index.html",
+      "sha256": "fe041e6d3fa2b27779cc91c38462bec75d3825b19d886ed50073948efd6b888c"
+    },
+    {
+      "path": "site/tools/kintone-lookup-audit/index.html",
+      "sha256": "6ee14a37c064f1fbadcb6f36168b51c365b9a2b6ffdadfd8b36ba2918e388487"
+    },
+    {
+      "path": "site/tools/kintone-permission-audit/index.html",
+      "sha256": "3c44d4ddfbfa1c3881cf205b664e16d58fe688fdf20a3d0f427abf77fb1274bb"
+    },
+    {
+      "path": "site/tools/kintone-print-report/index.html",
+      "sha256": "2d837d95357eedd6e7fa7645dd6a3f298ed244104283702379c1b2cbfd1b26f6"
+    }
+  ]
+}

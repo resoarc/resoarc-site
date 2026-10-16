@@ -10,11 +10,22 @@ const accepted=(f)=>f && f.size<=limit;
 function update(){btn.disabled=!files.every(x=>accepted(x.files[0]));}
 files.forEach(x=>x.addEventListener('change',()=>{result.hidden=true;update();}));
 function jsonType(o){return Array.isArray(o)?'array':o===null?'null':typeof o;}
-function secureValue(value,key){
+function sanitize(value,key,depth=0){
  if(secret.test(key))return '[MASKED]';
+ if(depth>15)return '[NESTED]';
+ if(Array.isArray(value))return value.slice(0,120).map(v=>sanitize(v,'',depth+1));
+ if(value&&typeof value==='object'){
+   const obj={};
+   for(const name of Object.keys(value).slice(0,120))obj[name]=sanitize(value[name],name,depth+1);
+   return obj;
+ }
+ return value;
+}
+function secureValue(value,key){
  if(value===undefined)return '（なし）';
- const s=JSON.stringify(value);
- return s===undefined?String(value):s.length>250?s.slice(0,250)+'…':s;
+ const cleaned=sanitize(value,key);
+ const s=JSON.stringify(cleaned);
+ return s===undefined?String(cleaned):s.length>250?s.slice(0,250)+'…':s;
 }
 function traverse(a,b,path,changes,depth){
  if(changes.length>5000)throw Error('差分が5,000件を超えたため中止しました。');
