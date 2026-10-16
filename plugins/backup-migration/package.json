@@ -7,7 +7,13 @@
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.js",
     "check": "npm run test && npm run build",
-    "test:browser": "node scripts/run-browser-smoke.mjs"
+    "test:browser": "node scripts/run-browser-smoke.mjs",
+    "qa:start": "node scripts/qa-edge.mjs start",
+    "qa:status": "node scripts/qa-api.mjs status",
+    "qa:plan": "node scripts/qa-api.mjs plan",
+    "qa:provision": "node scripts/qa-api.mjs provision",
+    "qa:run": "node scripts/qa-api.mjs run",
+    "qa:auto": "node scripts/qa-api.mjs auto"
   },
   "dependencies": {
     "fflate": "0.8.3"
