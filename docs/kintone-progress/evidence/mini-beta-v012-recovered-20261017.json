@@ -58,5 +58,34 @@
     "tenant_verified": false,
     "signed": false
   },
-  "quality_policy": "Source and embedded-signature math verified from user library artifacts. Signing key ownership, target tenant installation, mobile behavior, performance, coexistence, and v1 release remain gated. Do not confuse source ZIP, beta signed ZIP and unsigned hardening source."
+  "quality_policy": "Source and embedded-signature math verified from user library artifacts. Signing key ownership, target tenant installation, mobile behavior, performance, coexistence, and v1 release remain gated. Do not confuse source ZIP, beta signed ZIP and unsigned hardening source.",
+  "v1_qa_source_candidate": {
+    "filename": "resoarc-mini-plugins-v0.1.2-v1-review-SOURCE-UNSIGNED.zip",
+    "sha256": "c0499cd92bf2cfed0c51dfede1b871e9f20e108f193872fbbc1093477e783105",
+    "size_bytes": 160568,
+    "source_file_count": 159,
+    "signed": false,
+    "source_diffs": {
+      "changed": 27,
+      "added": 7,
+      "removed": 0
+    },
+    "tests": {
+      "kintone_event_handlers": 31,
+      "chromium_mock_cases": 19,
+      "v1_type_and_prototype_regression": 5,
+      "signing_identity_negative": "passed",
+      "manifest_assets": "18/18 passed",
+      "js_syntax": "37 files passed"
+    },
+    "signing_identity_pins": "docs/kintone-progress/evidence/mini-v012-public-key-pins.json",
+    "output_policy": "Never rotate installed plugin IDs silently; original beta archives untouched. Needs Windows import, isolated tenant UI verification, and signatures of existing release identities."
+  },
+  "windows_transfer": {
+    "original_source_in_windows_development_folder": false,
+    "prepared_importer": "scripts/import_mini_v012.py",
+    "importer_expected_sha256": "22f22159407063a90fc354cf0ee1af1283f402f25fe554d5f7c49026a4da0edb",
+    "current_result": "blocked until canonical ZIP is present in Documents/AI-Work/MR-kintone-tests/inbox",
+    "local_report": "Documents/AI-Work/MR-kintone-tests/reports/mini-source-import-20261017.json"
+  }
 }
