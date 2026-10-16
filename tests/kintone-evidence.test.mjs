@@ -11,7 +11,9 @@ const evidencePath = 'docs/kintone-progress/evidence/';
 const baseline = {
   tracker: JSON.parse(readFileSync(join(repo, 'docs/kintone-progress/tracker.json'), 'utf8')),
   unit: JSON.parse(readFileSync(join(repo, evidencePath, 'unit-tests-20261017.json'), 'utf8')),
-  manifest: JSON.parse(readFileSync(join(repo, evidencePath, 'manifest-preflight-20261017.json'), 'utf8'))
+  manifest: JSON.parse(readFileSync(join(repo, evidencePath, 'manifest-preflight-20261017.json'), 'utf8')),
+  signatures: JSON.parse(readFileSync(join(repo, evidencePath, 'signed-zip-audit-20261017.json'), 'utf8')),
+  smoke: JSON.parse(readFileSync(join(repo, evidencePath, 'auto-number-tenant-smoke-20261017.json'), 'utf8'))
 };
 
 function run(modify = () => {}) {
@@ -23,6 +25,8 @@ function run(modify = () => {}) {
     writeFileSync(join(tmp, 'docs/kintone-progress/tracker.json'), JSON.stringify(d.tracker));
     writeFileSync(join(tmp, evidencePath, 'unit-tests-20261017.json'), JSON.stringify(d.unit));
     writeFileSync(join(tmp, evidencePath, 'manifest-preflight-20261017.json'), JSON.stringify(d.manifest));
+    writeFileSync(join(tmp, evidencePath, 'signed-zip-audit-20261017.json'), JSON.stringify(d.signatures));
+    writeFileSync(join(tmp, evidencePath, 'auto-number-tenant-smoke-20261017.json'), JSON.stringify(d.smoke));
     return spawnSync(process.execPath, [join(repo, 'scripts/kintone-evidence.mjs'), '--root', tmp], {
       encoding: 'utf8', timeout: 10000
     });
@@ -60,4 +64,20 @@ test('mini product may not claim unsubstantiated unit pass', () => {
   const result = run(d => { d.tracker.items.find(x => x.group === 'mini').gates.unit = 'passed'; });
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /mini test pass is unverified/);
+});
+
+test('signed package gate must match audit evidence', () => {
+  const result = run(d => { d.tracker.items.find(x => x.slug === 'kanban').gates.signature = 'unverified'; });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /verified signature missing from tracker/);
+});
+test('unattributed E2E must not approve a specific build', () => {
+  const result = run(d => { d.tracker.items.find(x => x.slug === 'auto-number-stable').gates.tenant = 'passed'; });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /unattributed E2E must not approve/);
+});
+test('missing signature evidence is rejected', () => {
+  const result = run(d => { d.signatures.artifacts.pop(); });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /signed ZIP evidence count/);
 });
