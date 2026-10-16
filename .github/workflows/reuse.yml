@@ -1,4 +1,6 @@
-# Enforce license metadata and copyright attribution for every tracked public file.
+# SPDX-FileCopyrightText: 2026 ResoArc contributors
+# SPDX-License-Identifier: MIT
+# Check public repository licensing with FSFE's official pinned REUSE action.
 name: REUSE Specification compliance
 on:
   push:
@@ -9,13 +11,11 @@ permissions:
 jobs:
   reuse:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout public source
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
       - name: Check REUSE compliance
-        run: |
-          python3 -m venv /tmp/resoarc-reuse
-          /tmp/resoarc-reuse/bin/pip install 'reuse[charset-normalizer]'
-          /tmp/resoarc-reuse/bin/reuse lint
+        uses: fsfe/reuse-action@676e2d560c9a403aa252096d99fcab3e1132b0f5 # v6 (signed upstream tag)
