@@ -102,6 +102,7 @@ def build():
         target=ROOT/'plugins'/slug
         for d in ('js','html','css','image'):(target/d).mkdir(parents=True,exist_ok=True)
         manifest={'manifest_version':1,'version':'0.1.2','type':'APP','name':{'ja':'ResoArc '+name,'en':'ResoArc '+slug},'description':{'ja':description,'en':description},'icon':'image/icon.png','homepage_url':{'ja':'https://resoarc.com/tools/mini-plugins/','en':'https://resoarc.com/tools/mini-plugins/'},'desktop':{'js':['js/desktop.js']},'config':{'html':'html/config.html','js':['js/config.js'],'css':['css/config.css'],'required_params':['ra_settings']}}
+        if slug=='text-normalizer':manifest['mobile']={'js':['js/mobile.js']}
         (target/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         (target/'js/config.js').write_text(CONFIG_JS,encoding='utf-8')
         (target/'css/config.css').write_text(STYLE,encoding='utf-8')
@@ -110,6 +111,12 @@ def build():
         (target/'image/icon.png').write_bytes(icon_bytes(i))
         impl=ROOT/'runtimes'/(slug+'.js')
         (target/'js/desktop.js').write_text(COMMON.replace('__DEFAULTS__',json.dumps(defaults,ensure_ascii=False)).replace('__SLUG__',json.dumps(slug))+(impl.read_text(encoding='utf-8') if impl.exists() else '// NOT IMPLEMENTED\n')+'\n})();\n',encoding='utf-8')
+        if slug=='text-normalizer':
+            desktop_src=(target/'js/desktop.js').read_text(encoding='utf-8')
+            before="on(['app.record.create.submit','app.record.edit.submit'],e=>{"
+            after="on(['mobile.app.record.create.submit','mobile.app.record.edit.submit'],e=>{"
+            if desktop_src.count(before)!=1:raise RuntimeError('Unexpected text-normalizer event registration')
+            (target/'js/mobile.js').write_text(desktop_src.replace(before,after),encoding='utf-8')
         catalog.append({'slug':slug,'name':name,'description':description,'implemented':impl.exists()})
     (ROOT/'catalog.json').write_text(json.dumps(catalog,ensure_ascii=False,indent=2),encoding='utf-8')
     print('Scaffold: %s modules, %s implemented'%(len(catalog),sum(x['implemented'] for x in catalog)))
