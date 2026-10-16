@@ -1,7 +1,8 @@
-/* ResoArc grid editor pure diff and revision safeguards / MIT */
+/* ResoArc grid editor pure diff, typed validation, revision safeguards. MIT */
 (function(root,factory){'use strict';const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.ResoArcGrid=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
-function normalize(raw) {
+const EDITABLE_TYPES=['SINGLE_LINE_TEXT','MULTI_LINE_TEXT','NUMBER'];
+function normalize(raw){
  let list;try{list=typeof raw==='string'?JSON.parse(raw):raw;}catch(_){return null;}
  if(!Array.isArray(list)||list.length!==1)return null;
  const r=list[0];
@@ -10,6 +11,18 @@ function normalize(raw) {
  if(!Number.isInteger(limit)||limit<1||limit>100)return null;
  return {field:r.field,limit};
 }
+function canEdit(field){
+ return !!field&&EDITABLE_TYPES.includes(field.type)&&('value' in field)&&
+  (field.value===null||typeof field.value==='string'||typeof field.value==='number');
+}
+function validateValue(field,value){
+ if(typeof value!=='string'||value.length>5000)throw Error('入力は5,000文字以内の文字列にしてください');
+ if(field.type==='NUMBER'){
+  if(value.trim()!==value)throw Error('数値に前後の空白を含めないでください');
+  if(value!==''&&(!/^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(value)||value.length>32))throw Error('数値フィールドには半角数字または小数を入力してください');
+ }
+ return value;
+}
 function preview(records,field,inputs){
  if(!Array.isArray(records)||!field||!inputs||typeof inputs!=='object')throw Error('編集条件が不正です');
  const seen=new Set(),changes=[];
@@ -17,69 +30,89 @@ function preview(records,field,inputs){
   const id=record&&record.$id&&record.$id.value;
   const rev=record&&record.$revision&&record.$revision.value;
   if(!/^\d+$/.test(String(id))||!/^\d+$/.test(String(rev)))throw Error('IDまたはリビジョンが取得できません');
-  if(seen.has(String(id)))throw Error('レコードIDが重複しています');seen.add(String(id));
+  if(seen.has(String(id)))throw Error('レコードIDが重複しています');
+  seen.add(String(id));
   const data=record[field];
-  if(!data||!Object.prototype.hasOwnProperty.call(data,'value')||typeof data.value==='object')throw Error('編集対象は通常の文字列・数値フィールドに限定します');
+  if(!canEdit(data))throw Error('更新可能な文字列・複数行文字列・数値フィールドだけが対象です');
   if(!Object.prototype.hasOwnProperty.call(inputs,String(id)))continue;
-  const next=String(inputs[id]),current=String(data.value==null?'':data.value);
+  const next=validateValue(data,inputs[String(id)]),current=String(data.value==null?'':data.value);
   if(next!==current)changes.push({id:String(id),revision:String(rev),field,before:current,after:next});
  }
  return {mode:'PREVIEW',field,recordCount:records.length,changedCount:changes.length,changes};
 }
-return {normalize,preview};
+return {normalize,canEdit,validateValue,preview,EDITABLE_TYPES};
 });
 
-/* ResoArc grid editing experimental alpha: explicit preview and revision-checked update */
+/* ResoArc grid editor experimental alpha: preview, type and revision checks */
 (function(pid){
 'use strict';
 const core=typeof ResoArcGrid==='undefined'?null:ResoArcGrid;
 const cfg=kintone.plugin.app.getConfig(pid)||{};
 const settings=core&&core.normalize(cfg.rules);
 if(!settings)return;
-function add(tag,text,parent){const node=document.createElement(tag);node.textContent=text;parent.appendChild(node);return node;}
+function add(tag,value,parent){const el=document.createElement(tag);el.textContent=value;parent.appendChild(el);return el;}
 function onShow(e){
- if(e.type!=='app.record.index.show')return e;
+ if(e.type!=='app.record.index.show'||(e.viewType&&e.viewType!=='list'))return e;
  const holder=kintone.app&&kintone.app.getHeaderSpaceElement&&kintone.app.getHeaderSpaceElement();
- if(!holder)return e;
+ if(!holder||!Array.isArray(e.records))return e;
  const old=holder.querySelector('#resoarc-grid-alpha');if(old)old.remove();
- const records=(e.records||[]).slice(0,settings.limit);
- const panel=add('section','',holder);panel.id='resoarc-grid-alpha';panel.style.cssText='padding:16px;background:#f7f9fa;border:1px solid #aab7c3;margin:12px 0';
- add('h3','ResoArc 一覧編集 α（リビジョン検査付き）',panel);
- add('p','現在表示中のレコードのみ。変更前プレビューと確認後に単一フィールドを更新します。部分成功の取り消しは行いません。',panel);
- const table=add('table','',panel);const head=add('tr','',table);
+ const records=e.records.slice(0,settings.limit),eligible=[];
+ const panel=add('section','',holder);panel.id='resoarc-grid-alpha';
+ panel.style.cssText='padding:16px;background:#f7f9fa;border:1px solid #aab7c3;margin:12px 0';
+ add('h3','ResoArc 一覧編集 α（文字列・数値のみ）',panel);
+ add('p','現在の一覧ページのみ編集可能。変更前の差分確認とリビジョン検査を実施します。更新の取り消しはできません。',panel);
+ const table=add('table','',panel),head=add('tr','',table);
  ['ID','現在値','更新する値'].forEach(v=>add('th',v,head));
- const editors=new Map();
+ const editors=new Map();let skipped=0;
  records.forEach(r=>{
-  const id=r.$id&&r.$id.value,value=r[settings.field]&&r[settings.field].value;
-  if(!/^\d+$/.test(String(id))||value==null||typeof value==='object')return;
+  const id=r&&r.$id&&r.$id.value, data=r&&r[settings.field];
+  if(!/^\d+$/.test(String(id))||!core.canEdit(data)||!r.$revision){skipped++;return;}
   const tr=add('tr','',table);
-  add('td',String(id),tr);add('td',String(value),tr);
+  add('td',String(id),tr);add('td',String(data.value??''),tr);
   const td=add('td','',tr),input=add('input','',td);
-  input.type='text';input.value=String(value);input.maxLength=5000;
-  editors.set(String(id),input);
+  input.type='text';input.value=String(data.value??'');input.maxLength=5000;
+  input.setAttribute('aria-label','レコード '+id+' の新しい値');
+  editors.set(String(id),input);eligible.push(r);
  });
- const status=add('p','プレビュー未実行',panel);status.setAttribute('role','status');
- const previewButton=add('button','変更をプレビュー',panel);
- const apply=add('button','確認して更新',panel);apply.disabled=true;
- let staged=null;
- editors.forEach(input=>input.addEventListener('input',()=>{staged=null;apply.disabled=true;status.textContent='変更内容が変わりました。再プレビューしてください。';}));
+ if(skipped)add('p',skipped+'件のレコードは対象外です（編集不能フィールドまたはリビジョン未取得）。',panel);
+ const status=add('p','変更を入力したらプレビューしてください',panel);status.setAttribute('role','status');
+ const previewButton=add('button','変更をプレビュー',panel);previewButton.type='button';
+ const apply=add('button','確認して更新',panel);apply.type='button';apply.disabled=true;
+ let staged=null,busy=false,settled=false;
+ function lock(){busy=true;apply.disabled=true;previewButton.disabled=true;editors.forEach(v=>v.disabled=true);}
+ editors.forEach(input=>input.addEventListener('input',()=>{
+  staged=null;apply.disabled=true;status.textContent='入力が変更されました。再プレビューしてください。';
+ }));
  previewButton.addEventListener('click',()=>{
-  const input=Object.fromEntries([...editors].map(([id,node])=>[id,node.value]));
-  try{staged=core.preview(records,settings.field,input);status.textContent=JSON.stringify(staged.changes,null,2)||'変更なし';apply.disabled=staged.changedCount===0;}
-  catch(err){status.textContent=err.message;staged=null;apply.disabled=true;}
+  if(busy||settled)return;
+  const values=Object.fromEntries([...editors].map(([id,el])=>[id,el.value]));
+  try{
+   staged=core.preview(eligible,settings.field,values);
+   status.textContent=staged.changedCount+'件の変更候補: '+JSON.stringify(staged.changes);
+   apply.disabled=staged.changedCount===0;
+  }catch(error){staged=null;apply.disabled=true;status.textContent=error.message;}
  });
  apply.addEventListener('click',async()=>{
-  if(!staged||!staged.changedCount||!window.confirm(staged.changedCount+'件の更新を実行しますか？'))return;
-  apply.disabled=true;previewButton.disabled=true;
-  let succeeded=0;
-  const app=kintone.app.getId();
+  if(busy||settled||!staged||!staged.changedCount)return;
+  if(!window.confirm(settings.field+' の '+staged.changedCount+'件を実際に更新します。取り消しできません。実行しますか？'))return;
+  lock();
+  let succeeded=0;const ids=[];
   try{
+   const app=kintone.app.getId();
+   if(!app)throw Error('アプリIDを取得できません');
    for(const change of staged.changes){
-    await kintone.api(kintone.api.url('/k/v1/record.json',true),'PUT',{app,id:change.id,revision:change.revision,record:{[settings.field]:{value:change.after}}});
-    succeeded++;
+    status.textContent='更新中: '+succeeded+'/'+staged.changedCount+' 件';
+    await kintone.api(kintone.api.url('/k/v1/record.json',true),'PUT',{
+     app,id:change.id,revision:change.revision,record:{[settings.field]:{value:change.after}}
+    });
+    succeeded++;ids.push(change.id);
    }
-   status.textContent=succeeded+'件を更新しました。再読み込みして最新状態を確認してください。';
-  }catch(err){status.textContent=succeeded+'件を更新した後に停止。未完了・競合の可能性があります: '+(err.message||err);}
+   status.textContent='完了: '+succeeded+'件更新しました。ID: '+ids.join(', ')+'。ページを再読込してください。';
+  }catch(error){
+   status.textContent='途中停止: 成功 '+succeeded+'件（ID: '+ids.join(', ')+ '）。失敗以降のレコードは未処理です。原因: '+(error.message||error)+'。再読込して状態を確認してください。';
+  }finally{
+   settled=true; // No second write from stale revisions. Reload to retry.
+  }
  });
  return e;
 }

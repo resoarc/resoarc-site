@@ -1,7 +1,8 @@
-/* ResoArc grid editor pure diff and revision safeguards / MIT */
+/* ResoArc grid editor pure diff, typed validation, revision safeguards. MIT */
 (function(root,factory){'use strict';const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.ResoArcGrid=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
-function normalize(raw) {
+const EDITABLE_TYPES=['SINGLE_LINE_TEXT','MULTI_LINE_TEXT','NUMBER'];
+function normalize(raw){
  let list;try{list=typeof raw==='string'?JSON.parse(raw):raw;}catch(_){return null;}
  if(!Array.isArray(list)||list.length!==1)return null;
  const r=list[0];
@@ -10,6 +11,18 @@ function normalize(raw) {
  if(!Number.isInteger(limit)||limit<1||limit>100)return null;
  return {field:r.field,limit};
 }
+function canEdit(field){
+ return !!field&&EDITABLE_TYPES.includes(field.type)&&('value' in field)&&
+  (field.value===null||typeof field.value==='string'||typeof field.value==='number');
+}
+function validateValue(field,value){
+ if(typeof value!=='string'||value.length>5000)throw Error('入力は5,000文字以内の文字列にしてください');
+ if(field.type==='NUMBER'){
+  if(value.trim()!==value)throw Error('数値に前後の空白を含めないでください');
+  if(value!==''&&(!/^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(value)||value.length>32))throw Error('数値フィールドには半角数字または小数を入力してください');
+ }
+ return value;
+}
 function preview(records,field,inputs){
  if(!Array.isArray(records)||!field||!inputs||typeof inputs!=='object')throw Error('編集条件が不正です');
  const seen=new Set(),changes=[];
@@ -17,14 +30,15 @@ function preview(records,field,inputs){
   const id=record&&record.$id&&record.$id.value;
   const rev=record&&record.$revision&&record.$revision.value;
   if(!/^\d+$/.test(String(id))||!/^\d+$/.test(String(rev)))throw Error('IDまたはリビジョンが取得できません');
-  if(seen.has(String(id)))throw Error('レコードIDが重複しています');seen.add(String(id));
+  if(seen.has(String(id)))throw Error('レコードIDが重複しています');
+  seen.add(String(id));
   const data=record[field];
-  if(!data||!Object.prototype.hasOwnProperty.call(data,'value')||typeof data.value==='object')throw Error('編集対象は通常の文字列・数値フィールドに限定します');
+  if(!canEdit(data))throw Error('更新可能な文字列・複数行文字列・数値フィールドだけが対象です');
   if(!Object.prototype.hasOwnProperty.call(inputs,String(id)))continue;
-  const next=String(inputs[id]),current=String(data.value==null?'':data.value);
+  const next=validateValue(data,inputs[String(id)]),current=String(data.value==null?'':data.value);
   if(next!==current)changes.push({id:String(id),revision:String(rev),field,before:current,after:next});
  }
  return {mode:'PREVIEW',field,recordCount:records.length,changedCount:changes.length,changes};
 }
-return {normalize,preview};
+return {normalize,canEdit,validateValue,preview,EDITABLE_TYPES};
 });
