@@ -28,13 +28,17 @@
     "2026-10-17 Windows preflight: 9 manifest directories passed static checks; signing integrity was NOT independently verified.",
     "Mini plugins v0.1.1-beta release notes (2026-10-16): aggregate mocks 31 + browser mocks 10 and 18 local beta bundles CLAIMED, but sources/ZIP have NOT been independently located. Do not assign these 41 historical checks as per-item unit passes.",
     "Mini plugin source is not present as additional files on the referenced development branch; artifact search is incomplete. Lack of confirmation is unverified, not absent.",
-    "GitHub push from Windows via SSH was denied (publickey); this canonical tracker was written via ResoArc connected GitHub identity."
+    "GitHub push from Windows via SSH was denied (publickey); this canonical tracker was written via ResoArc connected GitHub identity.",
+    "2026-10-17: Sanitized per-package unit and manifest preflight evidence snapshots committed under docs/kintone-progress/evidence; detailed logs are kept on the user-owned PC.",
+    "2026-10-17: Filename searches across Documents (210,691 files), Local Temp (~15,445 files, some access errors), and selected local ResoArc roots did not locate mini plugin source/ZIP names. This is not exhaustive; source gate remains unverified."
   ],
   "source_refs": [
     "docs/mini-plugins/RELEASE-NOTES-v0.1.1-beta.md on feature/mini-plugins-beta-20261016",
     "docs/mini-plugins/RELEASE-TRACKER-20261017.md on feature/mini-plugins-beta-20261016",
     "Windows-only Documents/AI-Work/MR-kintone-tests/reports/plugin-unit-tests-20261017.json",
-    "Windows-only Documents/AI-Work/MR-kintone-tests/reports/preflight-all-20261017.json"
+    "Windows-only Documents/AI-Work/MR-kintone-tests/reports/preflight-all-20261017.json",
+    "docs/kintone-progress/evidence/unit-tests-20261017.json",
+    "docs/kintone-progress/evidence/manifest-preflight-20261017.json"
   ],
   "items": [
     {
@@ -63,9 +67,9 @@
         "pass": 11,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "採番衝突・テーブル内項目・他プラグインとの競合",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -95,9 +99,9 @@
         "pass": 22,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "テーブル内項目・既存版からの移行",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -127,7 +131,7 @@
         "pass": 9,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
       "manifest_evidence": null,
       "focus": "復元対象の限定・暗号/整合性・添付・誤書込防止",
@@ -159,9 +163,9 @@
         "pass": 20,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "サブテーブル・非表示/必須の相互作用",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -191,9 +195,9 @@
         "pass": 10,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "条件・色覚・一覧と詳細の差",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -223,9 +227,9 @@
         "pass": 16,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "タイムゾーン・休日・日付境界",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -255,9 +259,9 @@
         "pass": 19,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "編集権限・一括保存・競合更新",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -287,9 +291,9 @@
         "pass": 7,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "モバイル・ゲストスペース・レコード移動権限",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -319,9 +323,9 @@
         "pass": 13,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "大量件数・絞込・権限・API上限",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -351,9 +355,9 @@
         "pass": 13,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
-      "manifest_evidence": "Windows local preflight-all-20261017.json",
+      "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "フォーム切替・レイアウト崩れ・モバイル",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験"
     },
@@ -383,7 +387,7 @@
         "pass": 47,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "Windows local plugin-unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
       },
       "manifest_evidence": null,
       "focus": "外部クロック・再実行耐性・無人時の認証・時間指定",
