@@ -14,6 +14,7 @@ const path = name => join(root, 'docs/kintone-progress', name);
 const tracker = JSON.parse(readFileSync(path('tracker.json'), 'utf8'));
 const unit = JSON.parse(readFileSync(path('evidence/unit-rebuild-20261017.json'), 'utf8'));
 const manifest = JSON.parse(readFileSync(path('evidence/manifest-preflight-20261017.json'), 'utf8'));
+const miniQa = JSON.parse(readFileSync(path('evidence/mini-v1-local-qa-20261017.json'), 'utf8'));
 const signatures = JSON.parse(readFileSync(path('evidence/signed-zip-audit-20261017.json'), 'utf8'));
 const smoke = JSON.parse(readFileSync(path('evidence/auto-number-tenant-smoke-20261017.json'), 'utf8'));
 function fail(message) { throw new Error('Evidence mismatch: ' + message); }
@@ -29,6 +30,12 @@ const bySlug = entries => {
 };
 const units = bySlug(unit.entries), manifests = bySlug(manifest.entries);
 const signing = bySlug(signatures.artifacts.map(r => ({ ...r, slug: r.package_slug })));
+const miniManifest = bySlug(miniQa.products || []);
+if (miniQa.source_files !== 152 || miniQa.canonical_original_unchanged !== true ||
+    miniQa.static_checks?.manifest_files !== 18 || miniQa.static_checks?.asset_missing !== 0 ||
+    miniQa.static_checks?.mobile_manifests !== 0 || miniQa.signing?.missing_original_keys_fails_closed !== true ||
+    miniQa.signing?.private_keys_generated !== false || miniQa.signing?.releases_generated !== false ||
+    miniManifest.size !== 18) fail('Mini source QA evidence is incomplete');
 if (signatures.count !== 11 || signatures.verified !== 11 ||
     signatures.artifacts.length !== 11 || signatures.artifacts.some(r => r.valid_signature !== true)) {
   fail('signed ZIP evidence count or status');
@@ -69,7 +76,12 @@ for (const item of packages) {
 }
 for (const item of mini) {
   if (item.gates.unit === 'passed' && !units.has(item.slug)) fail(item.slug + ': mini test pass is unverified');
-  if (item.gates.manifest === 'passed' && !manifests.has(item.slug)) fail(item.slug + ': mini manifest pass is unverified');
+  const miniCheck = miniManifest.get(item.slug);
+  if (item.gates.manifest !== 'passed' ||
+      miniCheck?.manifest_assets_passed !== true ||
+      item.manifest_evidence !== 'docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json') {
+    fail(item.slug + ': mini manifest evidence differs from tracker');
+  }
   if (item.gates.signature === 'passed' && !signing.has(item.slug)) fail(item.slug + ': mini signature pass is unverified');
 }
 if (passed !== 203 || unit.summary?.passed !== passed || unit.summary?.failed !== 0 || unit.summary?.unit_tests !== passed || unit.summary?.builds !== 11) {
@@ -86,4 +98,4 @@ if (smoke.browser_e2e?.ok !== true || smoke.browser_e2e?.cleanup_confirmed !== t
   fail('unattributed E2E must not approve any specific auto-number build');
 }
 console.log('Evidence cross-check passed: 11 packages, ' + passed +
-    ' unit tests, 9 manifest checks, 9 signed product releases, 1 isolated unassigned tenant E2E');
+    ' unit tests, 9 core + 18 mini manifest checks, 9 signed product releases, 1 isolated unassigned tenant E2E');
