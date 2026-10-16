@@ -1,25 +1,29 @@
-# Licensing annotations for files confirmed as ResoArc-authored.
-# The repository is NOT yet REUSE compliant. Third-party media must be assessed separately.
+# SPDX license metadata for verified ResoArc-authored source, documentation and graphics.
+# External fonts, stock photos, screenshot media and generated archives require
+# separate rights review. This file alone does NOT assert REUSE compliance.
 version = 1
 
 [[annotations]]
 path = [
-  "README.md",
-  "AI_USAGE.md",
-  "CONTRIBUTING.md",
-  "DEPLOYMENT.md",
-  "SECURITY.md",
-  "THIRD_PARTY_NOTICES.md",
-  "docs/PUBLISHING.md",
-  "docs/VERIFICATION.md",
-  "scripts/verify_site.py"
+  ".gitattributes",
+  ".gitignore",
+  "**/.gitignore",
+  ".github/workflows/*.yml",
+  "**/*.md",
+  "**/*.py",
+  "**/*.js",
+  "**/*.cjs",
+  "**/*.mjs",
+  "**/*.ps1",
+  "**/*.html",
+  "**/*.css",
+  "**/*.json",
+  "**/*.xml",
+  "**/*.svg",
+  "**/*.sha256",
+  "site/llms.txt",
+  "REUSE.toml"
 ]
 precedence = "closest"
-SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
-SPDX-License-Identifier = "MIT"
-
-[[annotations]]
-path = ["REUSE.toml"]
-precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
