@@ -32,6 +32,11 @@ jobs:
         run: python scripts/verify_web8_v1.py
       - name: Verify signed kintone QA packages and all 16 feature routes
         run: python scripts/verify_suite16_readiness.py
+      - name: Test live Scorecard proxy and client fallback
+        run: |
+          node --check site/_worker.js
+          node --check site/assets/scorecard-live-20261017.js
+          node scripts/test_scorecard_live.mjs
       - name: Check public site source, links and checksums
         run: python scripts/verify_site.py
       - name: Validate browser tool JavaScript
