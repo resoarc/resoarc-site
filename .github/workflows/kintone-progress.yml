@@ -8,6 +8,7 @@ on:
       - "tests/kintone-progress.test.mjs"
       - "tests/kintone-evidence.test.mjs"
       - "scripts/kintone-evidence.mjs"
+      - "scripts/kintone-verify-zip-signatures.py"
       - ".github/workflows/kintone-progress.yml"
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - "tests/kintone-progress.test.mjs"
       - "tests/kintone-evidence.test.mjs"
       - "scripts/kintone-evidence.mjs"
+      - "scripts/kintone-verify-zip-signatures.py"
       - ".github/workflows/kintone-progress.yml"
   workflow_dispatch:
 
@@ -38,6 +40,8 @@ jobs:
         run: node --test tests/kintone-progress.test.mjs
       - name: Verify unit and static preflight evidence
         run: node scripts/kintone-evidence.mjs
+      - name: Verify eleven original signed ZIP bytes (RSA/SHA-1 legacy)
+        run: python scripts/kintone-verify-zip-signatures.py
       - name: Test corrupted evidence is rejected
         run: node --test tests/kintone-evidence.test.mjs
       - name: Report aggregate progress
