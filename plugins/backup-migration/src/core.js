@@ -10,7 +10,7 @@ const s = v => JSON.stringify(v);
 const u8 = v => v instanceof Uint8Array ? v : new Uint8Array(v);
 const stop = reason => { throw new Error(reason); };
 export const sha256 = async b => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', u8(b)))).map(v=>v.toString(16).padStart(2,'0')).join('');
-export const allowedField = d => !!d && WRITABLE.has(d.type) && !d.lookup && !d.referenceTable;
+export const allowedField = d => !!d && WRITABLE.has(d.type) && !d.lookup && !d.referenceTable && !(d.type==='SINGLE_LINE_TEXT' && typeof d.expression==='string' && d.expression.trim());
 const obj = v => v && typeof v === 'object' && !Array.isArray(v);
 function fieldContents(props) {
   const fields = {};
@@ -170,7 +170,7 @@ export async function inspectArchive(zipInput,{expectedHash, maxBytes=MAX_BYTES}
     if (!obj(r))stop('レコードが不正です');
     visitFiles(r,schema,f=>{if(!manifestPaths.has('attachments/'+f.ref))stop('レコードが参照する添付ファイルが欠落しています');});
   }
-  return {manifest,schema,layout,sourceFields,records,files:entries};
+  return {manifest,schema,layout,sourceFields,records,files:entries,archiveHash:await sha256(bytes)};
 }
 export function createRestorePlan(archive, targetFields, targetAppId, managementAppId) {
   if (!archive?.manifest||!obj(archive.schema)||!Array.isArray(archive.records)) stop('検証済みアーカイブが必要です');
