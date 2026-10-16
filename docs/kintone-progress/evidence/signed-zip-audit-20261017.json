@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-17",
+  "timezone": "Asia/Tokyo",
+  "scope": "Local published site/downloads/ signed kintone ZIP wrappers. Confirmed on user-owned Windows PC.",
+  "method": "For each wrapper unpack PUBKEY (DER), SIGNATURE and contents.zip. RSA PKCS#1 v1.5 verification of SHA-1 digest over exact contents.zip bytes. Compute SHA-256 of whole package and first 8 characters of plugin ID encoded from SHA-256(PUBKEY).",
+  "count": 11,
+  "verified": 11,
+  "security_limitations": [
+    "RSA/SHA-1 is a legacy signature algorithm. The observation is mathematical integrity under the embedded public key, NOT proof of trusted publisher identity, adequate SHA-1 collision resistance, or release approval.",
+    "The embedded key must be independently pinned or linked to a trusted source before claiming publisher authenticity.",
+    "The installed Auto Number plugin key prefix matches both stable and beta archives; the E2E test cannot be assigned to either build solely from the plugin ID prefix."
+  ],
+  "artifacts": [
+    {
+      "package_slug": "auto-number-qa",
+      "filename": "site/downloads/resoarc-auto-number-signed-qa.zip",
+      "sha256": "69868db78f8ff6305e175b8ec159e68cefb735a259b9ba85f77af3b8514615ff",
+      "plugin_id_prefix": "nnhajggb",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "auto-number-stable",
+      "filename": "site/downloads/resoarc-auto-number-v1.0.0.zip",
+      "sha256": "fd7d0873f8ebf7551ebc2a08116952e8b60c91e396600e5b800e0eba752145d9",
+      "plugin_id_prefix": "dfeebpad",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "auto-number-beta",
+      "filename": "site/downloads/resoarc-auto-number-v1.1.0-beta.zip",
+      "sha256": "c2de1c7735e8c32a364b6d6d4de340d593a55b3a8c38dd369cc2feac73016d9b",
+      "plugin_id_prefix": "dfeebpad",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "conditional-format",
+      "filename": "site/downloads/resoarc-conditional-format-signed-qa.zip",
+      "sha256": "283d7e2af5fdb0f9c308247b0c97fbd4db29627adf9128833b97f26b0152b473",
+      "plugin_id_prefix": "kbgoaoin",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "conditional",
+      "filename": "site/downloads/resoarc-conditional-signed-qa.zip",
+      "sha256": "3c50e7cdf92fcdecaa17edabd48d3cf3056ee6e352b2845d66edc07e8cf5a279",
+      "plugin_id_prefix": "kblemnnh",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "date-calculator",
+      "filename": "site/downloads/resoarc-date-calculator-signed-qa.zip",
+      "sha256": "2053e8914dbb47d933f1a39092b2374e3e1a464bc09c0757b6251d24a91d0fdb",
+      "plugin_id_prefix": "gdehichj",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "grid-editor",
+      "filename": "site/downloads/resoarc-grid-editor-signed-qa.zip",
+      "sha256": "9eca70f1f03944784eb3c9114511c4bd1c93dcaceee3e605007fdce6a8f1ec41",
+      "plugin_id_prefix": "jkcgddnh",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "kanban",
+      "filename": "site/downloads/resoarc-kanban-signed-qa.zip",
+      "sha256": "6c37aa7a701cad45303426048ba9cde237e976325590ae1ac9288fbebf549051",
+      "plugin_id_prefix": "deojmjan",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "list-search",
+      "filename": "site/downloads/resoarc-list-search-signed-qa.zip",
+      "sha256": "2bec234b936b6e3336f4444687302b8ec53e6f90c9b00262a21c17e4ad9c87d6",
+      "plugin_id_prefix": "bnbdhhmo",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "tabs-qa",
+      "filename": "site/downloads/resoarc-tabs-signed-qa.zip",
+      "sha256": "1d91b317497366828082973e243d3a4568581f96fee75ec7b84300db93941908",
+      "plugin_id_prefix": "pjjhmdik",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    },
+    {
+      "package_slug": "tabs",
+      "filename": "site/downloads/resoarc-tabs-v0.1.0-beta.zip",
+      "sha256": "5eba44271945185e777c7e55af816d4644223d9fe9e2925c8b05fd116bd58689",
+      "plugin_id_prefix": "eiiodgmj",
+      "signature_algorithm": "RSA-PKCS1v1.5-SHA1",
+      "valid_signature": true
+    }
+  ],
+  "original_full_report": "User PC: Documents/AI-Work/MR-kintone-tests/verify_plugin_signatures.py (results printed locally; no secret key material collected)"
+}
