@@ -7,6 +7,7 @@ Updated: 2026-10-16 (JST)
 
 - [x] All 41 Node test cases passed on the Windows development computer.
 - [x] A simulated kintone API round-trip transferred **501 source records**, including a nested table and a shared attachment. It created only a new *preview* app, simulated a lost response after 50 committed rows, resumed the remaining 451 rows, and confirmed that a third run added zero duplicates.
+- [x] **Actual Edge headless browser smoke test with mocked kintone APIs**: dedicated BrowserCDP Edge loaded the production JavaScript bundle, rendered the management-app controls, created and read a 501-record ZIP, previewed and restored 501 records in 26 batches, and confirmed a second preview offered zero new records. The browser test exited successfully. No tenant login, cookies, or real API writes were used. Reproduce with `node scripts/browser-smoke.mjs` on the main PC.
 - [x] Cursor tests cover multi-page reads, invalid pages, stalls, excessive row counts, cleanup on failure, and stopping before destination writes.
 - [x] Archive tests cover SHA-256, corrupted contents, attachments, a large compressed payload, ZIP traversal names, and dangerous field-code rejection.
 - [x] Field-planning tests cover compatible mappings, incompatible types, required/choice checks, and rejection of unsupported kintone field codes.
@@ -15,7 +16,7 @@ Updated: 2026-10-16 (JST)
 - [x] Browser build reproduces the committed distribution in CI.
 - [x] GitHub Actions: Verify ResoArc Backup Migration and Verify public source passed for hardening commit `00a35194de67d8fa744819b08293a3d082048a49`. **The later dependency-security update requires its own CI run before release approval.**
 - [x] No desktop files created. Work is under the project's Documents/GitHub folder.
-- [ ] **Authenticated, real kintone tenant API round-trip** (not completed).
+- [ ] **Authenticated, real kintone tenant API round-trip** (not completed). The isolated BrowserCDP profile has been verified on the tenant login page, but is not authenticated; the normal Edge sign-in is a different browser profile.
 - [ ] **User permission variation and inaccessible records** on a real tenant (not completed).
 - [ ] **Actual preview app creation/deployment and restore** in an isolated real tenant (not completed).
 - [ ] **Actual browser cancellation/session expiration and recovery** (not completed).
