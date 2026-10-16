@@ -25,7 +25,7 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
    Title:{value:'Sample '+i},Amount:{value:String(i)},
    Notes:{value:[{value:{Memo:{value:'line '+i}}}]}
  }));
- const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false,destinationFields:dest,draftApp:null,draftFields:null};
+ const h=window.__test={calls:[],target:[],answers:[],cursors:new Map(),number:0,zip:null,ready:false,destinationFields:dest,draftApp:null,draftFields:null,failNextRestoreResponse:false};
  window.prompt=()=>h.answers.shift()??'';
  window.confirm=()=>true;
  const api=async(url,method,args)=>{
@@ -69,6 +69,10 @@ const html=String.raw`<!doctype html><html lang="ja"><head><meta charset="utf-8"
        before.add(r.ResoArcRestoreKey.value);
      }
      h.target.push(...args.records);
+     if(h.failNextRestoreResponse){
+       h.failNextRestoreResponse=false;
+       throw Error('Simulated lost response after committed batch');
+     }
      return {ids:args.records.map((_,i)=>String(h.target.length-args.records.length+i+1))};
    }
    throw Error('Unexpected kintone API '+url+' '+method);
@@ -161,6 +165,16 @@ try{
   assert.equal(preview,true);
   await evaluate("window.__test.answers=['INVALID CONFIRMATION']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元を実行 (追記のみ)').click(); true");
   assert.equal(await evaluate("window.__test.target.length"),0,'wrong confirmation phrase must never write a record');
+  // 4. A batch was committed, but the client lost its success response.
+  // The UI must stop, show the partial-write warning, and require an explicit
+  // new preview before resuming the remaining 481 records.
+  await evaluate("window.__test.failNextRestoreResponse=true; window.__test.answers=['RESTORE 55 501']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元を実行 (追記のみ)').click(); true");
+  await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('復元が中断されました') && true",20000);
+  assert.equal(await evaluate("window.__test.target.length"),20,'first committed batch must remain after response loss');
+  await evaluate("window.__test.answers=['1','55','']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元プレビュー').click(); true");
+  await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('復元済み: 20 件 / 新規追加予定: 481 件') && true",20000);
+  assert.equal(await evaluate("window.__test.target.length"),20,'preview must remain read-only');
+
   await evaluate("window.__test.answers=['RESTORE 55 501']; [...document.querySelectorAll('button')].find(b=>b.textContent==='復元を実行 (追記のみ)').click(); true");
   const restored=await wait("document.querySelector('[data-resoarc-backup]')?.innerText.includes('復元処理完了') && {total:window.__test.target.length,last:window.__test.target.at(-1)?.Notes.value[0].value.Memo.value,post:window.__test.calls.filter(c=>c.url==='/k/v1/records.json'&&c.method==='POST').length}",30000);
   assert.equal(restored.total,501);
@@ -180,7 +194,7 @@ try{
   assert.equal(draft.records,501,'draft creation must never alter the restored rows');
   assert.equal(draft.deploymentCalls,0,'draft creation must not deploy the app');
 
-  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,rejectedWithoutWrites:['tampered-zip','missing-unique-marker','wrong-confirmation'],newAppDraftId:draft.app.id,deployCalls:0,credentialsUsed:false}));
+  console.log(JSON.stringify({ok:true,scenario:'headless Edge actual UI script, mocked same-origin kintone API',recordCount:restored.total,restoreBatches:restored.post,zipBytes:backup.files,resumePending:0,rejectedWithoutWrites:['tampered-zip','missing-unique-marker','wrong-confirmation'],resumedAfterCommittedLostResponse:true,newAppDraftId:draft.app.id,deployCalls:0,credentialsUsed:false}));
 }finally{
   try{socket?.close();}catch{}
   if(target?.id)try{await fetch(dev+'/json/close/'+target.id);}catch{}
