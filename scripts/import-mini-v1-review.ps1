@@ -7,7 +7,7 @@ param(
   [switch]$VerifyOnly
 )
 $ErrorActionPreference = 'Stop'
-$expectedSha256 = '23813fdec423ac6c808222d231a2d4f5695b24674a43c29c702b5563d3f7f05d'
+$expectedSha256 = '8924b75e36b964fd4985a15f5b3bb423961b2334e8e5fc7035509493def1d103'
 $root = Join-Path $env:USERPROFILE 'Documents\GitHub\resoarc-mini-plugins'
 $work = Join-Path $env:USERPROFILE 'Documents\AI-Work\MR-kintone-tests\staging'
 $staging = Join-Path $work ('mini-v1-review-' + [guid]::NewGuid().ToString('N'))
