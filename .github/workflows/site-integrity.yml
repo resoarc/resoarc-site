@@ -1,0 +1,35 @@
+name: ResoArcOS website integrity
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2,8,14,20 * * *'
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/site-integrity.yml
+permissions:
+  contents: read
+jobs:
+  check-site:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Verify both official hostnames and OS navigation
+        run: |
+          set -euo pipefail
+          for host in resoarc.com www.resoarc.com; do
+            for path in / /os/ /products/; do
+              url="https://${host}${path}?integrity=${GITHUB_RUN_ID}"
+              curl -fLsS --retry 3 --retry-all-errors --retry-delay 5 --connect-timeout 15 --max-time 45 "$url" -o /tmp/page.html
+              grep -Fq 'href="/os/"' /tmp/page.html || { echo "ResoArcOS navigation missing: $url" >&2; exit 1; }
+              if [ "$path" = /os/ ]; then
+                grep -Fq '本番用OSとしては未対応' /tmp/page.html || { echo "Missing developer preview warning: $url" >&2; exit 1; }
+              fi
+              echo "OK $url"
+            done
+          done
+      - name: Verify published OS source archive SHA-256
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 --retry-all-errors --retry-delay 5             https://resoarc.com/downloads/resoarcos-pc-v0.1.0-dev-source.zip             -o /tmp/resoarcos-source.zip
+          echo '72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20  /tmp/resoarcos-source.zip' | sha256sum --check
