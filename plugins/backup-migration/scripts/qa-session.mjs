@@ -69,18 +69,18 @@ export async function connectQA({profile=QA_PROFILE,origin=QA_ORIGIN}={}){
     if(response.error)entry.reject(Error('QA browser evaluation error'));
     else entry.resolve(response.result);
   });
-  const send=(method,params={})=>{
+  const send=(method,params={},timeoutMs=45000)=>{
     if(closed)throw Error('CDP session is closed');
     return new Promise((resolve,reject)=>{
       const id=++nextId;
-      const timer=setTimeout(()=>{pending.delete(id);reject(Error('QA Edge request timed out'));},45000);
+      const timer=setTimeout(()=>{pending.delete(id);reject(Error('QA Edge request timed out'));},timeoutMs);
       pending.set(id,{resolve,reject,timer});
       ws.send(JSON.stringify({id,method,params}));
     });
   };
-  async function evaluate(fn,args=[]){
+  async function evaluate(fn,args=[],timeoutMs=45000){
     const expression='('+fn.toString()+')('+args.map(a=>JSON.stringify(a)).join(',')+')';
-    const result=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});
+    const result=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true},timeoutMs);
     if(result.exceptionDetails){
       const description=String(result.exceptionDetails.exception?.description||'').split('\n')[0];
       throw Error('QA browser script error: '+description.slice(0,170));
@@ -142,22 +142,21 @@ export async function connectQA({profile=QA_PROFILE,origin=QA_ORIGIN}={}){
       if(location.origin!==expectedOrigin)return {authenticated:false,reason:'WRONG_ORIGIN'};
       const get=async pathname=>{
         try{
-          const response=await fetch(pathname,{credentials:'same-origin',cache:'no-store',
+          const response=await fetch(pathname,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(5000),
             headers:{'X-Requested-With':'XMLHttpRequest'}});
           return response.status;
         }catch{return 0;}
       };
-      const appHttp=await get('/k/v1/app.json?id='+id);
-      const fieldsHttp=await get('/k/v1/app/form/fields.json?app='+id);
+      const [appHttp,fieldsHttp]=await Promise.all([get('/k/v1/app.json?id='+id),get('/k/v1/app/form/fields.json?app='+id)]);
       let signedIn=false;
       try{signedIn=!!window.kintone?.getLoginUser?.()?.code;}catch{}
       return {authenticated:signedIn&&appHttp!==401&&fieldsHttp!==401,
         appReadable:appHttp===200&&fieldsHttp===200,
         appHttp,fieldsHttp,origin:location.origin};
-    },[app,origin]);
+    },[app,origin],12000);
   }
   return {
-    tabId:tab.id,origin,request,upload,download,sessionStatus,evaluate,
+    tabId:tab.id,tabPath:new URL(tab.url).pathname,origin,request,upload,download,sessionStatus,evaluate,
     close(){
       closed=true;
       for(const pendingEntry of pending.values()){clearTimeout(pendingEntry.timer);pendingEntry.reject(Error('QA Edge disconnected'));}
