@@ -27,5 +27,14 @@ function groups(rows,config){
  }
  return {shown:slice.length,truncated:rows.length>slice.length,groups:[...out].map(([name,records])=>({name,records}))};
 }
-return {normalize,text,groups};
+function recordLink(pathname,appId,recordId,mobile){
+ if(!/^[1-9][0-9]*$/.test(String(appId))||!/^[1-9][0-9]*$/.test(String(recordId)))return null;
+ const path=typeof pathname==='string'?pathname:'';
+ const match=new RegExp('^/k/guest/([1-9][0-9]*)(?:/|$)').exec(path);
+ const prefix=match?'/k/guest/'+match[1]:'/k';
+ return mobile?
+  prefix+'/m/'+appId+'/show?record='+recordId:
+  prefix+'/'+appId+'/show#record='+recordId;
+}
+return {normalize,text,groups,recordLink};
 });

@@ -27,7 +27,16 @@ function groups(rows,config){
  }
  return {shown:slice.length,truncated:rows.length>slice.length,groups:[...out].map(([name,records])=>({name,records}))};
 }
-return {normalize,text,groups};
+function recordLink(pathname,appId,recordId,mobile){
+ if(!/^[1-9][0-9]*$/.test(String(appId))||!/^[1-9][0-9]*$/.test(String(recordId)))return null;
+ const path=typeof pathname==='string'?pathname:'';
+ const match=new RegExp('^/k/guest/([1-9][0-9]*)(?:/|$)').exec(path);
+ const prefix=match?'/k/guest/'+match[1]:'/k';
+ return mobile?
+  prefix+'/m/'+appId+'/show?record='+recordId:
+  prefix+'/'+appId+'/show#record='+recordId;
+}
+return {normalize,text,groups,recordLink};
 });
 
 /* ResoArc kanban alpha: read-only current-page visualization */
@@ -56,8 +65,9 @@ function show(event){
   group.records.forEach(item=>{
    const card=elem('div',item.label||'(無題)',col);
    card.style.cssText='background:#fff;border:1px solid #d1d9db;padding:9px;margin:6px 0;overflow-wrap:anywhere';
-   if(/^\d+$/.test(item.id)&&/^\d+$/.test(appId)){
-    const link=elem('a','詳細を開く',card);link.href='/k/'+appId+'/show#record='+item.id;
+   const href=core.recordLink(window.location.pathname,appId,item.id,mobile);
+   if(href){
+    const link=elem('a','詳細を開く',card);link.href=href;
    }
   });
  }

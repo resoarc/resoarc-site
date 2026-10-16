@@ -44,6 +44,8 @@ jobs:
           node --test tests/suite.test.cjs
       - name: Test kintone CSV import preflight
         run: node --test tests/import-diagnose.test.cjs
+      - name: Validate tenant acceptance preflight without credentials
+        run: python -m unittest discover -s tests -p test_kintone_tenant_preflight.py -v
       - name: Test auto-number subtable beta
         working-directory: plugins/auto-number/v1.1.0-beta
         run: npm run check
@@ -68,6 +70,7 @@ jobs:
         run: |
           python tests/alpha_configs_smoke.py
           python tests/search_grid_browser_smoke.py
+          python tests/kanban_runtime_browser.py
           python tests/browser_suite_smoke.py
           python tests/web8_acceptance_smoke.py
           python tests/pi_site_smoke.py
