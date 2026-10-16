@@ -8,7 +8,7 @@ import re
 import json
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.3.5"
+VERSION = "0.3.6"
 SRC_NAME = f"resoarc-clock-source-v{VERSION}.zip"
 KIT_NAME = f"resoarc-clock-kit-v{VERSION}.zip"
 SOURCES = [
@@ -23,9 +23,9 @@ SOURCES = [
     "scripts/cloud-auth-preflight.cjs",
     "docs/CLOUDFLARE-KINTONE-STAGING-20261017.md",
 ]
-INSTALLER = ROOT / "release" / "resoarc-clock-bootstrap-v0.3.5.js"
+INSTALLER = ROOT / "release" / "resoarc-clock-bootstrap-v0.3.6.js"
 PLUGIN = ROOT / "center-plugin" / "release" / "resoarc-batch-center-v0.2.1.zip"
-DOC = ROOT / "release" / "RELEASE-0.3.5.md"
+DOC = ROOT / "release" / "RELEASE-0.3.6.md"
 def collect_files():
     output=[]
     for item in SOURCES:

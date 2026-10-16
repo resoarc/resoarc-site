@@ -5,7 +5,7 @@ import {buildClockLayout,provisionClockApp} from './provision-core.mjs';
 const dir=dirname(fileURLToPath(import.meta.url));
 const props=JSON.parse(readFileSync(resolve(dir,'fields.json'),'utf8')).properties;
 buildClockLayout(props);
-const script=`/* ResoArc Clock v0.3.5 one-time install script
+const script=`/* ResoArc Clock v0.3.6 one-time install script
  * Run ONLY on your own logged-in kintone test tenant in the browser console.
  * Creates a NEW app. No API tokens or passwords are used or requested.
  * No writes occur until you confirm the prompt.
@@ -37,7 +37,7 @@ const script=`/* ResoArc Clock v0.3.5 one-time install script
   }
 })()
 `;
-const output=resolve(dir,'../release/resoarc-clock-bootstrap-v0.3.5.js');
+const output=resolve(dir,'../release/resoarc-clock-bootstrap-v0.3.6.js');
 mkdirSync(dirname(output),{recursive:true});
 writeFileSync(output,script,'utf8');
 console.log(output);

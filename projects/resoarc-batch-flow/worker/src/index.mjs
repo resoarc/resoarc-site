@@ -66,6 +66,9 @@ export default {
       console.info('ResoArc Clock is disabled');
       return;
     }
+    // Never allow the legacy JSON workflow route to bypass an E2E-only app/batch scope.
+    if((env.RA_E2E_ONLY_BATCH_ID!==undefined || env.RA_E2E_ALLOWED_APP_ID!==undefined) && !env.RA_CONTROL_APP_ID)
+      throw Error('E2E限定設定では管理アプリIDが必須です');
     if(env.RA_CONTROL_APP_ID) {
       const transport=adapter(env);
       if(env.RA_POLL_MODE==='adaptive')return runAdaptiveClock(env,transport,core);

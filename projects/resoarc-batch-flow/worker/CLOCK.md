@@ -1,4 +1,4 @@
-# ResoArc Clock：1分共通クロック導入（v0.3.5 検証版）
+# ResoArc Clock：1分共通クロック導入（v0.3.6 検証版）
 
 Cloudflare WorkersのCron Triggersを1つだけ使い、時刻を毎分チェックします。新しい適応型ポーリングではkintoneの照会は原則10分ごと＋実行予定時に絞り、管理アプリに記録された20ステップ以内の処理を実行します。
 
@@ -103,3 +103,22 @@ npx wrangler deploy --config wrangler.clock.local.jsonc
 - https://developers.cloudflare.com/kv/platform/limits/
 - https://developers.cloudflare.com/kv/concepts/kv-bindings/
 - https://developers.cloudflare.com/kv/concepts/how-kv-works/
+
+## v0.3.6 限定書き込み試験のガード
+
+E2E限定試験を行う場合だけ、ローカルWrangler設定のvarsに RA_E2E_ONLY_BATCH_ID（今回の検証用管理レコードID）と RA_E2E_ALLOWED_APP_ID（書き込み先となる検証専用アプリID）を一緒に指定できます。
+
+- 両方を指定したとき、期限到来バッチの検索を対象ID1件だけに限定します。
+- 取得・登録・転記の対象アプリ、更新の取得元が許可先以外なら拒否します。
+- 片方しか指定していないなど不正な設定は拒否します。
+- 必ず RA_ALLOW_WRITES=false のままで先に新コードをデプロイし、限定対象・APIトークン・Cloudflareの資格情報を検証してください。
+- 限定試験終了後は RA_ALLOW_WRITES=false に戻し、試験用トークンを削除してください。
+- 通常運用時にはE2E限定設定を削除します。Cloudflare KVキャッシュは管理アプリとの再同期を行ってください。
+
+CloudflareのWranglerログイン失効により、このv0.3.6の限定ガードは実クラウドには未配置です。前版の閲覧専用Cronが稼働している場合でも、書き込み許可には切り替えないでください。
+
+## 開発版v0.3.6のリリースゲート
+
+手動実行とCloudflare Cronの読取専用E2Eが成功していても、**無人書き込みの本番解禁を意味しません**。kintone検証アプリ限定の管理スコープを指定した場合、旧JSON実行方式へ迂回することを禁止しました。
+
+Cloudflareの認証を復旧したあとも、`npm run cloud:preflight`で**稼働中のWorker構成が読取専用であること**を最初に確認してください。予期しないバインディング、カナリア配備、Secrets不備、または最新配備へのアクセス不可時は停止します。公開URLは引き続き無効とします。

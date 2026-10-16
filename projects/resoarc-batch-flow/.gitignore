@@ -15,3 +15,5 @@ scripts/inspect-clock-token-*.mjs
 scripts/mr-clock-smoke-*.mjs
 scripts/mr-clock-query-preflight.mjs
 scripts/provision-mr-clock-test.mjs
+scripts/mr-clock-e2e-*.mjs
+scripts/mr-clock-active-jobs.mjs

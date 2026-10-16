@@ -1,4 +1,4 @@
-# ResoArc Batch Flow + ResoArc Clock v0.3.5（検証版）
+# ResoArc Batch Flow + ResoArc Clock v0.3.6（検証版）
 
 kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複数タスクを順次実行する無料／オープンソースのツールです。MIT License。
 
@@ -25,7 +25,7 @@ kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複�
 
 - 設計: [control-app/README.md](control-app/README.md)
 - 初期設定: [control-app/SETUP.md](control-app/SETUP.md)
-- **kintone管理アプリの新規作成補助**: `npm run build:installer` で `release/resoarc-clock-bootstrap-v0.3.5.js` を生成し、管理者本人がログインしたテストテナントの開発者ツールで実行。既存アプリは変更せず、実行前の確認が必要。プラグインのシステム管理へのアップロードは別作業。
+- **kintone管理アプリの新規作成補助**: `npm run build:installer` で `release/resoarc-clock-bootstrap-v0.3.6.js` を生成し、管理者本人がログインしたテストテナントの開発者ツールで実行。既存アプリは変更せず、実行前の確認が必要。プラグインのシステム管理へのアップロードは別作業。
 - 無人実行・Cloudflare: [worker/CLOCK.md](worker/CLOCK.md)
 - 設定テンプレート: [worker/center-wrangler.example.jsonc](worker/center-wrangler.example.jsonc)
 
@@ -44,7 +44,7 @@ kintoneアプリ内のバッチ管理画面で処理を定義し、任意の複�
     cd worker
     npx wrangler deploy --dry-run --config center-wrangler.example.jsonc
 
-コード・モックAPIを使ったNode.js試験とWranglerのビルド検証を実施しています。**Cloudflareへの停止状態での実デプロイ・Cron発火、管理アプリと4タスク手動バッチのkintone実テナントE2Eは確認済みです。ただし、Cloudflare Cronからkintoneまでの無人**読み取り**E2Eは成功済みですが、無人**書き込み**E2Eは未完了のため、正式リリース前の検証版です。** WorkerのCronからブラウザ用プラグインJavaScriptを直接動かすことはできません。実行可能な処理は上記の共通アクションです。
+コード・モックAPIを使ったNode.js試験とWranglerのビルド検証を実施しています。**kintone管理アプリでの手動4タスク実行と、Cloudflare Cronからの無人読み取りE2Eは実環境で合格済みです。ただし無人書き込みE2Eは未完了のため、正式リリース前の検証版です。** WorkerのCronからブラウザ用プラグインJavaScriptを直接動かすことはできません。実行可能な処理は上記の共通アクションです。
 
 ## 制約
 
@@ -95,6 +95,18 @@ kintoneへの設定反映は最大約10分＋KVの伝播遅延がかかる場合
 
 ## Cloudflare再接続の安全チェック
 
-`npm run cloud:preflight` はWorker設定が書込み禁止か検査した上で、Cloudflareのログイン状態だけでなく**対象Workerのデプロイ一覧を実際に取得できるか**まで確認します。結果が `ready=false` のときは、クラウド書き込み試験を進めません。
+`npm run cloud:preflight` はローカル設定に加えて、**対象Workerの最新デプロイの構成**をCloudflareから取得し、書き込み禁止、管理アプリID、KV・Secretのバインディングを照合します。CLIのログインだけ成功していても、対象Workerへアクセスできない場合、更新版の設定を確認できない場合は `ready=false` で停止します。このコマンドは認証情報やアカウント識別子を出力しません。
 
 Cloudflare Cron経由の読み取り専用実環境E2Eは合格。書き込み自動実行の検証は認証で中断し、検証用レコードは停止・削除済みです。詳細は [Cloudflare × kintone ステージング検証](docs/CLOUDFLARE-KINTONE-STAGING-20261017.md) を参照してください。
+
+## v0.3.6 書き込み処理のkintone実環境試験
+
+新規作成した検証専用アプリ（ID 52）に対して、登録→取得→更新→転記を行い、作成レコード2件を削除しました。
+
+さらに専用管理アプリ（ID 50）を利用したBatch Center本体の結合試験で、リビジョンによる実行権取得、4工程の実行、正常終了、一回実行の自動停止、再実行防止を確認しました。テストデータ3件と管理レコード1件は削除済みです。
+
+競合テストではkintoneのリビジョン不一致（GAIA_CO02）を確認し、対象外の更新や二重登録を避けました。部分失敗テストでは「要確認」に停止し、2度目の呼び出しでも登録が繰り返されないことを検証しました。
+
+検証専用の一時設定として RA_E2E_ONLY_BATCH_ID と RA_E2E_ALLOWED_APP_ID を追加しました。両方を指定した場合、指定バッチと対象アプリだけに実行範囲を制限します。通常の利用者は設定不要です。
+
+**Cloudflare側のWranglerログインが切れたため、新版をクラウドへ反映する工程は未完了です。** 稼働中の旧Workerは前回確認した閲覧専用設定（RA_ALLOW_WRITES=false）のままであり、Cloudflareを起点とする書き込みE2Eは未実施です。詳細は release/RELEASE-0.3.6.md を参照してください。

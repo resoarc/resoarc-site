@@ -30,3 +30,34 @@ test('Cloudflare target access must be verified separately from whoami',()=>{
  assert.equal(checkWorkerAccess(()=>({status:1,stdout:'',stderr:'interactive login required'})),false);
  assert.equal(checkWorkerAccess(()=>({status:0,stdout:'not-json',stderr:''})),false);
 });
+
+test('chooseDeployedVersion rejects missing, split, and malformed deployments',()=>{
+ const {chooseDeployedVersion}=require('../scripts/cloud-auth-preflight.cjs');
+ const id='d611cd99-6433-490f-be2d-3fcf73a762c0';
+ assert.equal(chooseDeployedVersion([]),null);
+ assert.equal(chooseDeployedVersion([{created_on:'2026-10-17T00:00:00Z',versions:[{version_id:id,percentage:50}]}]),null);
+ assert.equal(chooseDeployedVersion([{created_on:'2026-10-17T00:00:00Z',versions:[{version_id:'not a uuid',percentage:100}]}]),null);
+ assert.equal(chooseDeployedVersion([{created_on:'2026-10-16T00:00:00Z',versions:[{version_id:'dddddddd-0000-0000-0000-000000000000',percentage:100}]},{created_on:'2026-10-17T00:00:00Z',versions:[{version_id:id,percentage:100}]}]),id);
+});
+test('actual deployed bindings must be read-only and match the expected test app',()=>{
+ const {verifyRemoteBindings}=require('../scripts/cloud-auth-preflight.cjs');
+ const b=[
+  {name:'RA_CONTROL_APP_ID',type:'plain_text',text:'50'},
+  {name:'RA_CLOCK_ENABLED',type:'plain_text',text:'true'},
+  {name:'RA_POLL_MODE',type:'plain_text',text:'adaptive'},
+  {name:'RA_ALLOW_WRITES',type:'plain_text',text:'false'},
+  {name:'RA_CLOCK_STATE',type:'kv_namespace'},
+  {name:'KINTONE_DOMAIN',type:'secret_text'},
+  {name:'KINTONE_API_TOKENS',type:'secret_text'}
+ ];
+ assert.equal(verifyRemoteBindings({resources:{bindings:b}},valid()),true);
+ assert.equal(verifyRemoteBindings({resources:{bindings:b.map(x=>x.name==='RA_ALLOW_WRITES'?{...x,text:'true'}:x)}},valid()),false);
+ assert.equal(verifyRemoteBindings({resources:{bindings:b.filter(x=>x.name!=='RA_CLOCK_STATE')}},valid()),false);
+ assert.equal(verifyRemoteBindings({resources:{bindings:b.map(x=>x.name==='RA_CONTROL_APP_ID'?{...x,text:'48'}:x)}},valid()),false);
+ assert.equal(verifyRemoteBindings({resources:{bindings:[...b,b[0]]}},valid()),false);
+});
+test('deployment read requires valid version detail, no mere login/empty list acceptance',()=>{
+ const {checkDeployedSafety}=require('../scripts/cloud-auth-preflight.cjs');
+ assert.deepEqual(checkDeployedSafety(valid(),()=>({status:0,stdout:'[]'})),{targetAccessible:true,remoteReadOnlyVerified:false});
+ assert.deepEqual(checkDeployedSafety(valid(),()=>({status:1,stderr:'auth expired'})),{targetAccessible:false,remoteReadOnlyVerified:false});
+});
