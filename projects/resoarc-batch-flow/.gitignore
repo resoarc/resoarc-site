@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+worker/wrangler.clock.local.jsonc
+release/*.ppk
+release/*.zip
+center-plugin/release/*.ppk
+center-plugin/release/*.zip
+*.log

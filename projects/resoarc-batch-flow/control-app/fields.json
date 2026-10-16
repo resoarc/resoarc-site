@@ -1,0 +1,163 @@
+{
+  "properties": {
+    "BatchName": {
+      "type": "SINGLE_LINE_TEXT",
+      "code": "BatchName",
+      "label": "バッチ名",
+      "required": true
+    },
+    "BatchEnabled": {
+      "type": "DROP_DOWN",
+      "code": "BatchEnabled",
+      "label": "自動実行",
+      "options": {
+        "停止": {
+          "label": "停止",
+          "index": "0"
+        },
+        "有効": {
+          "label": "有効",
+          "index": "1"
+        }
+      },
+      "defaultValue": "停止"
+    },
+    "DailyTime": {
+      "type": "TIME",
+      "code": "DailyTime",
+      "label": "実行時刻（日本時間）",
+      "defaultValue": "03:00"
+    },
+    "ScheduleType": {
+      "type": "DROP_DOWN",
+      "code": "ScheduleType",
+      "label": "実行方法",
+      "options": {
+        "毎日": {
+          "label": "毎日",
+          "index": "0"
+        },
+        "間隔": {
+          "label": "間隔",
+          "index": "1"
+        },
+        "一回": {
+          "label": "一回",
+          "index": "2"
+        }
+      },
+      "defaultValue": "毎日"
+    },
+    "OneTimeAt": {
+      "type": "DATETIME",
+      "code": "OneTimeAt",
+      "label": "一回実行日時"
+    },
+    "IntervalMinutes": {
+      "type": "NUMBER",
+      "code": "IntervalMinutes",
+      "label": "実行間隔（分・1～10080）",
+      "defaultValue": "60"
+    },
+    "NextRunAt": {
+      "type": "DATETIME",
+      "code": "NextRunAt",
+      "label": "次回実行予定"
+    },
+    "RunState": {
+      "type": "DROP_DOWN",
+      "code": "RunState",
+      "label": "実行状態",
+      "options": {
+        "待機": {
+          "label": "待機",
+          "index": "0"
+        },
+        "実行中": {
+          "label": "実行中",
+          "index": "1"
+        },
+        "正常終了": {
+          "label": "正常終了",
+          "index": "2"
+        },
+        "要確認": {
+          "label": "要確認",
+          "index": "3"
+        }
+      },
+      "defaultValue": "待機"
+    },
+    "LastStartedAt": {
+      "type": "DATETIME",
+      "code": "LastStartedAt",
+      "label": "最終開始時刻"
+    },
+    "LastFinishedAt": {
+      "type": "DATETIME",
+      "code": "LastFinishedAt",
+      "label": "最終終了時刻"
+    },
+    "LastResult": {
+      "type": "MULTI_LINE_TEXT",
+      "code": "LastResult",
+      "label": "直近の実行結果"
+    },
+    "RunHistory": {
+      "type": "MULTI_LINE_TEXT",
+      "code": "RunHistory",
+      "label": "実行履歴（直近分）"
+    },
+    "RunToken": {
+      "type": "SINGLE_LINE_TEXT",
+      "code": "RunToken",
+      "label": "実行ロックID"
+    },
+    "Steps": {
+      "type": "SUBTABLE",
+      "code": "Steps",
+      "label": "処理タスク",
+      "fields": {
+        "TaskType": {
+          "type": "DROP_DOWN",
+          "code": "TaskType",
+          "label": "処理種別",
+          "options": {
+            "取得": {
+              "label": "取得",
+              "index": "0"
+            },
+            "更新": {
+              "label": "更新",
+              "index": "1"
+            },
+            "転記": {
+              "label": "転記",
+              "index": "2"
+            },
+            "登録": {
+              "label": "登録",
+              "index": "3"
+            }
+          },
+          "defaultValue": "取得"
+        },
+        "TargetApp": {
+          "type": "NUMBER",
+          "code": "TargetApp",
+          "label": "対象アプリID"
+        },
+        "Query": {
+          "type": "MULTI_LINE_TEXT",
+          "code": "Query",
+          "label": "取得条件"
+        },
+        "FieldsJSON": {
+          "type": "MULTI_LINE_TEXT",
+          "code": "FieldsJSON",
+          "label": "項目マッピングJSON"
+        }
+      }
+    }
+  }
+}

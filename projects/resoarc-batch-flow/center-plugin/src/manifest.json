@@ -1,0 +1,25 @@
+{
+  "manifest_version": 1,
+  "version": "0.2.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc Batch Center",
+    "en": "ResoArc Batch Center"
+  },
+  "description": {
+    "ja": "kintone管理アプリにバッチを登録し、手動実行・次回実行時刻管理を行います。",
+    "en": "Control batch workflows as records in kintone."
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://resoarc.com/",
+    "en": "https://resoarc.com/"
+  },
+  "desktop": {
+    "js": [
+      "js/core.js",
+      "js/control.js",
+      "js/runtime.js"
+    ]
+  }
+}

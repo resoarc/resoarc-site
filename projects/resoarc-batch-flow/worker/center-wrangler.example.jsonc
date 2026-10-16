@@ -1,0 +1,13 @@
+{
+  "name": "resoarc-clock-self-hosted",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-10-16",
+  "workers_dev": false,
+  "preview_urls": false,
+  "triggers": { "crons": ["* * * * *"] },
+  "vars": {
+    "RA_CONTROL_APP_ID": "0",
+    "RA_CLOCK_ENABLED": "false",
+    "RA_ALLOW_WRITES": "false"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "manifest_version": 1,
+  "version": "0.1.0",
+  "type": "APP",
+  "name": {
+    "ja": "ResoArc Batch Flow",
+    "en": "ResoArc Batch Flow"
+  },
+  "description": {
+    "ja": "複数タスクを連続実行。手動ボタン／利用者管理の外部スケジューラーに対応",
+    "en": "Sequential batch workflows, manual or owner-managed scheduling."
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {"ja": "https://resoarc.com/", "en": "https://resoarc.com/"},
+  "desktop": {
+    "js": [
+      "js/core.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/desktop.css"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/core.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ],
+    "required_params": [
+      "flow"
+    ]
+  }
+}

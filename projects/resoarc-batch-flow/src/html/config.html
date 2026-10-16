@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body><main class="ra-shell">
+  <header><small>ResoArc / Kintone / Batch Flow 0.1.0</small><h1>バッチ処理の設定</h1><p>操作を上から順番に実行します。手動ボタンだけなら外部接続は不要です。定期実行はご自身のCloudflare Workersなどを接続してください。</p></header>
+  <form id="ra-form" novalidate>
+    <div class="ra-grid"><label>フロー名<input id="ra-name" required maxlength="100" placeholder="毎朝の受注更新"></label><label>自動実行の時刻（日本時間）<input id="ra-time" type="time" value="03:00" required></label></div>
+    <section><h2>処理の順序</h2><p class="ra-note">最初に「レコード取得」を置き、その結果を更新・別アプリに転記できます。最大100件・20ステップです。</p><div id="ra-steps"></div><button type="button" id="ra-add" class="ra-secondary">＋ タスクを追加</button></section>
+    <div id="ra-error" class="ra-error" role="alert" aria-live="polite"></div>
+    <div class="ra-actions"><button type="submit" class="ra-primary">設定を保存</button><button id="ra-cancel" type="button" class="ra-secondary">戻る</button></div>
+  </form>
+  <section class="ra-export"><h2>外部スケジュール連携</h2>
+    <p>下記のJSONをコピーして、ご自身のWorkersの <code>WORKFLOWS_JSON</code> シークレットに設定してください。認証用APIトークンはこの設定には入力しません。</p>
+    <button id="ra-export" type="button" class="ra-secondary">現在の設定からJSONを生成</button>
+    <textarea id="ra-json" rows="12" readonly spellcheck="false" aria-label="外部実行設定JSON"></textarea>
+    <p class="ra-note">Cloudflare CronはUTC（日本時間より9時間遅れ）です。生成されたcronをWorkers側にも設定します。設定手順はREADMEとworker/READMEに掲載します。</p>
+  </section>
+  <section class="ra-warning"><h2>運用上の注意</h2><p>手動実行は現在ログイン中のユーザー権限、自動実行は外部環境に設定したAPIトークン権限で動きます。転記・登録を繰り返すと重複レコードが作られるため、事前確認とバックアップを行ってください。処理を途中で失敗したとき、前のタスクは自動的に元に戻りません。</p></section>
+</main></body></html>
