@@ -112,3 +112,25 @@ test('new-app planner skips field codes that kintone cannot create',async()=>{
  assert.deepEqual(Object.keys(plan.properties),['Valid_名前',MARKER_CODE]);
  assert.equal(plan.skipped.length,2);
 });
+
+test('malformed ZIP64 sentinel completes within a child-process timeout',async()=>{
+  // Run the parser in an isolated process so a future decompression regression
+  // cannot hang the entire test suite when fed an untrusted ZIP.
+  const {spawnSync}=await import('node:child_process');
+  const script=`
+    import {zipSync,unzipSync,strToU8} from 'fflate';
+    const z=zipSync({'manifest.json':strToU8('x')});
+    const d=Uint8Array.from(z);
+    let index=-1;
+    for(let i=0;i<d.length-4;i++)
+      if(d[i]===0x50&&d[i+1]===0x4b&&d[i+2]===0x01&&d[i+3]===0x02){index=i;break;}
+    if(index<0)process.exit(7);
+    d.fill(0xff,index+20,index+24); // central-directory ZIP64-size sentinel
+    try{unzipSync(d);process.exit(8);}catch{process.exit(0);}
+  `;
+  const response=spawnSync(process.execPath,['--input-type=module','--eval',script],{
+    encoding:'utf8',cwd:process.cwd(),timeout:4000
+  });
+  assert.equal(response.error,undefined,'ZIP parsing must not hang');
+  assert.ok([0,8].includes(response.status),'ZIP parser must terminate without hanging');
+});
