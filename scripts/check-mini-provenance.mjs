@@ -22,8 +22,17 @@ if(digests.some(x=>typeof x!=='string'||!/^[a-f0-9]{64}$/.test(x))||
 if(qa.source.sha256!=='22f22159407063a90fc354cf0ee1af1283f402f25fe554d5f7c49026a4da0edb')
    throw Error('Canonical beta source digest mismatch');
 if(qa.v1_qa_source_candidate?.signed!==false)throw Error('Unsigned v1 review source is wrongly labelled');
-if(!qa.windows_transfer||qa.windows_transfer.original_source_in_windows_development_folder!==false)
-   throw Error('Cannot claim completed Windows copy without an evidence update');
+const win=read('docs/kintone-progress/evidence/mini-v012-windows-e2e-mock-20261017.json');
+if(!qa.windows_transfer || qa.windows_transfer.original_source_in_windows_development_folder!==true ||
+   qa.windows_transfer.file_count!==152 ||
+   qa.windows_transfer.tree_sha256!=='64c1954c736a8e72ed33e3da6afbb94255714847601e83a70ae30f18e2f0ea3a')
+   throw Error('Canonical Windows source import evidence missing');
+if(win.source_import?.source_tree_sha256!==qa.windows_transfer.tree_sha256 ||
+   win.hardening_windows_qa?.content_tree_sha256!=='7e4039c144f84d4143e49fffe409c791f7bb67f6017622d9e636c7bbc00a4db4' ||
+   win.hardening_windows_qa?.manifest_with_mobile_section!==0 ||
+   win.hardening_windows_qa?.tenant_installed!==false ||
+   win.hardening_windows_qa?.signed_package_created!==false)
+   throw Error('Windows proof or release holds are inconsistent');
 if(mini.some(x=>x.release_decision==='approved'||x.gates.tenant==='passed'))
    throw Error('No isolated tenant product acceptance evidence exists');
 console.log('Mini v0.1.2 provenance verified: 18 unique key pins; 29-product release holds intact.');
