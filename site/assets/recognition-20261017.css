@@ -57,3 +57,11 @@
 @media(prefers-reduced-motion:reduce){.rec-mini:hover{transform:none}}
 
 .rec-proof-card .rec-mark{display:flex;width:max-content;max-width:100%}.rec-proof-card .rec-evidence-link{display:flex;width:max-content;max-width:100%}
+
+.rec-live-score{display:block;margin-top:6px;color:#1e5578;font:700 15px/1.4 Arial,sans-serif;font-variant-numeric:tabular-nums}
+.rec-live-score b{font-size:22px;letter-spacing:-.035em}
+.rec-live-note{font:600 10px/1.45 var(--body);color:#5b7183;margin-left:5px}
+.rec-live-score-large{margin:18px 0 2px;color:#1b4d71}
+.rec-live-score-large b{font-size:40px}
+.rec-live-score-large span{font-size:16px;color:#6d7f92}
+.rec-proof-card .rec-live-date{font-size:11px;color:#547083;margin-top:2px}
