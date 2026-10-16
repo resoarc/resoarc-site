@@ -40,7 +40,7 @@ if(cmd==='status'){
     if(!exe)throw Error('Microsoft Edge is not installed');
     await fs.mkdir(profile,{recursive:true});
     const args=['--remote-debugging-address=127.0.0.1','--remote-debugging-port=0',
-      '--disable-extensions','--no-first-run','--no-default-browser-check',
+      '--disable-extensions','--disable-sync','--no-first-run','--no-default-browser-check',
       '--user-data-dir='+profile,'--new-window',origin+'/k/'];
     const child=spawn(exe,args,{detached:true,windowsHide:false,stdio:'ignore'});
     child.on('error',()=>{});
