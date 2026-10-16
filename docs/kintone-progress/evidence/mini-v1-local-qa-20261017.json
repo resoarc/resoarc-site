@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-17",
+  "scope": "Windows local source-only experimental v1 hardening candidate of original verified 0.1.2 beta, not the original signed beta packages and not a tenant deployment",
+  "source_files": 152,
+  "source_tree_sha256": "64c1954c736a8e72ed33e3da6afbb94255714847601e83a70ae30f18e2f0ea3a",
+  "canonical_original_unchanged": true,
+  "candidate_changed_source_files": 61,
+  "unit_and_mock": {
+    "registered_desktop_event_handlers": 31,
+    "edge_mock_browser_cases": 17,
+    "v1_security_negative_and_positive_cases": 8,
+    "all_suites_exit_code_zero": true
+  },
+  "static_checks": {
+    "javaScript_files": 37,
+    "javaScript_errors": 0,
+    "manifest_files": 18,
+    "asset_missing": 0,
+    "mobile_manifests": 0
+  },
+  "signing": {
+    "missing_original_keys_fails_closed": true,
+    "private_keys_generated": false,
+    "releases_generated": false,
+    "original_signer_identity_proved": false
+  },
+  "is_v1_released": false,
+  "products": [
+    {
+      "slug": "input-template",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "reuse-reset",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "text-normalizer",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "field-help",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "save-navigation",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "mail-compose",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "list-aggregate",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "csv-export",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "attachment-count",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "table-row-tools",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "qr-code",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "record-toc",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "related-links",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "sticky-list",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "file-preview",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "lookup-suggest",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "postal-address",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    },
+    {
+      "slug": "barcode-scan",
+      "manifest_assets_passed": true,
+      "desktop_source_present": true,
+      "mobile_support_verified": false,
+      "tenant_verified": false
+    }
+  ],
+  "limitations": [
+    "Original beta source is preserved unchanged. Experimental candidate is a separate Windows QA copy.",
+    "Edge browser suites use mocked kintone APIs; tenant installation, permissions and coexistence are not proven.",
+    "All 18 candidates currently expose desktop manifests only; mobile acceptance cannot pass.",
+    "Existing original RSA/SHA-1 signing private keys are not present; new signing keys must not be substituted.",
+    "31 registered events and 17 browser cases are aggregate results, not 18 individually complete acceptance suites."
+  ]
+}

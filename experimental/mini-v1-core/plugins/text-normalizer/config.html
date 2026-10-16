@@ -1,0 +1,9 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ResoArc 文字整形 設定</title></head><body>
+<h1>入力文字の自動整形（評価用）</h1>
+<p>レコード作成・編集の保存時に、指定した文字列項目だけを整形します。フィールドコードを正確に入力してください。</p>
+<label for="settings">ルール JSON</label>
+<textarea id="settings" rows="12" cols="75" aria-describedby="example"></textarea>
+<pre id="example">{"rules":[{"field":"CustomerName","mode":"nfkc-trim"}]}</pre>
+<p>mode: nfkc-trim / trim / spaces / phone。上限20項目。</p>
+<button id="save" type="button">設定を保存</button><p id="message" role="status"></p>
+</body></html>

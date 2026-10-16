@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-17",
+  "suite": "ResoArc Mini v1 candidate text normalizer mobile support",
+  "scope": "User-owned Windows PC, isolated v1 candidate source only; no live kintone tenant or mobile device",
+  "source_baseline": "resoarc-mini-plugins-v0.1.2-source.zip",
+  "original_source_unchanged": true,
+  "product": "text-normalizer",
+  "manifest": "plugins/text-normalizer/manifest.json",
+  "mobile_entrypoint": "plugins/text-normalizer/js/mobile.js",
+  "desktop_entrypoint": "plugins/text-normalizer/js/desktop.js",
+  "mobile_events": [
+    "mobile.app.record.create.submit",
+    "mobile.app.record.edit.submit"
+  ],
+  "desktop_events": [
+    "app.record.create.submit",
+    "app.record.edit.submit"
+  ],
+  "unit_tests": {
+    "mobile": 4,
+    "security_regression": 8,
+    "passed": 12,
+    "failed": 0
+  },
+  "desktop_runtime_event_registration": {
+    "count": 31,
+    "passed": true
+  },
+  "edge_mock_browser": {
+    "scenarios": 17,
+    "passed": true
+  },
+  "manifest_checks": {
+    "count": 18,
+    "with_mobile_entrypoint": 1,
+    "other_products_without_mobile": 17,
+    "mobile_entrypoint_asset_exists": true,
+    "mobile_javascript_syntax_valid": true
+  },
+  "key_continuity": {
+    "signed": false,
+    "original_private_keys_available": false,
+    "new_private_keys_generated": false,
+    "package_release_denied_when_keys_missing": true
+  },
+  "limitations": [
+    "Mobile event handler tested with mocked kintone event API, not a real smartphone or mobile tenant.",
+    "Mobile support is an experimental source-only feature for text-normalizer; other 17 mini features are unchanged and unsupported on mobile.",
+    "No plugin ZIP was signed, installed or released.",
+    "A successful mobile mock does not satisfy the canonical mobile acceptance gate."
+  ],
+  "local_source": "Documents/AI-Work/MR-kintone-tests/v012-windows-qa/v1-candidate",
+  "release_decision": "hold",
+  "source_only_bundle": {
+    "filename": "resoarc-mini-v1-candidate-source-only-20261017.zip",
+    "location": "User-owned Windows PC: Documents/AI-Work/MR-kintone-tests/v012-windows-qa/",
+    "sha256": "8d153f2dfda3969d53bcb4a5e069d72ef5fa0a94a30e8f784a16408ec626dff3",
+    "file_count": 157,
+    "plugin_count": 18,
+    "javaScript_files": 38,
+    "mobile_sources": [
+      "text-normalizer"
+    ],
+    "manifest_assets_missing": 0,
+    "digitally_signed": false,
+    "publicly_released": false,
+    "kintone_installable": false
+  }
+}

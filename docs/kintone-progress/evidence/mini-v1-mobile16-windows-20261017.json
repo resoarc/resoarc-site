@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-17",
+  "timezone": "Asia/Tokyo",
+  "scope": "Windows main PC isolated v1-mobile-batch QA source, generated kintone mobile mocks, no signed ZIP or tenant deployment",
+  "source": {
+    "canonical_original": "resoarc-mini-plugins-v0.1.2-source.zip",
+    "original_file_count": 152,
+    "canonical_original_unmodified": true,
+    "candidate_folder": "Documents/AI-Work/MR-kintone-tests/v012-windows-qa/v1-mobile-batch"
+  },
+  "design": {
+    "supported_mobile_candidate_slugs": [
+      "attachment-count",
+      "barcode-scan",
+      "csv-export",
+      "field-help",
+      "file-preview",
+      "input-template",
+      "list-aggregate",
+      "lookup-suggest",
+      "mail-compose",
+      "postal-address",
+      "qr-code",
+      "record-toc",
+      "related-links",
+      "reuse-reset",
+      "table-row-tools",
+      "text-normalizer"
+    ],
+    "not_supported_slugs": [
+      "save-navigation",
+      "sticky-list"
+    ],
+    "official_mobile_api_adapters": [
+      "mobile.app.record.* event variants",
+      "kintone.mobile.app.getHeaderSpaceElement",
+      "kintone.mobile.app.record.get",
+      "kintone.mobile.app.record.set",
+      "kintone.mobile.app.record.getFieldElement"
+    ],
+    "desktop_runtime_preserved": true,
+    "qr_library_bundled_locally": true
+  },
+  "tests": {
+    "mobile_event_mock_cases": 20,
+    "security_hardening_tests": 8,
+    "combined_pass": 28,
+    "combined_fail": 0,
+    "desktop_event_registration_handlers": 31,
+    "desktop_smoke_pass": true,
+    "edge_mock_browser_cases": 17,
+    "edge_mock_pass": true,
+    "javaScript_syntax_files": 53,
+    "javaScript_syntax_pass": 53,
+    "missing_manifest_assets": 0,
+    "manifests": 18,
+    "mobile_manifests": 16,
+    "signer_fail_closed_without_original_keys": true,
+    "signing_keys_generated": false,
+    "release_zip_generated": false
+  },
+  "source_bundle": {
+    "filename": "resoarc-mini-v1-mobile16-source-only-20261017.zip",
+    "sha256": "0e4fd2354f9054a9b409be168b81bb9f0425021fc0de69c2f4934c66c8476467",
+    "file_count": 174,
+    "plugin_sources": 18,
+    "mobile_source_candidates": 16,
+    "is_kintone_installable": false,
+    "is_signed": false,
+    "was_published_to_site": false,
+    "note": "Includes an additional standalone signer rejection regression test, reproducibly generated and verified against canonical original source files."
+  },
+  "limits": [
+    "20 mobile tests are mocked API and UI tests, not real smartphone tests or signed tenant installations.",
+    "Two features require distinct mobile product design: save-navigation redirect restrictions and desktop-specific sticky-list CSS.",
+    "Unsupported mobile features intentionally have no mobile manifest.",
+    "Each product requires dedicated real kintone test app acceptance and authorization/coexistence tests before mobile release approval.",
+    "Original RSA/SHA-1 signing private keys are unavailable; rebuilding the installed plugin with new keys would break upgrade identity."
+  ],
+  "release_decision": "hold",
+  "local_machine_report": "Documents/AI-Work/MR-kintone-tests/reports/mini-v1-mobile16-machine-qa-20261017.json"
+}

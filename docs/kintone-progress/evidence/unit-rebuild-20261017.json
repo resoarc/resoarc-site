@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-17",
+  "timezone": "Asia/Tokyo",
+  "source": "user-owned Windows PC, isolated local copies under Documents/AI-Work/MR-kintone-tests/v1-candidate-20261017",
+  "original_sources": "local repository and package directories, not production tenant",
+  "status": "11 packages npm test and isolated build executed",
+  "summary": {
+    "packages": 11,
+    "unit_tests": 203,
+    "passed": 203,
+    "failed": 0,
+    "builds": 11,
+    "manifest_files": 12,
+    "missing_assets": 0
+  },
+  "entries": [
+    {
+      "slug": "auto-number-stable",
+      "package": "resoarc-auto-number",
+      "version": "1.0.0",
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 2,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "auto-number-beta",
+      "package": "resoarc-auto-number",
+      "version": "1.1.0",
+      "tests": 22,
+      "passed": 22,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "backup-migration",
+      "package": "resoarc-kintone-backup",
+      "version": "0.1.0-alpha",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 0,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "conditional",
+      "package": "resoarc-conditional-fields",
+      "version": "0.1.0",
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "conditional-format",
+      "package": "resoarc-conditional-format",
+      "version": "0.1.0",
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "date-calculator",
+      "package": "resoarc-date-calculator",
+      "version": "0.1.0",
+      "tests": 16,
+      "passed": 16,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "grid-editor",
+      "package": "resoarc-grid-editor",
+      "version": "0.1.0",
+      "tests": 19,
+      "passed": 19,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "kanban",
+      "package": "resoarc-kanban",
+      "version": "0.1.0",
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "list-search",
+      "package": "resoarc-list-search",
+      "version": "0.1.0",
+      "tests": 13,
+      "passed": 13,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "tabs",
+      "package": "resoarc-kintone-tabs",
+      "version": "0.1.0",
+      "tests": 13,
+      "passed": 13,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 1,
+      "missing_manifest_assets": false
+    },
+    {
+      "slug": "batch-flow",
+      "package": "resoarc-batch-flow",
+      "version": "0.3.2",
+      "tests": 63,
+      "passed": 63,
+      "failed": 0,
+      "exit_code": 0,
+      "isolated_build": [
+        {
+          "action": "build:installer",
+          "exit_code": 0
+        }
+      ],
+      "manifest_count": 2,
+      "missing_manifest_assets": false
+    }
+  ],
+  "provenance_notes": [
+    "A new local run on 2026-10-17 supersedes the earlier 187-test snapshot for progress counts.",
+    "Batch-flow package was version 0.3.2 with 63 tests, rather than earlier version 0.3.1 with 47 tests.",
+    "Build ran on copies; shared source directories were not overwritten.",
+    "Manifest verification checks source-referenced assets only. Live tenant installation, signed ZIP provenance and desktop/mobile acceptance remain separate gates."
+  ]
+}

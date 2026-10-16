@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-17",
+  "status": "beta_source_located_in_user_library",
+  "source": {
+    "file": "resoarc-mini-plugins-v0.1.2-source.zip",
+    "sha256": "22f22159407063a90fc354cf0ee1af1283f402f25fe554d5f7c49026a4da0edb",
+    "source_file_count": 152,
+    "location": "User ChatGPT Library root, not yet restored to Windows main PC or published GitHub source repo"
+  },
+  "beta": {
+    "file": "resoarc-mini-plugins-v0.1.2-beta.zip",
+    "sha256": "a55e1fd1791f8edd22387167ec02f6979a2994fb7ec951a27584f2a332a8eec9",
+    "signed_packages": 18,
+    "embedded_source_identical": true
+  },
+  "analysis": {
+    "manifests_and_asset_links": 18,
+    "js_syntax_checks": 65,
+    "event_mock_registered_hooks": 31,
+    "browser_mock_cases": 17,
+    "signature_valid": 18,
+    "signature_algorithm": "RSA-PKCS1v1.5 with SHA-1 legacy",
+    "source_runtime_matches_signed_archives": 18,
+    "signer_pubkey_trust_anchor": "not independently established",
+    "live_kintone_installation": "NOT TESTED",
+    "mobile_build": "NOT PRESENT",
+    "production_release": "NOT APPROVED"
+  },
+  "slugs": [
+    "input-template",
+    "reuse-reset",
+    "text-normalizer",
+    "field-help",
+    "save-navigation",
+    "mail-compose",
+    "list-aggregate",
+    "csv-export",
+    "attachment-count",
+    "table-row-tools",
+    "qr-code",
+    "record-toc",
+    "related-links",
+    "sticky-list",
+    "file-preview",
+    "lookup-suggest",
+    "postal-address",
+    "barcode-scan"
+  ],
+  "new_hardening_experiment": {
+    "source_archive": "resoarc-mini-plugins-v0.1.2-v1-hardening-SOURCE-UNSIGNED.zip",
+    "original_beta_archives_unchanged": true,
+    "change": "shared field set(): reject invalid number/date/time/datetime, block unsanitized rich text, validate multi-value array types",
+    "additional_negative_tests": 3,
+    "mock_events_passed": 31,
+    "browser_mocks_passed": 17,
+    "js_syntax_checked": 65,
+    "tenant_verified": false,
+    "signed": false
+  },
+  "quality_policy": "Source and embedded-signature math verified from user library artifacts. Signing key ownership, target tenant installation, mobile behavior, performance, coexistence, and v1 release remain gated. Do not confuse source ZIP, beta signed ZIP and unsigned hardening source.",
+  "v1_qa_source_candidate": {
+    "filename": "resoarc-mini-plugins-v0.1.2-v1-review-SOURCE-UNSIGNED.zip",
+    "sha256": "c0499cd92bf2cfed0c51dfede1b871e9f20e108f193872fbbc1093477e783105",
+    "size_bytes": 160568,
+    "source_file_count": 159,
+    "signed": false,
+    "source_diffs": {
+      "changed": 27,
+      "added": 7,
+      "removed": 0
+    },
+    "tests": {
+      "kintone_event_handlers": 31,
+      "chromium_mock_cases": 19,
+      "v1_type_and_prototype_regression": 5,
+      "signing_identity_negative": "passed",
+      "manifest_assets": "18/18 passed",
+      "js_syntax": "37 files passed"
+    },
+    "signing_identity_pins": "docs/kintone-progress/evidence/mini-v012-public-key-pins.json",
+    "output_policy": "Never rotate installed plugin IDs silently; original beta archives untouched. Needs Windows import, isolated tenant UI verification, and signatures of existing release identities.",
+    "windows_validation": {
+      "verified_full_tree_sha256": "7e4039c144f84d4143e49fffe409c791f7bb67f6017622d9e636c7bbc00a4db4",
+      "source_file_count": 159,
+      "validated_in_isolated_windows_qa": true,
+      "unsigned": true,
+      "mobile_plugin_manifests": 0,
+      "local_evidence": "Documents/AI-Work/MR-kintone-tests/v012-windows-v1/qa-results.json",
+      "github_evidence": "docs/kintone-progress/evidence/mini-v012-windows-e2e-mock-20261017.json"
+    }
+  },
+  "windows_transfer": {
+    "original_source_in_windows_development_folder": true,
+    "target": "Documents/GitHub/resoarc-mini-plugins",
+    "source_sha256": "22f22159407063a90fc354cf0ee1af1283f402f25fe554d5f7c49026a4da0edb",
+    "tree_sha256": "64c1954c736a8e72ed33e3da6afbb94255714847601e83a70ae30f18e2f0ea3a",
+    "file_count": 152,
+    "result": "verified source transferred via Mole Remote v2 Realtime and imported without overwriting existing source",
+    "local_report": "Documents/AI-Work/MR-kintone-tests/reports/mini-source-import-20261017.json"
+  }
+}

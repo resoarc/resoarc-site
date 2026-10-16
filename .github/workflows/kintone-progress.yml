@@ -8,6 +8,7 @@ on:
       - "tests/kintone-progress.test.mjs"
       - "tests/kintone-evidence.test.mjs"
       - "scripts/kintone-evidence.mjs"
+      - "scripts/check-mini-provenance.mjs"
       - "scripts/kintone-verify-zip-signatures.py"
       - ".github/workflows/kintone-progress.yml"
   pull_request:
@@ -17,6 +18,7 @@ on:
       - "tests/kintone-progress.test.mjs"
       - "tests/kintone-evidence.test.mjs"
       - "scripts/kintone-evidence.mjs"
+      - "scripts/check-mini-provenance.mjs"
       - "scripts/kintone-verify-zip-signatures.py"
       - ".github/workflows/kintone-progress.yml"
   workflow_dispatch:
@@ -44,6 +46,8 @@ jobs:
         run: node scripts/kintone-evidence.mjs
       - name: Verify eleven original signed ZIP bytes (RSA/SHA-1 legacy)
         run: python scripts/kintone-verify-zip-signatures.py
+      - name: Validate recovered 18 mini source and signer pins
+        run: node scripts/check-mini-provenance.mjs
       - name: Test corrupted evidence is rejected
         run: node --test tests/kintone-evidence.test.mjs
       - name: Report aggregate progress

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-17",
+  "status": "v1-review source-only hardening, NOT a release",
+  "baseline": {
+    "file": "resoarc-mini-plugins-v0.1.2-source.zip",
+    "sha256": "22f22159407063a90fc354cf0ee1af1283f402f25fe554d5f7c49026a4da0edb",
+    "files": 152
+  },
+  "candidate": {
+    "file": "resoarc-mini-plugins-v0.1.2-v1-review-SOURCE-UNSIGNED.zip",
+    "sha256": "8924b75e36b964fd4985a15f5b3bb423961b2334e8e5fc7035509493def1d103",
+    "bytes": 156857,
+    "files": 156,
+    "library_path": "/ResoArc/v1-development/resoarc-mini-plugins-v0.1.2-v1-review-SOURCE-UNSIGNED.zip",
+    "signed": false,
+    "installable": false
+  },
+  "changes": {
+    "modified_files": 27,
+    "added_files": 4,
+    "removed_files": 0
+  },
+  "fixes": [
+    "Validate own record field names and block inherited/magic keys (__proto__, constructor, prototype)",
+    "Initialize only declared configuration keys on a null-prototype object",
+    "Handle malformed arrays, objects and inherited value fields safely",
+    "Enforce typed field validation for numbers, dates, times, rich text and multiselects",
+    "Require explicit administrative opt-in for external HTTPS related links",
+    "Fail closed when the 18 original signing keys are unavailable; never silently rotate plugin identity",
+    "Provide source-only rebuild with QR dependency and complete asset/syntax validation"
+  ],
+  "verification": {
+    "source_manifests": 18,
+    "desktop_event_registration_checks": 31,
+    "chromium_simulated_browser_cases": 19,
+    "security_regression_tests": 5,
+    "signing_failure_tests": 1,
+    "live_tenant_installations": 0,
+    "live_desktop_e2e": 0,
+    "live_mobile_e2e": 0
+  },
+  "pc_handoff": {
+    "target": "Documents/GitHub/resoarc-mini-plugins",
+    "script": "scripts/import-mini-v1-review.ps1",
+    "script_installed_on_main_pc": "Documents/AI-Work/MR-kintone-tests/import-mini-v1-review.ps1",
+    "script_powershell_parse": "passed",
+    "script_missing_archive_guard": "passed",
+    "source_archive_on_pc": false,
+    "import_completed": false
+  },
+  "notes": [
+    "The original signed v0.1.2 beta packages are preserved and were not repackaged.",
+    "The candidate source cannot be uploaded to kintone. Original private signing keys must be restored securely before a compatible signed build.",
+    "The user-owned PC's destination remains empty; an explicit archive download from ChatGPT Library is needed to run the importer.",
+    "Test suites exercise simulated kintone/browser hosts and source build, NOT live tenant/mobile."
+  ]
+}
