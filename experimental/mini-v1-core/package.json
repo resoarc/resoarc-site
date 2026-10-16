@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "check": "npm test && node --check src/core.mjs"
+    "check": "npm test && npm run build && node --check plugins/text-normalizer/out/src/js/desktop.js && node --check plugins/text-normalizer/out/src/js/mobile.js",
+    "build": "node plugins/text-normalizer/build.mjs"
   }
 }
