@@ -46,4 +46,38 @@ if(mobile.product!=='text-normalizer'||mobile.unit_tests?.passed!==12||
    bundle?.kintone_installable!==false||
    mini.find(x=>x.slug==='text-normalizer')?.gates?.mobile!=='unverified')
    throw Error('Experimental source-only mobile proof or release hold differs from evidence');
-console.log('Mini source provenance and mobile draft verified; 18 v1 releases remain blocked.');
+const mobile16=read('docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json');
+const mobileSet=new Set(mobile16.design?.supported_mobile_candidate_slugs||[]);
+const excluded=new Set(mobile16.design?.not_supported_slugs||[]);
+if(mobileSet.size!==16||excluded.size!==2||
+   [...mobileSet].some(slug=>!seen.has(slug)||excluded.has(slug))||
+   [...excluded].some(slug=>!seen.has(slug))||
+   mobileSet.size+excluded.size!==mini.length)throw Error('Mobile 16/2 coverage mismatch');
+if(mobile16.tests?.mobile_event_mock_cases!==20||
+   mobile16.tests?.security_hardening_tests!==8||
+   mobile16.tests?.combined_pass!==28||mobile16.tests?.combined_fail!==0||
+   mobile16.tests?.desktop_event_registration_handlers!==31||
+   mobile16.tests?.edge_mock_browser_cases!==17||
+   mobile16.tests?.javaScript_syntax_files!==53||
+   mobile16.tests?.javaScript_syntax_pass!==53||
+   mobile16.tests?.mobile_manifests!==16||
+   mobile16.tests?.manifests!==18||
+   mobile16.tests?.missing_manifest_assets!==0||
+   mobile16.tests?.signer_fail_closed_without_original_keys!==true||
+   mobile16.tests?.signing_keys_generated!==false||
+   mobile16.tests?.release_zip_generated!==false)throw Error('Mobile QA evidence mismatch');
+if(mobile16.source_bundle?.sha256!=='c12b5fe00e30eb6c60a923db1d4415da047fb034d2f0846b2d67d15006742025'||
+   mobile16.source_bundle?.file_count!==173||
+   mobile16.source_bundle?.is_signed!==false||
+   mobile16.source_bundle?.is_kintone_installable!==false||
+   mobile16.release_decision!=='hold')throw Error('Mobile source-only bundle mislabelled');
+for(const product of mini){
+  if(product.gates.mobile!=='unverified'||product.release_decision!=='hold')throw Error('Mobile gate approved without tenant proof: '+product.slug);
+  if(mobileSet.has(product.slug)){
+    if(product.mobile_source_evidence!=='docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json'||
+       product.v1_preparation?.mobile_manifest!=='generated_source_only_v1_candidate')
+      throw Error('Mobile source item missing evidence: '+product.slug);
+  }else if(product.v1_preparation?.mobile_manifest!=='not_implemented_due_to_mobile_api_behavior')
+    throw Error('Unsupported mobile feature must not claim runtime: '+product.slug);
+}
+console.log('Mini source provenance and 16 mobile candidates verified; all 29 releases remain HOLD.');
