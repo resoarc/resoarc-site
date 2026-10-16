@@ -32,7 +32,9 @@
     "2026-10-17: Sanitized per-package unit and manifest preflight evidence snapshots committed under docs/kintone-progress/evidence; detailed logs are kept on the user-owned PC.",
     "2026-10-17: Filename searches across Documents (210,691 files), Local Temp (~15,445 files, some access errors), and selected local ResoArc roots did not locate mini plugin source/ZIP names. This is not exhaustive; source gate remains unverified.",
     "2026-10-17: All 11 inspected signed ZIP wrappers verified as RSA PKCS#1 v1.5 with SHA-1 against each embedded PUBKEY. Nine known package releases now have a passed mathematical signature-integrity gate; no source trust anchor or publisher identity is asserted.",
-    "2026-10-17: Live ResoArc Auto Number E2E succeeded in isolated test app, creating exactly 1 record, verifying RA numbering, and deleting the record. Installed plugin ID maps to both stable and beta signing key, so tenant gates remain UNVERIFIED for each specific build."
+    "2026-10-17: Live ResoArc Auto Number E2E succeeded in isolated test app, creating exactly 1 record, verifying RA numbering, and deleting the record. Installed plugin ID maps to both stable and beta signing key, so tenant gates remain UNVERIFIED for each specific build.",
+    "2026-10-17: fresh isolated rebuild and npm tests: all 11 package copies built successfully; 203/203 tests passed, including batch-flow v0.3.2 with 63 tests. Source manifest assets detected 12 and all present. This evidence supersedes previous 187/187 count, without deleting historical evidence.",
+    "2026-10-17: separate clean-room mini-v1 experiment has 18 core pure operations with 22/22 unit and negative tests. It is NOT an 18-plugin runtime release or tenant E2E evidence."
   ],
   "source_refs": [
     "docs/mini-plugins/RELEASE-NOTES-v0.1.1-beta.md on feature/mini-plugins-beta-20261016",
@@ -42,7 +44,9 @@
     "docs/kintone-progress/evidence/unit-tests-20261017.json",
     "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
     "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
-    "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json"
+    "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json",
+    "docs/kintone-progress/evidence/unit-rebuild-20261017.json",
+    "experimental/mini-v1-core/tests/core.test.mjs"
   ],
   "items": [
     {
@@ -71,13 +75,24 @@
         "pass": 11,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "採番衝突・テーブル内項目・他プラグインとの競合",
       "next_action": "テスト環境に導入済みのAuto Numberビルドを安定版/β版へ同定し、当該版のテナント合格に反映。モバイル・異常系と共存を検証。",
       "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
-      "tenant_observation": "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json"
+      "tenant_observation": "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-02",
@@ -105,13 +120,24 @@
         "pass": 22,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "テーブル内項目・既存版からの移行",
       "next_action": "テスト環境に導入済みのAuto Numberビルドを安定版/β版へ同定し、当該版のテナント合格に反映。モバイル・異常系と共存を検証。",
       "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
-      "tenant_observation": "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json"
+      "tenant_observation": "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-03",
@@ -139,11 +165,22 @@
         "pass": 9,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": null,
       "focus": "復元対象の限定・暗号/整合性・添付・誤書込防止",
-      "next_action": "専用管理アプリ方式の静的・権限検証と実機E2E"
+      "next_action": "専用管理アプリ方式の静的・権限検証と実機E2E",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-04",
@@ -171,12 +208,23 @@
         "pass": 20,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "サブテーブル・非表示/必須の相互作用",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験",
-      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-05",
@@ -204,12 +252,23 @@
         "pass": 10,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "条件・色覚・一覧と詳細の差",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験",
-      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-06",
@@ -237,12 +296,23 @@
         "pass": 16,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "タイムゾーン・休日・日付境界",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験",
-      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-07",
@@ -270,12 +340,23 @@
         "pass": 19,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "編集権限・一括保存・競合更新",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験",
-      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-08",
@@ -303,12 +384,23 @@
         "pass": 7,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "モバイル・ゲストスペース・レコード移動権限",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験",
-      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-09",
@@ -336,12 +428,23 @@
         "pass": 13,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "大量件数・絞込・権限・API上限",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験",
-      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-10",
@@ -369,19 +472,30 @@
         "pass": 13,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
       "focus": "フォーム切替・レイアウト崩れ・モバイル",
       "next_action": "署名済みZIPの独立検証と実テナント導入試験",
-      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json"
+      "signature_evidence": "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "PKG-11",
       "group": "package",
       "name": "バッチ処理 / クロック連携",
       "slug": "batch-flow",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "priority": null,
       "source_location": "resoarc-batch-flow (separate repository / local)",
       "stage": "release_evidence",
@@ -399,14 +513,25 @@
         "publish": "unverified"
       },
       "unit_tests": {
-        "pass": 47,
+        "pass": 63,
         "fail": 0,
         "run_date": "2026-10-17",
-        "evidence": "docs/kintone-progress/evidence/unit-tests-20261017.json"
+        "evidence": "docs/kintone-progress/evidence/unit-rebuild-20261017.json"
       },
       "manifest_evidence": null,
       "focus": "外部クロック・再実行耐性・無人時の認証・時間指定",
-      "next_action": "中心/実行プラグインの署名・manifest精査と無人運用テスト"
+      "next_action": "バッチv0.3.2の隔離環境での無人実行、認証・再試行/冪等性・失敗回復、PC/モバイル・共存検証、署名を検証する",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "isolated_rebuild": "passed",
+        "source_manifest_audit": "passed",
+        "blocked_on": [
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-01",
@@ -433,7 +558,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "複数項目反映・既存値の扱い・読み取り専用",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-02",
@@ -460,7 +597,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "複製時だけの初期化・サブテーブルを保全",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-03",
@@ -487,7 +636,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "IME確定・Unicode・全半角・空白・電話番号",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-04",
@@ -514,7 +675,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "作成・編集・詳細画面とアクセシビリティ",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-05",
@@ -541,7 +714,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "保存成功時のみ遷移・二重実行防止",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-06",
@@ -568,7 +753,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "mailto文字列のエスケープ・情報漏えい対策",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-07",
@@ -595,7 +792,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "全件と表示件数の区別・数値精度と権限",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-08",
@@ -622,7 +831,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "CSV数式注入・文字コード・権限・大量件数",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-09",
@@ -649,7 +870,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "添付件数・Null・表示権限",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-10",
@@ -676,7 +909,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "行IDと参照値・変更イベント・未保存状態",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-11",
@@ -703,7 +948,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "外部送信なし・URL/文字列のエンコード",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-12",
@@ -730,7 +987,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "詳細画面限定・DOM更新・モバイル",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-13",
@@ -757,7 +1026,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "URLスキーム制限・XSS対策・権限",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-14",
@@ -784,7 +1065,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "ヘッダーと列固定・スクロール・モバイル",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-15",
@@ -811,7 +1104,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "認証付き取得・PDF/画像・巨大ファイル",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-16",
@@ -838,7 +1143,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "API上限・権限・正規ルックアップの更新",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-17",
@@ -865,7 +1182,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "住所データ更新・通信失敗・手動入力",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     },
     {
       "id": "MINI-18",
@@ -892,7 +1221,19 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "カメラ許可・対応ブラウザ・手動入力",
-      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行"
+      "next_action": "既存ソース・署名済みZIPの所在とSHA-256を照合し、個別テストを実行",
+      "v1_preparation": {
+        "target": "v1.0 (candidate only)",
+        "experimental_pure_core": "tests_running_separately",
+        "blocked_on": [
+          "full_kintone_plugin_implementation",
+          "signed_archive",
+          "dedicated_tenant_install",
+          "desktop_mobile_e2e",
+          "negative_permissions_and_coexistence",
+          "release_approval"
+        ]
+      }
     }
   ]
 }
