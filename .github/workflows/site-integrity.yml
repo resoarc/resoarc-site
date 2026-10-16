@@ -2,7 +2,7 @@ name: ResoArcOS website integrity
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 2,8,14,20 * * *'
+    - cron: '17 * * * *'
   push:
     branches: [main]
     paths:
