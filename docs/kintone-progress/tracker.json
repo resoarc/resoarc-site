@@ -39,7 +39,8 @@
     "2026-10-17: 18 mini plugin v0.1.2 original source recovered in the user's ChatGPT Library: exactly 152 source files and 18 signed beta archives with matching sha256 attestation, 18/18 RSA-SHA1 signature math valid, 31 event mock hooks, 17 Chromium UI mock cases. NOT yet present on the user's Windows PC or public GitHub.",
     "2026-10-17: Recovered v0.1.2 beta source hardened across all 18 PC runtimes against inherited/magic field writes and insecure external links; source-only candidate now 156 files, SHA-256 8924b75e36b964fd4985a15f5b3bb423961b2334e8e5fc7035509493def1d103. 31 event mocks, 19 Chromium mock scenarios, 5 hardening unit tests and one signing fail-closed test passed. No tenant/mobile sign-off.",
     "2026-10-17: Windows candidate safely generated in a copy, original 152-file source SHA preserved. 18/18 manifests with no missing assets and 37/37 JS syntax checks, 31 registered events, 17 Edge mock scenarios and 8 security tests passed. Missing all original keys blocks signing without writing any private keys or release artifacts. Zero mobile manifests; live tenant and mobile gates remain unverified.",
-    "2026-10-17: Original v0.1.2 sources imported to user's Windows PC; v1 candidate adds mobile manifest/runtime to text-normalizer only, 4/4 mobile API mocks + 8/8 security tests, 31 desktop hook checks and 17 Edge browser mocks pass. 17 other mini products lack mobile manifest. No live mobile tenant E2E or v1 release approval."
+    "2026-10-17: Original v0.1.2 sources imported to user's Windows PC; v1 candidate adds mobile manifest/runtime to text-normalizer only, 4/4 mobile API mocks + 8/8 security tests, 31 desktop hook checks and 17 Edge browser mocks pass. 17 other mini products lack mobile manifest. No live mobile tenant E2E or v1 release approval.",
+    "2026-10-17: Isolated Windows v1 candidate now generates 16/18 mobile manifests/runtimes using official mobile header and record APIs. 20/20 mobile mock tests plus 8/8 security, 31 desktop events, 17 Edge browser mocks, 53 JS syntax checks, 18 manifest assets pass. Signed/tenant mobile E2E not performed; save-navigation and sticky-list remain desktop only. All 29 releases stay HOLD."
   ],
   "source_refs": [
     "docs/mini-plugins/RELEASE-NOTES-v0.1.1-beta.md on feature/mini-plugins-beta-20261016",
@@ -56,7 +57,8 @@
     "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
     "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
     "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
-    "docs/kintone-progress/evidence/mini-v1-text-mobile-20261017.json"
+    "docs/kintone-progress/evidence/mini-v1-text-mobile-20261017.json",
+    "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
   ],
   "items": [
     {
@@ -568,7 +570,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "複数項目反映・既存値の扱い・読み取り専用",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -595,11 +597,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-02",
@@ -626,7 +631,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "複製時だけの初期化・サブテーブルを保全",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -653,11 +658,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-03",
@@ -684,7 +692,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "IME確定・Unicode・全半角・空白・電話番号",
-      "next_action": "PCとモバイルのイベントを分離したv1ソースを実テナントに署名導入し、現物モバイル受入・共存・権限を検証。元署名鍵未発見のため正式公開保留。",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "passed_22_shared",
@@ -713,13 +721,16 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "present_in_v1_source_candidate",
+        "mobile_manifest": "generated_source_only_v1_candidate",
         "live_tenant": "not_tested",
-        "mobile_mock_tests": "4_passed"
+        "mobile_mock_tests": "4_passed",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
       "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
-      "mobile_observation_evidence": "docs/kintone-progress/evidence/mini-v1-text-mobile-20261017.json"
+      "mobile_observation_evidence": "docs/kintone-progress/evidence/mini-v1-text-mobile-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-04",
@@ -746,7 +757,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "作成・編集・詳細画面とアクセシビリティ",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -773,11 +784,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-05",
@@ -804,7 +818,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "保存成功時のみ遷移・二重実行防止",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイル保存成功イベントではPCのURLリダイレクト動作を踏襲しない。公式モバイル画面遷移APIに合わせた代替設計・受入が必要",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -831,8 +845,9 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "not_implemented_due_to_mobile_api_behavior",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "not_applicable_no_mobile_source"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
       "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
@@ -862,7 +877,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "mailto文字列のエスケープ・情報漏えい対策",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -889,11 +904,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-07",
@@ -920,7 +938,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "全件と表示件数の区別・数値精度と権限",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -947,11 +965,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-08",
@@ -978,7 +999,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "CSV数式注入・文字コード・権限・大量件数",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1005,11 +1026,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-09",
@@ -1036,7 +1060,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "添付件数・Null・表示権限",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1063,11 +1087,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-10",
@@ -1094,7 +1121,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "行IDと参照値・変更イベント・未保存状態",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1121,11 +1148,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-11",
@@ -1152,7 +1182,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "外部送信なし・URL/文字列のエンコード",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1179,11 +1209,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-12",
@@ -1210,7 +1243,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "詳細画面限定・DOM更新・モバイル",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1237,11 +1270,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-13",
@@ -1268,7 +1304,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "URLスキーム制限・XSS対策・権限",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1295,11 +1331,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-14",
@@ -1326,7 +1365,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "ヘッダーと列固定・スクロール・モバイル",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "デスクトップ一覧の固定CSSはモバイル画面と互換性がない。モバイル用表示設計を別途実装・テスト",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1353,8 +1392,9 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "not_implemented_due_to_mobile_api_behavior",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "not_applicable_no_mobile_source"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
       "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
@@ -1384,7 +1424,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "認証付き取得・PDF/画像・巨大ファイル",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1411,11 +1451,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-16",
@@ -1442,7 +1485,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "API上限・権限・正規ルックアップの更新",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1469,11 +1512,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-17",
@@ -1500,7 +1546,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "住所データ更新・通信失敗・手動入力",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1527,11 +1573,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     },
     {
       "id": "MINI-18",
@@ -1558,7 +1607,7 @@
       "unit_tests": null,
       "manifest_evidence": "docs/kintone-progress/evidence/mini-v1-local-qa-20261017.json",
       "focus": "カメラ許可・対応ブラウザ・手動入力",
-      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
+      "next_action": "モバイルソース候補を実機・実テナントに安全に署名導入して権限/共存/異常系を確認する。旧署名鍵が未確認のため正式公開保留",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1585,11 +1634,14 @@
         "desktop_mock": "passed_17_scenarios_and_31_hooks",
         "security_unit": "passed_8",
         "signer_fail_closed": "passed_no_keys_no_package",
-        "mobile_manifest": "not_implemented",
-        "live_tenant": "not_tested"
+        "mobile_manifest": "generated_source_only_v1_candidate",
+        "live_tenant": "not_tested",
+        "mobile_handler_mock": "passed_windows_mobile_api_fixture",
+        "mobile_real_tenant": "not_tested"
       },
       "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
-      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json",
+      "mobile_source_evidence": "docs/kintone-progress/evidence/mini-v1-mobile16-windows-20261017.json"
     }
   ]
 }
