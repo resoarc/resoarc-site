@@ -1,4 +1,5 @@
-import {makeArchive,inspectArchive,createRestorePlan,materializeRestoreRow,MAX_BYTES} from './core.js';
+import {makeArchive,inspectArchive,MAX_BYTES} from './core.js';
+import {createMappedRestorePlan,runResumableRestore,previewRestoreProgress,MARKER_CODE} from './restore.js';
 import {planNewApp,createDraftApp} from './migration.js';
 
 const K=window.kintone;
@@ -70,18 +71,6 @@ async function loadBackup(id){
   if(String(result.manifest.sourceAppId)!==String(record?.SourceAppId?.value))throw Error('管理レコードのバックアップ元IDとZIPが一致しません');
   return result;
 }
-async function appendRestore(plan,archive,onProgress){
-  let completed=0;
-  for(let index=0;index<plan.rows.length;index+=100){
-    const slice=plan.rows.slice(index,index+100);
-    const records=[];
-    for(const row of slice)records.push(await materializeRestoreRow(row,plan.mapped,uploadFile,archive.files));
-    await api('/k/v1/records.json','POST',{app:plan.targetAppId,records});
-    completed+=slice.length;
-    onProgress(completed);
-  }
-  return completed;
-}
 function el(tag,text,cls){
   const node=document.createElement(tag);
   if(text!==undefined)node.textContent=text;
@@ -98,7 +87,7 @@ function initialize(){
   if(!header || header.querySelector('[data-resoarc-backup]'))return;
   const root=el('section');root.dataset.resoarcBackup='true';
   root.style.cssText='padding:9px;margin:8px 0;border:1px solid #b8d0d4;border-radius:8px;background:#f9fcfd;color:#18353b;max-width:980px';
-  root.appendChild(el('strong','ResoArc Backup & Migration | 0.2 alpha'));
+  root.appendChild(el('strong','ResoArc Backup & Migration | 0.3 alpha'));
   const actions=el('div');root.appendChild(actions);
   const msg=el('div','専用のバックアップ管理アプリです。書き込みは手動操作時だけ実行します。');
   msg.style.cssText='white-space:pre-wrap;font-size:13px;margin-top:7px;line-height:1.6';root.appendChild(msg);
@@ -124,17 +113,20 @@ function initialize(){
     if(!current)return;
     const {archive,plan,backupRecordId}=current;
     const confirmText='RESTORE '+plan.targetAppId+' '+plan.recordCount;
-    const typed=window.prompt('バックアップレコード #'+backupRecordId+' からアプリ '+plan.targetAppId+' に '+plan.recordCount+' 件を追加します。\n既存データは削除しませんが、追加の取り消しは自動ではできません。\n実行するには正確に入力してください:\n'+confirmText,'');
+    const typed=window.prompt('バックアップレコード #'+backupRecordId+' からアプリ '+plan.targetAppId+' に '+plan.recordCount+' 件を追加します。\n既存データを削除・上書きしません。復元済みの行は一意キーで識別し、再開時にスキップします。追加の取り消しは自動ではできません。\n実行するには正確に入力してください:\n'+confirmText,'');
     if(typed!==confirmText)return;
     if(!window.confirm('最終確認: レコードを '+plan.recordCount+' 件追加します。複数バッチの途中で停止した場合、途中まで追加済みの可能性があります。実行しますか？'))return;
     restoreButton.disabled=true;
     try{
       // Validate once more and recheck current destination field definitions.
       const refreshed=await getFields(plan.targetAppId);
-      const updatedPlan=createRestorePlan(archive,refreshed,plan.targetAppId,managementApp());
+      const updatedPlan=createMappedRestorePlan(archive,refreshed,plan.targetAppId,managementApp(),plan.mapping);
       if(JSON.stringify(updatedPlan.mapped)!==JSON.stringify(plan.mapped))throw Error('復元先のフィールド定義がプレビューから変化しました。プレビューをやり直してください');
-      const done=await appendRestore(plan,archive,n=>{progress.textContent='復元中: '+n+' / '+plan.recordCount+' 件';});
-      msg.textContent='復元完了: '+done+' 件をアプリ '+plan.targetAppId+' に追加しました。元のレコードIDや操作履歴は維持されません。';
+      const done=await runResumableRestore({archive,plan,api,upload:uploadFile,
+        onProgress:({total,already,added,remaining})=>{
+          progress.textContent='復元済み '+already+' 件 / 新規追加 '+added+' 件 / 残り '+remaining+' 件（全 '+total+' 件）';
+        }});
+      msg.textContent='復元処理完了: '+done.added+' 件追加、'+done.already+' 件は復元済みのためスキップしました。元IDや変更履歴は維持されません。';
       current=null;
     }catch(e){msg.textContent='復元が中断されました。一部が追加済みの可能性があります。再実行前に復元先を確認してください。\n'+e.message;console.error(e);}
     finally{restoreButton.disabled=false;}
@@ -165,9 +157,14 @@ function initialize(){
     const targetId=positiveId(targetInput);ensureExternalId(targetId);
     msg.textContent='アーカイブを検証しています。';
     const [archive,targetFields]=await Promise.all([loadBackup(backupRecordId),getFields(targetId)]);
-    const plan=createRestorePlan(archive,targetFields,targetId,managementApp());
+    const mapInput=window.prompt('フィールドコード対応表をJSONで入力してください。\n同じフィールドコード同士なら空欄でOK。\n例: {"Title":"Name","Rows":"Lines","Rows.Memo":"Lines.Note"}','');
+    if(mapInput===null)return;
+    let fieldMap;
+    try{fieldMap=mapInput.trim()?JSON.parse(mapInput):{};}catch(e){throw Error('対応表のJSONが不正です: '+e.message);}
+    const plan=createMappedRestorePlan(archive,targetFields,targetId,managementApp(),fieldMap);
     const skipped=plan.skipped.length ? ('\n移行対象外:\n'+plan.skipped.join('\n')) : '';
-    msg.textContent='整合性検証: OK\n元アプリ: '+plan.sourceAppId+' / 復元先: '+targetId+'\nバックアップ日時: '+plan.archiveCreatedAt+'\n追加予定: '+plan.recordCount+' 件 / マップされた項目: '+Object.keys(plan.mapped).length+' 件'+skipped+'\n※追記専用。元ID・アクセス権・ルックアップ設定・監査履歴は復元しません。';
+    const resume=await previewRestoreProgress({archive,plan,api});
+    msg.textContent='整合性検証: OK\n元アプリ: '+plan.sourceAppId+' / 復元先: '+targetId+'\nバックアップ日時: '+plan.archiveCreatedAt+'\n全対象: '+plan.recordCount+' 件 / 復元済み: '+resume.already+' 件 / 新規追加予定: '+resume.remaining+' 件 / マップされた項目: '+Object.keys(plan.mapped).length+' 件'+skipped+'\n※復元先に重複禁止の '+MARKER_CODE+' が必要です。途中で停止しても復元済みレコードを照合して再開できます。元ID・アクセス権・監査履歴は復元しません。';
     current={archive,plan,backupRecordId};
     restoreButton.hidden=false;
   }));
@@ -187,9 +184,14 @@ function initialize(){
     msg.textContent='外部ZIPを検証しています。';
     const archive=await inspectArchive(new Uint8Array(await file.arrayBuffer()));
     const fields=await getFields(targetId);
-    const plan=createRestorePlan(archive,fields,targetId,managementApp());
+    const mapInput=window.prompt('フィールドコード対応表をJSONで入力してください。\n同じフィールドコード同士なら空欄でOK。\n例: {"Title":"Name"}','');
+    if(mapInput===null)return;
+    let fieldMap;
+    try{fieldMap=mapInput.trim()?JSON.parse(mapInput):{};}catch(e){throw Error('対応表のJSONが不正です: '+e.message);}
+    const plan=createMappedRestorePlan(archive,fields,targetId,managementApp(),fieldMap);
     const skipped=plan.skipped.length ? ('\n移行対象外:\n'+plan.skipped.join('\n')) : '';
-    msg.textContent='外部ZIPの内部整合性: OK (送信元の真正性は別途確認してください)\n元アプリ: '+plan.sourceAppId+' / 移行先: '+targetId+'\n追加予定: '+plan.recordCount+' 件 / マップ項目: '+Object.keys(plan.mapped).length+' 件'+skipped+'\n※追記専用。元のレコードID・操作履歴・アクセス権は移行できません。';
+    const resume=await previewRestoreProgress({archive,plan,api});
+    msg.textContent='外部ZIPの内部整合性: OK (送信元の真正性は別途確認してください)\n元アプリ: '+plan.sourceAppId+' / 移行先: '+targetId+'\n全対象: '+plan.recordCount+' 件 / 復元済み: '+resume.already+' 件 / 新規追加予定: '+resume.remaining+' 件 / マップ項目: '+Object.keys(plan.mapped).length+' 件'+skipped+'\n※復元先に重複禁止の '+MARKER_CODE+' が必要です。元のレコードID・操作履歴・アクセス権は移行できません。';
     current={archive,plan,backupRecordId:'外部ZIP'};
     restoreButton.hidden=false;
   }));
