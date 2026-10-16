@@ -9,7 +9,7 @@ const TYPES=new Set([
 ]);
 const SELECT=new Set(['RADIO_BUTTON','DROP_DOWN','CHECK_BOX','MULTI_SELECT']);
 const TABLE_TYPES=new Set([...TYPES].filter(t=>t!=='RICH_TEXT'));
-const SAFE_CODE=/^[^\s.\[\]\\/]{1,128}$/u;
+const SAFE_CODE=/^[\p{L}_][\p{L}\p{N}_]{0,127}$/u;
 const bad=message=>{throw new Error(message);};
 const plain=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
 const str=x=>typeof x==='string'?x:'';
