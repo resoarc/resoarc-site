@@ -4,7 +4,7 @@ Includes fflate 0.8.2, licensed under the MIT License:
 
 MIT License
 
-Copyright (c) 2023 Arjun Barrett
+Copyright (c) 2026 Arjun Barrett
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -221,6 +221,7 @@ SOFTWARE.
     "stream finished",
     "no stream handler",
     ,
+    // determined by compression function
     "no callback",
     "invalid UTF-8 data",
     "extra field too long",
@@ -751,7 +752,7 @@ SOFTWARE.
       var val = d[k], n = p + k, op = o;
       if (Array.isArray(val))
         op = mrg(o, val[1]), val = val[0];
-      if (val instanceof u8)
+      if (ArrayBuffer.isView(val))
         t[n] = [val, op];
       else {
         t[n += "/"] = [new u8(0), op];
@@ -835,14 +836,28 @@ SOFTWARE.
     return b + 30 + b2(d, b + 26) + b2(d, b + 28);
   };
   var zh = function(d, b, z) {
-    var fnl = b2(d, b + 28), fn = strFromU8(d.subarray(b + 46, b + 46 + fnl), !(b2(d, b + 8) & 2048)), es = b + 46 + fnl, bs = b4(d, b + 20);
-    var _a2 = z && bs == 4294967295 ? z64e(d, es) : [bs, b4(d, b + 24), b4(d, b + 42)], sc = _a2[0], su = _a2[1], off = _a2[2];
-    return [b2(d, b + 10), sc, su, fn, es + b2(d, b + 30) + b2(d, b + 32), off];
+    var fnl = b2(d, b + 28), efl = b2(d, b + 30), fn = strFromU8(d.subarray(b + 46, b + 46 + fnl), !(b2(d, b + 8) & 2048)), es = b + 46 + fnl;
+    var _a2 = z64hs(d, es, efl, z, b4(d, b + 20), b4(d, b + 24), b4(d, b + 42)), sc = _a2[0], su = _a2[1], off = _a2[2];
+    return [b2(d, b + 10), sc, su, fn, es + efl + b2(d, b + 32), off];
   };
-  var z64e = function(d, b) {
-    for (; b2(d, b) != 1; b += 4 + b2(d, b + 2))
-      ;
-    return [b8(d, b + 12), b8(d, b + 4), b8(d, b + 20)];
+  var z64hs = function(d, b, l, z, sc, su, off) {
+    var nsc = sc == 4294967295, nsu = su == 4294967295, noff = off == 4294967295, e = b + l;
+    var nf = nsc + nsu + noff;
+    if (z && nf) {
+      for (; b + 4 < e; b += 4 + b2(d, b + 2)) {
+        if (b2(d, b) == 1) {
+          return [
+            nsc ? b8(d, b + 4 + 8 * nsu) : sc,
+            nsu ? b8(d, b + 4) : su,
+            noff ? b8(d, b + 4 + 8 * (nsu + nsc)) : off,
+            1
+          ];
+        }
+      }
+      if (z < 2)
+        err(13);
+    }
+    return [sc, su, off, 0];
   };
   var exfl = function(ex) {
     var le = 0;
@@ -957,7 +972,7 @@ SOFTWARE.
     if (!c)
       return {};
     var o = b4(data, e + 16);
-    var z = o == 4294967295 || c == 65535;
+    var z = b4(data, e - 20) == 117853008;
     if (z) {
       var ze = b4(data, e - 12);
       z = b4(data, ze) == 101075792;
