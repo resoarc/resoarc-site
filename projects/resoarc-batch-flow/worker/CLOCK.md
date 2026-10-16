@@ -1,4 +1,4 @@
-# ResoArc Clock：1分共通クロック導入（v0.3.4 検証版）
+# ResoArc Clock：1分共通クロック導入（v0.3.5 検証版）
 
 Cloudflare WorkersのCron Triggersを1つだけ使い、時刻を毎分チェックします。新しい適応型ポーリングではkintoneの照会は原則10分ごと＋実行予定時に絞り、管理アプリに記録された20ステップ以内の処理を実行します。
 

@@ -8,3 +8,10 @@ release/*.zip
 center-plugin/release/*.ppk
 center-plugin/release/*.zip
 *.log
+
+# Local-only authenticated kintone QA scripts (tenant IDs and session workflows)
+scripts/bind-clock-readonly-secret.mjs
+scripts/inspect-clock-token-*.mjs
+scripts/mr-clock-smoke-*.mjs
+scripts/mr-clock-query-preflight.mjs
+scripts/provision-mr-clock-test.mjs

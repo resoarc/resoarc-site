@@ -1,5 +1,5 @@
 /* ResoArc Clock: KV-backed adaptive polling. No external HTTP endpoint. MIT */
-import {runFromCenter} from './center-runner.mjs';
+import {runFromCenter,e2eScope} from './center-runner.mjs';
 
 const MAX_DUE=2;
 const MAX_CANDIDATES=MAX_DUE+1;
@@ -37,8 +37,10 @@ export async function runAdaptiveClock(env,transport,core,reference){
   // One query retrieves overdue jobs AND the earliest future job. No separate due query.
   // A blank NextRunAt is not a scheduled job. Exclude it before the top-N sort,
   // otherwise draft records can fill the result window and starve real jobs.
+  const scope=e2eScope(env);
   const query='BatchEnabled in ("有効") and RunState in ("待機","正常終了")'
-    +' and NextRunAt != "" order by NextRunAt asc limit '+MAX_CANDIDATES;
+    +' and NextRunAt != ""'+(scope?' and $id = "'+scope.id+'"':'')
+    +' order by NextRunAt asc limit '+MAX_CANDIDATES;
   const data=await transport('/k/v1/records.json','GET',{app,query});
   if(!Array.isArray(data?.records))throw Error('実行予定検索の応答が不正です');
   const records=data.records;

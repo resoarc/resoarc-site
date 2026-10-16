@@ -5,6 +5,23 @@ const kfield=value=>({value});
 // Workers Free allows at most 50 subrequests per invocation.
 // 1 search + 2 * (claim + 20 step requests + finalize) = 45 maximum.
 const MAX_DUE_PER_TICK=2;
+export function e2eScope(env){
+  const rawId=env.RA_E2E_ONLY_BATCH_ID,rawApp=env.RA_E2E_ALLOWED_APP_ID;
+  if(!rawId&&!rawApp)return null;
+  if(!/^[1-9]\d*$/.test(String(rawId||''))||!/^[1-9]\d*$/.test(String(rawApp||'')))
+    throw Error('E2E限定モードでは対象バッチIDと対象アプリIDを両方指定してください');
+  return {id:String(rawId),app:Number(rawApp)};
+}
+export function requireScopedFlow(flow,scope,id){
+  if(!scope)return;
+  if(String(id)!==scope.id)throw Error('E2E対象以外のバッチを拒否しました');
+  let lastRead=null;
+  for(const s of flow.steps){
+    if(s.type==='read'){if(Number(s.app)!==scope.app)throw Error('E2E範囲外の取得対象');lastRead=scope.app;}
+    else if(s.type==='update'){if(lastRead!==scope.app)throw Error('E2E更新元が範囲外');}
+    else if(Number(s.app)!==scope.app)throw Error('E2E範囲外の書込先');
+  }
+}
 function timeISO(value){return new Date(value).toISOString().replace('.000Z','Z');}
 function logValue(old,entry){
   return [JSON.stringify(entry),...(old||'').split('\n').filter(Boolean)].slice(0,20).join('\n').slice(0,10000);
@@ -23,7 +40,9 @@ export async function runFromCenter(env,transport,core,reference,options){
   const now=reference?new Date(reference):new Date();
   if(!Number.isFinite(now.getTime()))throw Error('現在時刻が不正です');
   const at=timeISO(now);
-  const query='BatchEnabled in ("有効") and RunState in ("待機","正常終了") and NextRunAt != "" and NextRunAt <= "'+at+'" order by NextRunAt asc limit '+(MAX_DUE_PER_TICK+1);
+  const scope=e2eScope(env);
+  const query='BatchEnabled in ("有効") and RunState in ("待機","正常終了") and NextRunAt != "" and NextRunAt <= "'+at+'"'
+    +(scope?' and $id = "'+scope.id+'"':'')+' order by NextRunAt asc limit '+(MAX_DUE_PER_TICK+1);
   const result=options&&Array.isArray(options.records)
     ?{records:options.records}
     :await transport('/k/v1/records.json','GET',{app:controlApp,query});
@@ -37,7 +56,9 @@ export async function runFromCenter(env,transport,core,reference,options){
     if(!id||!rev){console.error('制御レコードIDまたはリビジョンがありません');continue;}
     let flow,next;
     try{
+      if(scope&&String(id)!==scope.id){outcomes.push({id,ok:false,skipped:true});continue;}
       flow=center.parseRecord(rec,core);
+      requireScopedFlow(flow,scope,id);
       next=center.nextScheduledRun(rec,now);
     }catch(err){
       const entry={time:at,ok:false,tasks:0,error:'バッチ定義エラー: '+err.message};
@@ -74,7 +95,7 @@ export async function runFromCenter(env,transport,core,reference,options){
       });
     }catch(err){
       // Only an actual revision conflict can be treated as another worker winning.
-      if(err?.status!==409)throw err;
+      if(err?.status!==409 && err?.kintoneCode!=='GAIA_CO02')throw err;
       console.warn('他の実行によって取得済み:',id,err.message);
       outcomes.push({id,ok:false,skipped:true});
       continue;

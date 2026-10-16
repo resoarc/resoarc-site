@@ -32,8 +32,15 @@ export function adapter(env) {
     }
     const response=await fetch(url.toString(),init);
     if(!response.ok){
+      // Preserve the code, but never expose a potentially sensitive response body.
+      let code=null;
+      try{
+        const failure=await response.json();
+        if(typeof failure?.code==='string')code=failure.code.slice(0,80);
+      }catch(_){}
       const error=new Error('kintone API '+response.status+'（トークン権限と設定を確認）');
       error.status=response.status;
+      error.kintoneCode=code;
       throw error;
     }
     return response.json();
