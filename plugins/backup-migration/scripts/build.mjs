@@ -11,7 +11,7 @@ const result=await build({
   legalComments:'none',
 });
 const license=await readFile('node_modules/fflate/LICENSE','utf8');
-const header='/*\nResoArc Backup & Migration 0.1 alpha (MIT)\n' +
+const header='/*\nResoArc Backup & Migration 0.3 alpha (MIT)\n' +
   'Includes fflate 0.8.2, licensed under the MIT License:\n\n' + license + '\n*/\n';
 await mkdir('dist',{recursive:true});
 await writeFile('dist/resoarc-backup.js',header + new TextDecoder().decode(result.outputFiles[0].contents));
