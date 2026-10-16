@@ -22,6 +22,8 @@ jobs:
         run: |
           python scripts/verify_resoarcos_snapshot.py
           python -m unittest discover -s tests -p test_resoarcos_snapshot.py -v
+      - name: Verify Pi first-boot alpha source ZIP
+        run: python scripts/verify_pi_preview.py
       - name: Check public site source, links and checksums
         run: python scripts/verify_site.py
       - name: Validate browser tool JavaScript
@@ -63,6 +65,7 @@ jobs:
           python tests/alpha_configs_smoke.py
           python tests/search_grid_browser_smoke.py
           python tests/browser_suite_smoke.py
+          python tests/pi_site_smoke.py
       - name: Verify public source ZIP integrity
         run: python scripts/verify_alpha_archives.py
       - name: Verify reproducible plugin builds
