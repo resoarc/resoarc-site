@@ -1007,6 +1007,7 @@ SOFTWARE.
   var VERSION = 2;
   var MAX_BYTES = 25 * 1024 * 1024;
   var MAX_RECORDS = 2e4;
+  var MAX_ZIP_ENTRIES = 5e4;
   var WRITABLE = /* @__PURE__ */ new Set(["SINGLE_LINE_TEXT", "MULTI_LINE_TEXT", "RICH_TEXT", "NUMBER", "RADIO_BUTTON", "DROP_DOWN", "CHECK_BOX", "MULTI_SELECT", "DATE", "TIME", "DATETIME", "LINK", "USER_SELECT", "ORGANIZATION_SELECT", "GROUP_SELECT", "FILE"]);
   var RESERVED_CODES = /* @__PURE__ */ new Set(["__proto__", "constructor", "prototype"]);
   var s = (v) => JSON.stringify(v);
@@ -1147,18 +1148,24 @@ SOFTWARE.
     size += manifestBytes.length;
     sizeCheck(size, maxBytes);
     contents["manifest.json"] = manifestBytes;
+    if (Object.keys(contents).length > MAX_ZIP_ENTRIES) stop("ZIP\u5185\u306E\u30D5\u30A1\u30A4\u30EB\u6570\u304C\u4E0A\u9650\u3092\u8D85\u3048\u307E\u3057\u305F");
     const zip = zipSync(contents, { level: 6 });
     sizeCheck(zip.length, maxBytes);
     return { zip, manifest, hash: await sha256(zip) };
   }
-  async function inspectArchive(zipInput, { expectedHash, maxBytes = MAX_BYTES } = {}) {
+  async function inspectArchive(zipInput, { expectedHash, maxBytes = MAX_BYTES, maxEntries = MAX_ZIP_ENTRIES } = {}) {
+    if (!Number.isSafeInteger(maxEntries) || maxEntries < 1 || maxEntries > MAX_ZIP_ENTRIES) stop("ZIP\u5185\u306E\u30D5\u30A1\u30A4\u30EB\u6570\u4E0A\u9650\u304C\u4E0D\u6B63\u3067\u3059");
     const bytes = u82(zipInput);
     sizeCheck(bytes.byteLength, maxBytes);
     if (expectedHash && await sha256(bytes) !== expectedHash.toLowerCase()) stop("ZIP\u5168\u4F53\u306ESHA-256\u304C\u4E00\u81F4\u3057\u307E\u305B\u3093");
-    let inflatedTotal = 0, entries;
+    let inflatedTotal = 0, entries, entryCount = 0;
+    const seenPaths = /* @__PURE__ */ new Set();
     try {
       entries = unzipSync(bytes, { filter: (file) => {
+        if (++entryCount > maxEntries) stop("ZIP\u5185\u306E\u30D5\u30A1\u30A4\u30EB\u6570\u304C\u4E0A\u9650\u3092\u8D85\u3048\u307E\u3057\u305F");
         checkPath(file.name);
+        if (seenPaths.has(file.name)) stop("ZIP\u5185\u306B\u540C\u3058\u30D5\u30A1\u30A4\u30EB\u304C\u91CD\u8907\u3057\u3066\u3044\u307E\u3059: " + file.name);
+        seenPaths.add(file.name);
         const n = Number(file.originalSize);
         if (!Number.isSafeInteger(n) || n < 0) stop("ZIP\u306E\u30B5\u30A4\u30BA\u304C\u4E0D\u6B63\u3067\u3059");
         inflatedTotal += n;
