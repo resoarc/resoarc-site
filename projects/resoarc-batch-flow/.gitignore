@@ -1,0 +1,28 @@
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+worker/wrangler.clock.local.jsonc
+worker/wrangler.clock.e2e.local.jsonc
+release/*.ppk
+release/*.zip
+center-plugin/release/*.ppk
+center-plugin/release/*.zip
+*.log
+
+# Local-only authenticated kintone QA scripts (tenant IDs and session workflows)
+scripts/bind-clock-readonly-secret.mjs
+scripts/inspect-clock-token-*.mjs
+scripts/mr-clock-smoke-*.mjs
+scripts/mr-clock-query-preflight.mjs
+scripts/provision-mr-clock-test.mjs
+scripts/mr-clock-e2e-*.mjs
+scripts/mr-clock-active-jobs.mjs
+
+# Local-only reports, builds, and browser/session QA helpers
+release/
+scripts/__pycache__/
+scripts/clock-cron-readonly-e2e.cjs
+scripts/clock-live-observe.cjs
+worker/scripts/test-cron-local.ps1
+worker/wrangler.jsonc

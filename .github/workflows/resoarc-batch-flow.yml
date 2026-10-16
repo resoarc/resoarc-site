@@ -1,0 +1,34 @@
+name: ResoArc Batch Flow checks
+on:
+  pull_request:
+    paths:
+      - 'projects/resoarc-batch-flow/**'
+      - '.github/workflows/resoarc-batch-flow.yml'
+  push:
+    branches:
+      - 'feature/resoarc-batch-flow-*'
+    paths:
+      - 'projects/resoarc-batch-flow/**'
+      - '.github/workflows/resoarc-batch-flow.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify kintone installer generation
+        working-directory: projects/resoarc-batch-flow
+        run: npm run build:installer
+      - name: Run deterministic tests
+        working-directory: projects/resoarc-batch-flow
+        run: npm test
+      - name: Verify Cloudflare Worker bundle without deploying
+        working-directory: projects/resoarc-batch-flow/worker
+        run: npx --yes wrangler@4.151.1 deploy --dry-run --config center-wrangler.example.jsonc

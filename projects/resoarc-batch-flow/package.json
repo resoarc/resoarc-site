@@ -1,0 +1,16 @@
+{
+  "name": "resoarc-batch-flow",
+  "version": "0.3.7",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "pretest": "node control-app/build-installer.mjs",
+    "test": "node --test tests/*.test.cjs tests/*.test.mjs",
+    "check": "npm test",
+    "test:mr-readiness": "node scripts/mr-batch-center-readiness.cjs",
+    "cloud:preflight": "node scripts/cloud-auth-preflight.cjs",
+    "build:installer": "node control-app/build-installer.mjs",
+    "pack": "cli-kintone plugin pack --input src/manifest.json --output release/resoarc-batch-flow-v0.1.0.zip --private-key release/private.ppk",
+    "pack:clock": "cli-kintone plugin pack --input center-plugin/src/manifest.json --output center-plugin/release/resoarc-batch-center-v0.2.1.zip --private-key center-plugin/release/private.ppk"
+  }
+}
