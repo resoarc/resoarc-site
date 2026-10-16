@@ -69,6 +69,7 @@ jobs:
           python tests/browser_suite_smoke.py
           python tests/pi_site_smoke.py
           python tests/suite16_release_smoke.py
+          python tests/top_news_sync_smoke.py
       - name: Verify public source ZIP integrity
         run: python scripts/verify_alpha_archives.py
       - name: Verify reproducible plugin builds
