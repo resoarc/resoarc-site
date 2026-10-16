@@ -36,7 +36,8 @@
     "2026-10-17: fresh isolated rebuild and npm tests: all 11 package copies built successfully; 203/203 tests passed, including batch-flow v0.3.2 with 63 tests. Source manifest assets detected 12 and all present. This evidence supersedes previous 187/187 count, without deleting historical evidence.",
     "2026-10-17: separate clean-room mini-v1 experiment has 18 core pure operations with 22/22 unit and negative tests. It is NOT an 18-plugin runtime release or tenant E2E evidence.",
     "2026-10-17: mini text-normalizer runtime bridge and settings UI implemented as experimental 0.2 source; 4 event mock tests plus 22 shared pure-operation tests succeeded in CI. Plugin install/tenant PC/mobile remain unverified. Other 17 mini features are pure core only.",
-    "2026-10-17: 18 mini plugin v0.1.2 original source recovered in the user's ChatGPT Library: exactly 152 source files and 18 signed beta archives with matching sha256 attestation, 18/18 RSA-SHA1 signature math valid, 31 event mock hooks, 17 Chromium UI mock cases. NOT yet present on the user's Windows PC or public GitHub."
+    "2026-10-17: 18 mini plugin v0.1.2 original source recovered in the user's ChatGPT Library: exactly 152 source files and 18 signed beta archives with matching sha256 attestation, 18/18 RSA-SHA1 signature math valid, 31 event mock hooks, 17 Chromium UI mock cases. NOT yet present on the user's Windows PC or public GitHub.",
+    "2026-10-17: Recovered v0.1.2 beta source hardened across all 18 PC runtimes against inherited/magic field writes and insecure external links; source-only candidate now 156 files, SHA-256 8924b75e36b964fd4985a15f5b3bb423961b2334e8e5fc7035509493def1d103. 31 event mocks, 19 Chromium mock scenarios, 5 hardening unit tests and one signing fail-closed test passed. No tenant/mobile sign-off."
   ],
   "source_refs": [
     "docs/mini-plugins/RELEASE-NOTES-v0.1.1-beta.md on feature/mini-plugins-beta-20261016",
@@ -50,7 +51,8 @@
     "docs/kintone-progress/evidence/unit-rebuild-20261017.json",
     "experimental/mini-v1-core/tests/core.test.mjs",
     "experimental/mini-v1-core/plugins/text-normalizer/runtime.mjs",
-    "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+    "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+    "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
   ],
   "items": [
     {
@@ -562,7 +564,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "複数項目反映・既存値の扱い・読み取り専用",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -579,9 +581,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-02",
@@ -608,7 +615,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "複製時だけの初期化・サブテーブルを保全",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -625,9 +632,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-03",
@@ -654,7 +666,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "IME確定・Unicode・全半角・空白・電話番号",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施。独立試作0.2はv0.1.2正本の代わりにせず差分比較のみ",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "passed_22_shared",
@@ -673,9 +685,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-04",
@@ -702,7 +719,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "作成・編集・詳細画面とアクセシビリティ",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -719,9 +736,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-05",
@@ -748,7 +770,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "保存成功時のみ遷移・二重実行防止",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -765,9 +787,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-06",
@@ -794,7 +821,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "mailto文字列のエスケープ・情報漏えい対策",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -811,9 +838,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-07",
@@ -840,7 +872,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "全件と表示件数の区別・数値精度と権限",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -857,9 +889,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-08",
@@ -886,7 +923,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "CSV数式注入・文字コード・権限・大量件数",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -903,9 +940,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-09",
@@ -932,7 +974,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "添付件数・Null・表示権限",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -949,9 +991,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-10",
@@ -978,7 +1025,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "行IDと参照値・変更イベント・未保存状態",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -995,9 +1042,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-11",
@@ -1024,7 +1076,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "外部送信なし・URL/文字列のエンコード",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1041,9 +1093,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-12",
@@ -1070,7 +1127,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "詳細画面限定・DOM更新・モバイル",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1087,9 +1144,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-13",
@@ -1116,7 +1178,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "URLスキーム制限・XSS対策・権限",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1133,9 +1195,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-14",
@@ -1162,7 +1229,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "ヘッダーと列固定・スクロール・モバイル",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1179,9 +1246,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-15",
@@ -1208,7 +1280,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "認証付き取得・PDF/画像・巨大ファイル",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1225,9 +1297,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-16",
@@ -1254,7 +1331,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "API上限・権限・正規ルックアップの更新",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1271,9 +1348,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-17",
@@ -1300,7 +1382,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "住所データ更新・通信失敗・手動入力",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1317,9 +1399,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     },
     {
       "id": "MINI-18",
@@ -1346,7 +1433,7 @@
       "unit_tests": null,
       "manifest_evidence": null,
       "focus": "カメラ許可・対応ブラウザ・手動入力",
-      "next_action": "v0.1.2 β正本をメインPCへ展開、製品別の実機PC/モバイル試験・署名鍵の信頼性・共存・異常系とv1改修を実施",
+      "next_action": "ライブラリ保存のv1-review署名なしソースをメインPCに取り込み、製品別機能回帰・kintone隔離環境PC/モバイルE2E・既存鍵署名と権限・共存検証後にv1判定",
       "v1_preparation": {
         "target": "v1.0 (candidate only)",
         "experimental_pure_core": "tests_running_separately",
@@ -1363,9 +1450,14 @@
         "beta_event_mocks": "31_total",
         "beta_browser_mocks": "17_total",
         "source_import_to_pc": "pending",
-        "full_kintone_v1_acceptance": "pending"
+        "full_kintone_v1_acceptance": "pending",
+        "source_only_hardening": "passed_18_manifests_31_event_mocks_19_browser_mocks",
+        "security_regression_tests": "5_passed",
+        "signing_key_recovery": "pending_original_keys",
+        "main_pc_import": "pending_archive_transfer"
       },
-      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json"
+      "beta_artifact_evidence": "docs/kintone-progress/evidence/mini-beta-v012-recovered-20261017.json",
+      "hardening_evidence": "docs/kintone-progress/evidence/mini-v1-review-hardening-20261017.json"
     }
   ]
 }
