@@ -148,7 +148,10 @@ export async function scanRestoreKeys(app,api,{maxRows=200000}={}){
   try{
     while(!finished){
       const page=await api('/k/v1/records/cursor.json','GET',{id:response.id});
-      if(!Array.isArray(page?.records))bad('移行先の取得結果が不正です');
+      if(!Array.isArray(page?.records)||typeof page.next!=='boolean'||page.records.length>500)
+        bad('移行先の取得結果が不正です');
+      if(page.next&&page.records.length===0)
+        bad('復元済み確認用Cursorが進行しません。処理を中止します');
       count+=page.records.length;
       if(count>maxRows)bad('移行先のレコード数が検索上限を超えています');
       for(const record of page.records){
