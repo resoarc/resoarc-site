@@ -6,7 +6,7 @@ from pathlib import Path
 from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
 import hashlib, json, subprocess, sys
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT.parent/'resoarc-mini-v1-candidate-source-only-20261017.zip'
+OUT=ROOT.parent/'resoarc-mini-v1-mobile16-source-only-20261017.zip'
 METADATA=OUT.with_suffix('.qa.json')
 for cmd in ([sys.executable,'scaffold.py'],[sys.executable,'bundle_qr.py']):
     subprocess.run(cmd,cwd=ROOT,check=True,timeout=40)
@@ -25,7 +25,8 @@ for p in slugs:
                 if not f.is_file():raise RuntimeError(f'Missing asset: {f}')
     if m.get('mobile'):mobile.append(p.name)
     js_files.extend(p.glob('js/*.js'))
-if mobile!=['text-normalizer']:raise RuntimeError('Only text-normalizer mobile draft may be included')
+expected=set(['attachment-count','barcode-scan','csv-export','field-help','file-preview','input-template','list-aggregate','lookup-suggest','mail-compose','postal-address','qr-code','record-toc','related-links','reuse-reset','table-row-tools','text-normalizer'])
+if set(mobile)!=expected or len(mobile)!=16:raise RuntimeError('Expected precisely 16 approved mobile source candidates')
 for f in js_files:
     subprocess.run(['node','--check',str(f)],check=True,timeout=10,capture_output=True)
 if (ROOT/'private').exists() or (ROOT/'release').exists():
@@ -60,7 +61,7 @@ result={
  'path':str(OUT),'sha256':hashlib.sha256(OUT.read_bytes()).hexdigest(),
  'file_count':len(paths),'mini_products':len(slugs),
  'javascript_files':len(js_files),'missing_assets':0,
- 'mobile_draft_features':mobile,'signed':False,'v1_release_approved':False,
+ 'mobile_draft_features':mobile,'mobile_candidate_count':16,'signed':False,'v1_release_approved':False,
  'original_beta_untouched':True,'tenant_e2e':False
 }
 METADATA.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
