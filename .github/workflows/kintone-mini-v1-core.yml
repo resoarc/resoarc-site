@@ -25,5 +25,7 @@ jobs:
           node-version: '22'
       - name: Test all 18 mini feature pure operations and negative cases
         run: npm test --prefix experimental/mini-v1-core
+      - name: Build standalone text normalizer plugin and check JS syntax
+        run: npm run check --prefix experimental/mini-v1-core
       - name: Check core source syntax
         run: node --check experimental/mini-v1-core/src/core.mjs
