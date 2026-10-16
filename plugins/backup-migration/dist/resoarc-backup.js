@@ -993,6 +993,7 @@ SOFTWARE.
   var MAX_BYTES = 25 * 1024 * 1024;
   var MAX_RECORDS = 2e4;
   var WRITABLE = /* @__PURE__ */ new Set(["SINGLE_LINE_TEXT", "MULTI_LINE_TEXT", "RICH_TEXT", "NUMBER", "RADIO_BUTTON", "DROP_DOWN", "CHECK_BOX", "MULTI_SELECT", "DATE", "TIME", "DATETIME", "LINK", "USER_SELECT", "ORGANIZATION_SELECT", "GROUP_SELECT", "FILE"]);
+  var RESERVED_CODES = /* @__PURE__ */ new Set(["__proto__", "constructor", "prototype"]);
   var s = (v) => JSON.stringify(v);
   var u82 = (v) => v instanceof Uint8Array ? v : new Uint8Array(v);
   var stop = (reason) => {
@@ -1002,8 +1003,9 @@ SOFTWARE.
   var allowedField = (d) => !!d && WRITABLE.has(d.type) && !d.lookup && !d.referenceTable && !(d.type === "SINGLE_LINE_TEXT" && typeof d.expression === "string" && d.expression.trim());
   var obj = (v) => v && typeof v === "object" && !Array.isArray(v);
   function fieldContents(props) {
-    const fields = {};
+    const fields = /* @__PURE__ */ Object.create(null);
     for (const [code2, def] of Object.entries(props || {})) {
+      if (RESERVED_CODES.has(code2)) stop("\u4E88\u7D04\u6E08\u307F\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9\u306F\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u3067\u304D\u307E\u305B\u3093: " + code2);
       if (def?.type === "SUBTABLE") {
         const members = fieldContents(def.fields);
         if (Object.keys(members).length) fields[code2] = { type: "SUBTABLE", fields: members };
@@ -1012,6 +1014,18 @@ SOFTWARE.
     return fields;
   }
   var writableSchema = (raw) => fieldContents(raw?.properties || raw);
+  function validatePortableSchema(schema, nested = false) {
+    if (!obj(schema)) stop("\u30EC\u30B3\u30FC\u30C9\u69CB\u9020\u304C\u4E0D\u6B63\u3067\u3059");
+    for (const [code2, def] of Object.entries(schema)) {
+      if (RESERVED_CODES.has(code2) || !code2 || code2.length > 128)
+        stop("\u30EC\u30B3\u30FC\u30C9\u69CB\u9020\u306B\u4E0D\u6B63\u306A\u30D5\u30A3\u30FC\u30EB\u30C9\u30B3\u30FC\u30C9\u304C\u3042\u308A\u307E\u3059: " + code2);
+      if (!obj(def)) stop("\u30EC\u30B3\u30FC\u30C9\u69CB\u9020\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u5B9A\u7FA9\u304C\u4E0D\u6B63\u3067\u3059: " + code2);
+      if (def.type === "SUBTABLE") {
+        if (nested) stop("\u30C6\u30FC\u30D6\u30EB\u306E\u5165\u308C\u5B50\u306F\u672A\u5BFE\u5FDC\u3067\u3059");
+        validatePortableSchema(def.fields, true);
+      } else if (!WRITABLE.has(def.type)) stop("\u30EC\u30B3\u30FC\u30C9\u69CB\u9020\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u7A2E\u5225\u304C\u4E0D\u6B63\u3067\u3059: " + code2);
+    }
+  }
   function filterValue(value, def) {
     if (def.type === "SUBTABLE") {
       if (!Array.isArray(value)) return [];
@@ -1166,6 +1180,7 @@ SOFTWARE.
     }
     if (manifest.version === 1 && entries["schema/source-fields.json"]) stop("v1\u5F62\u5F0F\u306B\u672A\u691C\u8A3C\u306E\u30D5\u30A3\u30FC\u30EB\u30C9\u8A2D\u5B9A\u304C\u3042\u308A\u307E\u3059");
     if (!obj(schema) || !Array.isArray(records) || records.length > MAX_RECORDS || records.length !== manifest.recordCount) stop("\u4EF6\u6570\u307E\u305F\u306F\u30D5\u30A3\u30FC\u30EB\u30C9\u69CB\u9020\u304C\u4E0D\u6B63\u3067\u3059");
+    validatePortableSchema(schema);
     for (const p of expectedTextPaths) {
       if (await sha256(entries[p]) !== manifest.digests?.[p]) stop("\u5185\u5BB9\u306E\u30CF\u30C3\u30B7\u30E5\u304C\u4E00\u81F4\u3057\u307E\u305B\u3093: " + p);
     }
@@ -1388,7 +1403,10 @@ SOFTWARE.
     try {
       while (!finished) {
         const page = await api2("/k/v1/records/cursor.json", "GET", { id: response.id });
-        if (!Array.isArray(page?.records)) bad("\u79FB\u884C\u5148\u306E\u53D6\u5F97\u7D50\u679C\u304C\u4E0D\u6B63\u3067\u3059");
+        if (!Array.isArray(page?.records) || typeof page.next !== "boolean" || page.records.length > 500)
+          bad("\u79FB\u884C\u5148\u306E\u53D6\u5F97\u7D50\u679C\u304C\u4E0D\u6B63\u3067\u3059");
+        if (page.next && page.records.length === 0)
+          bad("\u5FA9\u5143\u6E08\u307F\u78BA\u8A8D\u7528Cursor\u304C\u9032\u884C\u3057\u307E\u305B\u3093\u3002\u51E6\u7406\u3092\u4E2D\u6B62\u3057\u307E\u3059");
         count += page.records.length;
         if (count > maxRows) bad("\u79FB\u884C\u5148\u306E\u30EC\u30B3\u30FC\u30C9\u6570\u304C\u691C\u7D22\u4E0A\u9650\u3092\u8D85\u3048\u3066\u3044\u307E\u3059");
         for (const record of page.records) {
@@ -1463,7 +1481,7 @@ SOFTWARE.
   ]);
   var SELECT = /* @__PURE__ */ new Set(["RADIO_BUTTON", "DROP_DOWN", "CHECK_BOX", "MULTI_SELECT"]);
   var TABLE_TYPES = new Set([...TYPES].filter((t) => t !== "RICH_TEXT"));
-  var SAFE_CODE = /^[^\s.\[\]\\/]{1,128}$/u;
+  var SAFE_CODE = /^[\p{L}_][\p{L}\p{N}_]{0,127}$/u;
   var bad2 = (message) => {
     throw new Error(message);
   };
@@ -1571,6 +1589,38 @@ SOFTWARE.
     return { appId: id, deployed: false, recordsCopied: 0, requiresManualDeploy: true };
   }
 
+  // src/transport.js
+  async function fetchAllRecords(app, api2, { maxRecords = 2e4 } = {}) {
+    if (typeof api2 !== "function") throw Error("kintone API\u95A2\u6570\u304C\u5FC5\u8981\u3067\u3059");
+    if (!Number.isSafeInteger(maxRecords) || maxRecords < 1) throw Error("\u53D6\u5F97\u4EF6\u6570\u306E\u4E0A\u9650\u304C\u4E0D\u6B63\u3067\u3059");
+    const created = await api2("/k/v1/records/cursor.json", "POST", { app, size: 500 });
+    if (typeof created?.id !== "string" || !created.id) throw Error("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u7528Cursor\u306E\u4F5C\u6210\u306B\u5931\u6557\u3057\u307E\u3057\u305F");
+    const records = [];
+    let finished = false;
+    try {
+      while (!finished) {
+        const page = await api2("/k/v1/records/cursor.json", "GET", { id: created.id });
+        if (!Array.isArray(page?.records) || typeof page.next !== "boolean" || page.records.length > 500)
+          throw Error("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u7528Cursor\u306E\u53D6\u5F97\u7D50\u679C\u304C\u4E0D\u6B63\u3067\u3059");
+        if (page.next && page.records.length === 0)
+          throw Error("\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\u7528Cursor\u304C\u9032\u884C\u3057\u307E\u305B\u3093\u3002\u51E6\u7406\u3092\u4E2D\u6B62\u3057\u307E\u3059");
+        if (records.length + page.records.length > maxRecords)
+          throw Error("\u4E00\u5EA6\u306B\u51E6\u7406\u3067\u304D\u308B\u30EC\u30B3\u30FC\u30C9\u306F" + maxRecords.toLocaleString("en-US") + "\u4EF6\u307E\u3067\u3067\u3059");
+        records.push(...page.records);
+        finished = !page.next;
+      }
+    } finally {
+      if (!finished) {
+        try {
+          await api2("/k/v1/records/cursor.json", "DELETE", { id: created.id });
+        } catch (error) {
+          console.warn("Backup cursor cleanup failed", error);
+        }
+      }
+    }
+    return records;
+  }
+
   // src/browser.js
   var K = window.kintone;
   var api = (path, method, body) => K.api(K.api.url(path, true), method, body);
@@ -1589,26 +1639,6 @@ SOFTWARE.
   }
   var getFields = (app) => api("/k/v1/app/form/fields.json", "GET", { app });
   var getLayout = (app) => api("/k/v1/app/form/layout.json", "GET", { app });
-  async function listRecords(app) {
-    const created = await api("/k/v1/records/cursor.json", "POST", { app, size: 500 });
-    let cursor = created.id, done = false;
-    const records = [];
-    try {
-      while (!done) {
-        const page = await api("/k/v1/records/cursor.json", "GET", { id: cursor });
-        records.push(...page.records);
-        if (records.length > 2e4) throw Error("\u4E00\u5EA6\u306B\u51E6\u7406\u3067\u304D\u308B\u30EC\u30B3\u30FC\u30C9\u306F20,000\u4EF6\u307E\u3067\u3067\u3059");
-        done = !page.next;
-      }
-    } finally {
-      if (!done) try {
-        await api("/k/v1/records/cursor.json", "DELETE", { id: cursor });
-      } catch (e) {
-        console.warn("cursor cleanup failed", e);
-      }
-    }
-    return records;
-  }
   async function downloadFile(fileKey) {
     const resp = await fetch("/k/v1/file.json?fileKey=" + encodeURIComponent(fileKey), { method: "GET", headers: { "X-Requested-With": "XMLHttpRequest" } });
     if (!resp.ok) throw Error("\u30D5\u30A1\u30A4\u30EB\u306E\u53D6\u5F97\u306B\u5931\u6557\u3057\u307E\u3057\u305F (HTTP " + resp.status + ")");
@@ -1629,7 +1659,7 @@ SOFTWARE.
   }
   async function backup(app, name) {
     ensureExternalId(app);
-    const [fields, layout, records] = await Promise.all([getFields(app), getLayout(app), listRecords(app)]);
+    const [fields, layout, records] = await Promise.all([getFields(app), getLayout(app), fetchAllRecords(app, api)]);
     const { zip, hash, manifest } = await makeArchive({ appId: app, fields, layout, records, download: downloadFile });
     const key = await uploadFile(zip, "resoarc-backup-" + app + "-" + (/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-") + ".zip", "application/zip");
     const record = {
