@@ -278,3 +278,67 @@
    box-shadow:0 10px 24px rgba(13,38,56,.15);
  }
 }
+
+
+/* rec-rounded-compact: all 23 recognition/listing cards.
+   Keep the signature gold frame while introducing restrained radii and a
+   slightly denser layout. The complete rules are last to override older styles. */
+.rec-hub-framed .rec-hub-card,
+.rec-proof-grid .rec-proof-card,
+.rec-audit-grid .rec-audit-card,
+.rec-participation-grid .rec-participation-item,
+.rec-community-grid .rec-community-card{
+  box-sizing:border-box;
+  border-radius:10px;
+  overflow:hidden;
+  padding:20px 21px;
+  border:2px solid #c2b085;
+  border-top:5px solid #b69b60;
+  background:#fff;
+  box-shadow:0 7px 20px rgba(13,38,56,.12);
+}
+.rec-hub-framed .rec-hub-card{
+  min-height:230px;
+  padding:19px 20px;
+  box-shadow:0 9px 22px rgba(1,17,36,.19);
+}
+.rec-hub-framed .rec-hub-card:hover{
+  box-shadow:0 12px 25px rgba(1,17,36,.23);
+}
+.rec-hub-framed .rec-hub-grid{gap:14px}
+.rec-proof-grid,.rec-audit-grid,.rec-participation-grid,.rec-community-grid{
+  gap:15px;
+}
+.rec-hub-framed .rec-hub-group+.rec-hub-group{
+  margin-top:26px;
+  padding-top:23px;
+}
+.rec-hub-framed .rec-hub-card h4{margin:7px 0 8px}
+.rec-hub-framed .rec-hub-card p{margin-bottom:12px;line-height:1.7}
+.rec-proof-grid .rec-proof-card h3,
+.rec-audit-grid .rec-audit-card h3,
+.rec-participation-grid .rec-participation-item h4,
+.rec-community-grid .rec-community-card h3{
+  margin-top:10px;
+  margin-bottom:7px;
+}
+.rec-audit-grid .rec-audit-card p,
+.rec-participation-grid .rec-participation-item p,
+.rec-community-grid .rec-community-card p{
+  line-height:1.75;
+}
+@media(max-width:760px){
+ .rec-hub-framed .rec-hub-card,
+ .rec-proof-grid .rec-proof-card,
+ .rec-audit-grid .rec-audit-card,
+ .rec-participation-grid .rec-participation-item,
+ .rec-community-grid .rec-community-card{
+   border-radius:10px;
+   padding:18px 19px;
+   box-shadow:0 6px 16px rgba(13,38,56,.13);
+ }
+ .rec-hub-framed .rec-hub-card{min-height:0}
+ .rec-hub-framed .rec-hub-grid,
+ .rec-proof-grid,.rec-audit-grid,
+ .rec-participation-grid,.rec-community-grid{gap:13px}
+}
