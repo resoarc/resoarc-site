@@ -609,3 +609,8 @@
  .rec-detail-action{font-size:9.5px;padding:7px 4px}
  .rec-detail-title{font-size:16px}
 }
+
+/* Multi-link scorecards: keep the grade aligned with the title, links below. */
+.rec-detail-card.rec-detail-multi.rec-detail-has-metric{
+  grid-template-areas:"head head" "source score" "title score" "desc desc" "actions actions" "note note";
+}
