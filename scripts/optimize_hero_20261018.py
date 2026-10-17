@@ -16,7 +16,7 @@ with Image.open(photo) as source:
 index=root/"index.html"
 text=index.read_text(encoding="utf8")
 old='<img src="/assets/hero-architecture.jpg" alt="近代的な建築物を見上げた写真" fetchpriority="high">'
-new='<img src="/assets/hero-architecture.jpg" srcset="/assets/hero-architecture-800.webp 800w, /assets/hero-architecture-1600.webp 1600w" sizes="(max-width: 720px) 100vw, 51vw" width="1648" height="1200" alt="近代的な建築物を見上げた写真" fetchpriority="high" decoding="async">'
+new='<img src="/assets/hero-architecture.jpg" srcset="/assets/hero-architecture-800.webp 800w, /assets/hero-architecture-1600.webp 1600w" sizes="(max-width: 720px) 100vw, 51vw" width="1800" height="1200" alt="近代的な建築物を見上げた写真" fetchpriority="high" decoding="async">'
 if new not in text:
     assert text.count(old)==1,("hero markup changed",text.count(old))
     index.write_text(text.replace(old,new,1),encoding="utf8",newline="")
