@@ -342,3 +342,205 @@
  .rec-proof-grid,.rec-audit-grid,
  .rec-participation-grid,.rec-community-grid{gap:13px}
 }
+
+
+/* Dense evidence tiles v5: top icon/status, source/title vs score, description/CTA.
+   The group boxes in the user's reference are positioning guides, not red borders. */
+.rec-hub-framed .rec-hub-card.rec-dense-card{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(86px,39%);
+  grid-template-rows:48px auto auto minmax(0,1fr);
+  grid-template-areas:"head head" "source stat" "title stat" "desc action";
+  align-content:start;
+  align-items:start;
+  column-gap:10px;
+  row-gap:4px;
+  min-height:0;
+  padding:13px 15px 14px;
+  border-radius:10px;
+}
+.rec-hub-framed .rec-dense-card:not(:has(.rec-hub-grade,.rec-hub-live)){
+  grid-template-areas:"head head" "source source" "title title" "desc action";
+}
+.rec-hub-framed .rec-dense-card .rec-hub-card-top{
+  grid-area:head;
+  min-height:0;
+  align-self:start;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  margin:0;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-card-top .rec-hub-logo{
+  width:43px;height:43px;object-fit:contain;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-card-top .rec-hub-badge{
+  width:112px;height:25px;object-fit:contain;
+  align-self:center;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-swhid{font-size:21px;align-self:center}
+.rec-hub-framed .rec-dense-card .rec-hub-state{
+  padding:5px 7px;
+  margin-left:auto;
+  font-size:10px;
+  line-height:1.3;
+  white-space:nowrap;
+  border-radius:999px;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-card-eyebrow{
+  grid-area:source;
+  font-size:9px;
+  line-height:1.4;
+  letter-spacing:.065em;
+  align-self:end;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.rec-hub-framed .rec-dense-card h4{
+  grid-area:title;
+  min-width:0;
+  margin:0;
+  font-size:clamp(16px,1.7vw,19px);
+  line-height:1.3;
+  overflow-wrap:anywhere;
+}
+.rec-hub-framed .rec-dense-card>p{
+  grid-area:desc;
+  font-size:11px;
+  line-height:1.62;
+  margin:3px 0 0;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-grade,
+.rec-hub-framed .rec-dense-card .rec-hub-live{
+  grid-area:stat;
+  align-self:center;
+  justify-self:end;
+  margin:0;
+  min-width:0;
+  color:#13567a;
+  text-align:right;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-grade{
+  font-size:clamp(28px,3.1vw,38px);
+  line-height:1;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-grade small{
+  display:block;
+  font-size:10px;
+  margin-top:3px;
+  color:#657f90;
+  white-space:normal;
+}
+.rec-hub-framed .rec-dense-card .rec-hub-live b{font-size:29px}
+.rec-hub-framed .rec-dense-card .rec-hub-live small{
+  display:block;
+  font-size:9px;
+  margin:2px 0 0;
+}
+.rec-hub-framed .rec-dense-card>.rec-hub-card-link{
+  grid-area:action;
+  align-self:end;
+  justify-self:end;
+  margin:4px 0 0;
+  min-width:0;
+  max-width:100%;
+  border:1px solid #d9e3eb;
+  border-radius:6px;
+  background:#f5f9fc;
+  color:#195b81;
+  font-size:10.5px;
+  line-height:1.4;
+  padding:8px 6px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  text-align:center;
+  white-space:normal;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.rec-hub-framed .rec-dense-card>.rec-hub-card-link:hover{background:#eaf3f8;border-color:#97b6c6}
+.rec-hub-framed .rec-hub-grid{gap:12px}
+.rec-hub-framed .rec-hub-group+.rec-hub-group{padding-top:21px;margin-top:22px}
+.rec-hub-framed .rec-hub-note{margin-top:18px}
+.rec-hub-framed .rec-hub-card.rec-dense-card{box-shadow:0 8px 18px rgba(1,17,36,.19)}
+/* Matching detailed quality-evaluation tiles */
+.rec-audit-grid .rec-audit-card{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(86px,37%);
+  grid-template-rows:48px auto auto minmax(0,1fr);
+  grid-template-areas:"head head" "source score" "title score" "desc action";
+  align-items:start;
+  align-content:start;
+  gap:4px 10px;
+  min-height:0;
+  padding:13px 15px 14px;
+  border-radius:10px;
+}
+.rec-audit-card .rec-dense-audit-head{
+  grid-area:head;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:9px;
+}
+.rec-dense-audit-head img{width:43px;height:43px;object-fit:contain;display:block}
+.rec-dense-audit-state{
+  background:#e9f5ef;color:#256c4e;
+  border-radius:999px;padding:6px 8px;
+  font-size:10px;font-weight:700;line-height:1.3;
+  white-space:nowrap;
+}
+.rec-audit-card .rec-audit-source{
+  grid-area:source;align-self:end;font-size:9px;line-height:1.4;letter-spacing:.06em;overflow-wrap:anywhere;
+}
+.rec-audit-card .rec-audit-value{
+  grid-area:score;justify-self:end;align-self:center;
+  margin:0;font-size:clamp(29px,3vw,39px);line-height:1;text-align:right;
+}
+.rec-audit-card .rec-audit-value span{
+  display:block;font-size:10px;line-height:1.4;margin-top:4px;
+}
+.rec-audit-card h3{grid-area:title;margin:0;font-size:17px;line-height:1.3;min-width:0;overflow-wrap:anywhere}
+.rec-audit-card p{grid-area:desc;margin:3px 0 0;font-size:11px;line-height:1.62;overflow-wrap:anywhere}
+.rec-audit-card>a,
+.rec-audit-card .rec-audit-links{
+  grid-area:action;justify-self:end;align-self:end;min-width:0;max-width:100%;margin:4px 0 0;
+}
+.rec-audit-card>a,
+.rec-audit-card .rec-audit-links a{
+  border:1px solid #d9e3eb;background:#f5f9fc;border-radius:6px;
+  text-decoration:none;padding:8px 6px;color:#195b81;
+  line-height:1.4;font-size:10.5px;text-align:center;
+  white-space:normal;word-break:keep-all;overflow-wrap:anywhere;
+}
+.rec-audit-card .rec-audit-links{display:flex;flex-direction:column;align-items:stretch;gap:5px}
+.rec-audit-card .rec-audit-links a{margin:0}
+.rec-audit-grid{gap:12px}
+/* Preserve the same compact gold frame across the other detailed evidence and membership cards. */
+.rec-proof-grid .rec-proof-card,
+.rec-participation-grid .rec-participation-item,
+.rec-community-grid .rec-community-card{padding:15px 16px;border-radius:10px}
+.rec-proof-grid .rec-proof-card h2,
+.rec-participation-grid .rec-participation-item h4,
+.rec-community-grid .rec-community-card h3{margin-top:8px;margin-bottom:6px}
+.rec-proof-grid .rec-proof-card p,
+.rec-participation-grid .rec-participation-item p,
+.rec-community-grid .rec-community-card p{font-size:12px;line-height:1.65}
+.rec-proof-grid,.rec-participation-grid,.rec-community-grid{gap:12px}
+@media(max-width:760px){
+ .rec-hub-framed .rec-hub-card.rec-dense-card,
+ .rec-audit-grid .rec-audit-card{padding:13px 14px 14px;grid-template-columns:minmax(0,1fr) minmax(85px,37%);gap:4px 9px}
+ .rec-hub-framed .rec-dense-card h4{font-size:18px}
+ .rec-audit-card h3{font-size:17px}
+}
+@media(max-width:340px){
+ .rec-hub-framed .rec-hub-card.rec-dense-card,
+ .rec-audit-grid .rec-audit-card{grid-template-columns:minmax(0,1fr) minmax(78px,36%);column-gap:6px}
+ .rec-hub-framed .rec-dense-card>.rec-hub-card-link,
+ .rec-audit-card>a,.rec-audit-card .rec-audit-links a{font-size:9.5px;padding:7px 3px}
+}
