@@ -206,3 +206,34 @@
 @media(max-width:1050px){.rec-hub-grid{gap:10px}.rec-hub-card{padding:20px 16px}.rec-hub-group-heading small{display:none}.rec-hub-card h4{font-size:18px}}
 @media(max-width:760px){.rec-hub-hero-inner{display:block}.rec-hub-hero .rec-link{display:inline-block;margin-top:20px}.rec-hub{padding:37px 0 44px}.rec-hub-head{display:block}.rec-hub-all{display:inline-block;margin-top:12px}.rec-hub-grid{grid-template-columns:1fr;gap:11px}.rec-hub-card{min-height:0;padding:21px}.rec-hub-group+.rec-hub-group{margin-top:26px;padding-top:23px}.rec-hub-group-heading{align-items:center}.rec-hub-card-top{margin-bottom:5px}.rec-hub-card p{max-width:680px}}
 @media(prefers-reduced-motion:reduce){.rec-hub-card{transition:none}}
+
+
+/* First-recognition card treatment for all nine entries:
+   shared framed white cards, gold accent, and navy showcase background. */
+.rec-hub-framed{background:linear-gradient(121deg,#102c48 0%,#143b5d 58%,#244e63 100%);border-bottom:1px solid #234861}
+.rec-hub-framed .rec-hub-eyebrow{color:#e6d6aa}
+.rec-hub-framed h2{color:#fff}
+.rec-hub-framed .rec-hub-head p{color:#e2eaf0}
+.rec-hub-framed .rec-hub-all,.rec-hub-framed .rec-hub-actions a{color:#f2dfab;border-color:#d0b984}
+.rec-hub-framed .rec-hub-all:hover,.rec-hub-framed .rec-hub-actions a:hover{color:#fff;border-color:#fff}
+.rec-hub-framed .rec-hub-group+.rec-hub-group{border-top:1px solid rgba(233,241,246,.28)}
+.rec-hub-framed .rec-hub-group-index{color:#e0c68d}
+.rec-hub-framed .rec-hub-group-heading h3{color:#fff}
+.rec-hub-framed .rec-hub-group-heading small{color:#c2d3dd}
+.rec-hub-framed .rec-hub-card,
+.rec-hub-framed .rec-hub-card-quality,
+.rec-hub-framed .rec-hub-card-community,
+.rec-hub-framed .rec-hub-card-pending{
+  background:#fff;
+  border:1px solid #dce3ec;
+  border-top:4px solid #bfac77;
+  box-shadow:0 12px 25px rgba(2,18,35,.20);
+  color:#15334e;
+}
+.rec-hub-framed .rec-hub-card:hover{border-color:#b4c2ce;border-top-color:#d3bb7b;box-shadow:0 16px 34px rgba(0,13,29,.26)}
+.rec-hub-framed .rec-hub-card h4{color:#173753}
+.rec-hub-framed .rec-hub-note{color:#d6e2e9}
+@media(max-width:760px){
+ .rec-hub-framed .rec-hub-card{box-shadow:0 9px 18px rgba(2,18,35,.21)}
+ .rec-hub-framed .rec-hub-head p,.rec-hub-framed .rec-hub-note{color:#e1eaf0}
+}
