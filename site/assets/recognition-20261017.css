@@ -544,3 +544,33 @@
  .rec-hub-framed .rec-dense-card>.rec-hub-card-link,
  .rec-audit-card>a,.rec-audit-card .rec-audit-links a{font-size:9.5px;padding:7px 3px}
 }
+
+/* Four balanced verified quality cards, preserving the original cards' styles. */
+.rec-green-badge {width:116px;height:55px;object-fit:contain;object-position:left center;max-width:100%;}
+.rec-green-audit-value {display:flex;align-items:center;min-height:78px;}
+.rec-green-audit-value img {display:block;width:145px;height:auto;max-width:100%;object-fit:contain;}
+@media (min-width: 1180px) {.rec-hub-quality-grid {grid-template-columns:repeat(4,minmax(0,1fr));}}
+@media (min-width: 740px) and (max-width: 1179px) {.rec-hub-quality-grid {grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+/* Balanced 3+2 responsive layout after verified SSL Labs check. */
+@media (min-width:1100px) {
+ .rec-hub-quality-grid,.rec-audit-grid-5 {grid-template-columns:repeat(6,minmax(0,1fr));}
+ .rec-hub-quality-grid > article,.rec-audit-grid-5 > article {grid-column:span 2;}
+ .rec-hub-quality-grid > article:nth-child(n+4),.rec-audit-grid-5 > article:nth-child(n+4) {grid-column:span 3;}
+}
+@media (min-width:740px) and (max-width:1099px) {
+ .rec-hub-quality-grid,.rec-audit-grid-5 {grid-template-columns:repeat(2,minmax(0,1fr));}
+ .rec-hub-quality-grid > article:last-child:nth-child(odd),.rec-audit-grid-5 > article:last-child:nth-child(odd) {grid-column:span 2;}
+}
+
+/* Six quality verification records: full 3-by-2 desktop grid; 2-by-3 tablet grid. */
+@media (min-width:1100px) {
+ .rec-hub-quality-grid,.rec-audit-grid-5 {grid-template-columns:repeat(3,minmax(0,1fr));}
+ .rec-hub-quality-grid > article,.rec-audit-grid-5 > article,
+ .rec-hub-quality-grid > article:nth-child(n+4),.rec-audit-grid-5 > article:nth-child(n+4) {grid-column:auto;}
+}
+@media (min-width:740px) and (max-width:1099px) {
+ .rec-hub-quality-grid,.rec-audit-grid-5 {grid-template-columns:repeat(2,minmax(0,1fr));}
+ .rec-hub-quality-grid > article:last-child:nth-child(odd),
+ .rec-audit-grid-5 > article:last-child:nth-child(odd) {grid-column:auto;}
+}
