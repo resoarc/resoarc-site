@@ -237,3 +237,44 @@
  .rec-hub-framed .rec-hub-card{box-shadow:0 9px 18px rgba(2,18,35,.21)}
  .rec-hub-framed .rec-hub-head p,.rec-hub-framed .rec-hub-note{color:#e1eaf0}
 }
+
+
+/* rec-all-list-cards-frame: shared appearance of original recognition cards.
+   Strong physical border + gold top edge for every list, not just the homepage. */
+.rec-hub-framed .rec-hub-card,
+.rec-proof-grid .rec-proof-card,
+.rec-audit-grid .rec-audit-card,
+.rec-participation-grid .rec-participation-item,
+.rec-community-grid .rec-community-card{
+  box-sizing:border-box;
+  background:#fff;
+  border:2px solid #c2b085;
+  border-top:5px solid #b69b60;
+  border-radius:0;
+  box-shadow:0 15px 34px rgba(13,38,56,.16);
+}
+.rec-hub-framed .rec-hub-card{
+  box-shadow:0 16px 35px rgba(1,17,36,.28);
+}
+.rec-proof-grid .rec-proof-card,
+.rec-audit-grid .rec-audit-card,
+.rec-participation-grid .rec-participation-item,
+.rec-community-grid .rec-community-card{
+  min-width:0;
+}
+.rec-community-grid .rec-community-card{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.rec-community-grid .rec-community-card p{line-height:1.8}
+.rec-hub-framed .rec-hub-card:hover{border-color:#bda671;border-top-color:#aa8749}
+@media(max-width:760px){
+ .rec-hub-framed .rec-hub-card,
+ .rec-proof-grid .rec-proof-card,
+ .rec-audit-grid .rec-audit-card,
+ .rec-participation-grid .rec-participation-item,
+ .rec-community-grid .rec-community-card{
+   box-shadow:0 10px 24px rgba(13,38,56,.15);
+ }
+}
