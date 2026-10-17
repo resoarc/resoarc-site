@@ -306,3 +306,39 @@ h1,h2,h3{font-family:var(--body);font-weight:700;line-height:1.55;letter-spacing
 .tool-gallery-image{display:block;width:100%;height:auto;aspect-ratio:1120/710;object-fit:contain}
 .tool-gallery-item>p{margin:16px 0 0}
 @media(max-width:780px){.tool-screen-gallery{grid-template-columns:1fr}.tool-gallery-heading h2{font-size:17px}}
+
+/* Site responsive and source-availability polish 2026-10-17 */
+/* CSP-safe alternatives to ignored inline styles on 5 plugin preview pages. */
+pre.suite-result{display:block;box-sizing:border-box;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;
+  white-space:pre;overflow-wrap:normal;background:#17343d;color:#fff;padding:16px;border-radius:5px;
+  scrollbar-width:thin;scrollbar-color:#88acb6 #17343d}
+/* Better affordance on compact devices while preserving the existing typography. */
+@media(max-width:640px){
+ .kicker{white-space:normal;flex-wrap:wrap;row-gap:7px}
+ .inside-hero h1{font-size:clamp(24px,7.15vw,34px);line-height:1.44;text-wrap:balance;overflow-wrap:anywhere}
+ .update-row strong a,.no-more a{display:inline-block;padding:6px 0;line-height:1.65}
+ .catalog-status-note{line-height:1.85}
+}
+.catalog-status-note{color:#4a6470;font-size:13px;line-height:1.9;max-width:72ch;margin:16px 0 0}
+.source-availability{background:#f0f5f7;border-top:1px solid #d4e2e9;border-bottom:1px solid #d4e2e9}
+.source-availability-inner{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;padding:17px 0;
+ color:#284655;font-size:13px;line-height:1.75}
+.source-availability-inner a,.source-card a{color:#205771;text-decoration:underline;text-underline-offset:4px;font-weight:700}
+.source-availability-inner strong{font-weight:800}
+.source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:26px 0}
+.source-card{padding:27px;background:white;border:1px solid #d2dfe6;border-radius:8px;min-width:0}
+.source-card h2{font-size:21px;margin:0 0 10px;color:#18394d}
+.source-card p{font-size:13px;line-height:1.9}
+.source-card ul{list-style:none;padding:0;margin:18px 0 0}
+.source-card li{border-top:1px solid #e3e9ef;padding:11px 0;font-size:13px;line-height:1.65}
+.source-card li a{display:inline-block;padding:3px 0;overflow-wrap:anywhere}
+.source-note{font-size:13px;line-height:1.85;padding:18px 24px;background:#edf4f7;border-left:3px solid #43718a}
+@media(max-width:720px){.source-grid{grid-template-columns:1fr}.source-card{padding:20px}}
+@media(max-width:380px){.source-availability-inner{font-size:12px}}
+/* The release journal remains scannable even when entries are long. */
+@media(max-width:640px){
+ .release-entry{padding-top:22px;padding-bottom:24px;overflow-wrap:anywhere}
+ .release-entry p{line-height:1.9}
+}
+
+.source-url{white-space:normal;overflow-wrap:anywhere;word-break:break-word;font-size:11px}
