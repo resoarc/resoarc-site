@@ -469,3 +469,7 @@ main .visual-badge strong{border-radius:3px}
  .footer-nav:has(>div:not(.footer-group)):has(a[href="/trust/"])>div:nth-child(2)>a:nth-of-type(7){grid-column:2;grid-row:9}
  .footer-nav:has(>div:not(.footer-group)):has(a[href="/trust/"])>div:nth-child(2)>a:nth-of-type(8){grid-column:2;grid-row:10}
 }
+
+/* Integration fix: long Git clone URLs and SHA-256 digests must wrap on narrow screens. */
+.source-card,.source-note{min-width:0;overflow-wrap:anywhere}
+.source-card code,.source-note code{white-space:normal;overflow-wrap:anywhere;word-break:break-all}
