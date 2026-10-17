@@ -31,7 +31,7 @@
         el.textContent = formatted;
         if (el.tagName === "TIME") el.dateTime = d.toISOString();
       }
-      for (const el of states) el.textContent = "公式APIから自動取得";
+      for (const el of states) el.textContent = data.cached === true ? "公式APIの直近確認値を表示中" : "公式APIから自動取得";
     })
     .catch(markFallback);
 })();
