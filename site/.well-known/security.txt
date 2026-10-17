@@ -1,0 +1,4 @@
+Contact: mailto:github@resoarc.com
+Expires: 2027-04-17T00:00:00Z
+Preferred-Languages: ja, en
+Canonical: https://resoarc.com/.well-known/security.txt
