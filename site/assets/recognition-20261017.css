@@ -127,3 +127,32 @@
 @media(max-width:780px){.community-home{padding:43px 0 47px}.community-home-intro{display:block}.community-home-all{margin-top:18px}.community-home-grid{grid-template-columns:1fr;gap:13px}.community-home-card{min-height:0;padding:22px}.community-home-card p{max-width:650px}.community-home-card-link{margin-top:8px}}
 @media(max-width:420px){.community-home-state{font-size:10px}.community-home h2{font-size:25px}}
 @media(prefers-reduced-motion:reduce){.community-home-card{transition:none}.community-home-card:hover{transform:none}}
+
+/* External verification panels and public web-standards evidence */
+.rec-home-assurance{background:#fff;padding:55px 0 59px;border-top:1px solid #e1e8ed;border-bottom:1px solid #e1e8ed}
+.rec-home-assurance-heading{display:flex;justify-content:space-between;align-items:end;gap:20px}
+.rec-home-assurance-kicker{font:700 10px/1.4 Arial,sans-serif;letter-spacing:.18em;color:#507a92}
+.rec-home-assurance h2{font-size:clamp(24px,2.8vw,33px);line-height:1.44;margin:8px 0;color:#153550}
+.rec-home-assurance-heading p{font-size:13px;color:#5a7386;margin-top:4px}
+.rec-home-assurance-heading>a{font-size:12px;text-decoration:none;color:#245775;font-weight:700;border-bottom:1px solid #95b1be;padding-bottom:6px;flex-shrink:0}
+.rec-home-assurance-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:25px}
+.rec-home-assurance-item{display:flex;flex-direction:column;gap:10px;background:#f5f8fa;border:1px solid #dee7ee;border-radius:10px;padding:22px 23px;color:#1b3d56;text-decoration:none}
+.rec-home-assurance-item:hover{border-color:#8faebc;background:#eef5f8}
+.rec-home-assurance-item>span{font:700 11px/1.4 Arial,sans-serif;letter-spacing:.1em;color:#637d8e}
+.rec-home-assurance-item strong{font:700 clamp(28px,3.2vw,44px)/1.15 Arial,sans-serif;color:#164f70;font-variant-numeric:tabular-nums}
+.rec-home-assurance-item em{font:700 16px/1.2 Arial,sans-serif;font-style:normal;color:#4c718a}
+.rec-home-assurance-item small{font-size:12px;color:#4e6b7d;line-height:1.55}
+.rec-home-assurance-note{color:#718696;font-size:11px;line-height:1.9;margin-top:15px}
+.rec-independent-security{background:#f5f8fb}
+.rec-audit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:29px}
+.rec-audit-card{background:#fff;border:1px solid #d7e2ea;border-top:4px solid #7195a8;padding:27px 23px;min-width:0;display:flex;flex-direction:column}
+.rec-audit-source{font:700 10px/1.3 Arial,sans-serif;letter-spacing:.11em;color:#648094}
+.rec-audit-value{font:700 48px/1.1 Arial,sans-serif;letter-spacing:-.04em;color:#185875;margin:16px 0 10px;font-variant-numeric:tabular-nums}
+.rec-audit-value span{font:700 16px/1.3 Arial,sans-serif;letter-spacing:0;color:#628194}
+.rec-audit-card h3{font-size:19px;margin:4px 0 9px;color:#183c55}
+.rec-audit-card p{font-size:13px;color:#516a7c;line-height:1.85;margin:0 0 19px}
+.rec-audit-card a{color:#245c7a;text-decoration:none;font-size:12px;font-weight:700;border-bottom:1px solid #aec5d2;padding-bottom:5px;align-self:flex-start;margin-top:auto}
+.rec-audit-links{display:flex;flex-wrap:wrap;gap:12px 16px;margin-top:auto}
+.rec-audit-links a{margin-top:0}
+@media(max-width:920px){.rec-home-assurance-grid,.rec-audit-grid{grid-template-columns:1fr}.rec-home-assurance-heading{align-items:flex-start;flex-direction:column}.rec-home-assurance-item{gap:4px}}
+@media(max-width:700px){.rec-home-assurance{padding:40px 0}.rec-audit-card{padding:23px}.rec-audit-value{font-size:42px}}
