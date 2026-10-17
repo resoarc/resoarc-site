@@ -47,6 +47,7 @@ def main() -> None:
                     )
                     assert page.locator(".updates-items .update-row").count() == 3
                     assert page.locator(".updates-items a[href='/releases/']").count() == 1
+                    assert page.locator(".updates-items a[href='/source/#codeberg']").count() == 1
                     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
                     assert page.locator(".update-row a").first.get_attribute("href").startswith("/")
                     page.close()
