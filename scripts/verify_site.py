@@ -134,10 +134,11 @@ def main() -> int:
                     fail(f"{relative}: missing local reference {ref}")
 
     os_page = (SITE / "os/index.html").read_text(encoding="utf-8")
-    os_release_url = "https://github.com/resoarc/resoarc-site/releases/download/resoarcos-pc-v0.1.0-dev-20261016/resoarcos-pc-v0.1.0-dev-amd64.iso"
     os_release_sha = "7706b665ef250be764cda9de43826edf9ad7c85baccbf7655f5ae43f0b5d61dd"
-    if os_release_url not in os_page or os_release_sha not in os_page:
-        fail("Missing pinned ResoArcOS ISO release link or checksum")
+    # The old repository's binary URL is no longer the official distribution channel.
+    # Preserve historical artifact identification without linking to a nonfunctional download.
+    if os_release_sha not in os_page or "ISOイメージは現在公式サイトで配布していません" not in os_page:
+        fail("Missing historical ResoArcOS ISO checksum or current no-download notice")
     if "本番用OSとしては未対応です" not in os_page:
         fail("Missing ResoArcOS non-production warning")
 

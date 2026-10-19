@@ -19,7 +19,7 @@
 - `site/assets/tools/csv.js`: ブラウザー内で動くCSV構造検査ツール。
 - `site/llms.txt`: AI向けの公開索引と利用条件。
 - `scripts/verify_site.py`: 参照リンク・必須ファイル・公開前の機械的チェック。
-- `.github/workflows/verify.yml`: GitHub Actionsでの基本検証。
+- `.github/workflows/verify.yml`: 旧ホスティング向けのCI設定（保管用）。現在の公開判定は `scripts/verify_site.py` と中央の検査記録で行います。
 
 ## ローカルで動かす
 
@@ -38,6 +38,6 @@ ResoArc独自のソフトウェア・HTML・CSS・文章・SVGは、リポジト
 
 ## 公開・変更の記録
 
-公開後の変更はコミットとPull Requestで追跡できる形を目指します。リリース時には変更内容、確認結果、既知の制約を残します。[検証手順](docs/VERIFICATION.md) と [公開チェックリスト](docs/PUBLISHING.md) を参照してください。
+公開後の変更はCodebergのコミットとレビュー可能な差分で追跡できる形を目指します。リリース時には変更内容、確認結果、既知の制約を残します。[検証手順](docs/VERIFICATION.md) と [公開チェックリスト](docs/PUBLISHING.md) を参照してください。
 
-公式公開リポジトリ: https://github.com/resoarc/resoarc-site 。`main` のコードはGitHub Actionsで自動検証します。本番配信との一致は別途照合する必要があり、コードの公開だけで全インフラの安全性を保証するものではありません。
+公式公開リポジトリ: https://codeberg.org/ResoArc/resoarc-site 。公開用`main`は非公開VPS Gitで承認された固定コミットからCodebergに同期し、Cloudflare PagesへDirect Uploadします。サイトの公開判定はローカルの検証器・ブラウザー試験・SHA照合の証跡で管理し、特定のGitホスティングのCIを前提としません。本番配信との一致は別途照合します。
