@@ -89,17 +89,26 @@ fetch(ENDPOINT,{cache:'no-cache',credentials:'same-origin'})
   } else {trailLabel.append(anchor(url,item.title,false));}
  }
  crumb.append(trailLabel);
+ const desktop=window.matchMedia('(min-width: 960px)');
+ const expanded=()=>desktop.matches?!document.body.classList.contains('ra-sidebar-hidden'):document.body.classList.contains('ra-drawer-open');
+ const syncExpanded=()=>toggle.setAttribute('aria-expanded',String(expanded()));
  const close=()=>{
   document.body.classList.remove('ra-drawer-open');
-  toggle.setAttribute('aria-expanded','false');
-  sidebar.setAttribute('aria-modal','false');
+  syncExpanded();
  };
  const open=()=>{
   document.body.classList.add('ra-drawer-open');
-  toggle.setAttribute('aria-expanded','true');
+  syncExpanded();
   closeButton.focus();
  };
- toggle.addEventListener('click',()=>document.body.classList.contains('ra-drawer-open')?close():open());
+ toggle.addEventListener('click',()=>{
+  if(desktop.matches){
+   document.body.classList.toggle('ra-sidebar-hidden');
+   syncExpanded();
+  }else{
+   document.body.classList.contains('ra-drawer-open')?close():open();
+  }
+ });
  closeButton.addEventListener('click',()=>{close();toggle.focus();});
  overlay.addEventListener('click',()=>{close();toggle.focus();});
  document.addEventListener('keydown',evt=>{
@@ -108,13 +117,25 @@ fetch(ENDPOINT,{cache:'no-cache',credentials:'same-origin'})
  sidebar.addEventListener('click',evt=>{
   if(evt.target.closest('a')&&window.matchMedia('(max-width: 959px)').matches)close();
  });
- const media=window.matchMedia('(min-width: 960px)');
- const restore=()=>{if(media.matches)close();};
- media.addEventListener?.('change',restore);
+ const restore=()=>{
+  document.body.classList.remove('ra-drawer-open');
+  syncExpanded();
+ };
+ desktop.addEventListener?.('change',restore);
+ const siteHeader=document.querySelector('header.site-header');
  const main=document.querySelector('main');
- if(!main)throw Error('No page main for navigation');
+ if(!siteHeader||!main)throw Error('Missing site header or main for navigation');
  document.body.append(sidebar,overlay);
- main.prepend(crumb);
+ // Both controls and breadcrumb belong to the persistent site header, not the scrollable main.
+ siteHeader.append(crumb);
+ const updateHeight=()=>document.documentElement.style.setProperty(
+  '--ra-nav-head-height',Math.ceil(siteHeader.getBoundingClientRect().height)+'px');
+ updateHeight();
+ if(typeof ResizeObserver!=='undefined'){
+  const observer=new ResizeObserver(updateHeight);
+  observer.observe(siteHeader);
+ }else window.addEventListener('resize',updateHeight,{passive:true});
+ syncExpanded();
  document.body.classList.add('ra-nav-ready');
  }).catch(error=>console.warn('ResoArc navigation unavailable:',error));
 })();

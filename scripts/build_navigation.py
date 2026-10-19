@@ -109,7 +109,7 @@ def main():
   if entry['visible'] and entry['parent'] and not pages[entry['parent']]['visible']:
    raise ValueError('Hidden ancestor on public page '+url)
  manifest={'version':2,'pages':pages}
- NAV_MAP.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+ NAV_MAP.write_bytes((json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode('utf8'))
  injected=0
  for file in files:
   rel=file.relative_to(SITE).as_posix()
