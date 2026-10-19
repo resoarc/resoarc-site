@@ -1,0 +1,66 @@
+{
+  "status": "RELEASED_ON_SUCCESSFUL_PRODUCTION_DEPLOY",
+  "approval": "CENTRAL-PLUGIN-GO-WAVE2-20261019-02",
+  "publishedDate": "2026-10-19",
+  "sourceCommit": "c4abc7b4f68c12cea702f1c5c0361c631b9eb882",
+  "products": [
+    {
+      "slug": "csv-export",
+      "version": "0.1.5",
+      "filename": "resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "url": "/downloads/resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "sha256": "234ec6d8917c25bd793f19b5d38e64a5dab6c12281dea184de18a665d956a1f6",
+      "signedPluginID": "aelcjamfkgdfjbpechknbdcbmilhakpf"
+    },
+    {
+      "slug": "lookup-suggest",
+      "version": "0.1.5",
+      "filename": "resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "url": "/downloads/resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "sha256": "d3b2c88810a2f5d04d64792b47fcdc0a5f94793a322d0a1a8f4d4c29db1c3276",
+      "signedPluginID": "fhcimgdnajljmmaekniefihhbhdnhcfo"
+    },
+    {
+      "slug": "list-aggregate",
+      "version": "0.1.4",
+      "filename": "resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "url": "/downloads/resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "9a6ffe625769f51d29bac0be2b1cf007ec3cf51f09d33e45aa8eb2fe0128e643",
+      "signedPluginID": "fpjgmldlnpnagmbmeofkjjgeaeihpemm"
+    },
+    {
+      "slug": "attachment-count",
+      "version": "0.1.4",
+      "filename": "resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "url": "/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "6f359dbaff4f37d4b56d966d0cef9d9fe8ac6ca1d7c5f6acb5de2af0a7c4a84d",
+      "signedPluginID": "emeofolajlnnfcldmegcainjelmifndp"
+    }
+  ],
+  "documents": [
+    {
+      "url": "/downloads/resoarc-wave2-LICENSE",
+      "sha256": "3f2dc75c15f49f16e6e0da319cf8274b04e9c350f5e5d909ce0680d67d014cc5"
+    },
+    {
+      "url": "/downloads/resoarc-wave2-NOTICE",
+      "sha256": "411279210fc49924599387833efad9df5e35f72a64713e98fda42b38af04f524"
+    },
+    {
+      "url": "/downloads/resoarc-wave2-INSTALL_MIGRATION_GUIDE.md",
+      "sha256": "b0c8601965b3065255cf4b3530c9d7f470e9ce3b15e6d7c98241426077d0c8c4"
+    },
+    {
+      "url": "/downloads/resoarc-wave2-RELEASE_NOTES.md",
+      "sha256": "affba889bdbb3abae04a592afb3903d1d8b69edc00b8947a21544ef494f4734f"
+    }
+  ],
+  "limitations": [
+    "alpha/beta IDs not guaranteed compatible",
+    "physical iOS/Android browsers not certified",
+    "403 tests may be mocked",
+    "list CSV/count/aggregate limit to visible page",
+    "unpublished products remain on hold"
+  ],
+  "secretMaterialPresent": false
+}
