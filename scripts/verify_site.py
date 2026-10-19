@@ -196,6 +196,16 @@ def main() -> int:
         else:
             print(result.stdout.strip())
 
+    plugin_transparency = ROOT / "tests/official_plugins_transparency_smoke.py"
+    if plugin_transparency.is_file():
+        import subprocess
+        result = subprocess.run([sys.executable, str(plugin_transparency)], cwd=ROOT,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if result.returncode:
+            fail("signed-plugin transparency regression: " + (result.stdout + result.stderr)[-1400:])
+        else:
+            print(result.stdout.strip())
+
     total = sum(p.stat().st_size for p in files)
     print(f"Files: {len(files)} | HTML pages: {len(pages)} | Bytes: {total:,}")
     print("Reference hashes (first 12 hex):")
