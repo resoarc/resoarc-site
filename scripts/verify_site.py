@@ -185,6 +185,17 @@ def main() -> int:
     else:
         fail("missing site-manifest.sha256")
 
+    # Navigation consistency is a release gate even when optional hosted CI is unavailable.
+    nav_checker = ROOT / "scripts/check_navigation.py"
+    if nav_checker.is_file():
+        import subprocess
+        result = subprocess.run([sys.executable, str(nav_checker)], cwd=ROOT,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if result.returncode:
+            fail("navigation regression: " + (result.stdout + result.stderr)[-1100:])
+        else:
+            print(result.stdout.strip())
+
     total = sum(p.stat().st_size for p in files)
     print(f"Files: {len(files)} | HTML pages: {len(pages)} | Bytes: {total:,}")
     print("Reference hashes (first 12 hex):")

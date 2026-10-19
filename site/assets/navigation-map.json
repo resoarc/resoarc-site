@@ -1,0 +1,265 @@
+{
+  "version": 2,
+  "pages": {
+    "/education/circuit/": {
+      "title": "電子回路",
+      "parent": "/education/",
+      "visible": true
+    },
+    "/education/": {
+      "title": "初学者教育支援",
+      "parent": "/",
+      "visible": true
+    },
+    "/education/programming/": {
+      "title": "ロボットプログラミング",
+      "parent": "/education/",
+      "visible": true
+    },
+    "/guide/": {
+      "title": "利用ガイド",
+      "parent": "/",
+      "visible": true
+    },
+    "/": {
+      "title": "ホーム",
+      "parent": null,
+      "visible": true
+    },
+    "/license/": {
+      "title": "ライセンス",
+      "parent": "/",
+      "visible": true
+    },
+    "/os/": {
+      "title": "ResoArcOS",
+      "parent": "/",
+      "visible": true
+    },
+    "/os/pi/": {
+      "title": "Raspberry Pi版",
+      "parent": "/os/",
+      "visible": true
+    },
+    "/principles/": {
+      "title": "品質方針",
+      "parent": "/",
+      "visible": true
+    },
+    "/privacy/": {
+      "title": "プライバシー",
+      "parent": "/",
+      "visible": true
+    },
+    "/products/": {
+      "title": "無料ツール",
+      "parent": "/",
+      "visible": true
+    },
+    "/products/kintone/attachment-count/": {
+      "title": "添付ファイル有無表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/csv-export/": {
+      "title": "CSVワンクリック出力",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/field-help/": {
+      "title": "フィールド説明表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/": {
+      "title": "kintoneプラグイン",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/kintone/list-aggregate/": {
+      "title": "一覧合計バー",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/lookup-suggest/": {
+      "title": "ルックアップ候補表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/progress/": {
+      "title": "26の機能、ひとつの進捗表へ。",
+      "parent": "/products/kintone/",
+      "visible": false
+    },
+    "/products/kintone/qa/": {
+      "title": "8機能の導入検証パッケージ",
+      "parent": "/products/kintone/",
+      "visible": false
+    },
+    "/products/kintone/qr-code/": {
+      "title": "QRコード生成",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/record-toc/": {
+      "title": "レコード目次",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/related-links/": {
+      "title": "関連アプリリンク",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/save-navigation/": {
+      "title": "保存後画面遷移",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/text-normalizer/": {
+      "title": "入力文字自動整形",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/verified/": {
+      "title": "検証できたこと、まだ配布できないこと。",
+      "parent": "/products/kintone/",
+      "visible": false
+    },
+    "/products/roadmap/": {
+      "title": "開発ロードマップ",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/web/": {
+      "title": "Webツール",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/web/screens/": {
+      "title": "画面キャプチャ",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/project/": {
+      "title": "ResoArcについて",
+      "parent": "/",
+      "visible": true
+    },
+    "/recognition/": {
+      "title": "実績・協賛",
+      "parent": "/",
+      "visible": true
+    },
+    "/releases/": {
+      "title": "更新履歴",
+      "parent": "/",
+      "visible": true
+    },
+    "/source/": {
+      "title": "公開ソース",
+      "parent": "/",
+      "visible": true
+    },
+    "/terms/": {
+      "title": "利用条件",
+      "parent": "/",
+      "visible": true
+    },
+    "/tools/csv/": {
+      "title": "CSV / TSV構造検査",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/hash/": {
+      "title": "ファイルSHA-256確認",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-app-diff/": {
+      "title": "設定JSONの差分を、確認する。",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-auto-number/": {
+      "title": "自動採番を、シンプルに確実に。",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/tools/kintone-bulk-preview/": {
+      "title": "一括更新・変更前プレビュー",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-conditional/": {
+      "title": "条件に応じて、必要な入力だけを。",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-conditional-format/": {
+      "title": "条件付き書式",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-cross-aggregate/": {
+      "title": "アプリ横断集計",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-date-calculator/": {
+      "title": "日付・期間計算",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-duplicates/": {
+      "title": "重複レコード候補の検出",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-grid-editor/": {
+      "title": "Excel風一覧編集",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-import-check/": {
+      "title": "取り込む前に、不整合を見つける。",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-kanban/": {
+      "title": "カード・カンバン表示",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-list-search/": {
+      "title": "高機能検索・絞り込み",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-lookup-audit/": {
+      "title": "ルックアップ不整合診断",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-permission-audit/": {
+      "title": "kintone権限定義の可視化",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-print-report/": {
+      "title": "ブラウザー帳票・PDF保存",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-tabs/": {
+      "title": "入力画面を、タブで整理する。",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/trust/": {
+      "title": "信頼性と説明責任",
+      "parent": "/",
+      "visible": true
+    }
+  }
+}

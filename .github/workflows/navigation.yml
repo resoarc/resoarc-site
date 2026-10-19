@@ -1,0 +1,11 @@
+name: Navigation consistency
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python scripts/check_navigation.py
