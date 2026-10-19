@@ -1,7 +1,7 @@
 {
   "approvedId": "CENTRAL-READONLY4-GO-20261019-03",
   "releaseDate": "2026-10-19",
-  "status": "PUBLICATION_PENDING_FINAL_CLOUD_TEST",
+  "status": "PUBLISHED",
   "products": [
     {
       "slug": "field-help",
