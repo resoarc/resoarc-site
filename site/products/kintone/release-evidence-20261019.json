@@ -1,0 +1,49 @@
+{
+  "publishedVersionDate": "2026-10-19",
+  "releaseType": "two-kintone-plugin-zips-and-public-companion-documents",
+  "centralDecision": "CENTRAL-PLUGIN-GO-20261019-01",
+  "sourceHead": "cd7eb8299dca2f37f4bd200f1a8adaa72bf0816c",
+  "products": [
+    {
+      "slug": "text-normalizer",
+      "version": "0.1.4",
+      "filename": "resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "url": "/downloads/resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "16d4e43df291d033c08634f5d64245167c6b6598835d091337b8c26e3e0b8c42",
+      "signedPluginId": "mabofifeabcbgahboppkipfkcmfkomoh"
+    },
+    {
+      "slug": "save-navigation",
+      "version": "0.1.3",
+      "filename": "resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "url": "/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6e281275e2eb276e7886d8dc562852e194b4002ce05625b75a10326b0e527fd8",
+      "signedPluginId": "elchlflcbmdgdhifeihibkdpapnaiahc"
+    }
+  ],
+  "companion": [
+    {
+      "url": "/downloads/resoarc-2plugins-LICENSE",
+      "sha256": "3f2dc75c15f49f16e6e0da319cf8274b04e9c350f5e5d909ce0680d67d014cc5"
+    },
+    {
+      "url": "/downloads/resoarc-2plugins-NOTICE",
+      "sha256": "de7281f94b2dd2cf47a28661b962ab8bff0777bb776c6519f45f5a089b52aa3a"
+    },
+    {
+      "url": "/downloads/resoarc-2plugins-RELEASE_GUIDE_2PLUGINS_20261019.md",
+      "sha256": "e25fca3cc60000e78a7138614658f7fbe22457e8f7377643f39bcb72e37b7f26"
+    },
+    {
+      "url": "/downloads/resoarc-2plugins-RELEASE_NOTES_2PLUGINS_20261019.md",
+      "sha256": "4f900dcb580fdc3d8f4bfdfa57110e078c74a0eabfd6fe9d51806e473bfa8bde"
+    }
+  ],
+  "limitations": [
+    "No alpha/beta plugin ID overwrite guarantee",
+    "Physical phone engines untested",
+    "Real user role permission tests untested",
+    "Codeberg public main contains the site and published binary release artifacts, not a separate complete plugin development repository"
+  ],
+  "sensitiveDataIncluded": false
+}
