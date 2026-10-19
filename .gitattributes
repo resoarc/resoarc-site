@@ -22,3 +22,6 @@ site/downloads/resoarc-2plugins-* binary
 
 # Keep the exact checked bytes of wave2 release companion documents.
 site/downloads/resoarc-wave2-* binary
+
+# Fixed rights documents: exact SHA-256 published bytes.
+site/downloads/resoarc-readonly4-* binary
