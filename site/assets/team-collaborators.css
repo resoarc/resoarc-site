@@ -10,3 +10,9 @@
 .team-collaborators-role p{margin:0;font-size:14px;line-height:1.95;color:#40566d}
 .team-collaborators-note{font-size:12px!important;line-height:1.9!important;color:#62768b!important;margin:17px 0 0!important}
 @media(max-width:700px){.team-collaborators{padding:22px 19px;margin-top:32px}.team-collaborators-role{grid-template-columns:1fr;gap:10px;padding:17px 0}}
+.team-collaborators-qualifications{margin-top:22px;padding:20px 0 0}
+.team-collaborators-qualifications h4{margin:0 0 13px;font-size:15px;color:#19354f}
+.team-collaborators-qualifications ul{display:flex;flex-wrap:wrap;gap:9px 10px;list-style:none;margin:0;padding:0}
+.team-collaborators-qualifications li{border:1px solid #cddced;background:#fff;padding:7px 12px;border-radius:7px;font-size:13px;line-height:1.65;color:#274b69}
+.team-collaborators-qualifications li span{font-size:11px;color:#5f7790;margin-left:5px}
+.team-collaborators-qualifications p{font-size:12px!important;line-height:1.85!important;color:#62768b!important;margin:13px 0 0!important}

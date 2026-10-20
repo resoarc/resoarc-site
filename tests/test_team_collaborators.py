@@ -23,6 +23,15 @@ class TeamCollaboratorTests(unittest.TestCase):
         self.assertIn('運営責任者や法的代理人の資格を示すものではありません',s)
         for private in ['佐藤','AJS','zin1985','@gmail.com']:
             self.assertNotIn(private,s[s.index('<section class="team-collaborators"'):s.index('</section></div></div></section>',s.index('<section class="team-collaborators"'))])
+    def test_qualifications_are_individual_not_project_certifications(self):
+        s=PAGE.read_text('utf8')
+        self.assertEqual(s.count('id="team-qualifications-heading"'),1)
+        for item in ['kintone認定 アプリデザインスペシャリスト',
+                     'kintone認定 アソシエイト',
+                     'ITIL&#174; 4 Foundation <span>2026年取得</span>',
+                     'ResoArc自体への認定、各認定機関からの推奨や提携を示すものではありません']:
+            self.assertIn(item,s)
+        self.assertNotIn('2029年',s)
     def test_css_scoped_and_responsive(self):
         page=PAGE.read_text('utf8')
         css=CSS.read_text('utf8')
