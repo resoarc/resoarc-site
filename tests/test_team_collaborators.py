@@ -16,8 +16,9 @@ class TeamCollaboratorTests(unittest.TestCase):
             self.assertIn('<dt>'+name+'</dt>',s)
     def test_public_facing_role_and_limits(self):
         s=PAGE.read_text('utf8')
-        self.assertIn('広報・対外連絡協力',s)
-        self.assertIn('Outreach &amp; Liaison',s)
+        self.assertIn('運営、構築、技術、広報、対外連絡協力',s)
+        self.assertIn('Operations / Development / Technology / PR / External Liaison',s)
+        self.assertIn('運営、公開環境の構築、技術面の検討・実装支援',s)
         self.assertIn('問い合わせの取次ぎ',s)
         self.assertIn('運営責任者や法的代理人の資格を示すものではありません',s)
         for private in ['佐藤','AJS','zin1985','@gmail.com']:
