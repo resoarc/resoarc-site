@@ -1,0 +1,12 @@
+/* ResoArc project collaborators, scoped to /project/#team. */
+.team-collaborators{margin-top:clamp(30px,4vw,52px);padding:clamp(22px,3.1vw,36px);border:1px solid #cad8e8;border-left:4px solid #315e87;background:#f7f9fc;border-radius:0 14px 14px 0;box-shadow:0 6px 24px rgba(25,48,73,.035)}
+.team-collaborators-kicker{margin:0 0 10px!important;font-size:11px;letter-spacing:.13em;font-weight:700;color:#315e87}
+.team-collaborators h3{font-size:clamp(17px,2vw,21px);color:#19354f;line-height:1.6;margin:0 0 12px}
+.team-collaborators>p:not(.team-collaborators-kicker):not(.team-collaborators-note){font-size:14px;line-height:2;max-width:52rem}
+.team-collaborators-role{display:grid;grid-template-columns:minmax(170px,210px) 1fr;gap:16px 28px;border-top:1px solid #d9e2ec;border-bottom:1px solid #d9e2ec;margin-top:22px;padding:21px 0}
+.team-collaborators-role-name{display:flex;flex-direction:column;gap:5px;line-height:1.6}
+.team-collaborators-role-name strong{font-size:15px;color:#18354d}
+.team-collaborators-role-name small{font-size:12px;color:#55728a;letter-spacing:.025em}
+.team-collaborators-role p{margin:0;font-size:14px;line-height:1.95;color:#40566d}
+.team-collaborators-note{font-size:12px!important;line-height:1.9!important;color:#62768b!important;margin:17px 0 0!important}
+@media(max-width:700px){.team-collaborators{padding:22px 19px;margin-top:32px}.team-collaborators-role{grid-template-columns:1fr;gap:10px;padding:17px 0}}
