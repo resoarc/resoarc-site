@@ -10,9 +10,35 @@
 .team-collaborators-role p{margin:0;font-size:14px;line-height:1.95;color:#40566d}
 .team-collaborators-note{font-size:12px!important;line-height:1.9!important;color:#62768b!important;margin:17px 0 0!important}
 @media(max-width:700px){.team-collaborators{padding:22px 19px;margin-top:32px}.team-collaborators-role{grid-template-columns:1fr;gap:10px;padding:17px 0}}
-.team-collaborators-qualifications{margin-top:22px;padding:20px 0 0}
-.team-collaborators-qualifications h4{margin:0 0 13px;font-size:15px;color:#19354f}
-.team-collaborators-qualifications ul{display:flex;flex-wrap:wrap;gap:9px 10px;list-style:none;margin:0;padding:0}
-.team-collaborators-qualifications li{border:1px solid #cddced;background:#fff;padding:7px 12px;border-radius:7px;font-size:13px;line-height:1.65;color:#274b69}
-.team-collaborators-qualifications li span{font-size:11px;color:#5f7790;margin-left:5px}
-.team-collaborators-qualifications p{font-size:12px!important;line-height:1.85!important;color:#62768b!important;margin:13px 0 0!important}
+/* Individual qualifications: icons are original line art, not certificate-provider marks. */
+.team-collaborators-qualifications{margin-top:25px;padding:24px 0 0}
+.team-qualifications-heading{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}
+.team-qualifications-overline{display:block;color:#68859b;font-size:10px;letter-spacing:.19em;font-weight:800;margin-bottom:7px}
+.team-collaborators-qualifications h4{margin:0;font-size:clamp(16px,1.65vw,19px);color:#19354f;letter-spacing:.015em}
+.team-qualifications-count{white-space:nowrap;color:#2c5276;font-size:20px;font-weight:700;letter-spacing:.035em}
+.team-qualifications-count small{font-size:9px;letter-spacing:.09em;color:#6a8299;margin-left:6px}
+.team-qualifications-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;list-style:none;margin:0;padding:0}
+.team-qualification-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;min-width:0;min-height:248px;padding:22px 20px 17px;border:1px solid #d6e2ee;border-radius:15px;background:linear-gradient(155deg,#fff,#f6f9fc);box-shadow:0 5px 14px rgba(29,57,84,.035);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.team-qualification-card::before{content:"";position:absolute;z-index:-1;right:-46px;top:-49px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(72,129,172,.1),rgba(72,129,172,0) 70%);pointer-events:none}
+.team-qualification-card:hover{transform:translateY(-4px);border-color:#adc7dc;box-shadow:0 15px 28px rgba(26,60,88,.1)}
+.team-qualification-card--design{border-color:#234763;background:linear-gradient(148deg,#224868,#142c45);box-shadow:0 9px 23px rgba(21,48,72,.13)}
+.team-qualification-card--design::before{background:radial-gradient(circle,rgba(122,187,219,.22),transparent 69%)}
+.team-qualification-card--design:hover{border-color:#4a8eb3;box-shadow:0 17px 34px rgba(21,48,72,.21)}
+.team-qualification-icon{display:flex;justify-content:center;align-items:center;width:57px;height:57px;flex:0 0 57px;border:1px solid #d7e5ef;border-radius:15px;background:#ebf3f9;color:#335f80}
+.team-qualification-icon svg{display:block;width:34px;height:34px}
+.team-qualification-card--design .team-qualification-icon{background:rgba(195,225,242,.13);border-color:rgba(209,234,248,.25);color:#e0f5ff}
+.team-qualification-card--itil .team-qualification-icon{background:#eaf4f1;border-color:#d1e6e0;color:#326c64}
+.team-qualification-body{display:flex;flex-direction:column;flex:1;padding-top:17px;min-width:0}
+.team-qualification-category{color:#5c7c98;font-size:9px;letter-spacing:.14em;font-weight:800;line-height:1.5}
+.team-qualification-card--design .team-qualification-category{color:#b7dbe9}
+.team-collaborators-qualifications h5{margin:7px 0 9px;color:#173a57;font-size:clamp(15px,1.35vw,17px);line-height:1.5;font-weight:750;overflow-wrap:anywhere}
+.team-qualification-card--design h5{color:#fff}
+.team-qualification-body p{color:#627a8e;font-size:12px!important;line-height:1.7!important;margin:0!important}
+.team-qualification-card--design .team-qualification-body p{color:#c1d6e4!important}
+.team-qualification-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #dce7f0;padding-top:12px;margin-top:20px;color:#567892;font-size:11px;letter-spacing:.025em}
+.team-qualification-card--design .team-qualification-bottom{border-top-color:rgba(205,230,247,.23);color:#d4eaf6}
+.team-qualification-year{font-size:11px;font-weight:700;color:#295e5c;letter-spacing:.02em}
+.team-qualifications-disclaimer{font-size:12px!important;line-height:1.85!important;color:#62768b!important;margin:16px 0 0!important}
+@media(max-width:920px){.team-qualifications-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.team-qualification-card{min-height:230px}}
+@media(max-width:700px){.team-qualifications-heading{align-items:start}.team-qualifications-count small{display:none}.team-qualifications-grid{grid-template-columns:1fr;gap:12px}.team-qualification-card{min-height:0;padding:19px;gap:0;border-radius:13px}.team-qualification-body{padding-top:12px}.team-qualification-bottom{margin-top:15px}}
+@media(prefers-reduced-motion:reduce){.team-qualification-card{transition:none}.team-qualification-card:hover{transform:none}}

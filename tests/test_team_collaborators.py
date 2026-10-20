@@ -28,16 +28,23 @@ class TeamCollaboratorTests(unittest.TestCase):
         self.assertEqual(s.count('id="team-qualifications-heading"'),1)
         for item in ['kintone認定 アプリデザインスペシャリスト',
                      'kintone認定 アソシエイト',
-                     'ITIL&#174; 4 Foundation <span>2026年取得</span>',
+                     'ITIL&#174; 4 Foundation',
+                     '2026年取得',
                      'ResoArc自体への認定、各認定機関からの推奨や提携を示すものではありません']:
             self.assertIn(item,s)
+        self.assertEqual(s.count('class="team-qualification-card '),3)
+        self.assertEqual(s.count('<svg viewBox="0 0 48 48"'),3)
+        self.assertIn('aria-hidden="true"',s)
         self.assertNotIn('2029年',s)
     def test_css_scoped_and_responsive(self):
         page=PAGE.read_text('utf8')
         css=CSS.read_text('utf8')
         self.assertIn('<link rel="stylesheet" href="/assets/team-collaborators.css">',page)
         self.assertIn('@media(max-width:700px)',css)
+        self.assertIn('@media(prefers-reduced-motion:reduce)',css)
+        self.assertIn('grid-template-columns:repeat(3,minmax(0,1fr))',css)
+        self.assertIn('grid-template-columns:1fr',css)
         self.assertNotIn('position:fixed',css)
-        self.assertTrue(all(line.strip().startswith(('/*','.team-collaborators','@media','}')) for line in css.splitlines() if line.strip()))
+        self.assertTrue(all(line.strip().startswith(('/*','.team-','@media','}')) for line in css.splitlines() if line.strip()))
 if __name__=='__main__':
     unittest.main()
