@@ -10,12 +10,12 @@ ROOT=Path(__file__).resolve().parents[1]
 SITE=ROOT/'site'
 index=BeautifulSoup((SITE/'products/kintone/index.html').read_text(encoding='utf8'),'html.parser')
 cards=index.select('article.kc-product')
-assert len(cards)==11,len(cards)
+assert len(cards)==12,len(cards)
 release=BeautifulSoup((SITE/'products/kintone/release-integrity/index.html').read_text(encoding='utf8'),'html.parser')
 rows={r['id']:r for r in release.select('tr[id]')}
-assert len(rows)==11
+assert len(rows)==12
 captures=SITE/'assets/kintone-settings-captures'
-assert len(list(captures.glob('*.webp')))==11
+assert len(list(captures.glob('*.webp')))==12
 for card in cards:
  title=card.h3.get_text(' ',strip=True)
  slug=card.select_one('img.kc-product-icon')['src'].split('/')[-1].removesuffix('.svg')
@@ -46,7 +46,7 @@ for card in cards:
 assert (SITE/'_redirects').read_text(encoding='utf8').strip()=='/tools/mini-plugins/ /products/kintone/ 301'
 nav=json.loads((SITE/'assets/navigation-map.json').read_text(encoding='utf8'))
 assert nav['pages']['/products/kintone/release-integrity/']['visible']
-assert sum(x['visible'] for x in nav['pages'].values())==43
+assert sum(x['visible'] for x in nav['pages'].values())==44
 assert (SITE/'assets/resoarc-ux-trust-20261020.css').exists()
 home=BeautifulSoup((SITE/'index.html').read_text(encoding='utf8'),'html.parser')
 assert home.select_one('section.ra-start-here')
@@ -59,4 +59,4 @@ for f in SITE.rglob('*.html'):
  body=f.read_text(encoding='utf8')
  assert body.count('<script defer src="/assets/navigation.js"></script>')==1,f
  assert body.count('<link rel="stylesheet" href="/assets/navigation.css">')==1,f
-print('OFFICIAL_PLUGINS_TRANSPARENCY_PASS products=11 manifest-and-listing-match=11 stable-nav=53 public=43')
+print('OFFICIAL_PLUGINS_TRANSPARENCY_PASS products=12 manifest-and-listing-match=12 stable-nav=54 public=44')

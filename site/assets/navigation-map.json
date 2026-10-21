@@ -121,6 +121,11 @@
       "parent": "/products/kintone/",
       "visible": true
     },
+    "/products/kintone/tabs/": {
+      "title": "タブ表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
     "/products/kintone/text-normalizer/": {
       "title": "入力文字自動整形",
       "parent": "/products/kintone/",
