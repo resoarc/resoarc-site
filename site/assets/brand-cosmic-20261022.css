@@ -72,3 +72,27 @@
 .hero.arc-cosmic .hero-topline{font-size:10px!important}
 .hero.arc-cosmic .hero-footnote{padding-bottom:25px!important}
 }
+
+/* Official namecard glyph vectors: from FRONT_VECTOR_ONLY.svg, 2026-10-22. */
+.site-header .brand{gap:11px!important}
+.site-header .brand .arc-brand-symbol{width:42px;height:42px;display:block;flex-shrink:0;box-shadow:0 0 0 1px #224b72;border-radius:9px}
+.site-header .brand .arc-wordmark-image{width:158px;max-width:158px;height:auto;display:block;filter:drop-shadow(0 2px 5px #0004)}
+.site-header .brand .wordmark{display:flex;flex-direction:column;gap:0;justify-content:center}
+.site-header .brand .wordmark small{font-size:6.8px!important;font-weight:750;white-space:nowrap;letter-spacing:.07em!important;line-height:1.5;margin-top:-1px!important;color:#9db8d2!important}
+.footer-brand .arc-brand-symbol{width:48px;height:48px;flex-shrink:0;border:1px solid #315f86;border-radius:10px}
+.footer-brand .arc-footer-wordmark{width:196px;max-width:100%;height:auto;display:block;margin:-4px 0 2px}
+.footer-brand small{color:#9abfdb!important;font-size:9px!important;letter-spacing:.06em!important;margin:3px 0 19px!important}
+@media(max-width:960px){
+.site-header .brand .arc-wordmark-image{width:145px;max-width:145px}
+}
+@media(max-width:420px){
+.site-header .brand .arc-wordmark-image{width:124px;max-width:124px}
+.site-header .brand .wordmark small{font-size:5.8px!important}
+.site-header .brand .arc-brand-symbol{width:37px;height:37px}
+}
+
+/* Keep the editorial badge legible above the planet gradient. */
+.hero.arc-cosmic .hero-visual .visual-badge,
+.hero.arc-cosmic .hero-visual .visual-mark{z-index:3}
+.hero.arc-cosmic .hero-visual .visual-badge strong{color:#e6f6ff!important;text-shadow:0 4px 19px #010a1cc4}
+.hero.arc-cosmic .hero-visual .visual-badge .index-label{color:#aad7f4!important}
