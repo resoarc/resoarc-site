@@ -166,6 +166,16 @@
       "parent": "/",
       "visible": true
     },
+    "/security/": {
+      "title": "セキュリティ情報",
+      "parent": "/",
+      "visible": true
+    },
+    "/security/weather/": {
+      "title": "SWWW",
+      "parent": "/security/",
+      "visible": true
+    },
     "/source/": {
       "title": "公開ソース",
       "parent": "/",

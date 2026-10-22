@@ -46,7 +46,9 @@ for card in cards:
 assert (SITE/'_redirects').read_text(encoding='utf8').strip()=='/tools/mini-plugins/ /products/kintone/ 301'
 nav=json.loads((SITE/'assets/navigation-map.json').read_text(encoding='utf8'))
 assert nav['pages']['/products/kintone/release-integrity/']['visible']
-assert sum(x['visible'] for x in nav['pages'].values())==44
+from xml.etree import ElementTree as ET
+sitemap_urls=ET.parse(SITE/'sitemap.xml').findall('.//{*}loc')
+assert sum(x['visible'] for x in nav['pages'].values())==len(sitemap_urls)
 assert (SITE/'assets/resoarc-ux-trust-20261020.css').exists()
 home=BeautifulSoup((SITE/'index.html').read_text(encoding='utf8'),'html.parser')
 assert home.select_one('section.ra-start-here')
@@ -59,4 +61,4 @@ for f in SITE.rglob('*.html'):
  body=f.read_text(encoding='utf8')
  assert body.count('<script defer src="/assets/navigation.js"></script>')==1,f
  assert body.count('<link rel="stylesheet" href="/assets/navigation.css">')==1,f
-print('OFFICIAL_PLUGINS_TRANSPARENCY_PASS products=12 manifest-and-listing-match=12 stable-nav=54 public=44')
+print('OFFICIAL_PLUGINS_TRANSPARENCY_PASS products=12 manifest-and-listing-match=12 stable-nav=56 public=46')

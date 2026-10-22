@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-22",
+  "quality": "OK",
+  "source_count": 13,
+  "html_sha256": "383f1069a75f787c539e829fa674ae485ed2012b2aa13d67065cfb9076df33af",
+  "data_sha256": "7aec9b44fa5bfb4b6472fda02b81f380b6d41acb84eb2c9264aa1657f3b2c6f5",
+  "site_index_sha256": "3e8773c5b3b38d96daa5b220048dc194579699a6dc2737f7d77675795fb0d1a7",
+  "manifest_sha256": "4fa453caefca6a8ef446410d0323ab469f1752333a5c0cf2991f4e0a54b81d28",
+  "verification": "PASS: verify_site, 241 files, 57 HTML, 56 navigation pages, 12 plugin transparency checks"
+}
