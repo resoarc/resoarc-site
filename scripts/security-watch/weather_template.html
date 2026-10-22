@@ -8,7 +8,7 @@
   <title>SWWW | 脆弱性天気予報 | ResoArc</title>
   <link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg" />
   <link rel="stylesheet" href="/assets/site-20261015-v10.css?v=20261018-design-v1" />
-  <link rel="stylesheet" href="/assets/security-weather.css?v=20261022-cspfix1" />
+  <link rel="stylesheet" href="/assets/security-weather.css?v=20261022-tech1" />
 <link rel="stylesheet" href="/assets/navigation.css">
 </head>
 <body>
@@ -43,13 +43,16 @@
 </div>
 </section>
 <section id="trend"><div class="section-title"><h2>過去7日間の空模様</h2><span>現在取得できる情報の範囲</span></div><div class="panels"><div class="panel"><h3>発表・登録された脆弱性情報</h3><div class="sub">掲載日は情報源の公開日またはKEVへの追加日です。</div><div class="graph" id="chart" aria-label="直近7日間の新着件数"></div><div class="chart-labels" id="chart-labels"></div></div><div class="panel"><h3>対応難易度の評価</h3><div class="sub">0件は「簡単」という意味ではなく未評価です。公開された修正情報とResoArcの採用状況、改修・停止・試験工数を根拠に判定。</div><div class="difficulty" id="difficulty-chart"></div><div class="micro swww-internal-note">ResoArc内部の審査優先度・詳細キューは非公開台帳で管理しています。</div></div></div></section>
-<section id="advisories"><div class="section-title"><h2>脆弱性・セキュリティ情報一覧</h2><span id="listed-count">—</span></div><div class="toolbar"><div class="tabs" role="group" aria-label="表示期間"><button class="tab active" data-filter="today" type="button">今日</button><button class="tab" data-filter="week" type="button">7日間</button><button class="tab" data-filter="all" type="button">取得分すべて</button></div><input class="search" id="search" type="search" placeholder="CVE・製品・情報源を検索" aria-label="脆弱性一覧の検索" /></div><div class="table-shell"><table><thead><tr><th>公開日 / 情報</th><th>重大度</th><th>EPSS</th><th>悪用確認</th><th>対応難易度</th><th>影響度</th><th>ResoArc影響</th><th>ResoArc対応</th></tr></thead><tbody id="advisory-rows"></tbody></table><div class="empty" id="empty" hidden>該当する情報はありません。観測範囲・取得状態もご確認ください。</div></div></section>
+<section id="advisories"><div class="section-title"><h2>脆弱性・セキュリティ情報一覧</h2><span id="listed-count">—</span></div><div class="toolbar"><div class="tabs" role="group" aria-label="表示期間"><button class="tab active" data-filter="today" type="button">今日</button><button class="tab" data-filter="week" type="button">7日間</button><button class="tab" data-filter="all" type="button">取得分すべて</button></div><label class="swww-tech-control" for="technology-filter">技術タグで絞り込み
+<select id="technology-filter" aria-label="関連技術で絞り込む">
+<option value="">すべての技術</option>
+</select></label><input id="search" type="search" placeholder="CVE・製品・情報源を検索" aria-label="脆弱性一覧の検索" /></div><div class="table-shell"><table><thead><tr><th>公開日 / 情報</th><th>重大度</th><th>関連技術・製品</th><th>EPSS</th><th>悪用確認</th><th>対応難易度</th><th>影響度</th><th>ResoArc影響</th><th>ResoArc対応</th></tr></thead><tbody id="advisory-rows">__SWWW_STATIC_ROWS__</tbody></table><div class="empty" id="empty" hidden>該当する情報はありません。観測範囲・取得状態もご確認ください。</div></div></section>
 <section id="bulletins"><div class="section-title"><h2>国内・海外の注意喚起</h2><span id="bulletin-count">—</span></div><div class="bulletin-list" id="bulletin-list"></div></section>
 <section class="method" id="method"><h3>観測方法と情報の読み方</h3><p>本ページは既存の CISA KEV、GitHub Security Advisories、PHP公式、OSVに、NVD、JPCERT/CC、JVN、CISA注意喚起、Ubuntu、Debian、CERT-EU、CIS、FIRST EPSSを追加した観測概況です。取得の失敗、遅延、件数上限があるため、世界すべてのCVEを網羅する統計ではありません。</p><p>「悪用確認」はCISA KEV登録による既知の悪用情報で、実際の被害者数・国内被害件数ではありません。EPSSは今後30日間の悪用可能性の推定値で、悪用確認・被害件数とは異なります。実被害は確認根拠と件数が登録されない限り「確認情報なし」と表示します。「影響度」は一般的な潜在リスクです。「対応難易度」はベンダーのパッチ有無だけで決めず、ResoArc側の依存関係・停止・互換性試験・復旧手順などに基づいて評価します。未評価の項目は「要調査」と表示します。</p><p>脆弱性情報に掲載されたことだけで、ResoArc製品の脆弱性が確定するわけではありません。本ページは内部確認用のプレビューであり、中央統合管理のGOが出るまで対外公開・自動通知をしません。</p></section>
 </div></main>
 <footer class="footer"><div class="container footer-top"><div class="footer-brand"><svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#18304C"/><path d="M12 36V12H25C32 12 36 16 36 22C36 28 32 31 25 31H12 M25 31L35 39" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/></svg><div><strong>ResoArc</strong><small>OPEN TECHNOLOGY PROJECT</small><p>自由で、開かれた技術を。</p></div></div><nav class="footer-nav" aria-label="フッターのサイト案内"><div class="footer-group"><h3>EXPLORE</h3><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/releases/">更新履歴</a></div><div class="footer-group"><h3>PRODUCTS</h3><a href="/products/">無料ツール</a><a href="/os/">ResoArcOS</a><a href="/guide/">利用ガイド</a></div><div class="footer-group"><h3>TRUST &amp; QUALITY</h3><a href="/principles/">品質方針</a><a href="/trust/">信頼性と説明責任</a><a href="/recognition/">実績・協賛</a><a href="/license/">ライセンス</a></div><div class="footer-group"><h3>INFORMATION</h3><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/sitemap.xml">サイトマップ</a><a href="/source/">公開ソース・Codeberg <span aria-hidden="true">↗</span></a></div></nav></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer>
 <script type="application/json" id="swww-data">__SWWW_DATA__</script>
-<script defer src="/assets/security-weather.js?v=20261022-cspfix1"></script>
+<script defer src="/assets/security-weather.js?v=20261022-tech1"></script>
 <script defer src="/assets/navigation.js"></script>
 </body>
 </html>

@@ -20,6 +20,7 @@ import tempfile
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
 from swww_assessments import get_review, public_projection, private_register, private_html, RESPONSES
+from swww_public import enrich, render_public_page
 
 JST = ZoneInfo('Asia/Tokyo')
 UTC = dt.timezone.utc
@@ -304,10 +305,12 @@ def build_report(queue, triage, assessments, now=None, refresh_failed=False, ext
 
 
 def render_page(report, template):
+    enrich(report)
+    enrich(report)
     raw_json = json.dumps(report, ensure_ascii=False, separators=(',', ':'))
     safe_json = (raw_json.replace('<', '\\u003c').replace('>', '\\u003e')
                  .replace('&', '\\u0026').replace('\u2028', '\\u2028').replace('\u2029', '\\u2029'))
-    return template.replace('__SWWW_DATA__', safe_json)
+    return render_public_page(report, template, safe_json)
 
 
 def main(argv=None):

@@ -296,3 +296,23 @@
 @media(max-width:900px){.swww-assessment-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.swww-assessment-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .swww-assessment-card{padding:13px 12px;min-height:112px}.swww-assessment-card strong{font-size:25px}}
+
+/* Technology filtering and colored product tags (SWWW only). */
+.swww-tech-control{display:flex;gap:7px;align-items:center;font-size:12px;color:#315e87;font-weight:700}
+.swww-tech-control select{min-height:37px;min-width:150px;padding:6px 12px;border:1px solid #c4d1df;background:#fff;color:#18304c;border-radius:2px;font:inherit}
+.swww-tech-cell{max-width:265px;min-width:124px}
+.swww-tech-tag{display:inline-block;max-width:195px;margin:2px 3px 2px 0;padding:4px 7px;border:1px solid transparent;border-radius:3px;font-size:10px;font-weight:760;white-space:nowrap}
+.tech-vendor{color:#6947a4;background:#efe9fa;border-color:#dbceef}
+.tech-runtime{color:#155e7d;background:#e2f3fa;border-color:#b9dee9}
+.tech-os{color:#375e26;background:#eaf4e4;border-color:#c4ddb8}
+.tech-database{color:#93551d;background:#fff0df;border-color:#f1d4aa}
+.tech-devops{color:#3258a1;background:#e8eefc;border-color:#c4d3f1}
+.tech-infra{color:#8b4d30;background:#f8ece6;border-color:#e6ccbd}
+.tech-framework{color:#874372;background:#f8e9f3;border-color:#e8c8dc}
+.tech-cms{color:#2f6570;background:#e5f3f3;border-color:#bedcdd}
+.tech-cloud{color:#805c1c;background:#fbf1d9;border-color:#e7d6a3}
+.tech-browser{color:#405b8d;background:#e8f0fa;border-color:#c6d7ed}
+.tech-platform{color:#445f36;background:#eaf2e7;border-color:#cadfc2}
+.tech-unknown{color:#7b8796;font-size:11px}
+.swww-js-fallback-note{margin:10px 0 16px;background:#f5f7f9;border-left:3px solid #315e87;padding:9px 12px;color:#445970;font-size:12px}
+@media(max-width:760px){.swww-tech-control{width:100%;justify-content:space-between}.swww-tech-control select{max-width:190px}}
