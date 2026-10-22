@@ -61,6 +61,11 @@
       "parent": "/",
       "visible": true
     },
+    "/products/backup-migration/": {
+      "title": "バックアップ・移行 v1.0.0",
+      "parent": "/products/",
+      "visible": true
+    },
     "/products/development-status/": {
       "title": "開発中の4ツール：検証状況と公開前の条件",
       "parent": "/products/",

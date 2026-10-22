@@ -11,21 +11,21 @@
 </div><span aria-hidden="true" class="inside-watermark">ResoArc.</span></section>
 <section class="section inner-section"><div class="container">
 <p class="ds-date">情報更新日：<time datetime="2026-10-22">2026年10月22日</time></p>
-<div class="ds-boundary" role="note"><strong>このページの4ツールは、現在一般配布していません。</strong>
+<div class="ds-boundary" role="note"><strong>バックアップ・移行は正式配布中です。その他3ツールは現在一般配布していません。</strong>
 <p>ソース/ビルド・開発環境での検証結果の開示であり、公開サービスの提供開始や正式版のダウンロード開始を意味しません。結果は記載条件での試験であり、すべての環境での動作保証ではありません。</p>
 <p>すぐ利用できるソフトウェアは<a href="/products/kintone/">正式公開プラグイン一覧</a>、<a href="/products/web/">Webツール一覧</a>をご確認ください。</p></div>
 <div class="ds-overview">
-<a href="#backup"><strong>バックアップ・移行</strong><span>配布物・復元手順の審査済み / 公開判断待ち</span></a>
+<a href="#backup"><strong>バックアップ・移行</strong><span>v1.0.0配布中 / 導入・復元手順を公開</span></a>
 <a href="#ledger"><strong>Test Ledger</strong><span>証跡とExcel出力の検証 / Excel本体確認待ち</span></a>
 <a href="#captions"><strong>Live Japanese Captions</strong><span>実設定画面確認 / ストア申請準備中</span></a>
 <a href="#clock"><strong>Clock / Batch Flow</strong><span>模擬障害試験済み / 実環境試験待ち</span></a>
 </div>
 <section class="ds-feature" id="backup"><div class="ds-number">01 / LOCAL-FIRST BACKUP</div>
-<h2>バックアップ・移行</h2>
-<p class="ds-stage">開発・配布物の内部検証完了　／　一般提供は未開始</p>
+<h2>バックアップ・移行</h2><p class="ds-stage"><a href="/products/backup-migration/">正式版v1.0.0配布ファイル・ソース・SHA-256 ↗</a></p>
+<p class="ds-stage">v1.0.0正式配布中　／　カスタマイズJavaScript＋オフラインビューア</p>
 <p>kintoneの取得可能なレコードや添付ファイルを利用者自身のPCへ保存し、ローカルビューアで確認。別のアプリへの追記復元を支援する仕組みです。<strong>署名済みkintoneプラグインZIPではなく、カスタマイズJavaScriptとオフラインビューアの組み合わせ</strong>です。</p>
 <div class="ds-columns"><div><h3>確認したこと</h3><p>自動試験116件、隔離した実ブラウザーで合成501件の復元フロー、配布候補ZIPの展開・オフライン閲覧検証22項目を合格。別の隔離環境でも合成3,001件の中断・手動再開・再実行時の重複防止を検証しました。</p></div>
-<div><h3>正式提供までに</h3><p>配布形式・利用条件・導入/復元手順・既知の制限を整理し、公開版の最終判断を行います。現段階では一般向けダウンロードリンクは掲載しません。</p></div></div>
+<div><h3>正式提供までに</h3><p>配布形式・利用条件・導入/復元手順・既知の制限を整理し、公開版の最終判断を行います。正式版の配布物・ソース・SHA-256は製品ページに掲載しています。</p></div></div>
 <p class="ds-warning"><strong>注意点：</strong>未暗号化のバックアップは機密情報を含む平文です。暗号化時も索引の一部メタ情報が平文で残る場合があります。すべてのkintone設定・権限・監査履歴を完全再現する機能ではありません。</p></section>
 <p class="ds-date"><a href="/guide/backup-migration/">バックアップの導入・オフライン閲覧・追記復元手順（正式配布前のガイド） ↗</a></p>
 <section class="ds-feature" id="ledger"><div class="ds-number">02 / TEST &amp; EVIDENCE</div>

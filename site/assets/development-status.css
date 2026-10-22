@@ -20,3 +20,6 @@
 .ds-shot figcaption{font-size:.83rem;color:#536d80;line-height:1.6;margin-top:.55rem}
 .ds-outro{border-top:1px solid #c8d9e3;padding:1.8rem 0 2.5rem}.ds-outro h2{font-size:1.35rem}
 @media(max-width:690px){.ds-feature{padding:1.1rem}.ds-columns{grid-template-columns:1fr;gap:.4rem}.ds-boundary{padding:1rem}.ds-overview{grid-template-columns:1fr}}
+
+/* Backup checksum: mobile safe wrapping */
+.ds-feature code{overflow-wrap:anywhere;word-break:break-all}
