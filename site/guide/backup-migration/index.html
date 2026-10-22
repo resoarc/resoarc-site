@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="ResoArcのkintoneバックアップ・移行で、ローカル保存、オフライン閲覧、追記復元、障害時の再開を安全に行うための導入・復元ガイド。現在ソフトウェアは一般配布前です。" name="description"/><meta content="#18353b" name="theme-color"/><meta content="light" name="color-scheme"/><meta content="strict-origin-when-cross-origin" name="referrer"/><link href="https://resoarc.com/guide/backup-migration/" rel="canonical"/><meta content="website" property="og:type"/><meta content="ResoArc" property="og:site_name"/><meta content="バックアップ・移行の導入と復元手順 | ResoArc" property="og:title"/><meta content="ResoArcのkintoneバックアップ・移行で、ローカル保存、オフライン閲覧、追記復元、障害時の再開を安全に行うための導入・復元ガイド。現在ソフトウェアは一般配布前です。" property="og:description"/><meta content="ja_JP" property="og:locale"/><meta content="https://resoarc.com/assets/hero-architecture.jpg" property="og:image"/><link href="/assets/resoarc-icon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/site-20261015-v10.css?v=20261018-design-v1" rel="stylesheet"/><title>バックアップ・移行の導入と復元手順（正式配布前） | ResoArc</title><link href="/assets/recognition-20261017.css" rel="stylesheet"/><link href="/assets/development-status.css" rel="stylesheet"/><link rel="stylesheet" href="/assets/navigation.css"></head><body><a class="skip-link" href="#main">本文へ移動</a>
+<header class="site-header"><div class="container header-inner"><a aria-label="ResoArc OPEN TECHNOLOGY PROJECT ããããã¼ã¸" class="brand" href="/"><svg aria-hidden="true" height="42" viewbox="0 0 48 48" width="42"><rect fill="#18304C" height="48" width="48"></rect><path d="M12 36V12H25C32 12 36 16 36 22C36 28 32 31 25 31H12 M25 31L35 39" fill="none" stroke="#FFFFFF" stroke-linecap="square" stroke-linejoin="miter" stroke-width="2.6"></path></svg><span class="wordmark"><strong>ResoArc</strong><small>OPEN TECHNOLOGY PROJECT</small></span></a>
+<nav aria-label="主要メニュー" class="desktop-nav"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a class="rec-nav-link" href="/recognition/"><span>実績・協賛</span><small>Recognition</small></a><a href="/os/"><span>ResoArcOS</span><small>OS</small></a></nav>
+<a class="nav-action" href="/products/"><span>無料ツール</span><b aria-hidden="true">↗</b></a>
+<details class="mobile-menu"><summary><span>MENU</span><span aria-hidden="true" class="menu-bars"><i></i><i></i></span></summary><nav aria-label="モバイルメニュー" class="mobile-panel"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a href="/privacy/">プライバシー <span>↗</span></a><a href="/recognition/"><span>実績・協賛</span><small>Recognition</small></a><a href="/os/"><span>ResoArcOS</span><small>PC版</small></a></nav></details></div></header><main id="main">
+<section class="inside-hero"><div class="container inside-hero-inner">
+<div class="kicker"><span class="kicker-no">04</span><span class="kicker-en">BACKUP / RESTORE GUIDE</span><span class="kicker-jp">利用者向け復元ガイド</span></div>
+<h1>保存するだけでは、<br/>バックアップは完成しない。</h1>
+<p>実際に開けること、必要な範囲が入っていること、安全に再開できることを確認するための手順です。</p>
+</div><span aria-hidden="true" class="inside-watermark">ResoArc.</span></section>
+<section class="section inner-section"><div class="container">
+<p class="ds-date">資料更新：<time datetime="2026-10-22">2026年10月22日</time> ／ 対象：Backup &amp; Migration v1.0.0 配布審査候補</p>
+<div class="ds-boundary" role="note"><strong>この製品は現在、一般配布していません。</strong>
+<p>本ページは導入・復元手順とセキュリティ上の注意を先行公開するものです。インストール用ZIPや動作するWebサービスを提供するものではありません。</p>
+<p><a href="/products/development-status/#backup">開発状況と公開条件を確認する ↗</a></p></div>
+<nav aria-label="ガイド内目次" class="ds-overview">
+<a href="#start"><strong>1. 導入と範囲</strong><span>カスタマイズJS形式、権限、対象</span></a>
+<a href="#export"><strong>2. バックアップ取得</strong><span>件数、暗号化、分割、別媒体</span></a>
+<a href="#viewer"><strong>3. オフラインで確認</strong><span>ファイルと添付を閲覧</span></a>
+<a href="#restore"><strong>4. 追記復元</strong><span>フィールド対応と重複防止</span></a>
+<a href="#trouble"><strong>5. 障害時の対応</strong><span>二重書込みの防止と中断</span></a>
+<a href="#privacy"><strong>6. 個人情報と制限</strong><span>平文、メタ情報、非対象データ</span></a>
+</nav>
+<section class="ds-feature" id="start"><div class="ds-number">01 / INSTALLATION</div><h2>まず、隔離した検証アプリで導入する</h2>
+<p>正式配布を開始した後は、管理者が検証用kintoneアプリの「JavaScript / CSSカスタマイズ（PC用）」に <code>kintone/resoarc-archive-kintone.js</code> を登録する方式です。<strong>署名済みkintoneプラグインZIPをインストールする方式ではありません。</strong> アプリ設定更新前に利用者の権限と取得できるフィールドの範囲を確認します。</p>
+<p class="ds-warning">アプリの管理権限、必要なレコードの閲覧権限がない場合、取得できるデータは限定されます。業務本番アプリで初めて試さず、合成データのテスト用アプリで手順を確認してください。</p></section>
+<section class="ds-feature" id="export"><div class="ds-number">02 / EXPORT</div><h2>ローカルバックアップを取得する</h2>
+<p>レコード一覧で「このアプリをローカル保存」を選択し、対象レコード数、添付、取得できなかった設定の有無を確認します。保存形式は未暗号化 <code>.ra-kintone</code> または暗号化 <code>.ra-kintone.enc</code> です。</p>
+<p>分割出力時は全パートと最後の索引 <code>resoarc-collection.ra-collection.json</code> を必ずセットで保管します。索引がない、あるいはパートが欠けている場合はバックアップ成功と判定しません。</p>
+<p>保存後は元アプリID・取得日時・件数・各ファイルのSHA-256を控え、別媒体へコピーしてください。SHA-256は破損や改変の検出に役立ちますが、作成者を保証する電子署名ではありません。</p></section>
+<section class="ds-feature" id="viewer"><div class="ds-number">03 / OFFLINE VIEWER</div><h2>ネットワークから切り離して中身を確認する</h2>
+<p>配布セットの <code>viewer/index.html</code>、<code>viewer/viewer.js</code>、<code>viewer/viewer.css</code> を同じフォルダーに配置し、EdgeまたはChromeで開きます。元のバックアップは上書きせず、コピーを使って検査します。</p>
+<p>保存したファイルまたは分割索引と全パートを指定し、レコード件数・フィールド・添付の内容とハッシュを照合します。暗号化している場合は保存時のパスフレーズが必要です。<strong>パスフレーズを忘れるとResoArcでは復元できません。</strong></p></section>
+<section class="ds-feature" id="restore"><div class="ds-number">04 / CONTROLLED RESTORE</div><h2>別のアプリへ、まずプレビューしてから追記する</h2>
+<p>復元先に文字列1行・<strong>値の重複を禁止</strong>するフィールド <code>ResoArcRestoreKey</code> を作成し、アプリ設定を更新してください。復元前に元・先アプリのフィールドコード、型、必須条件、添付、件数を確認します。</p>
+<p>アーカイブを読み込んだら、対応表と除外項目を確認し、読み取り専用の復元プレビューを実施します。想定外なら中断。<strong>復元開始の明示確認後に追記のみ</strong>実行します。既存レコードの更新・削除には使いません。</p>
+<p class="ds-warning">通信応答が途中で途絶えた場合、成功していないと決めつけて連続実行しないでください。復元先のレコードと復元キーを確認し、同じアーカイブ・対応表でプレビューから再開してください。</p></section>
+<section class="ds-feature" id="trouble"><div class="ds-number">05 / FAILURE RECOVERY</div><h2>エラー時は安全側に停止する</h2>
+<div class="table-scroll"><table class="sample-table"><thead><tr><th>状況</th><th>行うこと</th></tr></thead><tbody>
+<tr><th scope="row">ファイルや索引が欠ける / SHAが一致しない</th><td>展開・書込みを中止し、安全なコピーから再取得する。</td></tr>
+<tr><th scope="row">暗号化パスフレーズを失った</th><td>復元を中止する。既存の別バックアップを確認する。</td></tr>
+<tr><th scope="row">フィールド制約が合わない</th><td>復元先の型・必須設定・対応表を見直してプレビューを再実行する。</td></tr>
+<tr><th scope="row">書込み後の応答が届かない</th><td>復元先の実データと重複防止キーを確認してから手動で再開する。</td></tr>
+<tr><th scope="row">権限・容量・API制限</th><td>処理を止め、管理者の許可を得たうえで原因を解消する。</td></tr>
+</tbody></table></div></section>
+<section class="ds-feature" id="privacy"><div class="ds-number">06 / PRIVACY &amp; LIMITS</div><h2>保存するデータには個人情報が含まれます</h2>
+<p>未暗号化バックアップには氏名・取引内容・添付などが平文で入ります。暗号化した場合も分割索引のアプリID、件数、ファイル名、ハッシュなどが平文で残る場合があります。社内規程に従い暗号化媒体、アクセス制限、保存期間・削除方法を決定してください。</p>
+<p>1ファイル25MiB、1バックアップ20,000レコード、ZIPエントリ50,000などの上限があります。分割時も1パート25MiB、最大256パート・総256MiBです。すべてのコメント、監査履歴、ユーザー、スペース、権限、カスタマイズを完全復元できるわけではありません。取得中に変更されたレコードの厳密な同一時点再現も保証しません。</p>
+<p>バックアップファイルをResoArcのサーバーへ自動保存する設計ではありませんが、バックアップ・復元の過程では利用者が管理するkintoneとの通信が発生します。</p></section>
+<section class="ds-feature" id="qa"><div class="ds-number">VERIFIED SCOPE</div><h2>検証した範囲と、まだ提供していないもの</h2>
+<p>単体・異常系116項目、隔離Edgeブラウザーで合成501件の動作、固定配布ZIPのオフライン検証22項目をPASS。隔離した実kintone QA環境では合成3,001件の中断・手動再開・再実行時の追加0を確認しました。</p>
+<p>これは実施した条件での検証結果であり、すべてのテナント・全データ形式の完全性を保証するものではありません。正式公開の判断とダウンロードの提供は別途行います。</p></section>
+<div class="ds-outro"><h2>公開を待つ間も、復元計画は準備できます。</h2>
+<p>対象データの範囲、適切な保存先、復元先のフィールド対応、検証できる環境を先に決めておくと、実際の障害時の混乱を減らせます。</p><p><a href="/products/development-status/">開発中4ツールの検証状況へ戻る ↗</a></p></div>
+</div></section></main><footer class="footer"><div class="container footer-top"><div class="footer-brand"><svg aria-hidden="true" height="42" viewbox="0 0 48 48" width="42"><rect fill="#18304C" height="48" width="48"></rect><path d="M12 36V12H25C32 12 36 16 36 22C36 28 32 31 25 31H12 M25 31L35 39" fill="none" stroke="#FFFFFF" stroke-linecap="square" stroke-linejoin="miter" stroke-width="2.6"></path></svg><div><strong>ResoArc</strong><small>OPEN TECHNOLOGY PROJECT</small><p>自由で、開かれた技術を。</p></div></div><nav aria-label="フッターのサイト案内" class="footer-nav"><div class="footer-group"><h3>EXPLORE</h3><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/releases/">更新履歴</a></div><div class="footer-group"><h3>PRODUCTS</h3><a href="/products/">無料ツール</a><a href="/os/">ResoArcOS</a><a href="/guide/">利用ガイド</a></div><div class="footer-group"><h3>TRUST &amp; QUALITY</h3><a href="/principles/">品質方針</a><a href="/trust/">信頼性と説明責任</a><a href="/recognition/">実績・協賛</a><a href="/license/">ライセンス</a></div><div class="footer-group"><h3>INFORMATION</h3><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/sitemap.xml">サイトマップ</a><a href="/source/">公開ソース・Codeberg <span aria-hidden="true">↗</span></a></div></nav></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer>
+<script defer src="/assets/navigation.js"></script></body></html>

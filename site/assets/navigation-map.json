@@ -16,6 +16,11 @@
       "parent": "/education/",
       "visible": true
     },
+    "/guide/backup-migration/": {
+      "title": "バックアップ・移行の導入と復元手順（正式配布前）",
+      "parent": "/guide/",
+      "visible": true
+    },
     "/guide/": {
       "title": "利用ガイド",
       "parent": "/",
