@@ -1,0 +1,43 @@
+import {chromium} from 'playwright-core';
+import JSZip from 'jszip';
+import ExcelJS from 'exceljs';
+import {readFile} from 'node:fs/promises';
+import {join} from 'node:path';
+import assert from 'node:assert/strict';
+const dir=join(process.cwd(),'tests','qa-artifacts');
+const source=join(dir,'chart-real.xlsx');
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',args:['--no-first-run','--disable-extensions']});
+try{
+ const page=await browser.newPage({viewport:{width:1380,height:900},acceptDownloads:true});
+ const errors=[],dialogs=[];
+ page.on('dialog',d=>{dialogs.push(d.message());d.accept();});
+ page.on('pageerror',e=>errors.push(e.message));
+ page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+ await page.goto(process.env.RESOARC_BASE_URL||'http://127.0.0.1:5178/',{waitUntil:'networkidle'});
+ await page.locator('input[accept=".xlsx,.csv"]').setInputFiles(source);
+ await page.getByRole('tab',{name:'ファイル'}).click();
+ const safe=page.getByRole('button',{name:'安全保存'});
+ await safe.waitFor({state:'visible',timeout:11000});
+ await page.waitForFunction(()=>{const btn=Array.from(document.querySelectorAll('button')).find(x=>x.textContent.includes('安全保存'));return btn&&!btn.disabled;},null,{timeout:11000});
+ await page.getByRole('textbox',{name:'名前ボックス'}).fill('B2');
+ await page.getByRole('textbox',{name:'名前ボックス'}).press('Enter');
+ const prev=await page.getByRole('textbox',{name:'数式バー'}).inputValue();
+ assert.equal(prev.trim(),'3');
+ await page.getByRole('textbox',{name:'数式バー'}).fill('11');
+ await page.getByRole('textbox',{name:'数式バー'}).press('Enter');
+ const dlP=page.waitForEvent('download',{timeout:12000});
+ await safe.click();
+ const dl=await dlP;
+ const dest=join(dir,'chart-real-preserved.xlsx');await dl.saveAs(dest);
+ const zipBefore=await JSZip.loadAsync(await readFile(source));
+ const zipAfter=await JSZip.loadAsync(await readFile(dest));
+ assert.deepEqual(Object.keys(zipBefore.files).filter(p=>!zipBefore.files[p].dir).sort(),Object.keys(zipAfter.files).filter(p=>!zipAfter.files[p].dir).sort());
+ const charts=Object.keys(zipBefore.files).filter(p=>/^xl\/charts\//.test(p)&&!zipBefore.files[p].dir);
+ assert.ok(charts.length>=1,'real chart must exist');
+ for(const path of Object.keys(zipBefore.files).filter(p=>!zipBefore.files[p].dir&&/^(xl\/charts\/|xl\/drawings\/|xl\/worksheets\/_rels\/|xl\/styles\.xml$)/.test(p)))
+ assert.deepEqual(await zipBefore.file(path).async('uint8array'),await zipAfter.file(path).async('uint8array'),path);
+ const sheetXml=await zipAfter.file('xl/worksheets/sheet1.xml').async('string');
+ assert.match(sheetXml,/<c[^>]*r="B2"[^>]*>\s*<v>11<\/v>/);
+ assert.deepEqual(errors,[]);
+ console.log('REAL_CHART_PASS',JSON.stringify({filename:dl.suggestedFilename(),chartParts:charts,dialogs:dialogs.length,result:11,errors}));
+}catch(e){console.log('REAL_CHART_FAIL',e.stack);process.exitCode=1}finally{await browser.close();}
