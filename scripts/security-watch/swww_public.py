@@ -120,7 +120,7 @@ def public_advisory(row):
         "id":str(row.get("id",""))[:90],
         "cves":list(row.get("cves") or [])[:15],
         "title":str(row.get("title",""))[:300],
-        "summary":str(row.get("summary",""))[:1200],
+        "summary":str(row.get("summary",""))[:400],
         "source":str(row.get("source",""))[:64],
         "sources":list(row.get("source_refs") or [row.get("source","")])[:20],
         "url":safe_url(row.get("url")),
@@ -139,7 +139,7 @@ def public_catalog(report):
     rows=[public_advisory(x) for x in report.get("items",[])]
     return {
        "schema_version":"1.0",
-       "license":"Source-advisory links retain original authorship. ResoArc compilation only.",
+       "license":"Original advisory content and licensing remain with their publishers; no blanket redistribution license is claimed.",
        "service":"ResoArc SWWW",
        "report_date":report.get("date"),
        "generated_at":report.get("generated_at"),
@@ -178,7 +178,7 @@ def xml_feed(report,atom=False,limit=100):
             ET.SubElement(ent,elt("title")).text=item["title"][:240]
             ET.SubElement(ent,elt("updated")).text=item["published_date"]+"T00:00:00+09:00"
             ET.SubElement(ent,elt("link"),{"href":safe_url(item["url"])})
-            ET.SubElement(ent,elt("summary")).text=item["summary"][:650]
+            ET.SubElement(ent,elt("summary")).text=item["summary"][:400]
             for tag in item["technologies"]:
                 ET.SubElement(ent,elt("category"),{"term":tag["id"],"label":tag["label"]})
     else:
@@ -195,9 +195,38 @@ def xml_feed(report,atom=False,limit=100):
             ET.SubElement(ent,"link").text=safe_url(item["url"])
             ET.SubElement(ent,"guid",{"isPermaLink":"false"}).text=item["id"]
             ET.SubElement(ent,"pubDate").text=rfc2822(item["published_date"]+"T00:00:00+09:00")
-            ET.SubElement(ent,"description").text=item["summary"][:650]
+            ET.SubElement(ent,"description").text=item["summary"][:400]
             for tag in item["technologies"]:
                 ET.SubElement(ent,"category").text=tag["label"]
+    return ET.tostring(root,encoding="utf-8",xml_declaration=True)
+
+def xml_catalog(report):
+    """Machine-readable public-only XML, separate from RSS/Atom."""
+    cat=public_catalog(report)
+    ns="https://resoarc.com/ns/swww/1"
+    ET.register_namespace("swww",ns)
+    element=lambda name: "{"+ns+"}"+name
+    root=ET.Element(element("catalog"),{"version":"1.0"})
+    for key in ("report_date","generated_at","quality","source_count","observed_total",
+                "available_records","collection_limit_notice","license"):
+        ET.SubElement(root,element(key)).text=str(cat[key])
+    items=ET.SubElement(root,element("advisories"))
+    for row in cat["advisories"]:
+        item=ET.SubElement(items,element("advisory"),{"id":row["id"]})
+        for key in ("title","summary","source","url","published_date","severity",
+                    "known_exploited","resoarc_impact","resoarc_response","response_difficulty"):
+            ET.SubElement(item,element(key)).text=str(row[key]).lower() if isinstance(row[key],bool) else str(row[key])
+        if row["epss"] is not None:
+            ET.SubElement(item,element("epss")).text=str(row["epss"])
+        sources=ET.SubElement(item,element("sources"))
+        for source in row["sources"]:
+            ET.SubElement(sources,element("source")).text=str(source)
+        cves=ET.SubElement(item,element("cves"))
+        for cve in row["cves"]:
+            ET.SubElement(cves,element("cve")).text=str(cve)
+        tags=ET.SubElement(item,element("technologies"))
+        for t in row["technologies"]:
+            ET.SubElement(tags,element("technology"),{"id":t["id"],"group":t["group"]}).text=t["label"]
     return ET.tostring(root,encoding="utf-8",xml_declaration=True)
 
 def export_feeds(report,site_root):
@@ -208,6 +237,7 @@ def export_feeds(report,site_root):
     (root/"tags.json").write_text(json.dumps({"report_date":report["date"],"technologies":report["technology_summary"],
                 "caveat":report["technology_semantics"]},ensure_ascii=False,sort_keys=True,indent=2)+"\n",encoding="utf-8")
     (root/"rss.xml").write_bytes(xml_feed(report,False))
+    (root/"advisories.xml").write_bytes(xml_catalog(report))
     (root/"atom.xml").write_bytes(xml_feed(report,True))
     (root/"feed.json").write_text(json.dumps({
       "version":"https://jsonfeed.org/version/1.1","title":"ResoArc SWWW",
@@ -216,7 +246,7 @@ def export_feeds(report,site_root):
       "description":"公開の脆弱性情報と技術タグ。ResoArc製品への影響を示すものではありません。",
       "items":[{
          "id":x["id"],"url":x["url"],"title":x["title"],
-         "summary":x["summary"][:650],
+         "summary":x["summary"][:400],
          "date_published":x["published_date"]+"T00:00:00+09:00",
          "tags":[t["label"] for t in x["technologies"]]
       } for x in cat["advisories"] if x["published_date"]==report["date"]][:100]

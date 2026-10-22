@@ -8,3 +8,8 @@
 
 /assets/tools/*
   Cache-Control: public, max-age=3600
+
+/api/v1/swww/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, stale-while-revalidate=60
+  X-Content-Type-Options: nosniff

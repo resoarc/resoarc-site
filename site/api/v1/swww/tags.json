@@ -1,0 +1,114 @@
+{
+  "caveat": "タグは公開情報に登場する製品・技術の分類で、ResoArcでの使用・影響の確認ではありません。",
+  "report_date": "2026-10-22",
+  "technologies": [
+    {
+      "count": 72,
+      "group": "cms",
+      "id": "drupal",
+      "label": "Drupal"
+    },
+    {
+      "count": 21,
+      "group": "runtime",
+      "id": "python",
+      "label": "Python"
+    },
+    {
+      "count": 12,
+      "group": "devops",
+      "id": "gitlab",
+      "label": "GitLab"
+    },
+    {
+      "count": 6,
+      "group": "infra",
+      "id": "apache",
+      "label": "Apache"
+    },
+    {
+      "count": 5,
+      "group": "runtime",
+      "id": "javascript",
+      "label": "JavaScript"
+    },
+    {
+      "count": 4,
+      "group": "infra",
+      "id": "kubernetes",
+      "label": "Kubernetes"
+    },
+    {
+      "count": 4,
+      "group": "runtime",
+      "id": "php",
+      "label": "PHP"
+    },
+    {
+      "count": 3,
+      "group": "runtime",
+      "id": "java",
+      "label": "Java"
+    },
+    {
+      "count": 3,
+      "group": "infra",
+      "id": "nginx",
+      "label": "NGINX"
+    },
+    {
+      "count": 3,
+      "group": "os",
+      "id": "windows",
+      "label": "Windows"
+    },
+    {
+      "count": 1,
+      "group": "os",
+      "id": "android",
+      "label": "Android"
+    },
+    {
+      "count": 1,
+      "group": "infra",
+      "id": "docker",
+      "label": "Docker"
+    },
+    {
+      "count": 1,
+      "group": "framework",
+      "id": "laravel",
+      "label": "Laravel"
+    },
+    {
+      "count": 1,
+      "group": "os",
+      "id": "linux",
+      "label": "Linux"
+    },
+    {
+      "count": 1,
+      "group": "runtime",
+      "id": "nodejs",
+      "label": "Node.js"
+    },
+    {
+      "count": 1,
+      "group": "vendor",
+      "id": "oracle",
+      "label": "Oracle"
+    },
+    {
+      "count": 1,
+      "group": "framework",
+      "id": "react",
+      "label": "React"
+    },
+    {
+      "count": 1,
+      "group": "database",
+      "id": "sqlserver",
+      "label": "SQL Server"
+    }
+  ]
+}

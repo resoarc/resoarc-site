@@ -1,6 +1,11 @@
 {
   "version": 2,
   "pages": {
+    "/api/v1/swww/": {
+      "title": "SWWW 公開API・XML/RSSフィード",
+      "parent": "/",
+      "visible": false
+    },
     "/education/circuit/": {
       "title": "電子回路",
       "parent": "/education/",
