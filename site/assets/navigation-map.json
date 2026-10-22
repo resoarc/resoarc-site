@@ -166,6 +166,11 @@
       "parent": "/",
       "visible": true
     },
+    "/security/advisories/php-20261021/": {
+      "title": "PHPセキュリティ更新対応のお知らせ（2026年10月22日）",
+      "parent": "/security/",
+      "visible": true
+    },
     "/security/": {
       "title": "セキュリティ情報",
       "parent": "/",
