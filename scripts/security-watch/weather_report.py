@@ -19,6 +19,7 @@ import sys
 import tempfile
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
+from swww_assessments import get_review, public_projection, private_register, private_html, RESPONSES
 
 JST = ZoneInfo('Asia/Tokyo')
 UTC = dt.timezone.utc
@@ -100,14 +101,15 @@ def advisory_key(row):
 
 def normalize_item(row, assessments):
     key = advisory_key(row)
-    review = assessments.get(key, {})
-    if not isinstance(review, dict):
-        review = {}
+    review = public_projection(get_review(assessments, key, row.get('id','')))
     difficulty = review.get('difficulty', 'unknown')
     if difficulty not in DIFFICULTY:
         difficulty = 'unknown'
     severity = str(row.get('severity') or 'UNASSESSED').upper()
     exploited = (row.get('source') == 'CISA KEV' and row.get('status') == 'known-exploited-in-wild')
+    response_status = review.get('response_status','UNREVIEWED')
+    if response_status not in RESPONSES:
+        response_status = 'UNREVIEWED'
     known_impact = review.get('resoarc_impact', 'NOT_CONFIRMED')
     if known_impact not in ('NOT_CONFIRMED', 'NOT_AFFECTED', 'AFFECTED'):
         known_impact = 'NOT_CONFIRMED'
@@ -121,6 +123,8 @@ def normalize_item(row, assessments):
         'severity': severity if severity in ('KEV', 'CRITICAL', 'HIGH', 'MODERATE', 'LOW', 'UNASSESSED') else 'UNASSESSED',
         'url': valid_url(row.get('url')), 'exploited_in_wild': exploited,
         'resoarc_impact': known_impact, 'difficulty': difficulty,
+        'response_status': response_status,
+        'response_status_label': RESPONSES[response_status],
         'difficulty_label': DIFFICULTY[difficulty],
         'confirmed_victim_count': incident,
         'impact_level': clean(review.get('impact_level') or ('重大（一般的な潜在リスク）' if severity in ('KEV', 'CRITICAL') else '高（一般的な潜在リスク）' if severity == 'HIGH' else '要調査'), 50),
@@ -197,7 +201,15 @@ def build_report(queue, triage, assessments, now=None, refresh_failed=False, ext
             old['resoarc_impact'] = item['resoarc_impact']
             old['difficulty'] = item['difficulty']
             old['difficulty_label'] = item['difficulty_label']
+            old['response_status'] = item['response_status']
+            old['response_status_label'] = item['response_status_label']
             old['confirmed_victim_count'] = item['confirmed_victim_count']
+        if old['response_status'] == 'UNREVIEWED' and item['response_status'] != 'UNREVIEWED':
+            old['response_status'] = item['response_status']
+            old['response_status_label'] = item['response_status_label']
+        if old['difficulty'] == 'unknown' and item['difficulty'] != 'unknown':
+            old['difficulty'] = item['difficulty']
+            old['difficulty_label'] = item['difficulty_label']
         if len(item['summary']) > len(old['summary']): old['summary'] = item['summary']
     rows = list(groups.values())
     scores = extra.get('epss', {}) if extra and isinstance(extra.get('epss'), dict) else {}
@@ -238,6 +250,12 @@ def build_report(queue, triage, assessments, now=None, refresh_failed=False, ext
             elif wx['code'] != 'unknown':
                 wx['subtitle'] += '（一部欠測の暫定予報）'
     difficulty_counts = {k: sum(x['difficulty'] == k for x in today_rows) for k in DIFFICULTY}
+    response_counts = {k: sum(x['response_status']==k for x in today_rows) for k in RESPONSES}
+    impact_counts = {
+        'affected':sum(x['resoarc_impact']=='AFFECTED' for x in today_rows),
+        'not_affected':sum(x['resoarc_impact']=='NOT_AFFECTED' for x in today_rows),
+        'unreviewed':sum(x['resoarc_impact']=='NOT_CONFIRMED' for x in today_rows)
+    }
     by_day = []
     for days_ago in range(6, -1, -1):
         day = today - dt.timedelta(days=days_ago)
@@ -257,7 +275,11 @@ def build_report(queue, triage, assessments, now=None, refresh_failed=False, ext
         'source_errors_count': len(source_errors) + len(extra.get('errors', {}) if extra else {}),
         'source_count': len(SOURCES) + (len(EXTRA_SOURCES) if extra else 0),
         'coverage_note': 'CISA KEV・GitHub・PHP・OSV・NVD・JPCERT/CC・JVN・CISA注意喚起・Ubuntu USN・Debian DSA・CERT-EU・CIS・FIRST EPSSを横断観測。件数は収集範囲内での参考値で、世界全CVEの網羅ではありません。',
-        'today': {'weather': forecast, 'new': len(today_rows),
+         'resoarc_review': {'scope':'public_approved_only', 'impact':impact_counts,
+                            'response':response_counts, 'total':len(today_rows),
+                            'reviewed':len(today_rows)-impact_counts['unreviewed'],
+                            'note':'ResoArcへの影響と対応状況は根拠・審査・公開承認を経た件数のみ。未審査を対象外や修正済みとみなしません。'},
+         'today': {'weather': forecast, 'new': len(today_rows),
                   'kev': sum(x['kev_date']==today.isoformat() for x in today_rows),
                   'critical': sum(x['severity'] == 'CRITICAL' for x in today_rows),
                   'high': sum(x['severity'] == 'HIGH' for x in today_rows),
@@ -268,9 +290,7 @@ def build_report(queue, triage, assessments, now=None, refresh_failed=False, ext
                   'resoarc_impact_unreviewed': sum(x['resoarc_impact'] == 'NOT_CONFIRMED' for x in today_rows)},
         'yesterday_summary': {'new': len(yesterday_rows), 'kev': sum(x['kev_date']==yesterday.isoformat() for x in yesterday_rows),
                               'weather': yesterday_forecast},
-        'observed': {'total': len(rows), 'kev_14day': all_kev,
-                     'priority_p1_outstanding': int(triage.get('counts', {}).get('P1', 0) or 0),
-                     'priority_p2_outstanding': int(triage.get('counts', {}).get('P2', 0) or 0)},
+        'observed': {'total': len(rows), 'kev_14day': all_kev},
         'bulletins': [x for x in (extra.get('bulletins', []) if extra else []) if isinstance(x,dict)][:100],
         'bulletin_count': len(extra.get('bulletins', []) if extra else []),
         'epss_enriched': sum(x['epss'] is not None for x in rows),
@@ -321,13 +341,24 @@ def main(argv=None):
         now = dt.datetime.combine(given_date, dt.time(9, 10), tzinfo=JST)
     else:
         now = dt.datetime.now(JST)
+    triage = read_json(args.out / 'triage-state.json')
+    assessments = read_json(args.out / 'weather-assessments.json')
     report = build_report(read_json(args.out / 'review-queue.json'),
-                          read_json(args.out / 'triage-state.json'),
-                          read_json(args.out / 'weather-assessments.json'),
+                          triage, assessments,
                           now=now, refresh_failed=refresh_failed,
                           extra=read_json(args.out / 'security-weather-extras.json') or None)
     template = args.template.read_text(encoding='utf-8')
     page = render_page(report, template)
+    # Private register lives OUTSIDE all publicly staged site artifacts.
+    private_dir = args.out / 'security-weather-private'
+    private_dir.mkdir(mode=0o700,parents=True,exist_ok=True)
+    os.chmod(private_dir,0o700)
+    priv = private_register(report, assessments, triage,
+                            read_json(args.out / 'security-weather-operations.json',[]))
+    atomic_write(private_dir / 'assessment-register.json',to_json(priv))
+    atomic_write(private_dir / 'index.html',private_html(priv))
+    os.chmod(private_dir / 'assessment-register.json',0o600)
+    os.chmod(private_dir / 'index.html',0o600)
     target = args.out / 'security-weather'
     day = report['date']
     atomic_write(target / 'index.html', page)

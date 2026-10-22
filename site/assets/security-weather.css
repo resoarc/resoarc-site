@@ -283,3 +283,16 @@
 [data-weather-layout="gap-12"]{margin-top:12px}
 [data-weather-layout="secondary-heading"]{font-size:22px;margin-top:15px}
 [data-weather-layout="gap-9"]{margin-top:9px}
+
+/* SWWW ResoArc-specific publishable impact / response summary */
+.swww-assessment-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.swww-assessment-card{background:#f5f7f9;border:1px solid #d5dee8;padding:21px 19px;min-height:125px;display:flex;flex-direction:column;gap:7px}
+.swww-assessment-card .swww-mini{font-size:12px;color:#315e87;font-weight:750}
+.swww-assessment-card strong{font:800 31px/1.2 "Reso Zen",system-ui,sans-serif;color:#18304c}
+.swww-assessment-card small{color:#506579;font-size:11px}
+.swww-assessment-note{margin-top:14px;padding:16px 19px;background:#fff;border-left:4px solid #315e87;border-top:1px solid #d5dee8;border-right:1px solid #d5dee8;border-bottom:1px solid #d5dee8;font-size:13px}
+.swww-assessment-note strong{color:#18304c}
+.swww-assessment-note p{color:#506579;font-size:12px;margin:7px 0 0;line-height:1.75}
+@media(max-width:900px){.swww-assessment-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.swww-assessment-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.swww-assessment-card{padding:13px 12px;min-height:112px}.swww-assessment-card strong{font-size:25px}}
