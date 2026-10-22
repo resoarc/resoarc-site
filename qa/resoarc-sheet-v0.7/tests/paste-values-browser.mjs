@@ -1,0 +1,36 @@
+import {chromium} from 'playwright-core';
+import ExcelJS from 'exceljs';
+import {join} from 'node:path';
+import {mkdir} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const root=join(process.cwd(),'tests','qa-artifacts');await mkdir(root,{recursive:true});
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',args:['--no-first-run','--disable-extensions']});
+try {
+ const page=await browser.newPage({viewport:{width:1366,height:820},acceptDownloads:true});page.setDefaultTimeout(6500);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+ const url=process.env.RESOARC_BASE_URL||'http://127.0.0.1:5184/';
+ await page.goto(url,{waitUntil:'networkidle'});
+ const address=page.getByRole('textbox',{name:'名前ボックス'});
+ const field=page.getByRole('textbox',{name:'数式バー'});
+ await address.fill('B2');await address.press('Enter');
+ await field.fill('999');await field.press('Enter');
+ await page.getByRole('button',{name:'太字'}).click();
+ await address.fill('A1');await address.press('Enter');
+ await page.getByRole('button',{name:'値のみ貼り付け'}).click();
+ const dialog=page.getByRole('dialog',{name:/形式を選択して貼り付け/});
+ await dialog.getByRole('textbox',{name:'貼り付ける値'}).fill('品名\t数量\n鉛筆\t12\nノート\t0007');
+ await dialog.getByRole('button',{name:'値を貼り付け'}).click();
+ await dialog.waitFor({state:'hidden'});
+ await page.getByRole('tab',{name:'ファイル'}).click();
+ const promise=page.waitForEvent('download',{timeout:16000});
+ await page.getByRole('button',{name:'保存',exact:true}).click();
+ const d=await promise, out=join(root,'paste-values-v07.xlsx');await d.saveAs(out);
+ const w=new ExcelJS.Workbook();await w.xlsx.readFile(out);
+ const s=w.worksheets[0];
+ const cells={A1:s.getCell('A1').value,B1:s.getCell('B1').value,A2:s.getCell('A2').value,B2:s.getCell('B2').value,A3:s.getCell('A3').value,B3:s.getCell('B3').value};
+ console.log('CELLS',JSON.stringify(cells));console.log('BOLD',s.getCell('B2').font?.bold);console.log('ERRORS',errors);
+ assert.deepEqual(cells,{A1:'品名',B1:'数量',A2:'鉛筆',B2:12,A3:'ノート',B3:'0007'});
+ assert.equal(s.getCell('B2').font?.bold,true);
+ assert.deepEqual(errors,[]);
+ console.log('PASTE_VALUES_E2E_PASS');
+}catch(e){console.log('PASTE_VALUES_E2E_FAIL',e.stack);process.exitCode=1}finally{await browser.close()}

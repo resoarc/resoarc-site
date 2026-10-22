@@ -1,0 +1,34 @@
+import {chromium} from 'playwright-core';
+import ExcelJS from 'exceljs';
+import {mkdir} from 'node:fs/promises';
+import {join} from 'node:path';
+import assert from 'node:assert/strict';
+const dir=join(process.cwd(),'tests','qa-artifacts');await mkdir(dir,{recursive:true});
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',args:['--no-first-run','--disable-extensions']});
+try{
+ const page=await browser.newPage({viewport:{width:1366,height:820},acceptDownloads:true});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(process.env.RESOARC_BASE_URL||'http://127.0.0.1:5184/',{waitUntil:'networkidle'});
+ const box=page.getByRole('textbox',{name:'名前ボックス'});
+ await box.fill('B2');await box.press('Enter');
+ await page.getByRole('button',{name:'列幅',exact:true}).click();
+ let d=page.getByRole('dialog',{name:'列幅の設定'});
+ await d.getByRole('spinbutton',{name:'列幅（ピクセル）'}).fill('230');
+ await d.getByRole('button',{name:'適用'}).click();await d.waitFor({state:'hidden'});
+ await page.getByRole('button',{name:'行高',exact:true}).click();
+ d=page.getByRole('dialog',{name:'行の高さの設定'});
+ await d.getByRole('spinbutton',{name:'行の高さ（ピクセル）'}).fill('55');
+ await d.getByRole('button',{name:'適用'}).click();await d.waitFor({state:'hidden'});
+ await page.getByRole('tab',{name:'ファイル'}).click();
+ const promise=page.waitForEvent('download',{timeout:16000});
+ await page.getByRole('button',{name:'保存',exact:true}).click();
+ const download=await promise;
+ const path=join(dir,'cell-size-v07.xlsx');await download.saveAs(path);
+ const workbook=new ExcelJS.Workbook();await workbook.xlsx.readFile(path);
+ const sheet=workbook.worksheets[0];
+ console.log('COL2',sheet.getColumn(2).width,'ROW2',sheet.getRow(2).height,'ERRORS',errors);
+ assert.ok(sheet.getColumn(2).width>15,'width should be widened');
+ assert.ok(sheet.getRow(2).height>20,'height should be increased');
+ assert.deepEqual(errors,[]);
+ console.log('SIZE_E2E_PASS');
+}catch(e){console.log('SIZE_E2E_FAIL',e.stack);process.exitCode=1;}finally{await browser.close();}

@@ -1,0 +1,31 @@
+import {chromium} from 'playwright-core';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',args:['--no-first-run','--disable-extensions']});
+try{
+ const page=await browser.newPage({viewport:{width:1366,height:820}});
+ const errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.goto((process.env.RESOARC_BASE_URL||'http://127.0.0.1:5180/'),{waitUntil:'networkidle'});
+ await page.getByRole('textbox',{name:'名前ボックス'}).fill('A1');
+ await page.getByRole('textbox',{name:'名前ボックス'}).press('Enter');
+ await page.getByRole('textbox',{name:'数式バー'}).fill('456');
+ await page.getByRole('textbox',{name:'数式バー'}).press('Enter');
+ assert.equal(await page.getByRole('textbox',{name:'数式バー'}).inputValue(),'456');
+ await page.mouse.click(88,271);
+ await page.mouse.click(88,271,{button:'right'});
+ const menu=page.locator('.fortune-context-menu');
+ await menu.waitFor({state:'visible',timeout:7000});
+ const clear=menu.locator('[data-resoarc-label="内容をクリア"]');
+ assert.equal(await clear.count(),1);
+ const pseudo=await clear.evaluate(el=>getComputedStyle(el,'::after').content);
+ assert.ok(pseudo.includes('内容をクリア'));
+ assert.equal(await menu.locator('[data-resoarc-label]').count(),13);
+ await clear.click();
+ await page.waitForTimeout(300);
+ await page.getByRole('textbox',{name:'名前ボックス'}).fill('A1');
+ await page.getByRole('textbox',{name:'名前ボックス'}).press('Enter');
+ const after=await page.getByRole('textbox',{name:'数式バー'}).inputValue();
+ assert.equal(after,'');
+ assert.deepEqual(errors,[]);
+ console.log('JAPANESE_CONTEXT_PASS',JSON.stringify({translatedItems:13,pseudo,afterClear:after,errors}));
+}catch(e){console.log('JAPANESE_CONTEXT_FAIL',e.stack);process.exitCode=1}finally{await browser.close()}
