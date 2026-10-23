@@ -125,15 +125,15 @@ def page_shell(page_i,inner,data):
 <header class="masthead"><span class="sigil" aria-hidden="true">✶</span>
 <div><h1>脆弱性朝刊</h1><small>The Security Morning Paper</small></div></header>
 <div class="double-rule"></div>
-<div class="folio"><span>{e(date)}　｜　第001号　｜　{SECTIONS[page_i][1]}</span><span>品質検証済み・取得 {e(dt.datetime.fromisoformat(meta["generated_at"]).strftime("%H:%M"))} JST / {e(meta["source_count"])}情報源</span></div>
+<div class="folio"><span>{e(date)}　｜　第{max(1,(dt.date.fromisoformat(meta["date"])-dt.date(2026,10,23)).days+1):03d}号　｜　{SECTIONS[page_i][1]}</span><span>品質検証済み・取得 {e(dt.datetime.fromisoformat(meta["generated_at"]).strftime("%H:%M"))} JST / {e(meta["source_count"])}情報源</span></div>
 {nav(page_i)}'''
     next_i=(page_i+1)%4
     next_url=BASE+("" if next_i==0 else SECTIONS[next_i][0].replace("index.html",""))
     footer=f'''<footer class="edition-footer">
 <div><p>発行：ResoArc SWWW 編集部　｜　{e(meta["date"])} 朝刊</p>
 <p>公開情報をわかりやすく整理した編集版。影響の確定・被害数・修正の保証を意味しません。</p></div>
-<div class="page-turn"><a href="{BASE}all/">4面をまとめて読む・印刷</a><a class="next" href="{e(next_url)}">次の紙面 →</a></div></footer>
-<div class="footnote">【集計について】{COLLECTION_TEXT} 各社の公式文書が優先されます。収集品質がPARTIALの後続データは正式な朝刊へ組み込んでいません。企業への攻撃件数を数えたものではありません。</div>
+<div class="page-turn"><a href="{BASE}archive/">過去号</a><a href="{BASE}all/">4面をまとめて読む・印刷</a><a class="next" href="{e(next_url)}">次の紙面 →</a></div></footer>
+<div class="footnote">【集計について】{COLLECTION_TEXT} 各社の公式文書が優先されます。品質に合格していないPARTIALデータは、紙面に組み込んでいません。企業への攻撃件数を数えたものではありません。</div>
 </section>'''
     return header+inner+footer
 
@@ -278,7 +278,7 @@ def action_page(rows,meta):
 
 def document(page_i,body,meta):
     title=SECTIONS[page_i][2]+" | SWWW 脆弱性朝刊 | "+format_date(meta["date"])
-    description="SWWWが公表情報を整理した日本語の脆弱性新聞。31件の情報を要約、注目順位、製品別動向、取るべき対応を4面で紹介。"
+    description=f"SWWWが公表情報を整理した日本語の脆弱性新聞。{meta['published_date_count']}件の情報を要約、注目順位、製品別動向、取るべき対応を4面で紹介。"
     return f'''<!doctype html><!--
 SPDX-FileCopyrightText: 2026 ResoArc contributors
 SPDX-License-Identifier: MIT

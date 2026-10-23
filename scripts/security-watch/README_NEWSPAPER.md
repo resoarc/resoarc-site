@@ -41,3 +41,12 @@ SPDX-License-Identifier: MIT
 - Cloudflare Preview `https://swww-newspaper-preview.resoarc.pages.dev/` にのみ配信
 - PROD `resoarc.com` 本番公開は中央GO後
 - 中央公開停止ガードは維持
+
+## 毎日発行の技術フロー（10月23日追加）
+- 09:10 JST: SWWW収集 -> 09:30 PostgreSQL品質検証済みデータ保存
+- 10:05 JST: PCタスク ResoArc-SWWW-Newspaper-Daily が publish_newspaper_daily.py を実行
+- VPSのread-only APIから export_newspaper_public.py で当日品質OK・公開項目のみを抽出し、12情報源等の検査を通す
+- newspaper/edition.json と過去号 archive/YYYY-MM-DD/ を更新し、build_navigation、update_manifest、verify_siteを実行
+- 差分が新聞関連のみに限定され、Codeberg/VPS正本一致と公開ページ比較に合格したときのみGit正本を更新してCloudflareへデプロイ
+- PARTIAL／通信障害／バージョン競合／個人情報混入を検出したら発行を止め、前号を維持
+- メインPC停止時は実行できない制約あり。ホスト側の定期監視・バックアップ通知も設定する
