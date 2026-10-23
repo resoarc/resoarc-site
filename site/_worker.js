@@ -133,6 +133,7 @@ async function securityWeatherRequest(request, env, url) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/v1/outages/php") return outagePhpProxy(request);
     if (url.pathname === "/api/v1/outages/hourly") return outageHourlyProxy(request);
     if (url.pathname === "/api/v1/outages") return outageRadarRequest(request, ctx);
     if (API_ROUTES.has(url.pathname)) {
@@ -314,6 +315,35 @@ async function outageHourlyProxy(request) {
     return new Response(method==="HEAD"?null:JSON.stringify({
       error:"hourly_collection_unavailable",
       message:"Hourly snapshot was not available. Use /api/v1/outages for the live feed."
+    }),{status:503,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"no-store"}});
+  }
+}
+
+/* Read-only access to official PHP service interruption notices and hourly HTTP observations. */
+async function outagePhpProxy(request) {
+  const method=request.method;
+  if(method==="OPTIONS") return new Response(null,{status:204,headers:OUTAGE_API_HEADERS});
+  if(method!=="GET" && method!=="HEAD")
+    return new Response(JSON.stringify({error:"method_not_allowed"}),{status:405,headers:OUTAGE_API_HEADERS});
+  if(new URL(request.url).search)
+    return new Response(JSON.stringify({error:"unsupported_query"}),{status:400,headers:OUTAGE_API_HEADERS});
+  try {
+    const res=await fetch("https://outage-feed.resoarc.com/v1/php",{
+      headers:{"Accept":"application/json"},signal:AbortSignal.timeout(14500),
+      cf:{cacheTtl:75}
+    });
+    if(!res.ok)throw new Error("provider_response");
+    const data=await res.json();
+    if(data.schema_version!=="1.0" || data.type!=="corporate_php_outages" ||
+       !Array.isArray(data.companies) || !Array.isArray(data.providers) ||
+       data.companies.length>200 || data.providers.length>30)
+      throw new Error("feed_schema");
+    return new Response(method==="HEAD"?null:JSON.stringify(data),{
+      status:200,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"public, max-age=120"}});
+  }catch{
+    return new Response(method==="HEAD"?null:JSON.stringify({
+      error:"php_status_feed_unavailable",
+      message:"PHP incident updates are temporarily unavailable; no healthy-status inference is made."
     }),{status:503,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"no-store"}});
   }
 }
