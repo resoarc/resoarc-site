@@ -299,7 +299,7 @@ async function outageHourlyProxy(request) {
   if (new URL(request.url).search)
     return new Response(JSON.stringify({error:"unsupported_query"}),{status:400,headers:OUTAGE_API_HEADERS});
   try {
-    const remote=await fetch("https://resoarc-outage-hourly.zin1985.workers.dev/v1/outages",{
+    const remote=await fetch("https://outage-feed.resoarc.com/v1/outages",{
       signal:AbortSignal.timeout(14000), headers:{"Accept":"application/json"},
       cf:{cacheTtl:60}
     });

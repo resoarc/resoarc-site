@@ -9,7 +9,7 @@ const vm=require("node:vm");
    incidents:[{id:"a"}],collected_at:new Date().toISOString()};
  let called=0;
  const context=vm.createContext({URL,Request,Response,AbortSignal,Date,JSON,Map,Set,Array,Number,String,Boolean,
-  fetch:async u=>{called++;assert.equal(u,"https://resoarc-outage-hourly.zin1985.workers.dev/v1/outages");return new Response(JSON.stringify(data),{status:200});}});
+  fetch:async u=>{called++;assert.equal(u,"https://outage-feed.resoarc.com/v1/outages");return new Response(JSON.stringify(data),{status:200});}});
  vm.runInContext(source,context);
  const req=(method,path)=>new Request("https://resoarc.com"+path,{method});
  const answer=await context.worker.fetch(req("GET","/api/v1/outages/hourly"),{},{});
