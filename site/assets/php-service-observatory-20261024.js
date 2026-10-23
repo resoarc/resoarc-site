@@ -37,6 +37,13 @@ function card(item) {
  article.append(top,elem("p","php-target",item.service));
  article.append(elem("div","php-check",probeLabel(item.website_check?.reachability)));
  if(item.note)article.append(elem("p","php-description",item.note));
+ if(item.auto_status_updated)article.append(elem("div","php-auto-update",
+   "公式告知の再確認によって公表状態を更新しました。元の分類："+statusLabel(item.declared_status)[0]));
+ if(item.official_review?.review_note){
+   article.append(elem("p","php-review",
+     item.official_review.review_note+"（確認："+datetime(item.official_review.checked_at)+"）"));
+ }
+
  const meta=elem("div","php-meta");
  meta.append(elem("span","","公表日："+item.source_date),
    elem("span","","外形確認："+datetime(item.website_check?.checked_at)));
@@ -59,6 +66,32 @@ function render() {
  $("php-results").textContent=result.length+" / "+data.cases_total+" 件";
  result.forEach(item=>container.append(card(item)));
  if(!result.length)container.append(elem("p","outage-message","一致する公表情報はありません。"));
+}
+function discoveries(data) {
+ const container=$("php-discovery-items");
+ if(!container)return;
+ const candidates=(data.discovery?.items||[]).filter(entry=>{
+   if(state.search&&!String(entry.title+" "+entry.publisher).toLocaleLowerCase().includes(state.search))return false;
+   return true;
+ });
+ $("php-discovery-count").textContent=String(candidates.length);
+ $("php-discovery-time").textContent="最終探索："+datetime(data.discovery?.checked_at);
+ const notice=$("php-discovery-notice");
+ const failure=data.discovery?.quality!=="OK";
+ notice.textContent=failure?"ニュースRSSの一部を取得できませんでした。候補は部分的です。":
+   "ニュース検索で自動発見した候補です。公式本文と個別サービスの状態は未照合のため、確定一覧には含めません。";
+ notice.className="php-feed-info"+(failure?" php-info-warning":"");
+ container.replaceChildren();
+ candidates.slice(0,55).forEach(item=>{
+   const article=elem("article","php-discovery-card");
+   article.append(elem("span","php-unverified-tag","未照合の発見候補"));
+   article.append(elem("strong","",item.title));
+   article.append(elem("p","",item.publisher+"　／　"+datetime(item.published_at)));
+   const link=elem("a","","ニュース原文を確認 ↗");
+   link.href=item.link;link.target="_blank";link.rel="noopener noreferrer";
+   article.append(link);container.append(article);
+ });
+ if(!candidates.length)container.append(elem("p","outage-message","現在の検索条件に一致する新規候補はありません。"));
 }
 function providers(data) {
  const out=$("php-providers");out.replaceChildren();
@@ -100,7 +133,7 @@ async function retrieve(){
    message.textContent=doc.stale?"定期収集が90分以上更新されていません。掲載状況は最新ではありません。"
       :doc.last_attempt_status==="failed"?"前回収集に失敗したため、最後に保存した情報を表示しています。"
       :"公式告知は公表日時点の情報です。HTTP応答は個別サービスの復旧を意味しません。";
-   render();providers(doc);
+   render();providers(doc);discoveries(doc);
  }catch(ex){
    message.className="php-feed-info php-info-warning";
    message.textContent="PHP関連の情報取得に失敗しました。前回表示がある場合も最新とは限りません。"+String(ex.message||ex);
@@ -110,9 +143,9 @@ document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll("[data-php-filter]").forEach(button=>button.addEventListener("click",()=>{
    state.mode=button.dataset.phpFilter;
    document.querySelectorAll("[data-php-filter]").forEach(btn=>btn.setAttribute("aria-pressed",String(btn===button)));
-   render();
+   render();discoveries(state.data);
  }));
- $("php-search").addEventListener("input",e=>{state.search=e.target.value.trim().toLocaleLowerCase();render();});
+ $("php-search").addEventListener("input",e=>{state.search=e.target.value.trim().toLocaleLowerCase();render();discoveries(state.data);});
  $("php-fetch").addEventListener("click",retrieve);
  retrieve();
  setInterval(()=>{if(!document.hidden)retrieve();},180000);

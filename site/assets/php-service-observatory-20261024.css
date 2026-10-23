@@ -37,3 +37,16 @@
 .php-provider a{font-size:.77rem}
 .php-source-note{font-size:.81rem;color:#4f6879;line-height:1.7;margin:18px 0 0}
 @media(max-width:720px){.php-section{padding:16px 12px}.php-records,.php-providers{grid-template-columns:1fr}.php-stat-grid{gap:7px}.php-stat{padding:12px 9px}.php-stat strong{font-size:1.5rem}.php-controls button{flex-grow:1}.php-controls input{flex-basis:100%}}
+
+/* Auto-discovered candidate feed and official recheck evidence */
+.php-discovery-shell{margin-top:25px;padding-top:19px;border-top:1px solid #dce6ec}
+.php-discovery-shell h3{font-size:1.12rem;color:#123852}
+.php-discovery-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.php-discovery-card{background:#fff;border:1px dashed #b4cbda;border-radius:9px;padding:13px 15px;display:flex;flex-direction:column;gap:7px}
+.php-discovery-card strong{font-size:.85rem;line-height:1.5;color:#213d50}
+.php-discovery-card p{font-size:.75rem;color:#657e8f;margin:0}
+.php-discovery-card a{font-size:.76rem;color:#075b83;text-decoration:underline}
+.php-unverified-tag{align-self:flex-start;padding:4px 7px;font-weight:800;font-size:.7rem;border-radius:5px;color:#73531a;background:#fff2cc}
+.php-auto-update{font-size:.74rem;background:#e8f6e9;color:#2d6540;padding:8px 9px;border-radius:7px;margin-top:10px}
+.php-review{font-size:.72rem;color:#6b7787;line-height:1.5;margin-top:9px}
+@media(max-width:720px){.php-discovery-list{grid-template-columns:1fr}}

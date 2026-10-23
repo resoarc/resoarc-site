@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/assets/navigation.css">
 <link rel="stylesheet" href="/assets/brand-cosmic-20261022.css">
 <link rel="stylesheet" href="/assets/outage-radar-20261023.css">
-<link rel="stylesheet" href="/assets/php-service-observatory-20261024.css">
+<link rel="stylesheet" href="/assets/php-service-observatory-20261024.css?v=20261024-auto2">
 <title>Webサービス障害速報 | ResoArc</title>
 <meta property="og:title" content="Webサービス障害速報 | ResoArc">
 <meta property="og:description" content="主要Webサービスの公式ステータスを横断表示。障害中・経過観察・復旧情報を確認できます。">
@@ -84,7 +84,18 @@
   <div id="php-providers" class="php-providers" aria-label="PHP関連ホスティング事業者の公式情報">
     <div class="outage-message">プロバイダー情報を取得しています。</div>
   </div>
-  <p class="php-source-note">公式公表の状態は掲載日の情報です。外形監視は企業公開サイトに対する毎時1回のHEAD応答を検査地点から確認するもので、PHPバージョン、業務システムの実際の稼働、障害原因の証明ではありません。二度続けてHTTP 5xxやネットワークエラーが発生した場合だけ「不達の疑い」と表示し、403などのアクセス制御は未判定とします。元の発表や復旧情報は各カードの出典から確認してください。対象の脆弱性：<a href="https://www.ipa.go.jp/security/security-alert/2026/alert20261022.html" target="_blank" rel="noopener noreferrer">IPA公式情報 ↗</a> ／ <a href="https://resoarc.com/api/v1/outages/php">公開JSON API ↗</a></p>
+  <div class="php-discovery-shell" id="php-discoveries" aria-labelledby="php-discovery-head">
+    <div class="php-section-top">
+      <div>
+        <h3 id="php-discovery-head">新たに発見した障害告知の候補 <span id="php-discovery-count">—</span>件</h3>
+        <p>ニュースRSSを定期検索し、既存リスト外の発表を発見します。候補には未照合ラベルを付け、公式の停止・復旧件数には含めません。</p>
+      </div>
+      <span id="php-discovery-time" class="php-update">探索中</span>
+    </div>
+    <p id="php-discovery-notice" class="php-feed-info">検索結果を収集中</p>
+    <div id="php-discovery-items" class="php-discovery-list" aria-live="polite"></div>
+  </div>
+  <p class="php-source-note">公式公表の状態は掲載日の情報です。外形監視は企業公開サイトに対する毎時1回のHEAD応答を検査地点から確認するもので、PHPバージョン、業務システムの実際の稼働、障害原因の証明ではありません。二度続けてHTTP 5xxやネットワークエラーが発生した場合だけ「不達の疑い」と表示し、403などのアクセス制御は未判定とします。元の発表や復旧情報は各カードの出典から確認してください。新たな停止・復旧情報はRSSで毎時探索し、既知の一次ソースを分割再検証します。別URLの復旧や曖昧な告知は自動確定しません。対象の脆弱性：<a href="https://www.ipa.go.jp/security/security-alert/2026/alert20261022.html" target="_blank" rel="noopener noreferrer">IPA公式情報 ↗</a> ／ <a href="https://resoarc.com/api/v1/outages/php">公開JSON API ↗</a></p>
 </section>
 <section class="outage-panel" id="outage-feed" aria-labelledby="outage-feed-title">
       <div class="outage-titleline"><h2 id="outage-feed-title">障害・復旧の発表一覧</h2><p id="outage-result-count">読み込み中</p></div>
@@ -114,6 +125,6 @@
 </main>
 <footer class="footer"><div class="container footer-top"><div class="footer-brand"><img class="arc-brand-symbol" src="/assets/resoarc-icon.svg" width="48" height="48" alt="" aria-hidden="true"/><div><img class="arc-footer-wordmark" src="/assets/resoarc-wordmark-official.svg" width="196" height="38" alt="ResoArc"/><small>OPEN TOOLS / CREATIVE ENGINEERING</small><p>自由で、開かれた技術を。</p></div></div><nav class="footer-nav" aria-label="フッターのサイト案内"><div class="footer-group"><h3>EXPLORE</h3><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/releases/">更新履歴</a></div><div class="footer-group"><h3>PRODUCTS</h3><a href="/products/">無料ツール</a><a href="/os/">ResoArcOS</a><a href="/guide/">利用ガイド</a></div><div class="footer-group"><h3>TRUST &amp; QUALITY</h3><a href="/principles/">品質方針</a><a href="/trust/">信頼性と説明責任</a><a href="/recognition/">実績・協賛</a><a href="/license/">ライセンス</a></div><div class="footer-group"><h3>INFORMATION</h3><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/sitemap.xml">サイトマップ</a><a href="/source/">公開ソース・Codeberg <span aria-hidden="true">↗</span></a></div></nav></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer>
 <script src="/assets/outage-radar-20261023.js?v=20261024-hourly" defer></script>
-<script src="/assets/php-service-observatory-20261024.js" defer></script>
+<script src="/assets/php-service-observatory-20261024.js?v=20261024-auto2" defer></script>
 <script defer src="/assets/navigation.js"></script></body>
 </html>
