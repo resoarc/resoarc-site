@@ -33,7 +33,7 @@
       <h1>Webサービス<br>障害速報</h1>
       <p class="outage-lead">いつも使うサービスが止まったとき、まず事実を確かめる場所。各提供元の公式ステータスを集め、障害中・経過観察中・復旧済みを整理してお届けします。</p>
       <div class="outage-updated">
-        <span><span class="outage-live-dot" aria-hidden="true"></span>公式発表を確認</span>
+        <span><span class="outage-live-dot" aria-hidden="true"></span>毎時05分に自動収集</span>
         <span id="outage-stamp">更新情報を取得中</span>
         <button type="button" class="outage-refresh" id="outage-refresh">情報を更新</button>
       </div>
@@ -71,13 +71,13 @@
     <section class="outage-panel outage-method" aria-labelledby="outage-method-title">
       <div class="outage-titleline"><h2 id="outage-method-title">収集方法と判断の基準</h2></div>
       <p>対象は公開ステータスAPIを提供する主要12サービスです。APIの「調査中・原因特定・経過観察」を継続中、「復旧・事後報告」を復旧済みとして扱います。重大度は提供元が付けた区分で、ResoArc独自の被害認定ではありません。掲載時刻は日本時間です。</p>
-      <p>ページ閲覧中は約3分ごとに再取得します。サーバー側で約3分間キャッシュします。過去7日分は各社が公開している履歴APIから読み込みます。<strong>独自の通信監視、24時間常駐の収集ジョブ、データベースへの永続保管は、この版では実施していません。</strong></p>
+      <p><strong>Cloudflare Cronで毎時05分（日本時間）に自動収集</strong>し、Cloudflare KVに最新スナップショットと直近30日間の集計履歴を保存します。PCの電源は必要ありません。障害詳細は公式公開APIの直近7日分を保持し、画面閲覧中は約3分ごとに保存済みデータを再取得します。収集失敗時は前回のデータを残して警告を表示します。実行時刻はプラットフォームの都合で多少前後します。</p>
       <p>情報源が取得できないときは「取得失敗」と表示し、「問題なし」とは判定しません。提供元の公開情報に遅延や不足がある可能性があります。公式発表の原文を必ず確認してください。</p>
-      <p>関連：<a href="/security/weather/">脆弱性天気予報</a> ／ <a href="/security/weather/newspaper/">脆弱性新聞</a> ／ <a href="https://resoarc.com/api/v1/outages">JSONフィード（API）</a></p>
+      <p>関連：<a href="/security/weather/">脆弱性天気予報</a> ／ <a href="/security/weather/newspaper/">脆弱性新聞</a> ／ <a href="https://resoarc.com/api/v1/outages/hourly">JSONフィード（毎時更新API）</a></p>
     </section>
   </div>
 </main>
 <footer class="footer"><div class="container footer-top"><div class="footer-brand"><img class="arc-brand-symbol" src="/assets/resoarc-icon.svg" width="48" height="48" alt="" aria-hidden="true"/><div><img class="arc-footer-wordmark" src="/assets/resoarc-wordmark-official.svg" width="196" height="38" alt="ResoArc"/><small>OPEN TOOLS / CREATIVE ENGINEERING</small><p>自由で、開かれた技術を。</p></div></div><nav class="footer-nav" aria-label="フッターのサイト案内"><div class="footer-group"><h3>EXPLORE</h3><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/releases/">更新履歴</a></div><div class="footer-group"><h3>PRODUCTS</h3><a href="/products/">無料ツール</a><a href="/os/">ResoArcOS</a><a href="/guide/">利用ガイド</a></div><div class="footer-group"><h3>TRUST &amp; QUALITY</h3><a href="/principles/">品質方針</a><a href="/trust/">信頼性と説明責任</a><a href="/recognition/">実績・協賛</a><a href="/license/">ライセンス</a></div><div class="footer-group"><h3>INFORMATION</h3><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/sitemap.xml">サイトマップ</a><a href="/source/">公開ソース・Codeberg <span aria-hidden="true">↗</span></a></div></nav></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer>
-<script src="/assets/outage-radar-20261023.js" defer></script>
+<script src="/assets/outage-radar-20261023.js?v=20261024-hourly" defer></script>
 <script defer src="/assets/navigation.js"></script></body>
 </html>

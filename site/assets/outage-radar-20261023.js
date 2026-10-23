@@ -33,11 +33,11 @@
     $("metric-major").textContent=String(active.filter(r=>["major","critical"].includes(r.impact)).length);
     $("metric-recovered").textContent=String(data.incidents.filter(r=>!r.active).length);
     $("metric-unknown").textContent=String(data.failed_sources);
-    $("outage-stamp").textContent="最終確認："+jst(data.generated_at);
+    $("outage-stamp").textContent="最終定期収集："+jst(data.collected_at||data.generated_at);
     const alert=$("outage-alert");
-    if (data.quality !== "OK" || data.history_partial) {
+    if (data.snapshot_stale || data.last_attempt_status==="failed" || data.quality !== "OK" || data.history_partial) {
       alert.hidden=false;alert.classList.add("problem");
-      alert.textContent="一部の公式ソースを取得できませんでした。未取得を正常扱いしていません。取得失敗："+data.failed_sources+"件、履歴取得不足："+data.history_partial+"件。";
+      alert.textContent=(data.snapshot_stale?"定期収集データが古くなっています。 ":"")+(data.last_attempt_status==="failed"?"直近の定期収集に失敗しました。前回の記録を表示しています。 ":"")+"一部情報源の未取得も正常扱いしません。取得失敗："+data.failed_sources+"件、履歴不足："+data.history_partial+"件。";
     } else {
       alert.hidden=true;alert.classList.remove("problem");
     }
@@ -98,7 +98,7 @@
   async function refresh() {
     const btn=$("outage-refresh");btn.disabled=true;btn.textContent="公式情報を取得中…";
     try {
-      const response=await fetch("/api/v1/outages",{headers:{"Accept":"application/json"},cache:"no-store"});
+      const response=await fetch("/api/v1/outages/hourly",{headers:{"Accept":"application/json"},cache:"no-store"});
       if(!response.ok)throw new Error("HTTP "+response.status);
       const data=await response.json();
       if(!Array.isArray(data.incidents)||!Array.isArray(data.services))throw new Error("応答形式が不正です");

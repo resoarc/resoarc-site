@@ -133,6 +133,7 @@ async function securityWeatherRequest(request, env, url) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/v1/outages/hourly") return outageHourlyProxy(request);
     if (url.pathname === "/api/v1/outages") return outageRadarRequest(request, ctx);
     if (API_ROUTES.has(url.pathname)) {
       return securityWeatherRequest(request, env, url);
@@ -287,4 +288,32 @@ async function outageRadarRequest(request, ctx) {
     try { ctx.waitUntil(cache.put(cacheKey,response.clone())); } catch { /* optional cache */ }
   }
   return request.method === "HEAD" ? new Response(null,{status:200,headers:OUTAGE_API_HEADERS}) : response;
+}
+
+/* Public read-only proxy to the standalone hourly Cloudflare Cron/KV collector. */
+async function outageHourlyProxy(request) {
+  const method=request.method;
+  if (method==="OPTIONS") return new Response(null,{status:204,headers:OUTAGE_API_HEADERS});
+  if (method!=="GET" && method!=="HEAD")
+    return new Response(JSON.stringify({error:"method_not_allowed"}),{status:405,headers:OUTAGE_API_HEADERS});
+  if (new URL(request.url).search)
+    return new Response(JSON.stringify({error:"unsupported_query"}),{status:400,headers:OUTAGE_API_HEADERS});
+  try {
+    const remote=await fetch("https://resoarc-outage-hourly.zin1985.workers.dev/v1/outages",{
+      signal:AbortSignal.timeout(14000), headers:{"Accept":"application/json"},
+      cf:{cacheTtl:60}
+    });
+    if(!remote.ok) throw new Error("status_"+remote.status);
+    const data=await remote.json();
+    if(data.schema_version!=="1.0" || data.collection_mode!=="hourly_cron" ||
+       !Array.isArray(data.services) || !Array.isArray(data.incidents))
+      throw new Error("hourly_schema_mismatch");
+    return new Response(method==="HEAD"?null:JSON.stringify(data),{
+      status:200,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"public, max-age=120"}});
+  }catch{
+    return new Response(method==="HEAD"?null:JSON.stringify({
+      error:"hourly_collection_unavailable",
+      message:"Hourly snapshot was not available. Use /api/v1/outages for the live feed."
+    }),{status:503,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"no-store"}});
+  }
 }
