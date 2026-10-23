@@ -63,6 +63,8 @@ export default {
   async fetch(request,env,ctx) {
     const url=new URL(request.url);
     const method=request.method;
+    if(url.pathname==="/v1/php/discovery/diagnostics")return phpRssDiagnostics(request);
+    if(url.pathname==="/v1/php/discovery/refresh")return phpRefreshDiscovery(request,env);
     if(method==="OPTIONS")return new Response(null,{status:204,headers:HEADERS});
     if(method!=="GET"&&method!=="HEAD")return json({error:"method_not_allowed"},405,method==="HEAD");
     if(url.search||!["/","/v1/outages","/v1/health","/v1/history","/v1/php","/v1/php/history"].includes(url.pathname))
@@ -217,7 +219,8 @@ async function collectPhp(env,kind) {
     cases_total:companies.length,provider_total:providers.length,
     stats,companies,providers,
     discovery:{checked_at:discovery.checked_at,quality:discovery.quality,
-      publisher_feed_errors:discovery.failed_queries,items:discovery.items},
+      publisher_feed_errors:discovery.failed_queries,fallback_sources_used:discovery.fallback_sources_used,
+      diagnostics:discovery.errors,items:discovery.items},
     note:"各社公式告知に基づく公表状況。公表日以降の復旧は自動確定しません。HTTPは外形応答のみで個別の停止サービスの稼働保証ではありません。",
     source_update_policy:"New reports are automatically discovered from public news RSS into an unverified candidates panel. Registered official announcements are rechecked in rotating batches, and only explicit full-recovery or partial-recovery expressions can update the displayed notice status. Unconfirmed reports never become confirmed automatically.",
     probe_policy:"Rotating up to 24 fixed public homepages each hour by HEAD. Two consecutive failures lead to suspected unavailability; 401/403 remain unverified. Last-checked times are preserved.",
@@ -238,7 +241,14 @@ async function readPhp(env) {
   const latest=await env.OUTAGES.get(PHP_LAST,"json");
   if(!latest)return {error:"php_feed_not_initialized",quality:"UNAVAILABLE"};
   const health=await env.OUTAGES.get(PHP_HEALTH,"json");
-  return {...latest,stale:expired(latest.collected_at),last_attempt_status:health?.status||"unknown"};
+  const discovery=await env.OUTAGES.get(PHP_DISCOVERY_KEY,"json");
+  const latestDiscovery=discovery?.checked_at&&
+     Date.parse(discovery.checked_at)>Date.parse(latest.discovery?.checked_at||"1970-01-01")
+      ?discovery:latest.discovery;
+  return {...latest,discovery:latestDiscovery,
+    stats:{...latest.stats,newly_discovered_candidates:latestDiscovery?.items?.length||0,
+      publisher_feed_errors:latestDiscovery?.failed_queries||0},
+    stale:expired(latest.collected_at),last_attempt_status:health?.status||"unknown"};
 }
 
 
@@ -274,16 +284,23 @@ function phpRssParse(xml) {
     const sourceMatch=item.match(/<source\s+url="([^"]+)"[^>]*>([\s\S]*?)<\/source>/i);
     const title=field("title").slice(0,240);
     const url=field("link").slice(0,400);
-    const source_url=phpXmlUnescape(sourceMatch?.[1]||"");
-    const publisher=phpXmlUnescape(sourceMatch?.[2]||"").slice(0,100);
+    let source_url=phpXmlUnescape(sourceMatch?.[1]||"");
+    let publisher=phpXmlUnescape(sourceMatch?.[2]||"").slice(0,100);
+    let link=url;
+    if(/^https?:\/\/(?:www\.)?bing\.com\/news\/apiclick\.aspx/.test(url)){
+      try{link=new URL(url).searchParams.get("url")||url;}catch{link=url;}
+    }
+    if(!source_url && phpSafePublicHost(link)){
+      try{source_url=new URL(link).origin;}catch{source_url="";}
+    }
+    if(!publisher)publisher=title.includes(" - ")?title.split(" - ").slice(-1)[0].slice(0,100):"ニュース検索（配信元未確認）";
     const published=new Date(field("pubDate"));
-    if(!title||!/^https:\/\/news\.google\.com\/rss\/articles\//.test(url) ||
-       !phpSafePublicHost(source_url)||Number.isNaN(published.getTime()) ||
+    if(!title||!phpSafePublicHost(source_url)||Number.isNaN(published.getTime()) ||
        published.getTime()<Date.now()-7*86400000 ||
        !/PHP|php2shell|脆弱性/.test(title)||
        !/停止|休止|メンテナンス|再開|復旧|影響|対策|修正/.test(title)) continue;
-    found.push({id: url.split("/").slice(-1)[0].slice(0,90),
-      title,link:url,publisher,publisher_url:source_url,
+    found.push({id: encodeURIComponent(link).slice(0,100),
+      title,link:phpSafePublicHost(link)?link:url,publisher,publisher_url:source_url,
       published_at:published.toISOString(),status:"discovery_unverified",
       note:"ニュースRSSで発見。公式発表の本文と対象サービスの確認が未完了です。稼働状況への自動判定はしません。"});
   }
@@ -292,6 +309,8 @@ function phpRssParse(xml) {
 async function phpDiscover(env){
   const previous=await env.OUTAGES.get(PHP_DISCOVERY_KEY,"json");
   const existing=Array.isArray(previous?.items)?previous.items:[];
+  if(previous?.source==="vps_cron" && Date.now()-Date.parse(previous.checked_at)<100*60000)
+    return previous;
   const responses=await phpLimitedMap(PHP_DISCOVERY_QUERIES,2,async q=>{
     try{
       const source="https://news.google.com/rss/search?q="+encodeURIComponent(q)+"&hl=ja&gl=JP&ceid=JP:ja";
@@ -300,7 +319,21 @@ async function phpDiscover(env){
       const raw=(await r.text()).slice(0,600000);
       if(!raw.startsWith("<?xml")&&!raw.includes("<rss"))throw Error("not_rss");
       return {status:"OK",items:phpRssParse(raw)};
-    }catch(e){return {status:"FAILED",items:[],reason:String(e.message||e).slice(0,60)};}
+    }catch(e){
+      // Google News blocks some datacenter egress. Use Bing's public RSS as a bounded fallback.
+      const primary=String(e.message||e).slice(0,60);
+      try {
+        const fallback="https://www.bing.com/news/search?q="+encodeURIComponent(q)+"&format=rss&mkt=ja-jp";
+        const secondary=await fetch(fallback,{headers:{"Accept":"application/rss+xml"},
+          signal:AbortSignal.timeout(8500)});
+        if(!secondary.ok)throw Error("bing_http_"+secondary.status);
+        const rss=(await secondary.text()).slice(0,350000);
+        if(!rss.includes("<rss"))throw Error("bing_not_rss");
+        return {status:"OK_FALLBACK",items:phpRssParse(rss)};
+      }catch(err){
+        return {status:"FAILED",items:[],reason:primary+";fallback:"+String(err.message||err).slice(0,60)};
+      }
+    }
   });
   const map=new Map();
   for(const a of [...responses.flatMap(x=>x.items),...existing]){
@@ -308,8 +341,10 @@ async function phpDiscover(env){
   }
   const rows=[...map.values()].sort((a,b)=>b.published_at.localeCompare(a.published_at))
     .filter(x=>Date.parse(x.published_at)>Date.now()-7*86400000).slice(0,120);
-  const result={checked_at:new Date().toISOString(),quality:responses.every(x=>x.status==="OK")?"OK":"PARTIAL",
-    queries_checked:responses.length,failed_queries:responses.filter(x=>x.status!=="OK").length,
+  const result={checked_at:new Date().toISOString(),quality:responses.every(x=>x.status!=="FAILED")?"OK":"PARTIAL",
+    queries_checked:responses.length,failed_queries:responses.filter(x=>x.status==="FAILED").length,
+    fallback_sources_used:responses.filter(x=>x.status==="OK_FALLBACK").length,
+    errors:responses.filter(x=>x.status==="FAILED").map(x=>x.reason).slice(0,3),
     items:rows};
   await env.OUTAGES.put(PHP_DISCOVERY_KEY,JSON.stringify(result));
   return result;
@@ -367,4 +402,39 @@ async function phpRecheckOfficial(env,prior) {
   });
   await env.OUTAGES.put(PHP_OVERRIDE_KEY,JSON.stringify(overrides));
   return {overrides,checked:observations.length,failed:observations.filter(x=>!x.success).length};
+}
+
+
+async function phpRssDiagnostics(request) {
+  if(request.method!=="GET")return json({error:"method_not_allowed"},405);
+  if(new URL(request.url).search)return json({error:"invalid_query"},400);
+  const test=async(name,url)=>{
+    try{
+      const res=await fetch(url,{headers:{"Accept":"application/rss+xml"},
+        signal:AbortSignal.timeout(8500)});
+      const body=(await res.text()).slice(0,350000);
+      return {name,http_status:res.status,looks_like_rss:body.includes("<rss"),
+        bytes:body.length,candidates:phpRssParse(body).length};
+    }catch(e){return {name,error:String(e.message||e).slice(0,100)};}
+  };
+  const q="PHP 脆弱性 一時停止 when:4d";
+  return json({checked_at:new Date().toISOString(),results:await Promise.all([
+    test("Google News","https://news.google.com/rss/search?q="+encodeURIComponent(q)+"&hl=ja&gl=JP&ceid=JP:ja"),
+    test("Bing News","https://www.bing.com/news/search?q="+encodeURIComponent(q)+"&format=rss&mkt=ja-jp")
+  ])});
+}
+
+/* One bounded, rate-limited recheck of provider-owned RSS sources. */
+async function phpRefreshDiscovery(request,env) {
+  if(request.method!=="GET")return json({error:"method_not_allowed"},405);
+  if(new URL(request.url).search)return json({error:"unsupported_query"},400);
+  const previous=await env.OUTAGES.get(PHP_DISCOVERY_KEY,"json");
+  const age=Date.now()-Date.parse(previous?.checked_at||"1970-01-01");
+  if(age<60*60000)
+    return json({refreshed:false,reason:"already_fresh",checked_at:previous.checked_at,
+      candidates:previous.items?.length||0});
+    const data=await phpDiscover(env);
+  return json({refreshed:true,checked_at:data.checked_at,quality:data.quality,
+    candidates:data.items?.length||0,failed_queries:data.failed_queries,
+    fallback_sources_used:data.fallback_sources_used||0});
 }

@@ -14,3 +14,12 @@ Source of the Cloudflare Cron/KV Worker backing /api/v1/outages/php.
 * Deploying this code requires an independently provisioned Cloudflare Worker and KV namespace.
 * The editorially curated php_cases.json is not automatically modified by RSS candidates.
 * This feed cannot capture every affected website, and is not proof of a PHP-caused outage.
+
+## Automatic news discovery and fallbacks (2026-10-24)
+
+* Cloudflare Cron queries Google News RSS every hour for Japanese PHP-related service stop/recovery announcements.
+* When Google News declines Worker requests with HTTP 503, Bing News RSS is a fallback (verified HTTP 200).
+* Search results remain unverified discovery candidates and never inflate the confirmed service-status counts.
+* A read-only interval-limited path /v1/php/discovery/refresh rechecks fixed RSS sources; /v1/php/discovery/diagnostics reports their reachability.
+* Known first-party incident notices are revisited in rotating groups. Only explicit recovery statements can promote reported suspended/partial statuses.
+* No credentials, arbitrary crawl URLs, private operational assets, or user-controlled fetch targets are exposed.
