@@ -1,0 +1,9 @@
+Third-party service identifiers and marks: rights reserved by their respective owners.
+This category covers fetched logos, service favicons, and public score badges used only
+to identify the referenced third-party service or historical independent diagnostic.
+Sources and fingerprints are documented in site/assets/recognition/ASSET_SOURCES.md.
+No copyright license, trademark license, endorsement, certification, or permission
+to redistribute these graphics independently is granted by ResoArc.
+All uses must satisfy the respective source organization's trademark/media rules.
+Review each external asset for permission prior to republishing or repackaging.
+This is a rights-reserved notice, not an open-source license.

@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
+name: REUSE 3.3 licensing
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reuse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned REUSE tool
+        run: python -m pip install 'reuse[charset-normalizer]==6.2.0'
+      - name: Verify all project files (fail on missing or invalid licenses)
+        id: lint
+        run: |
+          python scripts/reuse_release_gate.py --report "$RUNNER_TEMP/reuse-audit.json"
+      - name: Create public machine-readable audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reuse-lint-${{ github.sha }}
+          path: ${{ runner.temp }}/reuse-audit.json
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Summarize result and failure reason
+        if: always()
+        env:
+          AUDIT_REPORT: ${{ runner.temp }}/reuse-audit.json
+        run: |
+          python - <<'PY'
+          import os,json,pathlib
+          p=pathlib.Path(os.environ["AUDIT_REPORT"])
+          d=json.loads(p.read_text()) if p.exists() else {"status":"error","cause":"report_missing"}
+          with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf8") as f:
+              f.write("# REUSE 3.3 verification\n\n")
+              for k in ("status","cause","target_commit","checked_at_utc","spec_version"):
+                  f.write(f"- {k}: `{d.get(k,'n/a')}`\n")
+              if d.get("status")!="pass":
+                  f.write("\n## Failure details\n\n```json\n")
+                  f.write(json.dumps({k:d.get("details",{}).get(k) for k in ("summary","non_compliant","recommendations")},ensure_ascii=False,indent=2)[:14000])
+                  f.write("\n```\n")
+          PY

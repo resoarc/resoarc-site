@@ -206,6 +206,15 @@ def main() -> int:
         else:
             print(result.stdout.strip())
 
+    # Fail closed before publishing any site or release assets.
+    reuse_gate = ROOT / "scripts/reuse_release_gate.py"
+    if reuse_gate.is_file():
+        gate = subprocess.run([sys.executable, str(reuse_gate)], cwd=ROOT,
+                              capture_output=True, text=True)
+        if gate.returncode:
+            fail("REUSE 3.3 release gate: " + (gate.stdout + gate.stderr)[-2200:])
+        else:
+            print(gate.stdout.strip())
     total = sum(p.stat().st_size for p in files)
     print(f"Files: {len(files)} | HTML pages: {len(pages)} | Bytes: {total:,}")
     print("Reference hashes (first 12 hex):")

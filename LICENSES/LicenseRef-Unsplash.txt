@@ -1,0 +1,12 @@
+Unsplash License (third-party photograph)
+
+Source: https://unsplash.com/license
+Identified image: Unsplash photo-1486406146926-c627a92ad1ab
+Copyright in the photograph remains with its original copyright holder.
+
+Unsplash grants an irrevocable, non-exclusive, worldwide copyright license to download, copy, modify, distribute, perform, and use images from Unsplash for free, including commercial purposes, without asking permission or crediting the photographer or Unsplash.
+This does not permit compiling images from Unsplash to replicate a similar or competing service.
+Images may not be sold without significant modification.
+
+The authoritative current license and explanatory restrictions are at https://unsplash.com/license .
+This file does not grant new rights or place the image under ResoArc's MIT license.

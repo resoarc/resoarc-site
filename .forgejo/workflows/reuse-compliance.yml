@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
+name: REUSE 3.3 licensing
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: codeberg-tiny
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install isolated REUSE verification environment
+        run: |
+          python3 -m venv /tmp/resoarc-reuse
+          /tmp/resoarc-reuse/bin/python -m pip install 'reuse[charset-normalizer]==6.2.0'
+      - name: Fail closed on missing license declarations
+        run: |
+          /tmp/resoarc-reuse/bin/python scripts/reuse_release_gate.py
