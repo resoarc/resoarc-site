@@ -316,3 +316,11 @@
 .tech-unknown{color:#7b8796;font-size:11px}
 .swww-js-fallback-note{margin:10px 0 16px;background:#f5f7f9;border-left:3px solid #315e87;padding:9px 12px;color:#445970;font-size:12px}
 @media(max-width:760px){.swww-tech-control{width:100%;justify-content:space-between}.swww-tech-control select{max-width:190px}}
+
+/* Public newspaper shortcut */
+.swww-newspaper-promo{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:25px 0;padding:20px 24px;border:1px solid #becbd7;border-left:5px solid #315c7c;background:linear-gradient(118deg,#f6f2e9,#e9f1f5);border-radius:4px}
+.swww-newspaper-promo strong{font-size:1.13rem;color:#112a48}
+.swww-newspaper-promo p{margin:4px 0 0;font-size:.84rem;color:#47596c;line-height:1.7}
+.swww-newspaper-promo a{flex:0 0 auto;display:inline-flex;background:#112a48;color:#fff;padding:11px 16px;text-decoration:none;border-radius:3px;font-size:.82rem;font-weight:800}
+.swww-newspaper-promo a:focus-visible{outline:3px solid #c78642;outline-offset:3px}
+@media(max-width:670px){.swww-newspaper-promo{display:block;padding:16px}.swww-newspaper-promo a{display:block;text-align:center;margin-top:13px}}

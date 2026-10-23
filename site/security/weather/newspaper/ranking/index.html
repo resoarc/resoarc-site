@@ -1,0 +1,78 @@
+<!doctype html><!--
+SPDX-FileCopyrightText: 2026 ResoArc contributors
+SPDX-License-Identifier: MIT
+-->
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="SWWWが公表情報を整理した日本語の脆弱性新聞。31件の情報を要約、注目順位、製品別動向、取るべき対応を4面で紹介。">
+<meta name="robots" content="noindex,follow">
+<title>注目ランキング | SWWW 脆弱性朝刊 | 2026年10月23日（金）</title>
+<link rel="stylesheet" href="/assets/swww-newspaper.css">
+<link rel="alternate" type="application/rss+xml" title="SWWW脆弱性情報RSS" href="/api/v1/swww/rss.xml">
+<link rel="stylesheet" href="/assets/navigation.css"></head><body><a class="skip" href="#content">本文へ</a>
+<div class="portal"><div class="portal-inner"><a class="logo" href="/">ResoArc</a>
+<span class="edition">SWWW / SECURITY WEATHER WATCH WEB</span>
+<a href="/os/">ResoArcOS</a>
+<a href="/security/weather/">全件版の脆弱性天気予報を見る ↗</a></div></div>
+<main id="content"><section class="paper" aria-label="2面">
+<div class="flag"><span>ResoArc • Security Weather Watch Web</span><span>安全な情報を、わかる言葉で。</span></div>
+<header class="masthead"><span class="sigil" aria-hidden="true">✶</span>
+<div><h1>脆弱性朝刊</h1><small>The Security Morning Paper</small></div></header>
+<div class="double-rule"></div>
+<div class="folio"><span>2026年10月23日（金）　｜　第001号　｜　2面</span><span>品質検証済み・取得 09:11 JST / 13情報源</span></div>
+<nav class="edition-nav" aria-label="紙面を選ぶ"><a href="/security/weather/newspaper/">1面 主要記事</a><a href="/security/weather/newspaper/ranking/" aria-current="page">2面 注目順位</a><a href="/security/weather/newspaper/technologies/">3面 技術・製品</a><a href="/security/weather/newspaper/action/">4面 実用ガイド</a></nav>
+<div class="section-head"><h2>今日、読むべき8件。</h2><span>2面　注目ランキング</span></div>
+<p class="deck">31本を全部追う必要はありません。まずは、よく使われる技術・影響の大きさ・対策の明確さを軸に、編集部が8件に絞りました。</p>
+<div class="census"><div><strong>8本</strong><small>編集部の注目記事</small></div><div><strong>31件</strong><small>本日掲載扱いの情報</small></div><div><strong>31件</strong><small>ResoArcへの影響未判定</small></div></div>
+<div class="ed-note"><strong>この順位は「危険度世界ランキング」ではありません。</strong><p>各製品の利用状況が分からないため、採用している技術で優先順位は変わります。既知の悪用件数、被害者数、会社への影響を推測して順位付けしていません。</p></div>
+<div class="rank-list"><article class="rank" id="rank-1">
+<div class="num">01</div>
+<div><h3>Next.js画像処理に重大な問題。SVG経由の遠隔コード実行に注意</h3><p>Next.jsの画像最適化機能で、特定のLinux環境と依存ライブラリの組み合わせにより遠隔コード実行につながる可能性が報告されました。すべてのNext.jsサイトが影響を受けるわけではありません。</p>
+<span class="pill critical">CRITICAL</span><span class="pill tech">Next.js / SVG</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-2464-fhr4-w9xw">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>Next.js 15系は15.5.28以降、16系は16.4.1以降を確認。関連するsharpのバージョンも確認。
+<p>対象：Next.jsを運用する人</p></aside></article><article class="rank" id="rank-2">
+<div class="num">02</div>
+<div><h3>Next.js「use cache」に別の重大欠陥。特定の戻り値が条件</h3><p>App RouterのCache Componentsで、複数の型付き配列を返す「use cache」関数がある場合、遠隔コード実行につながり得る問題です。提供元は16.4.1への更新を案内しています。</p>
+<span class="pill critical">CRITICAL</span><span class="pill tech">Next.js / Cache</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-673q-mjm6-r5xr">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>Next.js 16.0.0〜16.4.0の利用有無を確認し、16.4.1以降への更新を検討。
+<p>対象：Next.js 16系の開発者</p></aside></article><article class="rank" id="rank-3">
+<div class="num">03</div>
+<div><h3>画像ファイルがサーバーの問題に。Pillowの複数フレーム処理</h3><p>画像処理ライブラリPillowで、複数フレームの画像を読み込む際にメモリ破壊が起こる問題です。特定の実行環境でコード実行を示す検証も報告されています。</p>
+<span class="pill critical">CRITICAL</span><span class="pill tech">Pillow / Python</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-v9pv-5gc8-w2m6">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>Pillow 11.0.0〜12.3.0の利用と、外部画像を自動処理する機能の有無を確認。修正版13.0.0を確認。
+<p>対象：画像アップロードを扱う人</p></aside></article><article class="rank" id="rank-4">
+<div class="num">04</div>
+<div><h3>ログイン用トークンの信頼が揺らぐ。PyJWTの鍵設定に盲点</h3><p>JWK方式で空のHMAC鍵を受け入れると、条件次第で偽造トークンの検証が通る可能性があります。一般的なJWTすべてが破られるという意味ではありません。</p>
+<span class="pill high">HIGH</span><span class="pill tech">PyJWT / 認証</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-pxh4-856f-4h89">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>PyJWT 2.13.0以前かを確認。JWK/JWKSの鍵設定と2.14.0以降への更新を確認。
+<p>対象：API認証の担当者</p></aside></article><article class="rank" id="rank-5">
+<div class="num">05</div>
+<div><h3>Next.jsのServer Actionsに負荷攻撃の問題</h3><p>App RouterでServer Actionsを使う構成は、細工されたリクエストによりCPU負荷が高くなり、サービス停止につながる可能性があります。</p>
+<span class="pill high">HIGH</span><span class="pill tech">Next.js / DoS</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-p3m5-59mp-jv5r">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>Server Actionsの利用有無を確認。15系15.5.28、16系16.4.1以降などを参照。
+<p>対象：Next.js運用者</p></aside></article><article class="rank" id="rank-6">
+<div class="num">06</div>
+<div><h3>APIへの「Accept」ヘッダーだけでCPU消費。DRFに注意</h3><p>Django REST frameworkのコンテンツ交渉処理で、非常に大きなAcceptヘッダーがCPUを長時間消費させる可能性があります。</p>
+<span class="pill high">HIGH</span><span class="pill tech">Python / DRF</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-33wh-fxxf-88vv">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>Django REST frameworkの利用バージョンを確認。公式リリースノートの3.18.2の修正を参照。
+<p>対象：Django API開発者</p></aside></article><article class="rank" id="rank-7">
+<div class="num">07</div>
+<div><h3>Jupyter Serverで実行権限の境界に問題</h3><p>Gateway WebSocketハンドラーで、カーネル実行の認可をすり抜ける問題が報告されています。該当構成の利用者は運用と更新情報を確認してください。</p>
+<span class="pill high">HIGH</span><span class="pill tech">Jupyter</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-354v-3q48-cv69">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>Jupyter ServerのGateway機能の使用有無、アクセス経路と修正版の有無を元情報で確認。
+<p>対象：Notebook環境の管理者</p></aside></article><article class="rank" id="rank-8">
+<div class="num">08</div>
+<div><h3>OSを更新しても残る画像ライブラリの問題</h3><p>Pillowの配布パッケージに含まれる画像処理コンポーネントが問題になる事例。OSだけを更新しても、アプリ側の同梱ライブラリは別管理の場合があります。</p>
+<span class="pill high">HIGH</span><span class="pill tech">Pillow / OpenJPEG</span><br><a class="press-link" target="_blank" rel="noopener noreferrer" href="https://github.com/advisories/GHSA-78g4-xqwv-q3g8">原文を確認 ↗</a></div>
+<aside class="rank-side"><b>確認すること</b>Pillowのインストール形態と同梱ライブラリを確認。公式アドバイザリーの修正版を参照。
+<p>対象：画像変換・OCR担当者</p></aside></article></div>
+<div class="article"><h3>集計の重大度と、発行元の重大度が違うことも</h3>
+<p>DOMPurify（GHSA-cg2g-xh64-v4q7）とSentry（GHSA-mchm-gjx6-7h55）は、収集時の重大度と提供元の評価に差が見られます。どちらも本日の収録データでは「CRITICAL」ですが、<strong>このランキングからは一旦除外</strong>し、出典の最新版の確認を推奨します。</p>
+<p><a href="https://github.com/cure53/DOMPurify/security/advisories/GHSA-cg2g-xh64-v4q7" target="_blank" rel="noopener noreferrer">DOMPurify発行元 ↗</a>　/　<a href="https://github.com/getsentry/sentry-javascript/security" target="_blank" rel="noopener noreferrer">Sentry発行元 ↗</a></p></div>
+<footer class="edition-footer">
+<div><p>発行：ResoArc SWWW 編集部　｜　2026-10-23 朝刊</p>
+<p>公開情報をわかりやすく整理した編集版。影響の確定・被害数・修正の保証を意味しません。</p></div>
+<div class="page-turn"><a href="/security/weather/newspaper/all/">4面をまとめて読む・印刷</a><a class="next" href="/security/weather/newspaper/technologies/">次の紙面 →</a></div></footer>
+<div class="footnote">【集計について】「今日」はSWWWのDBに記録された掲載日で、脆弱性が今日初公開されたことを意味しません。 各社の公式文書が優先されます。収集品質がPARTIALの後続データは正式な朝刊へ組み込んでいません。企業への攻撃件数を数えたものではありません。</div>
+</section></main><script defer src="/assets/navigation.js"></script></body></html>

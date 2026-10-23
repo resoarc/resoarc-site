@@ -201,6 +201,31 @@
       "parent": "/security/",
       "visible": true
     },
+    "/security/weather/newspaper/action/": {
+      "title": "今日の対策",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/security/weather/newspaper/all/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/security/weather/newspaper/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/",
+      "visible": false
+    },
+    "/security/weather/newspaper/ranking/": {
+      "title": "注目ランキング",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/security/weather/newspaper/technologies/": {
+      "title": "技術別の動向",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
     "/source/": {
       "title": "公開ソース",
       "parent": "/",
