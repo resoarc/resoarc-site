@@ -241,6 +241,11 @@
       "parent": "/",
       "visible": true
     },
+    "/status/": {
+      "title": "Webサービス障害速報",
+      "parent": "/",
+      "visible": true
+    },
     "/terms/": {
       "title": "利用条件",
       "parent": "/",
