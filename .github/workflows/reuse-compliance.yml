@@ -49,3 +49,5 @@ jobs:
                   f.write(json.dumps({k:d.get("details",{}).get(k) for k in ("summary","non_compliant","recommendations")},ensure_ascii=False,indent=2)[:14000])
                   f.write("\n```\n")
           PY
+      - name: Verify pinned signatures and archive notices
+        run: python scripts/check_signed_archive_notice.py

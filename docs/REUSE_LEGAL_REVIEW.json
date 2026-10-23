@@ -1,27 +1,21 @@
 {
-    "status":  "release_archives_require_separate_licensing_review",
-    "explanation":  "REUSE lint confirms file-level metadata; it does not grant redistribution rights or ensure ZIP contents carry notices.",
-    "pending_archive_paths":  [
-                                  "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
-                                  "site/downloads/resoarc-backup-migration-v1.0.0-source.zip",
-                                  "site/downloads/resoarc-backup-migration-v1.0.0.zip",
-                                  "site/downloads/resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
-                                  "site/downloads/resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
-                                  "site/downloads/resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
-                                  "site/downloads/resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
-                                  "site/downloads/resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
-                                  "site/downloads/resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
-                                  "site/downloads/resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
-                                  "site/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
-                                  "site/downloads/resoarc-tabs-v1.0.0-20261021.zip",
-                                  "site/downloads/resoarc-tabs-v1.0.0-signed-package-source.zip",
-                                  "site/downloads/resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip"
-                              ],
-    "pending_count":  14,
-    "complete_archive_audit":  {
-                                   "archives_scanned":  34,
-                                   "without_embedded_license":  22,
-                                   "third_party_path_indicators":  1,
-                                   "separate_rights_review_required":  true
-                               }
+  "status": "release_archives_require_separate_licensing_review",
+  "explanation": "REUSE lint confirms file-level metadata; it does not grant redistribution rights or ensure ZIP contents carry notices.",
+  "pending_archive_paths": [
+    "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+    "site/downloads/resoarc-backup-migration-v1.0.0-source.zip",
+    "site/downloads/resoarc-backup-migration-v1.0.0.zip",
+    "site/downloads/resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+    "site/downloads/resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+    "site/downloads/resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+    "site/downloads/resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+    "site/downloads/resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+    "site/downloads/resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+    "site/downloads/resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+    "site/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+    "site/downloads/resoarc-tabs-v1.0.0-20261021.zip",
+    "site/downloads/resoarc-tabs-v1.0.0-signed-package-source.zip",
+    "site/downloads/resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip"
+  ],
+  "pending_count": 14
 }

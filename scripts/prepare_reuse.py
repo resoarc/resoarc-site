@@ -10,7 +10,7 @@ old=set(json.loads('"'+s+'"') for s in re.findall(r'^\s*"(.*?)"\s*,?\s*$',source
 tracked=set(subprocess.check_output(['git','ls-files'],cwd=root).decode('utf8').splitlines())
 added={x for x in ['scripts/prepare_reuse.py','scripts/audit_release_archives.py','docs/reuse-archive-inventory.json',
 'scripts/reuse_release_gate.py','.github/workflows/reuse-compliance.yml','site/assets/reuse-status.js',
-'site/recognition/reuse-status.json','docs/REUSE_COMPLIANCE.md','site/assets/reuse-status.css','scripts/prepare_reuse.py','docs/REUSE_LEGAL_REVIEW.json'] if (root/x).exists()}
+'site/recognition/reuse-status.json','docs/REUSE_COMPLIANCE.md','site/assets/reuse-status.css','scripts/prepare_reuse.py','scripts/check_signed_archive_notice.py','docs/CODEBERG_REUSE_ACTIONS_SETUP.md','docs/reuse-signed-archive-register.json','site/recognition/reuse-signed-archives.json','site/downloads/RESOARC_SIGNED_PLUGIN_LICENSE_NOTICE_20261023.md','docs/REUSE_LEGAL_REVIEW.json'] if (root/x).exists()}
 code_ext={'.html','.css','.js','.json','.md','.txt','.py','.yml','.yaml','.xml','.mjs','.svg'}
 groups=collections.defaultdict(list)
 review=[]

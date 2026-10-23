@@ -32,3 +32,8 @@ REUSE is metadata-completeness verification, not a legal determination. Unsplash
 
 ## Hosting reality (2026-10-23)
 GitHub main and Codeberg main currently diverge; never force-push GitHub merely to activate CI. Codeberg Actions must be enabled in repository Settings > Units > Actions with an available runner. Until verified, the site status reports local test PASS but hosted CI pending. The local release gate fails closed even when hosted CI is unavailable.
+
+## Signed archive release gate (2026-10-23)
+All 22 existing signed kintone ZIP wrappers are SHA-256 pinned in docs/reuse-signed-archive-register.json. The scanner inspects outer PUBKEY/SIGNATURE/contents.zip and nested license/SPDX evidence. The gate rejects an unregistered new signed ZIP, a deleted archive, or a changed outer/payload hash. This is not cryptographic signature validation or a legal audit. Existing absent internal notices remain recorded as pending. A separate notice is served at site/downloads/RESOARC_SIGNED_PLUGIN_LICENSE_NOTICE_20261023.md. Actual release approval still requires legal/rights review of new archives.
+
+Codeberg API on 2026-10-23 reports has_actions=false. Repositories need authenticated owner to enable Settings > Units > Overview > Actions, and an available trusted runner, before hosted CI can be reported as operational. Do not enable an unisolated runner on the production VPS, because action jobs can execute arbitrary code.

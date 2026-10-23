@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "description": "Immutable signed kintone wrapper inventory; missing license text needs outside notice review, not ZIP mutation.",
+  "base_commit": "59c03114e5088825fc0941dd26f8b717261c9bee",
+  "files": [
+    {
+      "path": "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "6f359dbaff4f37d4b56d966d0cef9d9fe8ac6ca1d7c5f6acb5de2af0a7c4a84d",
+      "payload_sha256": "23437188f9a544d645eb8ecde87973c9ddfd378aceb3a0c25691a5e2c5021edb",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-signed-qa.zip",
+      "sha256": "761224ac70ddd01159cef0ae6dbef657cb3432d72322b2fb13ba2a37580c5ac8",
+      "payload_sha256": "981041c200d1bdae0871660c97743b4b4d970bb27ee49ab10f44f7e020c035c1",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-v1.0.0.zip",
+      "sha256": "fd7d0873f8ebf7551ebc2a08116952e8b60c91e396600e5b800e0eba752145d9",
+      "payload_sha256": "1f9238c954285ab93cfbb1d357ad01cd1112d494815843a5f75ce1b35115584e",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-v1.1.0-beta.zip",
+      "sha256": "c2de1c7735e8c32a364b6d6d4de340d593a55b3a8c38dd369cc2feac73016d9b",
+      "payload_sha256": "cc7cf290f73a3def781028abdd5f525cf15cae220ee0a85c8d8c37cb46543c9a",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-format-signed-qa.zip",
+      "sha256": "b9a0d7db277e8efba835c7fb8914b22d6ee13274fc41db0d5c9e52fbd2c03401",
+      "payload_sha256": "662bcb5ee0a689e8330ce7a3606aee81f8828cf9fead1aa004666327ec03ff8f",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/core.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-signed-qa.zip",
+      "sha256": "1f706267511884ff9771a5c1ebb0a126e065d382869c67e769e001b675ff9bbc",
+      "payload_sha256": "7d23b2df1143ff15c5c4e5caece8a6d0b0ccf2d7f52e16a0e930935be5d1a1ee",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "sha256": "234ec6d8917c25bd793f19b5d38e64a5dab6c12281dea184de18a665d956a1f6",
+      "payload_sha256": "1d16fbc071458d34294ba649c70976d995c0546fe953b581e2746749bb4e0442",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-date-calculator-signed-qa.zip",
+      "sha256": "b2d74dcb6467d44015ba3364eb8f904916d44449ce8a21cba164c5318bbd2e87",
+      "payload_sha256": "c84ca425809309c8d2306443bdd95bf92cf2ac171105729c488f9b562245470f",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "5c49a688ca878a47d30d1e37d8e3b8ea61bb728d85d16167a5458f3aae8b1db4",
+      "payload_sha256": "8e3e9b684c531651c04c5ad759354b0b093dcea0542e48f9958ae65859506c6e",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-grid-editor-signed-qa.zip",
+      "sha256": "391568b0381fb99ce07a34f30d68505688fdf7684a2db8196dc59d4201ac5baf",
+      "payload_sha256": "1072dc0cbca57924a49029a7345205736ae9ff722a1500ea6dfd9f32966ddba2",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-kanban-signed-qa.zip",
+      "sha256": "4d16cd3a8145d54376a107fb9a3fbfe0126505c1929bc704f957f502c200a59a",
+      "payload_sha256": "d243f6f679bd0203dfb9d6f2f1ae47dbc0bfe48eef652946bd364912136e7a15",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "9a6ffe625769f51d29bac0be2b1cf007ec3cf51f09d33e45aa8eb2fe0128e643",
+      "payload_sha256": "f6e13ebf029b9d7d5823c81b376aaf38939cdf7ba979d8f787e244ffca5bf913",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-list-search-signed-qa.zip",
+      "sha256": "f4aa2680f68b6c0a50941a42a4968bd0618993ba201b9b691ae067fd42dafd01",
+      "payload_sha256": "81b43e936b9a0183107b2be9910afc8a8dab85553e34b67758764fb4ec78f1f0",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "sha256": "d3b2c88810a2f5d04d64792b47fcdc0a5f94793a322d0a1a8f4d4c29db1c3276",
+      "payload_sha256": "70e5d4cb00f59af519068d778019ad96b4e5eabae8b00dd2a7d7306473595cc4",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "78299ed5ac81d134e483ba6db57ce35d2f1914c4fd2cb55cb25d70bd7cd12ecf",
+      "payload_sha256": "771260a22cc78b7c6ab84b8eb6509ddb458415a1915d76fadb486bf1207c8c01",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6ba55dbc1b500bc4968dacb2df7f6a5c1535722098be2e6bf48ce2ada5e25166",
+      "payload_sha256": "12c40fab80c0e64f2bab9e7ad4dc36f42287faaabc6c038b6e768c951452b2f4",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "3a66cb126a16715ec166bb25979b490bf2a0b1de243f3a3cffc32b17b158df21",
+      "payload_sha256": "90dd43d9ac122ddf3b9d2503b1f4f6d840d7502deebdb2a76ee5d02b1940512b",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6e281275e2eb276e7886d8dc562852e194b4002ce05625b75a10326b0e527fd8",
+      "payload_sha256": "6b29b6a89a41a3ae462041d4bb77b1c26bcbd623129c8bc3825829f286ce0023",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-signed-qa.zip",
+      "sha256": "5a9847558a71af67bfbbbec5d8a299172e88b039495da20030a13958afc72ad9",
+      "payload_sha256": "1487d5df4ab92968fd74eee3455f13cede5c70fc01b629c2c3286ef99a6c70d5",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v0.1.0-beta.zip",
+      "sha256": "5eba44271945185e777c7e55af816d4644223d9fe9e2925c8b05fd116bd58689",
+      "payload_sha256": "e723adbe457c33a64e69ea0505061be83f4a6cfa940f31a42145b78177f36f92",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v1.0.0-20261021.zip",
+      "sha256": "6be4e194acd495a27d1c1847b19b96d62703c57c9bbcb05acde4533586d4fa6e",
+      "payload_sha256": "a8e4ea39c4af1a9b36f5a4c2a9dfe48a3d3d5dbc153c3553b7d36437f4a4c3bd",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/desktop.js",
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "16d4e43df291d033c08634f5d64245167c6b6598835d091337b8c26e3e0b8c42",
+      "payload_sha256": "22cd80270023048ee016df4fb78bf48c74f5b6b8b3fcedf9a2f38b34f6e6974b",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    }
+  ]
+}

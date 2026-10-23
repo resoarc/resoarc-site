@@ -17,5 +17,12 @@
                                 "files_with_license_info":  503,
                                 "files_with_copyright_info":  503,
                                 "result":  "PASS"
-                            }
+                            },
+    "codeberg_actions_activation":  {
+                                        "enabled_as_observed_2026_10_23":  false,
+                                        "source":  "https://codeberg.org/api/v1/repos/ResoArc/resoarc-site",
+                                        "manual_activation":  "https://codeberg.org/ResoArc/resoarc-site/settings/units",
+                                        "runner_operational":  false
+                                    },
+    "signed_archive_audit":  "/recognition/reuse-signed-archives.json"
 }

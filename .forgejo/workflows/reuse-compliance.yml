@@ -18,3 +18,5 @@ jobs:
       - name: Fail closed on missing license declarations
         run: |
           /tmp/resoarc-reuse/bin/python scripts/reuse_release_gate.py
+      - name: Verify pinned signatures and archive notices
+        run: python3 scripts/check_signed_archive_notice.py

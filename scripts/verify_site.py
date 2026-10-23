@@ -215,6 +215,16 @@ def main() -> int:
             fail("REUSE 3.3 release gate: " + (gate.stdout + gate.stderr)[-2200:])
         else:
             print(gate.stdout.strip())
+    # SHA-256 lock and notice inventory for published signed kintone packages.
+    signed_gate = ROOT / "scripts/check_signed_archive_notice.py"
+    if signed_gate.is_file():
+        import subprocess
+        check = subprocess.run([sys.executable, str(signed_gate)], cwd=ROOT,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if check.returncode:
+            fail("signed archive license inventory: " + (check.stdout + check.stderr)[-2000:])
+        else:
+            print(check.stdout.strip())
     total = sum(p.stat().st_size for p in files)
     print(f"Files: {len(files)} | HTML pages: {len(pages)} | Bytes: {total:,}")
     print("Reference hashes (first 12 hex):")
