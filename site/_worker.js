@@ -133,6 +133,7 @@ async function securityWeatherRequest(request, env, url) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/v1/outages/security") return outageSecurityProxy(request);
     if (url.pathname === "/api/v1/outages/php") return outagePhpProxy(request);
     if (url.pathname === "/api/v1/outages/hourly") return outageHourlyProxy(request);
     if (url.pathname === "/api/v1/outages") return outageRadarRequest(request, ctx);
@@ -344,6 +345,32 @@ async function outagePhpProxy(request) {
     return new Response(method==="HEAD"?null:JSON.stringify({
       error:"php_status_feed_unavailable",
       message:"PHP incident updates are temporarily unavailable; no healthy-status inference is made."
+    }),{status:503,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"no-store"}});
+  }
+}
+
+/* Separate access-controlled-free, read-only public proxy for official security incident notices. */
+async function outageSecurityProxy(request) {
+  const method=request.method;
+  if(method==="OPTIONS")return new Response(null,{status:204,headers:OUTAGE_API_HEADERS});
+  if(method!=="GET"&&method!=="HEAD")
+    return new Response(JSON.stringify({error:"method_not_allowed"}),{status:405,headers:OUTAGE_API_HEADERS});
+  if(new URL(request.url).search)
+    return new Response(JSON.stringify({error:"unsupported_query"}),{status:400,headers:OUTAGE_API_HEADERS});
+  try{
+    const resp=await fetch("https://outage-feed.resoarc.com/v1/security-alerts",{
+      headers:{"Accept":"application/json"},signal:AbortSignal.timeout(14000),cf:{cacheTtl:60}});
+    if(!resp.ok)throw Error("upstream");
+    const d=await resp.json();
+    if(d.schema_version!=="1.0"||d.type!=="security_service_incidents"||
+       !Array.isArray(d.incidents)||d.incidents.length>15)
+      throw Error("schema");
+    return new Response(method==="HEAD"?null:JSON.stringify(d),{
+      status:200,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"public, max-age=120"}});
+  }catch{
+    return new Response(method==="HEAD"?null:JSON.stringify({
+      error:"official_security_incident_feed_unavailable",
+      note:"No availability conclusion should be inferred"
     }),{status:503,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"no-store"}});
   }
 }

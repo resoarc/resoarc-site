@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="/assets/brand-cosmic-20261022.css">
 <link rel="stylesheet" href="/assets/outage-radar-20261023.css">
 <link rel="stylesheet" href="/assets/php-service-observatory-20261024.css?v=20261024-auto2">
+<link rel="stylesheet" href="/assets/gmo-incident-20261024.css">
 <title>Webサービス障害速報 | ResoArc</title>
 <meta property="og:title" content="Webサービス障害速報 | ResoArc">
 <meta property="og:description" content="主要Webサービスの公式ステータスを横断表示。障害中・経過観察・復旧情報を確認できます。">
@@ -52,7 +53,16 @@
       <div class="outage-titleline"><h2 id="outage-grid-title">主要サービスの状況</h2><p>各サービスの公式ステータスページへ移動できます ↗</p></div>
       <div class="outage-status-grid" id="outage-services" aria-live="polite"><div class="outage-message">データを読み込んでいます。</div></div>
     </section>
-    <section class="php-section" id="php-incidents" aria-labelledby="php-incidents-title">
+    <section class="gmo-security-panel" id="security-company-incidents" aria-labelledby="security-company-title">
+  <h2 id="security-company-title">企業サービスの重大な停止・セキュリティ事案</h2>
+  <p>PHP脆弱性への予防停止とは別に、公式に公表された不正アクセスなどによるサービス停止を確認します。停止中かどうかは企業の公式発表とその公表日時に基づいて記載します。</p>
+  <div id="security-company-info" class="gmo-panel-info">公式発表を取得中</div>
+  <div id="security-company-records" aria-live="polite">
+    <p>GMO「お名前.com デスクトップクラウド」は、2026年10月24日15時公表時点で全プラン停止継続、再開時期未定です。
+    <a href="https://internet.gmo/news/article/250/" rel="noopener noreferrer" target="_blank">公式発表を確認 ↗</a></p>
+  </div>
+</section>
+<section class="php-section" id="php-incidents" aria-labelledby="php-incidents-title">
   <div class="php-section-top">
     <div>
       <p class="outage-eyebrow" style="color:#217694">PHP SECURITY RESPONSE / CORPORATE SERVICE STATUS</p>
@@ -126,5 +136,6 @@
 <footer class="footer"><div class="container footer-top"><div class="footer-brand"><img class="arc-brand-symbol" src="/assets/resoarc-icon.svg" width="48" height="48" alt="" aria-hidden="true"/><div><img class="arc-footer-wordmark" src="/assets/resoarc-wordmark-official.svg" width="196" height="38" alt="ResoArc"/><small>OPEN TOOLS / CREATIVE ENGINEERING</small><p>自由で、開かれた技術を。</p></div></div><nav class="footer-nav" aria-label="フッターのサイト案内"><div class="footer-group"><h3>EXPLORE</h3><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/releases/">更新履歴</a></div><div class="footer-group"><h3>PRODUCTS</h3><a href="/products/">無料ツール</a><a href="/os/">ResoArcOS</a><a href="/guide/">利用ガイド</a></div><div class="footer-group"><h3>TRUST &amp; QUALITY</h3><a href="/principles/">品質方針</a><a href="/trust/">信頼性と説明責任</a><a href="/recognition/">実績・協賛</a><a href="/license/">ライセンス</a></div><div class="footer-group"><h3>INFORMATION</h3><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/sitemap.xml">サイトマップ</a><a href="/source/">公開ソース・Codeberg <span aria-hidden="true">↗</span></a></div></nav></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer>
 <script src="/assets/outage-radar-20261023.js?v=20261024-hourly" defer></script>
 <script src="/assets/php-service-observatory-20261024.js?v=20261024-auto2" defer></script>
+<script src="/assets/gmo-incident-20261024.js" defer></script>
 <script defer src="/assets/navigation.js"></script></body>
 </html>

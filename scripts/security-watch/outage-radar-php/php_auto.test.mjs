@@ -41,7 +41,7 @@ assert.equal(context.phpOfficialState("PHP 安全性の確認中のため一部�
 const doc=await context.worker.fetch(new Request("https://outage-feed.resoarc.com/v1/php"),env,{});
 assert.equal(doc.status,200);
 const data=await doc.json();
-assert.equal(data.cases_total,59);
+assert.equal(data.cases_total,61);
 assert(data.discovery.items.length>=1);
 assert.equal(data.discovery.items[0].status,"discovery_unverified");
 assert.equal(data.discovery.quality,"OK");

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "source_as_of": "2026-10-24T02:00:00+09:00",
+  "source_as_of": "2026-10-24T22:00:00+09:00",
   "disclaimer": "Confirmed company-specific notices; a fixed-status notice isn't proof of current availability. Official rechecks and RSS discovery are carried out automatically, ambiguous states remain unconfirmed.",
   "cases": [
     {
@@ -827,6 +827,34 @@
       "subject": "PHP-related precautionary service suspension / remediation",
       "region": "JP",
       "evidence_tier": "first_party",
+      "verification_date": "2026-10-24"
+    },
+    {
+      "id": "gmo-lolipop-20261022",
+      "name": "GMOペパボ（ロリポップ！）",
+      "service": "レンタルサーバー利用者サイト・phpMyAdmin・管理画面・各種API",
+      "official_status": "restored",
+      "source_url": "https://wordpress.lolipop.jp/info/news/8239/",
+      "website_url": "https://lolipop.jp",
+      "source_date": "2026-10-22",
+      "note": "PHP脆弱性対策の予防停止。22日13時頃から段階的に再開、16時44分頃までに公式列挙の各サービス復旧",
+      "subject": "PHP CVE-2026-109618 / CVE-2026-109619",
+      "region": "JP",
+      "evidence_tier": "first_party",
+      "verification_date": "2026-10-24"
+    },
+    {
+      "id": "gmo-makeshop-20261022",
+      "name": "GMOメイクショップ（makeshop）",
+      "service": "ショップサイト表示・ショップ管理画面",
+      "official_status": "restored",
+      "source_url": "https://www.mhcl-shop.com/view/news/20261023180837",
+      "website_url": "https://www.makeshop.jp",
+      "source_date": "2026-10-23",
+      "note": "PHP脆弱性対応で10月21日23時～22日4時42分に緊急メンテナンス。終了後の通常利用を案内（掲載先は加盟ショップ）",
+      "subject": "PHP CVE-2026-109618 / CVE-2026-109619",
+      "region": "JP",
+      "evidence_tier": "secondary_vendor_relay",
       "verification_date": "2026-10-24"
     }
   ]
