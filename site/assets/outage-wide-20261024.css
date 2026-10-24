@@ -1,0 +1,28 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project */
+/* SPDX-License-Identifier: MIT */
+.wide-news-panel{border:1px solid #c9dce5;border-radius:15px;background:linear-gradient(140deg,#f5fbff 0%,#fff 70%);padding:23px;margin:24px 0;scroll-margin-top:90px}
+.wide-news-panel h2{font-size:1.42rem;color:#15364b;margin:0 0 8px}
+.wide-news-desc{font-size:.86rem;color:#4d6678;line-height:1.75;margin:0 0 14px}
+.wide-news-overview{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:.76rem;color:#59778a;margin:13px 0 16px}
+.wide-news-status{background:#e8f4f8;border-radius:9px;padding:11px 14px;font-size:.8rem;line-height:1.7;color:#3d6475;margin:10px 0}
+.wide-news-warning{background:#fff0da;color:#865522}
+.wide-news-filters{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 12px}
+.wide-news-filters button{background:#fff;border:1px solid #c6dbe4;border-radius:8px;padding:9px 10px;font-size:.77rem;color:#295067;cursor:pointer}
+.wide-news-filters button[aria-pressed=true]{background:#134566;color:white;border-color:#134566}
+.wide-news-toolbar{display:flex;gap:9px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.wide-news-toolbar input{background:#fff;border:1px solid #c8dce4;border-radius:8px;padding:10px;flex:1 1 180px;min-width:0}
+.wide-news-toolbar button,.wide-news-more{background:white;border:1px solid #a9c9d8;border-radius:8px;padding:10px 14px;color:#13516d;cursor:pointer;font-weight:700}
+.wide-news-count{margin-left:auto;color:#5b7585;font-size:.8rem}
+.wide-news-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.wide-news-card{border:1px solid #d7e4eb;border-radius:10px;background:#fff;padding:15px;min-width:0}
+.wide-news-row{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.wide-news-category{background:#e8f2f6;color:#22546b;border-radius:5px;padding:4px 8px;font-size:.72rem;font-weight:800}
+.wide-news-unverified{font-size:.71rem;color:#855c24}
+.wide-news-title{display:block;color:#0f537a;text-decoration:none;font-weight:750;line-height:1.65;font-size:.88rem;overflow-wrap:anywhere}
+.wide-news-title:hover{text-decoration:underline;text-underline-offset:3px}
+.wide-news-meta{display:flex;gap:7px 14px;flex-wrap:wrap;margin-top:11px;color:#637c89;font-size:.73rem}
+.wide-news-detected{font-size:.72rem;color:#65737e;margin:8px 0 0}
+.wide-news-bottom{display:flex;justify-content:center;margin-top:16px}
+.wide-news-fineprint{color:#617b89;line-height:1.7;font-size:.78rem;margin:18px 0 0}
+.wide-news-empty{font-size:.83rem;color:#557081}
+@media(max-width:730px){.wide-news-panel{padding:17px 12px}.wide-news-list{grid-template-columns:1fr}.wide-news-toolbar input{flex-basis:100%}}

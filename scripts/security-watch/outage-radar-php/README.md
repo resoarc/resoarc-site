@@ -23,3 +23,12 @@ Source of the Cloudflare Cron/KV Worker backing /api/v1/outages/php.
 * A read-only interval-limited path /v1/php/discovery/refresh rechecks fixed RSS sources; /v1/php/discovery/diagnostics reports their reachability.
 * Known first-party incident notices are revisited in rotating groups. Only explicit recovery statements can promote reported suspended/partial statuses.
 * No credentials, arbitrary crawl URLs, private operational assets, or user-controlled fetch targets are exposed.
+
+## Cross-sector service-interruption discovery (2026-10-24)
+
+* /v1/discovery collects up to 180 unverified service-interruption news candidates from twelve bounded Japanese search topics, with Bing News RSS -> Google News RSS fallback.
+* Covers cyberattack, leak, hosting/cloud, telecommunications, payments, government/education and general corporate websites. Classification is heuristic and not evidence of cause or ongoing outage.
+* Deduplicates by normalized title, retains seven days of article metadata in KV and up to 30 days of hourly counts in /v1/discovery/history.
+* If all news searches fail, the previous good snapshot is retained, quality/failure reported independently.
+* The static public page uses a read-only proxy /api/v1/outages/discovery; no RSS destination URL is accepted from the public.
+* Confirmed official incidents remain in the separate /v1/php and /v1/security-alerts feeds.

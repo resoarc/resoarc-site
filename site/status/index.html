@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="/assets/outage-radar-20261023.css">
 <link rel="stylesheet" href="/assets/php-service-observatory-20261024.css?v=20261024-auto2">
 <link rel="stylesheet" href="/assets/gmo-incident-20261024.css">
+<link rel="stylesheet" href="/assets/outage-wide-20261024.css?v=wide1">
 <title>Webサービス障害速報 | ResoArc</title>
 <meta property="og:title" content="Webサービス障害速報 | ResoArc">
 <meta property="og:description" content="主要Webサービスの公式ステータスを横断表示。障害中・経過観察・復旧情報を確認できます。">
@@ -53,7 +54,31 @@
       <div class="outage-titleline"><h2 id="outage-grid-title">主要サービスの状況</h2><p>各サービスの公式ステータスページへ移動できます ↗</p></div>
       <div class="outage-status-grid" id="outage-services" aria-live="polite"><div class="outage-message">データを読み込んでいます。</div></div>
     </section>
-    <section class="gmo-security-panel" id="security-company-incidents" aria-labelledby="security-company-title">
+    <section class="wide-news-panel" id="service-discovery" aria-labelledby="wide-news-heading">
+  <h2 id="wide-news-heading">国内企業・公共サービスの障害速報候補</h2>
+  <p class="wide-news-desc">PHPだけでなく、サイバー攻撃、情報漏えい、クラウド、通信、金融決済、公共・教育、Webサービスの停止や復旧を横断検索します。ニュースの見出しは真偽・影響範囲・現在の稼働を保証しません。</p>
+  <div class="wide-news-overview"><span id="wide-news-updated">最終収集：確認中</span><span id="wide-news-source-count">情報源を確認中</span></div>
+  <p id="wide-news-status" class="wide-news-status" role="status">複数のニュース情報源から報道候補を収集中です。</p>
+  <div class="wide-news-filters" role="group" aria-label="報道候補のカテゴリ">
+    <button type="button" data-wide-category="all" aria-pressed="true">すべて</button>
+    <button type="button" data-wide-category="cyber" aria-pressed="false">サイバー攻撃</button>
+    <button type="button" data-wide-category="leak" aria-pressed="false">情報漏えい</button>
+    <button type="button" data-wide-category="cloud" aria-pressed="false">クラウド</button>
+    <button type="button" data-wide-category="telecom" aria-pressed="false">通信</button>
+    <button type="button" data-wide-category="payments" aria-pressed="false">金融・決済</button>
+    <button type="button" data-wide-category="public" aria-pressed="false">公共・教育</button>
+    <button type="button" data-wide-category="general" aria-pressed="false">その他の停止</button>
+  </div>
+  <div class="wide-news-toolbar">
+    <input type="search" id="wide-news-search" aria-label="報道候補を検索" placeholder="企業・サービス・キーワードで検索">
+    <button type="button" id="wide-news-reload">再読み込み</button>
+    <span class="wide-news-count" id="wide-news-count">取得中</span>
+  </div>
+  <div id="wide-news-list" class="wide-news-list" aria-live="polite"><p class="wide-news-empty">記事を取得しています。</p></div>
+  <div class="wide-news-bottom"><button type="button" class="wide-news-more" id="wide-news-more" hidden>さらに24件表示</button></div>
+  <p class="wide-news-fineprint">広域ニュースの収集は毎時25分、従来の障害監視は毎時05分（配信環境により遅延する場合あり）。BingニュースRSSを優先し、取得できない場合はGoogleニュースRSSに切り替えます。7日以内の候補を重複排除し、30日分の件数推移を記録します。公式発表を確認できた停止・復旧情報は下の専用欄に分けています。<a href="https://resoarc.com/api/v1/outages/discovery" target="_blank" rel="noopener noreferrer">検索候補の公開JSON API ↗</a></p>
+</section>
+<section class="gmo-security-panel" id="security-company-incidents" aria-labelledby="security-company-title">
   <h2 id="security-company-title">企業サービスの重大な停止・セキュリティ事案</h2>
   <p>PHP脆弱性への予防停止とは別に、公式に公表された不正アクセスなどによるサービス停止を確認します。停止中かどうかは企業の公式発表とその公表日時に基づいて記載します。</p>
   <div id="security-company-info" class="gmo-panel-info">公式発表を取得中</div>
@@ -137,5 +162,6 @@
 <script src="/assets/outage-radar-20261023.js?v=20261024-hourly" defer></script>
 <script src="/assets/php-service-observatory-20261024.js?v=20261024-auto2" defer></script>
 <script src="/assets/gmo-incident-20261024.js" defer></script>
+<script src="/assets/outage-wide-20261024.js?v=wide1" defer></script>
 <script defer src="/assets/navigation.js"></script></body>
 </html>

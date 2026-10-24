@@ -133,6 +133,7 @@ async function securityWeatherRequest(request, env, url) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/v1/outages/discovery") return outageWideNewsProxy(request);
     if (url.pathname === "/api/v1/outages/security") return outageSecurityProxy(request);
     if (url.pathname === "/api/v1/outages/php") return outagePhpProxy(request);
     if (url.pathname === "/api/v1/outages/hourly") return outageHourlyProxy(request);
@@ -371,6 +372,38 @@ async function outageSecurityProxy(request) {
     return new Response(method==="HEAD"?null:JSON.stringify({
       error:"official_security_incident_feed_unavailable",
       note:"No availability conclusion should be inferred"
+    }),{status:503,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"no-store"}});
+  }
+}
+
+/* Read-only public proxy: UNVERIFIED news mentions, not live operational status. */
+async function outageWideNewsProxy(request) {
+  const method=request.method;
+  if(method==="OPTIONS")
+    return new Response(null,{status:204,headers:OUTAGE_API_HEADERS});
+  if(method!=="GET"&&method!=="HEAD")
+    return new Response(JSON.stringify({error:"method_not_allowed"}),{status:405,headers:OUTAGE_API_HEADERS});
+  if(new URL(request.url).search)
+    return new Response(JSON.stringify({error:"unsupported_query"}),{status:400,headers:OUTAGE_API_HEADERS});
+  try{
+    const response=await fetch("https://outage-feed.resoarc.com/v1/discovery",{
+      headers:{"Accept":"application/json"},signal:AbortSignal.timeout(19000),
+      cf:{cacheTtl:90}
+    });
+    if(!response.ok)throw Error("upstream_unavailable");
+    const result=await response.json();
+    if(result.schema_version!=="1.0"||result.type!=="cross_sector_outage_discovery"||
+       !Array.isArray(result.items)||result.items.length>200||
+       typeof result.total!=="number"||result.total>200||
+       !Array.isArray(result.source_breakdown) || result.source_breakdown.length>20)
+      throw Error("unexpected_discovery_schema");
+    return new Response(method==="HEAD"?null:JSON.stringify(result),{
+      status:200,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"public, max-age=90"}
+    });
+  }catch{
+    return new Response(method==="HEAD"?null:JSON.stringify({
+      error:"wide_news_discovery_unavailable",
+      note:"Do not infer that no service outages exist when discovery is unavailable."
     }),{status:503,headers:{...OUTAGE_API_HEADERS,"Cache-Control":"no-store"}});
   }
 }

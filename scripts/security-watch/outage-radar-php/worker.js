@@ -56,7 +56,13 @@ async function collect(env,kind) {
   }
 }
 export default {
-  async scheduled(_controller,env,ctx) {
+  async scheduled(controller,env,ctx) {
+    if(controller?.cron==="25 * * * *"){
+      ctx.waitUntil(collectWideNews(env,"wide_news_cron").catch(error=>{
+        console.warn("WIDE_DISCOVERY_COLLECTION_FAILED",String(error?.message||error).slice(0,100));
+      }));
+      return;
+    }
     ctx.waitUntil(collect(env,"scheduled"));
     ctx.waitUntil(collectPhp(env,"scheduled"));
     ctx.waitUntil(collectSecurityIncidents(env,"scheduled"));
@@ -68,8 +74,16 @@ export default {
     if(url.pathname==="/v1/php/discovery/refresh")return phpRefreshDiscovery(request,env);
     if(method==="OPTIONS")return new Response(null,{status:204,headers:HEADERS});
     if(method!=="GET"&&method!=="HEAD")return json({error:"method_not_allowed"},405,method==="HEAD");
-    if(url.search||!["/","/v1/outages","/v1/health","/v1/history","/v1/php","/v1/php/history","/v1/security-alerts"].includes(url.pathname))
+    if(url.search||!["/","/v1/outages","/v1/health","/v1/history","/v1/php","/v1/php/history","/v1/security-alerts","/v1/discovery","/v1/discovery/history"].includes(url.pathname))
       return json({error:"not_found"},404,method==="HEAD");
+    if(url.pathname==="/v1/discovery"){
+      return json(await readWideNews(env),200,method==="HEAD");
+    }
+    if(url.pathname==="/v1/discovery/history"){
+      const trend=await env.OUTAGES.get(WIDE_NEWS_HISTORY,"json");
+      return json({schema_version:"1.0",type:"cross_sector_outage_trend",
+        history:Array.isArray(trend)?trend:[],retention_days:30},200,method==="HEAD");
+    }
     if(url.pathname==="/v1/security-alerts"){
       try{return json(await securityIncidentsResponse(env),200,method==="HEAD");}
       catch{return json({error:"security_feed_unavailable",quality:"UNAVAILABLE"},503,method==="HEAD");}
@@ -177,10 +191,10 @@ async function collectPhp(env,kind) {
   const now=new Date().toISOString();
   const prev=await env.OUTAGES.get(PHP_LAST,"json");
   const previousById=new Map((prev?.companies||[]).map(x=>[x.id,x.website_check]));
-  // Keep external request count bounded as the corpus grows: 24 HEAD checks per hour.
+  // Keep external request count bounded as the corpus grows: 18 HEAD checks per hour.
   // All other sites retain the last observation with its original checked_at timestamp.
-  const rotation=Math.floor(Date.now()/3600000)*24;
-  const sampled=new Set(Array.from({length:Math.min(24,PHP_REGISTRY.length)},
+  const rotation=Math.floor(Date.now()/3600000)*18;
+  const sampled=new Set(Array.from({length:Math.min(18,PHP_REGISTRY.length)},
     (_,i)=>PHP_REGISTRY[(rotation+i)%PHP_REGISTRY.length].id));
   const [companies,providers,discovery,review]=await Promise.all([
     phpLimitedMap(PHP_REGISTRY,5,async record=>({
@@ -228,7 +242,7 @@ async function collectPhp(env,kind) {
       diagnostics:discovery.errors,items:discovery.items},
     note:"各社公式告知に基づく公表状況。公表日以降の復旧は自動確定しません。HTTPは外形応答のみで個別の停止サービスの稼働保証ではありません。",
     source_update_policy:"New reports are automatically discovered from public news RSS into an unverified candidates panel. Registered official announcements are rechecked in rotating batches, and only explicit full-recovery or partial-recovery expressions can update the displayed notice status. Unconfirmed reports never become confirmed automatically.",
-    probe_policy:"Rotating up to 24 fixed public homepages each hour by HEAD. Two consecutive failures lead to suspected unavailability; 401/403 remain unverified. Last-checked times are preserved.",
+    probe_policy:"Rotating up to 18 fixed public homepages each hour by HEAD. Two consecutive failures lead to suspected unavailability; 401/403 remain unverified. Last-checked times are preserved.",
     history_retention_days:30
   };
   let history=await env.OUTAGES.get(PHP_HISTORY,"json");
@@ -502,4 +516,190 @@ async function securityIncidentsResponse(env){
   let result=await env.OUTAGES.get(SECURITY_KEY,"json");
   if(!result)result=await collectSecurityIncidents(env,"first_read_bootstrap");
   return {...result,stale:expired(result.collected_at)};
+}
+
+
+/* Cross-sector Japanese service interruption and security-event discovery.
+   News/search mentions are UNVERIFIED leads, never official service state. */
+const WIDE_NEWS_KEY="wide:discovery:latest:v1";
+const WIDE_NEWS_HISTORY="wide:discovery:history:v1";
+const WIDE_NEWS_HEALTH="wide:discovery:health:v1";
+const WIDE_QUERIES=Object.freeze([
+  {group:"cyber",q:"サイバー攻撃 サービス停止"},
+  {group:"cyber",q:"不正アクセス サービス停止"},
+  {group:"cyber",q:"ランサムウェア 企業 サービス"},
+  {group:"leak",q:"企業 個人情報 漏えい"},
+  {group:"cloud",q:"クラウド サービス障害"},
+  {group:"cloud",q:"レンタルサーバー 障害"},
+  {group:"telecom",q:"通信障害 復旧"},
+  {group:"payments",q:"決済 システム障害"},
+  {group:"payments",q:"銀行 アプリ 障害"},
+  {group:"public",q:"自治体 システム 停止"},
+  {group:"general",q:"Webサイト サービス 一時停止"},
+  {group:"general",q:"GMO デスクトップクラウド 停止"}
+]);
+const WIDE_GROUP_LABELS={
+  cyber:"不正アクセス・サイバー攻撃",leak:"情報漏えい",
+  cloud:"クラウド・ホスティング",telecom:"通信・ネットワーク",
+  payments:"金融・決済",public:"公共・教育",general:"サービス・Webサイト"
+};
+function wideNormalize(value){
+  return String(value||"").normalize("NFKC").toLowerCase()
+    .replace(/[ \u3000　"“”‘’「」『』【】()（）‐\-–—!！？?・、。：:]/g,"")
+    .slice(0,180);
+}
+function wideClassify(title,group){
+  if(/ランサムウェア|サイバー攻撃|不正アクセス|侵入|dDoS|DDoS|攻撃を受け/.test(title))
+    return "cyber";
+  if(/(?:情報|個人データ|顧客データ).{0,9}(?:漏えい|流出)|漏えい.{0,5}(?:可能性|発覚)/.test(title))
+    return "leak";
+  if(/ネットワーク|通信障害|インターネット回線|携帯回線|通信サービス/.test(title))
+    return "telecom";
+  if(/銀行|決済|送金|クレジット|金融|ペイメント/.test(title))
+    return "payments";
+  if(/クラウド|サーバー|レンタルサーバー|ホスティング|データセンター/.test(title))
+    return "cloud";
+  if(/省庁|自治体|行政|大学|図書館|区役所|市役所|公共/.test(title))
+    return "public";
+  return group;
+}
+function wideRelevant(title){
+  const topic=/障害|停止|休止|中断|ダウン|復旧|再開|漏えい|流出|不正アクセス|ランサムウェア|サイバー攻撃|緊急メンテナンス|システムトラブル|接続できない|アクセスできない/i;
+  const context=/システム|ウェブ|web|サイト|サービス|企業|通信|回線|クラウド|サーバ|アプリ|顧客|利用|ネットワーク|銀行|決済|ランサム|不正|障害|漏えい|流出|セキュリティ|攻撃|復旧|再開|停止/i;
+  // Ignore speculative financial, how-to and generic conceptual stories, and job offers.
+  const off=/求人|転職|株価予想|株式市場の取引停止|鉄道運行停止|運転見合わせ|停電情報のみ|気象警報|なぜ起きる|しくみを解説|とは何か/i;
+  return topic.test(title)&&context.test(title)&&!off.test(title);
+}
+function wideExtract(raw,source,group,seenAt){
+  const found=[];
+  for(const item of raw.match(/<item(?:\s[^>]*)?>[\s\S]*?<\/item>/g)||[]){
+    const field=(name)=>phpXmlUnescape((item.split("<"+name+">")[1]||"").split("</"+name+">")[0]);
+    const title=field("title").slice(0,245).trim();
+    let link=field("link").slice(0,900).trim();
+    const match=item.match(/<source\s+url="([^"]+)"[^>]*>([\s\S]*?)<\/source>/i);
+    let publisher=phpXmlUnescape(match?.[2]||"").slice(0,100);
+    let publisher_url=phpXmlUnescape(match?.[1]||"").slice(0,300);
+    if(source==="bing"&&/^https?:\/\/(?:www\.)?bing\.com\/news\/apiclick\.aspx/.test(link)){
+      try{link=new URL(link).searchParams.get("url")||link;}catch{}
+    }
+    // Google News links remain links to the article aggregator and are not official confirmations.
+    if(!phpSafePublicHost(link))continue;
+    if(!phpSafePublicHost(publisher_url)){
+      publisher_url="";  // No unverified crawl destinations
+      if(source==="bing"){
+        try{publisher_url=new URL(link).origin;}catch{}
+      }
+    }
+    const published=new Date(field("pubDate"));
+    if(!title||!wideRelevant(title)||!Number.isFinite(published.getTime())||
+       published.getTime()<Date.now()-8*86400000 ||
+       published.getTime()>Date.now()+30*60000)continue;
+    if(!publisher)publisher=title.includes(" - ")?title.split(" - ").pop().slice(0,100):"配信元未確認";
+    const normalized=wideNormalize(title.replace(/\s+-\s+[^-]+$/,""));
+    if(normalized.length<8)continue;
+    const category=wideClassify(title,group);
+    found.push({
+      id:normalized.slice(0,90),title,link,publisher,publisher_url,
+      published_at:published.toISOString(),
+      category,category_label:WIDE_GROUP_LABELS[category]||"その他",
+      reported_state:/復旧|再開|正常化|解消|再稼働/.test(title)?"recovery_mentioned":
+        /停止|障害|不正アクセス|ダウン|漏えい|流出/.test(title)?"issue_mentioned":"unspecified",
+      first_seen_at:seenAt,last_seen_at:seenAt,
+      evidence:"unverified_media_mention"
+    });
+  }
+  return found;
+}
+async function wideSearch(group){
+  const q=group.q;
+  const google="https://news.google.com/rss/search?q="+encodeURIComponent(q)+"&hl=ja&gl=JP&ceid=JP:ja";
+  const bing="https://www.bing.com/news/search?q="+encodeURIComponent(q)+"&format=rss&mkt=ja-jp";
+  // Prefer the working Bing source; try Google only when Bing fails.
+  for(const provider of ["bing","google"]){
+    try{
+      const response=await fetch(provider==="google"?google:bing,{
+        headers:{"Accept":"application/rss+xml","User-Agent":"ResoArc-Official-Outage-News-Radar/1.0 (+https://resoarc.com/status/)"},
+        signal:AbortSignal.timeout(provider==="google"?8500:10500)
+      });
+      if(!response.ok)throw Error(provider+"_http_"+response.status);
+      const content=(await response.text()).slice(0,360000);
+      if(!content.includes("<rss")||!content.includes("<channel"))
+        throw Error(provider+"_not_rss");
+      return {group:group.group,provider,success:true,
+        items:wideExtract(content,provider,group.group,new Date().toISOString())};
+    }catch{}
+  }
+  return {group:group.group,provider:null,success:false,items:[]};
+}
+async function collectWideNews(env,trigger){
+  const now=new Date().toISOString();
+  const prev=await env.OUTAGES.get(WIDE_NEWS_KEY,"json");
+  const replies=await phpLimitedMap(WIDE_QUERIES,4,wideSearch);
+  const succeeded=replies.filter(x=>x.success);
+  const failed=replies.length-succeeded.length;
+  const bingSources=replies.filter(x=>x.provider==="bing").length;
+  const old=Array.isArray(prev?.items)?prev.items:[];
+  if(!succeeded.length){
+    await env.OUTAGES.put(WIDE_NEWS_HEALTH,JSON.stringify({
+      last_attempt_at:now,last_attempt_status:"failed",
+      last_success_at:prev?.last_success_at||null,query_count:replies.length,failed_queries:failed
+    }));
+    if(prev)return {...prev,stale:true,last_attempt_status:"failed"};
+    throw Error("WIDE_NEWS_ALL_SOURCES_UNAVAILABLE");
+  }
+  const map=new Map();
+  // Prefer fresh hits to previously retained older entries with the same normalized title.
+  for(const article of [...replies.flatMap(x=>x.items),...old]){
+    const key=wideNormalize(article.title.replace(/\s+-\s+[^-]+$/,""));
+    if(!key)continue;
+    if(!map.has(key)){
+      const previous=old.find(x=>wideNormalize(x.title.replace(/\s+-\s+[^-]+$/,""))===key);
+      map.set(key,{...article,first_seen_at:previous?.first_seen_at||article.first_seen_at||now,
+        last_seen_at:article.last_seen_at||now});
+    }
+  }
+  const articles=[...map.values()]
+    .filter(x=>Date.parse(x.published_at)>Date.now()-7*86400000)
+    .sort((a,b)=>b.published_at.localeCompare(a.published_at))
+    .slice(0,180);
+  const counts=Object.fromEntries(Object.keys(WIDE_GROUP_LABELS).map(x=>[x,0]));
+  for(const row of articles)counts[row.category]=(counts[row.category]||0)+1;
+  const result={
+    schema_version:"1.0",type:"cross_sector_outage_discovery",
+    collected_at:now,last_success_at:now,collection_mode:"hourly_cron",
+    status:"unverified_candidates",quality:failed===0?"OK":"PARTIAL",
+    query_count:replies.length,successful_queries:succeeded.length,
+    failed_queries:failed,bing_queries:bingSources,
+    source_breakdown:replies.map(x=>({category:x.group,source:x.provider||"unavailable",
+      success:x.success,found:x.items.length})),
+    total:articles.length,category_totals:counts,items:articles,
+    note:"ニュース・検索配信に基づく未照合候補。事案の真偽・原因・現在の停止/復旧状態は断定しません。公式確認済み情報とは別欄で表示します。",
+    data_retention_days:7,history_retention_days:30
+  };
+  let trend=await env.OUTAGES.get(WIDE_NEWS_HISTORY,"json");
+  if(!Array.isArray(trend))trend=[];
+  trend.push({collected_at:now,total:articles.length,quality:result.quality,
+    failed_queries:failed,category_totals:counts});
+  trend=trend.filter(x=>Date.parse(x.collected_at)>Date.now()-30*86400000).slice(-720);
+  await env.OUTAGES.put(WIDE_NEWS_KEY,JSON.stringify(result));
+  await env.OUTAGES.put(WIDE_NEWS_HISTORY,JSON.stringify(trend));
+  await env.OUTAGES.put(WIDE_NEWS_HEALTH,JSON.stringify({
+    last_attempt_at:now,last_attempt_status:"success",last_success_at:now,
+    query_count:replies.length,failed_queries:failed,trigger}));
+  console.log("WIDE_NEWS_DISCOVERY",result.total,"quality",result.quality,"bing_sources",bingSources);
+  return result;
+}
+async function readWideNews(env){
+  let [latest,health]=await Promise.all([
+    env.OUTAGES.get(WIDE_NEWS_KEY,"json"),
+    env.OUTAGES.get(WIDE_NEWS_HEALTH,"json")]);
+  if(!latest && (!health?.last_attempt_at || Date.now()-Date.parse(health.last_attempt_at)>20*60000)){
+    try{latest=await collectWideNews(env,"first_read_bootstrap");}
+    catch{health=await env.OUTAGES.get(WIDE_NEWS_HEALTH,"json");}
+  }
+  if(!latest)return {schema_version:"1.0",type:"cross_sector_outage_discovery",
+    quality:"UNAVAILABLE",total:0,items:[],last_attempt_status:health?.last_attempt_status||"never"};
+  return {...latest,stale:expired(latest.collected_at),
+    last_attempt_status:health?.last_attempt_status||"unknown",
+    last_attempt_at:health?.last_attempt_at||null};
 }
