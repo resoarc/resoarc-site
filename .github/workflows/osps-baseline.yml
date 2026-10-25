@@ -1,8 +1,9 @@
 # SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
 # SPDX-License-Identifier: MIT
-# Security Slam 2026 Mechanizer candidate, DRAFT PR only.
-# Requires read-only PVTR_GITHUB_TOKEN repository secret before merge.
-# Run on default branch after Central release/synchronization approval.
+# Security Slam 2026 Mechanizer candidate; published to the default branch.
+# This workflow has NOT completed a scan until a repository-scoped, read-only
+# PVTR_GITHUB_TOKEN secret is configured and a real run produces evidence.
+# An empty or unauthenticated assessment must never be represented as PASS.
 name: OSPS Baseline recurring assessment
 
 on:
