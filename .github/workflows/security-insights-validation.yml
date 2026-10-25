@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
 # ResoArc Security Slam Cleaner: schema validation on proposed changes.
 # Uses immutable GitHub Actions and an immutable OpenSSF CUE schema revision.
 name: Validate Security Insights
