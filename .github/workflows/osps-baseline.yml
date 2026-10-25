@@ -37,12 +37,12 @@ jobs:
           persist-credentials: false
 
       - name: Evaluate public repository with OSPS scanner
-        uses: revanite-io/osps-baseline-action@ace75cc1fb748be898275f16f59f78363405bc0a # v1.3.3
+        uses: revanite-io/osps-baseline-action@d0d850b592f1788b2631f1dfdf84d80ea8c720f5 # v1.5.3
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           token: ${{ secrets.PVTR_GITHUB_TOKEN }}
-          catalog: osps-baseline-2026-02
+          catalog: osps-baseline
           output-format: json
           upload-sarif: 'false'
           fail-on-error: 'false'
