@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
 # Automatically propose updates to pinned GitHub Actions.
 # Review changes and let CI complete before merging.
 version: 2
