@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+SPDX-License-Identifier: MIT
+-->
+
 # ResoArc Security Self-Assessment (Draft for Maintainer Review)
 
 **Status:** Draft, 25 October 2026. Not a third-party audit or a completed OSPS Baseline attestation.
