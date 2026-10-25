@@ -8,6 +8,8 @@ header:
   comment: |
     Self-reported project information, not a certification.
     Only review-verified documents and real controls are linked.
+    The OSPS Baseline workflow is published but NOT running: its repo-scoped
+    read-only PVTR_GITHUB_TOKEN secret and an actual scan run are still required.
 project:
   name: ResoArc
   homepage: https://resoarc.com/
@@ -78,5 +80,14 @@ repository:
         integration:
           adhoc: false
           ci: true
+          release: false
+        results: {}
+      - name: OSPS Baseline Scanner
+        type: other
+        rulesets:
+          - osps-baseline
+        integration:
+          adhoc: false
+          ci: false
           release: false
         results: {}
