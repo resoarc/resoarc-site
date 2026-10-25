@@ -1,0 +1,37 @@
+header:
+  schema-version: 2.0.0
+  last-updated: '2026-10-25'
+  last-reviewed: '2026-10-25'
+  url: https://github.com/resoarc/resoarc-site/blob/main/security-insights.yml
+  comment: Public project self-description.
+project:
+  name: ResoArc
+  administrators:
+    - name: ResoArc Maintainer
+      affiliation: ResoArc
+      email: github@resoarc.com
+      primary: true
+  repositories:
+    - name: resoarc-site
+      url: https://github.com/resoarc/resoarc-site
+      comment: Main repository
+  vulnerability-reporting:
+    reports-accepted: true
+    bug-bounty-available: false
+repository:
+  url: https://github.com/resoarc/resoarc-site
+  status: active
+  accepts-change-request: true
+  accepts-automated-change-request: true
+  core-team:
+    - name: ResoArc Maintainer
+      affiliation: ResoArc
+      email: github@resoarc.com
+      primary: true
+  license:
+    url: https://github.com/resoarc/resoarc-site/blob/main/LICENSE
+    expression: MIT
+  security:
+    assessments:
+      self:
+        comment: No full-project security assessment completed.
