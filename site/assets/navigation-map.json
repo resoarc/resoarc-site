@@ -12,7 +12,7 @@
       "visible": true
     },
     "/education/": {
-      "title": "初学者教育支援",
+      "title": "無料の学習教材",
       "parent": "/",
       "visible": true
     },
@@ -62,12 +62,12 @@
       "visible": true
     },
     "/products/backup-migration/": {
-      "title": "バックアップ・移行 v1.0.0",
+      "title": "バックアップ・移行",
       "parent": "/products/",
       "visible": true
     },
     "/products/development-status/": {
-      "title": "開発中の4ツール：検証状況と公開前の条件",
+      "title": "開発中ツールの検証状況",
       "parent": "/products/",
       "visible": true
     },
@@ -132,7 +132,7 @@
       "visible": true
     },
     "/products/kintone/release-integrity/": {
-      "title": "配布ファイルの版と検証方法",
+      "title": "配布物の検証方法",
       "parent": "/products/kintone/",
       "visible": true
     },
@@ -262,12 +262,12 @@
       "visible": true
     },
     "/tools/kintone-app-diff/": {
-      "title": "設定JSONの差分を、確認する。",
+      "title": "設定JSON差分比較",
       "parent": "/products/web/",
       "visible": true
     },
     "/tools/kintone-auto-number/": {
-      "title": "自動採番を、シンプルに確実に。",
+      "title": "自動採番",
       "parent": "/products/kintone/",
       "visible": true
     },
@@ -307,7 +307,7 @@
       "visible": false
     },
     "/tools/kintone-import-check/": {
-      "title": "取り込む前に、不整合を見つける。",
+      "title": "CSV取込前診断",
       "parent": "/products/web/",
       "visible": true
     },

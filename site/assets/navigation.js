@@ -24,6 +24,17 @@ fetch(ENDPOINT,{cache:'no-cache',credentials:'same-origin'})
  const trail=[],seen=new Set();
  for(let u=known;u && pages[u] && !seen.has(u);u=pages[u].parent){seen.add(u);trail.unshift(u);}
  if(!trail.includes('/'))trail.unshift('/');
+ // Highlight the actual main section, including nested tools, without marking
+ // the home link as active on every deeper page.
+ const headerSection=trail.find(u=>u!=='/'&&['/project/','/products/','/principles/','/recognition/','/os/'].includes(u))
+   ||(known==='/'?'/':null);
+ document.querySelectorAll('header.site-header .desktop-nav a, header.site-header .mobile-panel a').forEach(a=>{
+   a.classList.remove('is-active');a.removeAttribute('aria-current');
+   if(headerSection&&normalize(a.getAttribute('href')||'')===headerSection){
+     a.classList.add('is-active');
+     a.setAttribute('aria-current',current===headerSection?'page':'location');
+   }
+ });
  const childMap={};
  for(const [url,item] of Object.entries(pages)){
   if(!item.visible)continue;
@@ -42,6 +53,10 @@ fetch(ENDPOINT,{cache:'no-cache',credentials:'same-origin'})
  const closeButton=el('button','ra-sidebar-close','閉じる ×');
  closeButton.type='button';closeButton.setAttribute('aria-label','ページ一覧を閉じる');
  header.append(heading,closeButton);sidebar.append(header);
+ const search=el('input','ra-sidebar-search');
+ search.type='search';search.placeholder='ページ名で検索';
+ search.setAttribute('aria-label','サイト内のページ名で検索');
+ search.autocomplete='off';sidebar.append(search);
  const nav=el('nav','ra-site-tree');nav.setAttribute('aria-label','ResoArc サイト階層');
  function draw(parent,host,depth){
   if(depth>9)return;
@@ -70,6 +85,37 @@ fetch(ENDPOINT,{cache:'no-cache',credentials:'same-origin'})
   }
  }
  draw('',nav,0);sidebar.append(nav);
+ // Search matches page labels and preserves ancestors, so deeply nested
+ // destinations remain reachable without manually opening every category.
+ const nodes=[...nav.querySelectorAll('.ra-node')];
+ const expandButtons=[...nav.querySelectorAll('.ra-expand')];
+ const originalExpansion=new Map(expandButtons.map(b=>[b,b.getAttribute('aria-expanded')==='true']));
+ search.addEventListener('input',()=>{
+   const query=search.value.trim().toLocaleLowerCase('ja');
+   if(!query){
+     for(const node of nodes)node.hidden=false;
+     for(const button of expandButtons){
+       const expanded=originalExpansion.get(button);
+       const panel=button.parentElement.nextElementSibling;
+       if(panel)panel.hidden=!expanded;
+       button.setAttribute('aria-expanded',String(expanded));
+       button.textContent=expanded?'−':'+';
+     }
+     return;
+   }
+   for(const node of [...nodes].reverse()){
+     const row=node.querySelector(':scope > .ra-node-row');
+     const label=row?.querySelector(':scope > a.ra-link')?.textContent||'';
+     const panel=node.querySelector(':scope > .ra-children');
+     const childMatch=panel?[...panel.children].some(child=>!child.hidden):false;
+     node.hidden=!(label.toLocaleLowerCase('ja').includes(query)||childMatch);
+     if(panel&&childMatch){
+       panel.hidden=false;
+       const button=row?.querySelector(':scope > .ra-expand');
+       if(button){button.setAttribute('aria-expanded','true');button.textContent='−';}
+     }
+   }
+ });
  const overlay=el('button','ra-overlay');
  overlay.type='button';overlay.setAttribute('aria-label','ページ一覧を閉じる');
  const crumb=el('nav','ra-breadcrumb');

@@ -103,3 +103,27 @@ body.ra-nav-ready .site-header .mobile-panel{z-index:260}
   body.ra-nav-ready .site-header .ra-crumb-current{max-width:45vw}
   body.ra-nav-ready .site-header .ra-nav-toggle{min-height:34px}
 }
+
+
+/* UX audit 2026-10-25: compact persistent navigation without changing site hierarchy. */
+.ra-sidebar-search{
+ display:block;width:calc(100% - 20px);margin:0 10px 13px;
+ padding:9px 10px;border:1px solid #b7cdd9;border-radius:6px;
+ background:#fff;color:#21465b;font:500 13px/1.4 system-ui,sans-serif;
+}
+.ra-sidebar-search:focus-visible{outline:3px solid #de9a39;outline-offset:2px}
+.ra-node[hidden]{display:none!important}
+.ra-node-row>.ra-link{font-size:13px;line-height:1.55;min-height:40px;display:flex;align-items:center}
+.ra-expand{flex-basis:36px;min-width:36px}
+@media(min-width:960px){
+ body.ra-nav-ready .site-header .header-inner{height:74px}
+ body.ra-nav-ready .site-header .ra-breadcrumb{min-height:42px;padding-top:3px;padding-bottom:3px}
+}
+@media(max-width:959px){
+ body.ra-nav-ready .site-header .header-inner{height:70px}
+ body.ra-nav-ready .site-header .ra-breadcrumb{min-height:44px;padding-top:4px;padding-bottom:4px}
+}
+@media(max-width:700px){
+ body.ra-nav-ready .site-header .header-inner{height:68px}
+ body.ra-nav-ready .site-header .ra-breadcrumb{min-height:42px}
+}

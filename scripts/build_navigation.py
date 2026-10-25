@@ -24,7 +24,7 @@ LEGACY_UNLISTED={
  '/tools/kintone-conditional/','/tools/kintone-tabs/',
 }
 LABELS={
- '/':'ホーム','/education/':'初学者教育支援',
+ '/':'ホーム','/education/':'無料の学習教材',
  '/education/circuit/':'電子回路','/education/programming/':'ロボットプログラミング',
  '/products/':'無料ツール','/products/kintone/':'kintoneプラグイン',
  '/products/web/':'Webツール','/products/web/screens/':'画面キャプチャ',
@@ -34,6 +34,12 @@ LABELS={
  '/recognition/':'実績・協賛','/releases/':'更新履歴',
  '/os/':'ResoArcOS','/os/pi/':'Raspberry Pi版',
  '/products/roadmap/':'開発ロードマップ',
+ '/tools/kintone-import-check/':'CSV取込前診断',
+ '/tools/kintone-app-diff/':'設定JSON差分比較',
+ '/tools/kintone-auto-number/':'自動採番',
+ '/products/development-status/':'開発中ツールの検証状況',
+ '/products/backup-migration/':'バックアップ・移行',
+ '/products/kintone/release-integrity/':'配布物の検証方法',
 }
 class TitleReader(HTMLParser):
  def __init__(self):
