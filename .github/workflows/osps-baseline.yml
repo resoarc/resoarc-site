@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
 # Security Slam 2026 Mechanizer candidate, DRAFT PR only.
 # Requires read-only PVTR_GITHUB_TOKEN repository secret before merge.
 # Run on default branch after Central release/synchronization approval.
