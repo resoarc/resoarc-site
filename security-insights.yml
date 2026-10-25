@@ -3,9 +3,12 @@ header:
   last-updated: '2026-10-25'
   last-reviewed: '2026-10-25'
   url: https://github.com/resoarc/resoarc-site/blob/main/security-insights.yml
-  comment: Public project self-description.
+  comment: |
+    Self-reported project information, not a certification.
+    Only review-verified documents and real controls are linked.
 project:
   name: ResoArc
+  homepage: https://resoarc.com/
   administrators:
     - name: ResoArc Maintainer
       affiliation: ResoArc
@@ -14,10 +17,22 @@ project:
   repositories:
     - name: resoarc-site
       url: https://github.com/resoarc/resoarc-site
-      comment: Main repository
+      comment: Public GitHub repository; Codeberg publication authority is undergoing independent reconciliation.
   vulnerability-reporting:
     reports-accepted: true
     bug-bounty-available: false
+    policy: https://github.com/resoarc/resoarc-site/blob/main/SECURITY.md
+    contact:
+      name: ResoArc Security Contact
+      primary: true
+      email: github@resoarc.com
+    comment: |
+      Please report privately to the contact in SECURITY.md.
+      Acknowledgment is a target, not a guaranteed SLA.
+  documentation:
+    quickstart-guide: https://github.com/resoarc/resoarc-site/blob/main/README.md
+    release-process: https://github.com/resoarc/resoarc-site/blob/main/DEPLOYMENT.md
+    signature-verification: https://github.com/resoarc/resoarc-site/blob/main/docs/release-provenance.md
 repository:
   url: https://github.com/resoarc/resoarc-site
   status: active
@@ -31,7 +46,35 @@ repository:
   license:
     url: https://github.com/resoarc/resoarc-site/blob/main/LICENSE
     expression: MIT
+  documentation:
+    contributing-guide: https://github.com/resoarc/resoarc-site/blob/main/CONTRIBUTING.md
+    review-policy: https://github.com/resoarc/resoarc-site/blob/main/docs/PUBLISHING.md
+    security-policy: https://github.com/resoarc/resoarc-site/blob/main/SECURITY.md
+    dependency-management-policy: https://github.com/resoarc/resoarc-site/blob/main/THIRD_PARTY_NOTICES.md
   security:
     assessments:
       self:
-        comment: No full-project security assessment completed.
+        name: ResoArc security self-assessment (draft)
+        evidence: https://github.com/resoarc/resoarc-site/blob/main/docs/security/SELF_ASSESSMENT.md
+        comment: |
+          In-maintainer-review draft only. This is not a completed baseline
+          assessment, third-party audit or claim of conformance.
+    tools:
+      - name: CodeQL
+        type: SAST
+        rulesets:
+          - default
+        integration:
+          adhoc: false
+          ci: true
+          release: false
+        results: {}
+      - name: REUSE
+        type: other
+        rulesets:
+          - default
+        integration:
+          adhoc: false
+          ci: true
+          release: false
+        results: {}
