@@ -1,0 +1,71 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
+# Security Slam 2026 Mechanizer candidate, DRAFT PR only.
+# Requires read-only PVTR_GITHUB_TOKEN repository secret before merge.
+# Run on default branch after Central release/synchronization approval.
+name: OSPS Baseline recurring assessment
+
+on:
+  schedule:
+    - cron: '17 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: osps-baseline-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  baseline:
+    name: Evaluate OSPS Baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Verify scanner authentication is configured
+        shell: bash
+        env:
+          PVTR_TOKEN: ${{ secrets.PVTR_GITHUB_TOKEN }}
+        run: |
+          if [ -z "$PVTR_TOKEN" ]; then
+            echo "::error::Required read-only PVTR_GITHUB_TOKEN secret is missing. No scan was performed."
+            exit 1
+          fi
+
+      - name: Checkout source (immutable action)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Evaluate public repository with OSPS scanner
+        uses: revanite-io/osps-baseline-action@d0d850b592f1788b2631f1dfdf84d80ea8c720f5 # v1.5.3
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          token: ${{ secrets.PVTR_GITHUB_TOKEN }}
+          catalog: osps-baseline
+          output-format: json
+          upload-sarif: 'false'
+          fail-on-error: 'false'
+
+      - name: Require nonempty scanner evidence
+        shell: bash
+        run: |
+          if ! test -d evaluation_results; then
+            echo "::error::Scanner did not create evaluation_results."
+            exit 1
+          fi
+          if ! find evaluation_results -type f -size +0c -print -quit | grep -q .; then
+            echo "::error::Scanner returned no nonempty report files."
+            exit 1
+          fi
+
+      - name: Archive scan evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: osps-baseline-${{ github.run_number }}
+          path: evaluation_results/
+          if-no-files-found: error
+          retention-days: 30
