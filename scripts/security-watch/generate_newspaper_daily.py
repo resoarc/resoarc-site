@@ -8,7 +8,7 @@ transparent rule-based editorial policy. Never invent a patch version, actual
 exploit, victim, or ResoArc exposure. Quality failures do not alter any page.
 """
 from __future__ import annotations
-import argparse,collections,datetime as dt,html,json,pathlib,re,shutil,sys
+import argparse,collections,datetime as dt,hashlib,html,json,pathlib,re,shutil,sys
 from urllib.parse import urlsplit
 import generate_newspaper as paper
 
@@ -80,7 +80,14 @@ def picks(rows,n=8):
         result.extend(x for x in ordered if x["id"] not in seen)
     return result[:n]
 
-def big_story(rows):
+def data_hash(data):
+    return hashlib.sha256(json.dumps({"items":data["items"],"technologies":data["technologies"]},
+                    ensure_ascii=False,sort_keys=True,separators=(",",":")).encode("utf-8")).hexdigest()
+
+def coverage(meta):
+    return "前日付の注目情報" if int(meta.get("carryover_count",0)) else "本日掲載の情報"
+
+def big_story(rows,meta):
     if not rows:
         return ('''<div class="eyebrow">TODAY / ZERO ADVISORIES</div>
 <div class="lead-grid"><article class="lead-story">
@@ -89,6 +96,9 @@ def big_story(rows):
 ただし、新たな脆弱性や悪用が世界中で存在しないという意味ではありません。</p>
 <p>昨日までの掲載情報やお使いの製品に関する情報は、通常版のSWWWから検索できます。</p>
 </article><aside class="metabox"><h2>本日の掲載情報</h2><div class="metric"><span>新たな掲載</span><strong>0</strong></div></aside></div>''')
+    prior=int(meta.get("carryover_count",0))>0
+    lead_notice=(f"本日付の新着掲載は0件です。前日付の公開情報{meta.get('carryover_total',len(rows))}件から"
+                 f"注目情報{len(rows)}件を選んでいます。前日の情報を今日の新着とは扱いません。") if prior else ""
     ordered=picks(rows,8)
     main=ordered[0];f=story(main)
     crit=sum(x.get("severity")=="CRITICAL" for x in rows)
@@ -101,7 +111,7 @@ def big_story(rows):
 <h3>{paper.e(detail["head"])}</h3>
 <p>{paper.e(detail["blurb"])}</p>{paper.tag(detail["tag"])}{paper.anchor(row,"原文を確認 ↗")}
 </article>''')
-    return f'''<div class="eyebrow">TOP STORY / 本日のニュース</div>
+    return f'''<div class="eyebrow">TOP STORY / {coverage(meta)}</div>
 <div class="lead-grid"><article class="lead-story">
 <div class="story-kicker">SWWW注目記事・{paper.e(main.get("severity","未評価"))}</div>
 <h2 class="lead-title">{paper.e(f["head"])}</h2>
@@ -111,14 +121,15 @@ def big_story(rows):
 <div class="byline">出典：{paper.e(main.get("source","公開情報"))} / {paper.anchor(main)}</div>
 </article>
 <aside class="metabox"><h2>朝刊を数字で読む</h2>
-<div class="metric"><span>本日掲載扱いの情報</span><strong>{len(rows)}</strong></div>
+<div class="metric"><span>{coverage(meta)}</span><strong>{len(rows)}</strong></div>
+<p class="note">{paper.e(lead_notice)}</p>
 <div class="metric"><span>SWWW CRITICAL</span><strong>{crit}</strong></div>
 <div class="metric"><span>SWWW HIGH</span><strong>{high}</strong></div>
 <div class="metric"><span>品質</span><strong>OK</strong></div>
 <p class="note">掲載日と発見日・対策日・被害件数は異なります。</p></aside></div>
 <div class="visual"><div><strong>警報は、<br>読む順番で変わる。</strong><small>THE SECURITY MORNING PAPER</small></div>
 <span class="orb" aria-hidden="true"></span></div>
-<hr class="break"><h2 class="sectitle">本日の注目記事 <small>EDITOR'S PICK</small></h2>
+<hr class="break"><h2 class="sectitle">注目記事 <small>EDITOR'S PICK</small></h2>
 <div class="story-columns">{''.join(cards) if cards else '<p>本日追加の注目記事はありません。</p>'}</div>
 <div class="ed-note"><strong>編集部から：重大度だけで判断しない。</strong>
 <p>SWWWの集計は重要度の目安です。実際の危険度は製品の導入状況、バージョン、公開状態、悪用確認などで変わります。
@@ -128,7 +139,7 @@ def big_story(rows):
 3面は技術名から探し、4面で確認手順をまとめています。</div></div>
 '''
 
-def ranking(rows):
+def ranking(rows,meta):
     entries=[]
     for i,row in enumerate(picks(rows),1):
         f=story(row)
@@ -140,22 +151,22 @@ def ranking(rows):
 {paper.label(row)}{paper.tag(f["tag"])}<br>{paper.anchor(row)}</div>
 <aside class="rank-side"><b>確認すること</b>{paper.e(f["check"])}{epss_info}</aside></article>''')
     return f'''<div class="section-head"><h2>注目の{len(entries)}件を読む。</h2><span>2面　注目ランキング</span></div>
-<p class="deck">複数の情報源から今日掲載された記事を、重大度・公開元の情報・技術の多様性をもとに並べました。
+<p class="deck">{coverage(meta)}を、重大度・公開元の情報・技術の多様性をもとに並べました。
 この順位は攻撃発生数や組織への影響順位ではありません。</p>
-<div class="census"><div><strong>{len(entries)}本</strong><small>今日のおすすめ記事</small></div>
-<div><strong>{len(rows)}件</strong><small>本日掲載扱いの情報</small></div>
+<div class="census"><div><strong>{len(entries)}本</strong><small>注目の選抜記事</small></div>
+<div><strong>{len(rows)}件</strong><small>{coverage(meta)}</small></div>
 <div><strong>{len(rows)}件</strong><small>ResoArc影響は未判定</small></div></div>
 <div class="ed-note"><strong>注意：自動編集した紙面です。</strong>
 <p>見出しは技術カテゴリのルールによる日本語要約であり、修正版や被害の有無を独自確認したものではありません。
 製品名・版・影響条件は必ず一次情報で確認してください。</p></div>
 <div class="rank-list">{''.join(entries)}</div>'''
 
-def technologies(rows,tags):
+def technologies(rows,tags,meta):
     counts=collections.Counter(tag.get("label") or tag.get("id") for x in rows for tag in x.get("technologies",[]))
     frequent=counts.most_common(8)
     items=[]
     for tech,n in frequent:
-        items.append(f'''<article class="tech-feature"><span class="eyebrow">本日掲載・{n}件</span>
+        items.append(f'''<article class="tech-feature"><span class="eyebrow">{coverage(meta)}・{n}件</span>
 <h3>{paper.e(tech)}</h3><p>同じ技術タグが付いた記事です。使用バージョンや影響の有無は別途確認が必要です。</p></article>''')
     if not items:items.append("<p>本日分の技術タグ付き記事はありません。</p>")
     bars=[]
@@ -167,8 +178,8 @@ def technologies(rows,tags):
         bars.append(f'''<div class="barrow"><span>{paper.e(label_)}</span>
 <div class="bar" aria-hidden="true"><i class="w{w}"></i></div><b>{int(t["count"]):,}</b></div>''')
     return f'''<div class="section-head"><h2>技術名から選んで読む。</h2><span>3面　技術・製品</span></div>
-<p class="deck">今日掲載した情報に多く登場する分野と、アーカイブでよく登場する技術を分けて表示します。</p>
-<div class="tech-grid"><section><h2 class="sectitle">今日の技術別記事数 <small>TODAY</small></h2>{''.join(items)}</section>
+<p class="deck">紙面で扱う情報に多く登場する分野と、収録データ全体の技術を分けて表示します。</p>
+<div class="tech-grid"><section><h2 class="sectitle">注目記事の技術別件数 <small>FEATURED</small></h2>{''.join(items)}</section>
 <section><h2 class="sectitle">収録データのタグ傾向 <small>ARCHIVE</small></h2>
 <div class="barlist">{''.join(bars)}</div>
 <p class="data-key">こちらは本日分だけの件数ではありません。多い順は危険な順ではなく、複数のタグを持つ記事もあります。</p>
@@ -177,12 +188,12 @@ def technologies(rows,tags):
 Java・Oracle・PHP・Python・OS・CMSなどの情報は<a href="https://resoarc.com/api/v1/swww/technologies">SWWWの技術タグAPI</a>から確認できます。
 導入されていない製品のニュースは、自組織の対応優先度を下げられます。</p></div>'''
 
-def action(rows):
+def action(rows,meta):
     if not rows:
         context='<p>今回新たに掲載されたものはありませんが、未対応の過去記事とソフトウェア資産の確認を続けましょう。</p>'
     else:
         f=story(picks(rows,1)[0])
-        context=f'''<h3>今日の注目：{paper.e(f["head"])}</h3>
+        context=f'''<h3>{coverage(meta)}：{paper.e(f["head"])}</h3>
 <p>{paper.e(f["check"])}</p>{paper.anchor(picks(rows,1)[0])}'''
     return f'''<div class="section-head"><h2>読んだら、次に何をする？</h2><span>4面　行動のガイド</span></div>
 <p class="deck">脆弱性情報は、不安を増やすよりも確認作業を簡単にするために使いましょう。</p>
@@ -213,11 +224,16 @@ def validate(data):
     ts=dt.datetime.fromisoformat(m["generated_at"])
     assert ts.tzinfo is not None and ts.date()==date
     assert 0<=len(rows)==m["published_date_count"]<=700
+    same=int(m.get("same_day_count",len(rows)))
+    carry=int(m.get("carryover_count",0))
+    assert same>=0 and carry>=0 and same+carry==len(rows)
+    assert not (same and carry)
     assert len({str(x["id"]) for x in rows})==len(rows)
     for row in rows:
         assert row["resoarc_impact"] in ("NOT_CONFIRMED","UNREVIEWED")
         assert row["resoarc_response"]=="UNREVIEWED"
-        assert row["published_date"]==m["date"]
+        expected=(date-dt.timedelta(days=1)).isoformat() if carry else m["date"]
+        assert row["published_date"]==expected
         assert row["severity"] in SEVERITY
         url=urlsplit(row["url"])
         assert url.scheme=="https" and url.hostname
@@ -244,7 +260,8 @@ def make(data,site):
         bodies=[paper.top_story(rows,meta),paper.ranking(rows),
                 paper.tech_page(rows,data["technologies"],meta),paper.action_page(rows,meta)]
     else:
-        bodies=[big_story(rows),ranking(rows),technologies(rows,data["technologies"]),action(rows)]
+        bodies=[big_story(rows,meta),ranking(rows,meta),
+                technologies(rows,data["technologies"],meta),action(rows,meta)]
     pages=[paper.page_shell(i,bodies[i],data) for i in range(4)]
     for i,(rel,_,_) in enumerate(paper.SECTIONS):
         file=out/rel
@@ -260,8 +277,12 @@ def make(data,site):
         archived.write_bytes(combined.read_bytes())
     issue={"schema_version":"1.0","edition_date":meta["date"],"generated_at":meta["generated_at"],
            "source_count":meta["source_count"],"quality":"OK",
-           "published_date_count":len(rows),"model":"rules_and_verified_editorial",
-           "notice":"当日版は公開品質に合格した元情報のみ使用。PARTIALは発行しません。"}
+           "published_date_count":len(rows),"same_day_count":int(meta.get("same_day_count",len(rows))),
+           "carryover_count":int(meta.get("carryover_count",0)),
+           "carryover_total":int(meta.get("carryover_total",0)),
+           "content_sha256":data_hash(data),"render_version":"newspaper-daily-2",
+           "model":"rules_and_verified_editorial",
+           "notice":"公開品質に合格した情報のみ使用。前日付の情報は新着と明確に区別。PARTIALは発行しません。"}
     existing.write_text(json.dumps(issue,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     (out/"edition.json.license").write_text("SPDX-FileCopyrightText: 2026 ResoArc contributors\nSPDX-License-Identifier: MIT\n",encoding="utf-8")
     archive_dates=sorted((x.name for x in (out/"archive").iterdir() if x.is_dir()),reverse=True)

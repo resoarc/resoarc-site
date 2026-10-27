@@ -26,14 +26,15 @@ data=json.loads(source.read_text(encoding="utf-8"))
 assert data["metadata"]["quality"]=="OK" and len(data["items"])==31
 assert sum(x["severity"]=="CRITICAL" for x in data["items"])==5
 print("PASS public-allowlisted source 31 entries, 5 collected critical")
+edition_day=__import__("datetime").date.fromisoformat(json.loads((SITE/"security/weather/newspaper/edition.json").read_text(encoding="utf-8"))["edition_date"])
 for url in PAGES:
  path=SITE/url/"index.html"
  assert path.exists(),path
  content=path.read_text(encoding="utf-8")
  assert 'lang="ja"' in content and "脆弱性朝刊" in content
- assert "2026年10月23日" in content
+ assert f"{edition_day.year}年{edition_day.month}月{edition_day.day}日" in content
  assert "noindex,follow" in content
- assert "取得 09:11 JST" in content
+ assert "取得 " in content and "JST" in content
  assert not re.search(r"\bstyle\s*=",content)
  for key in ("internal_owner","affected_asset","investigation_notes","weather-assessments","security-weather-operations"):
   assert key not in content,key

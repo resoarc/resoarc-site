@@ -70,9 +70,14 @@ def compare_static_site(site):
 def public_edition():
     try:
         edition=json.loads(http("/security/weather/newspaper/edition.json?revision="+str(int(time.time()))))
-        return edition.get("edition_date")
+        return edition
     except Exception:
         return None
+def report_hash(data):
+    payload={"items":data["items"],"technologies":data["technologies"]}
+    return sha(json.dumps(payload,sort_keys=True,ensure_ascii=False,
+                          separators=(",",":")).encode("utf-8"))
+
 def export_vps():
     raw=command(["ssh","-4","-o","BatchMode=yes","-o","ConnectTimeout=12",
                  "mole-vps","python3","/opt/resoarc-swww-api/export_newspaper_public.py"],timeout=65)
@@ -88,6 +93,10 @@ def export_vps():
     rows=data["items"]
     if len(rows)!=m["published_date_count"]:
         raise ValueError("Public export incomplete")
+    if m.get("same_day_count",len(rows))+m.get("carryover_count",0)!=len(rows):
+        raise ValueError("Reported coverage counts inconsistent")
+    if m.get("carryover_count",0) and m.get("same_day_count",0):
+        raise ValueError("Carryover/new mixing not allowed")
     if len(rows)>700:raise ValueError("Daily record cap exceeded")
     prohibited=("internal_owner","affected_asset","investigation_notes","verification_ref",
                 "weather-assessments","security-weather-operations")
@@ -136,9 +145,15 @@ def main():
             site=repo/"site"
             compare_static_site(site)
             previous_file=site/"security/weather/newspaper/edition.json"
-            previous=json.loads(previous_file.read_text(encoding="utf-8"))["edition_date"] if previous_file.exists() else ""
+            prior=json.loads(previous_file.read_text(encoding="utf-8")) if previous_file.exists() else {}
+            previous=prior.get("edition_date","")
             if previous>day:raise ValueError("Cannot replace newer issue")
-            if previous<day:
+            report_fp=report_hash(report)
+            regenerate=(previous<day or prior.get("content_sha256")!=report_fp
+                        or prior.get("render_version")!="newspaper-daily-2")
+            if regenerate:
+                log("REGENERATE",day,"today",report["metadata"].get("same_day_count",len(report["items"])),
+                    "carryover",report["metadata"].get("carryover_count",0))
                 input_path=pathlib.Path(temp)/"newspaper-public-input.json"
                 input_path.write_text(json.dumps(report,ensure_ascii=False),encoding="utf-8")
                 script=repo/"scripts/security-watch/generate_newspaper_daily.py"
@@ -162,17 +177,19 @@ def main():
                     final_sha=command(["git","rev-parse","HEAD"],cwd=repo).strip()
                 else:final_sha=local_sha
             else:
-                log("EDITION_ALREADY_IN_GIT",day)
+                log("EDITION_ALREADY_IN_GIT",day,"hash",report_fp[:12])
                 final_sha=local_sha
             if args.dry_run:
                 log("DRY_RUN_SUCCESS","no remote writes")
                 return
             pub=public_edition()
-            if pub==day and previous==day:
-                log("ALREADY_LIVE",day)
+            if (pub and pub.get("edition_date")==day and
+                pub.get("content_sha256")==report_fp and
+                pub.get("render_version")=="newspaper-daily-2" and not regenerate):
+                log("ALREADY_LIVE",day,"hash",report_fp[:12])
                 return
             compare_static_site(site)
-            if previous<day:
+            if regenerate:
                 if source_sha!=vps_sha(git_env) or source_sha!=codeberg_sha():
                     raise RuntimeError("Official main advanced since staging; stop")
                 command(["git","push","origin","HEAD:refs/heads/main"],cwd=repo,env=git_env,timeout=120)
@@ -187,8 +204,11 @@ def main():
                 log("SOURCES_SYNCED",final_sha[:10])
             deploy(site,final_sha)
             for _ in range(6):
-                if public_edition()==day:
-                    log("PUBLICATION_VERIFIED",day)
+                public=public_edition()
+                if (public and public.get("edition_date")==day
+                    and public.get("content_sha256")==report_fp
+                    and public.get("render_version")=="newspaper-daily-2"):
+                    log("PUBLICATION_VERIFIED",day,"hash",report_fp[:12])
                     return
                 time.sleep(8)
             raise RuntimeError("Cloudflare deployment complete but edition date not verified")
