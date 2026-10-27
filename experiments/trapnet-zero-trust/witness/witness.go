@@ -23,18 +23,18 @@ const Schema="trapnet.witness.v0.1"
 const maxLedgerRow=65536
 const maxHistoryRow=4096
 const zeroDigest="0000000000000000000000000000000000000000000000000000000000000000"
-var digestRE=regexp.MustCompile(\`^[0-9a-f]{64}$\`)
+var digestRE=regexp.MustCompile(`^[0-9a-f]{64}$`)
 
-type Head struct {Revision int \`json:"revision"\`; Rows uint64 \`json:"rows"\`; Digest string \`json:"digest"\`}
+type Head struct {Revision int `json:"revision"`; Rows uint64 `json:"rows"`; Digest string `json:"digest"`}
 type Checkpoint struct {
- Schema string \`json:"schema"\`
- Sequence uint64 \`json:"sequence"\`
- Rows uint64 \`json:"rows"\`
- Digest string \`json:"digest"\`
- ObservedAt time.Time \`json:"observed_at"\`
- PreviousHash string \`json:"previous_hash"\`
+ Schema string `json:"schema"`
+ Sequence uint64 `json:"sequence"`
+ Rows uint64 `json:"rows"`
+ Digest string `json:"digest"`
+ ObservedAt time.Time `json:"observed_at"`
+ PreviousHash string `json:"previous_hash"`
 }
-type SignedCheckpoint struct {Checkpoint Checkpoint \`json:"checkpoint"\`; Signature string \`json:"signature"\`}
+type SignedCheckpoint struct {Checkpoint Checkpoint `json:"checkpoint"`; Signature string `json:"signature"`}
 
 func Hash(s SignedCheckpoint)(string,error){
  b,err:=json.Marshal(s);if err!=nil{return "",err}
