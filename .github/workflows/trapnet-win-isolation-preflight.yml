@@ -1,0 +1,35 @@
+name: TrapNet Windows Isolation Preflight
+
+on:
+  push:
+    paths:
+      - 'experiments/trapnet-zero-trust/lab/windows_isolation_preflight.psm1'
+      - 'experiments/trapnet-zero-trust/lab/windows_isolation_preflight.ps1'
+      - 'experiments/trapnet-zero-trust/lab/test_windows_isolation_preflight.ps1'
+      - '.github/workflows/trapnet-win-isolation-preflight.yml'
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/lab/windows_isolation_preflight.psm1'
+      - 'experiments/trapnet-zero-trust/lab/windows_isolation_preflight.ps1'
+      - 'experiments/trapnet-zero-trust/lab/test_windows_isolation_preflight.ps1'
+      - '.github/workflows/trapnet-win-isolation-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  windows-readonly-preflight:
+    name: Windows read-only preflight regression (no live probes)
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline regression tests (never access private networks)
+        shell: powershell
+        working-directory: experiments/trapnet-zero-trust
+        run: |
+          .\lab\test_windows_isolation_preflight.ps1
+      - name: Verify no private host addresses are committed in result
+        shell: powershell
+        run: |
+          Write-Output 'CI runs mocked TCP tests only. Real local addresses are never probed or uploaded.'
