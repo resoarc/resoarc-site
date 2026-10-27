@@ -23,10 +23,28 @@ func verifyFile(f *os.File,expectedHex string,maxBytes int64)error{
  if err!=nil||len(expected)!=sha256.Size{return errors.New("invalid independently pinned SHA-256")}
  stat,err:=f.Stat();if err!=nil{return err}
  if !stat.Mode().IsRegular()||stat.Size()>maxBytes{return errors.New("unsafe input file type or size")}
+ if _,err=f.Seek(0,io.SeekStart);err!=nil{return err}
  h:=sha256.New()
  if _,err=io.Copy(h,io.LimitReader(f,maxBytes+1));err!=nil{return err}
  if !strings.EqualFold(hex.EncodeToString(h.Sum(nil)),expectedHex){return errors.New("pinned SHA-256 does not match")}
  _,err=f.Seek(0,io.SeekStart);return err
+}
+// openPinnedRegular refuses symlinks and ensures path and descriptor identify
+// the same regular file before reading a sensitive closed snapshot.
+func openPinnedRegular(path,pin string,maxBytes int64)(*os.File,error){
+ info,err:=os.Lstat(path);if err!=nil{return nil,err}
+ if !info.Mode().IsRegular(){return nil,errors.New("input must be a regular file, not a symlink")}
+ f,err:=os.Open(path);if err!=nil{return nil,err}
+ if err:=verifySamePath(f,path);err!=nil{f.Close();return nil,err}
+ if err:=verifyFile(f,pin,maxBytes);err!=nil{f.Close();return nil,err}
+ return f,nil
+}
+func verifySamePath(f *os.File,path string)error{
+ entry,err:=os.Lstat(path);if err!=nil{return err}
+ if !entry.Mode().IsRegular(){return errors.New("input path changed type or became a symlink")}
+ opened,err:=f.Stat();if err!=nil{return err}
+ if !os.SameFile(entry,opened){return errors.New("input path was replaced")}
+ return nil
 }
 func run(args []string,output io.Writer,clock time.Time)error{
  flags:=flag.NewFlagSet("corroborate",flag.ContinueOnError);flags.SetOutput(io.Discard)
@@ -41,10 +59,8 @@ func run(args []string,output io.Writer,clock time.Time)error{
  if *ledgerPath==""||*trustPath==""||*ledgerPin==""||*trustPin==""||*witnessHistory==""||*witnessPub==""||*witnessTip==""{
   return errors.New("all seven required flags must be supplied; witnessed attestation mandatory")
  }
- f,err:=os.Open(*ledgerPath);if err!=nil{return err};defer f.Close()
- t,err:=os.Open(*trustPath);if err!=nil{return err};defer t.Close()
- if err:=verifyFile(f,*ledgerPin,maxLedgerBytes);err!=nil{return fmt.Errorf("ledger: %w",err)}
- if err:=verifyFile(t,*trustPin,maxTrustBytes);err!=nil{return fmt.Errorf("trust registry: %w",err)}
+ f,err:=openPinnedRegular(*ledgerPath,*ledgerPin,maxLedgerBytes);if err!=nil{return fmt.Errorf("ledger: %w",err)};defer f.Close()
+ t,err:=openPinnedRegular(*trustPath,*trustPin,maxTrustBytes);if err!=nil{return fmt.Errorf("trust registry: %w",err)};defer t.Close()
  buf,err:=io.ReadAll(io.LimitReader(t,maxTrustBytes+1));if err!=nil||len(buf)>int(maxTrustBytes){return errors.New("oversized trust registry")}
  var registry map[string]correlate.TrustedNode
  dec:=json.NewDecoder(strings.NewReader(string(buf)));dec.DisallowUnknownFields()
@@ -63,7 +79,16 @@ func run(args []string,output io.Writer,clock time.Time)error{
  if last.Rows!=measured.Rows||last.Digest!=measured.Digest{return errors.New("unwitnessed ledger tail refused")}
  // Detect snapshot mutation between path-based witnessing and analysis.
  if err:=verifyFile(f,*ledgerPin,maxLedgerBytes);err!=nil{return fmt.Errorf("snapshot changed during witness audit: %w",err)}
+ if err:=verifySamePath(f,*ledgerPath);err!=nil{return fmt.Errorf("ledger path: %w",err)}
+ if err:=verifySamePath(t,*trustPath);err!=nil{return fmt.Errorf("trust path: %w",err)}
  result,err:=correlate.Analyze(f,registry,clock);if err!=nil{return err}
+ // Recheck the exact file descriptors AND the signed off-host chain before any output.
+ if err:=verifySamePath(f,*ledgerPath);err!=nil{return fmt.Errorf("ledger path replaced: %w",err)}
+ if err:=verifySamePath(t,*trustPath);err!=nil{return fmt.Errorf("trust path replaced: %w",err)}
+ if err:=verifyFile(f,*ledgerPin,maxLedgerBytes);err!=nil{return fmt.Errorf("ledger changed during analysis: %w",err)}
+ if err:=verifyFile(t,*trustPin,maxTrustBytes);err!=nil{return fmt.Errorf("trust changed during analysis: %w",err)}
+ measuredFinal,tipFinal,err:=witness.Audit(*ledgerPath,*witnessHistory,pub,*witnessTip)
+ if err!=nil||tipFinal!=tip||measuredFinal!=measured{return errors.New("signed witness evidence changed during analysis")}
  data,err:=json.MarshalIndent(result,"","  ");if err!=nil{return err}
  _,err=fmt.Fprintln(output,string(data));return err
 }
