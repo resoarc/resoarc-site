@@ -95,7 +95,7 @@ func Analyze(reader io.Reader,trust map[string]TrustedNode,clock time.Time)(Summ
   if seen[key]{return Summary{},fmt.Errorf("replay at row %d",count)}
   seen[key]=true
   bucket:=row.ReceivedAt.UTC().Truncate(10*time.Minute).Format(time.RFC3339)
-  campaign:=row.Evidence.Report.CampaignFingerprint+"|"+row.Evidence.Report.Kind+"|"+bucket
+  campaign:=row.Evidence.Report.CampaignFingerprint+"|"+row.Evidence.Report.Kind+"|"+fmt.Sprint(row.Evidence.Report.TargetPort)+"|"+bucket
   group:="";if trust[node].Reviewed{group=trust[node].OperatorGroup}
   casesByKey[campaign]=append(casesByKey[campaign],observation{row.Evidence.Report.Kind,group})
  }
