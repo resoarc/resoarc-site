@@ -62,6 +62,38 @@ class TestContainment(unittest.TestCase):
         obj["Mounts"]=[{"Type":"bind","Destination":"/app","RW":True}]
         x=audit.assess({"web":obj,"ssh":good(),"edge":good()})
         self.assertIn("writable_mounts_scoped",x["roles"]["web"]["failed"])
+    def test_bounded_tmpfs_for_web(self):
+        fixture=good()
+        fixture["HostConfig"]["Tmpfs"]={"/tmp":"rw,noexec,nosuid,nodev,size=16m,mode=1777"}
+        self.assertTrue(audit.audit_one(fixture,"web")["tmpfs_scoped"])
+    def test_unexpected_tmpfs_path_refused(self):
+        fixture=good()
+        fixture["HostConfig"]["Tmpfs"]={"/etc":"rw,noexec,nosuid,nodev,size=8m"}
+        self.assertFalse(audit.audit_one(fixture,"web")["tmpfs_scoped"])
+    def test_tmpfs_unbounded_or_executable_refused(self):
+        fixture=good()
+        for config in ("rw,nosuid,nodev,size=16m","rw,noexec,nosuid,nodev",
+                       "rw,noexec,nosuid,nodev,size=400m",
+                       "rw,noexec,nosuid,nodev,size=1m,exec"):
+            fixture["HostConfig"]["Tmpfs"]={"/tmp":config}
+            self.assertFalse(audit.audit_one(fixture,"web")["tmpfs_scoped"])
+    def test_shared_pid_ipc_refused(self):
+        fixture=good();fixture["HostConfig"]["PidMode"]="host"
+        self.assertFalse(audit.audit_one(fixture,"web")["namespaces_and_devices_private"])
+        fixture["HostConfig"]["PidMode"]=""
+        fixture["HostConfig"]["IpcMode"]="host"
+        self.assertFalse(audit.audit_one(fixture,"web")["namespaces_and_devices_private"])
+    def test_added_devices_refused(self):
+        fixture=good()
+        fixture["HostConfig"]["Devices"]=[{"PathOnHost":"/dev/fuse"}]
+        self.assertFalse(audit.audit_one(fixture,"web")["namespaces_and_devices_private"])
+    def test_inherited_volumes_refused(self):
+        fixture=good();fixture["HostConfig"]["VolumesFrom"]=["other:rw"]
+        self.assertFalse(audit.audit_one(fixture,"web")["namespaces_and_devices_private"])
+    def test_default_private_namespaces(self):
+        fixture=good()
+        fixture["HostConfig"]["IpcMode"]="private"
+        self.assertTrue(audit.audit_one(fixture,"web")["namespaces_and_devices_private"])
     def test_nonroot_default_not_sufficient(self):
         fixture=good();fixture["Config"]["User"]=""
         res=audit.assess({role:fixture for role in audit.ROLES})

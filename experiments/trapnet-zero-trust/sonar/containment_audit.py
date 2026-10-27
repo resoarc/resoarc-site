@@ -8,6 +8,7 @@ the absence of unlisted services. A live isolation test remains mandatory.
 """
 import argparse
 import json
+import re
 import subprocess
 import sys
 
@@ -17,6 +18,7 @@ CONTROLS = (
     "no_added_capabilities", "no_new_privileges", "not_host_network",
     "docker_socket_absent", "memory_limit_set", "cpu_limit_set",
     "pid_limit_set", "readonly_root", "writable_mounts_scoped",
+    "tmpfs_scoped", "namespaces_and_devices_private",
 )
 
 WRITE_ALLOWLIST = {"web": set(), "ssh": {"/cowrie/cowrie-git/var"}, "edge": set()}
@@ -41,6 +43,47 @@ def _scoped_mounts(mounts, role):
         if m.get("RW") is not True and m.get("RW") is not False:
             return False
     return True
+
+def _safe_tmpfs(entries, role):
+    if entries is None:
+        return True
+    if not isinstance(entries, dict) or role not in WRITE_ALLOWLIST:
+        return False
+    paths = {"/tmp": 64 * 1024 * 1024}
+    if role == "ssh":
+        paths["/cowrie/cowrie-git/var"] = 128 * 1024 * 1024
+    for path, settings in entries.items():
+        if path not in paths or not isinstance(settings, str):
+            return False
+        flags = settings.lower().split(",")
+        if any(not flag or flag != flag.strip() for flag in flags):
+            return False
+        if not {"nosuid", "nodev", "noexec"}.issubset(set(flags)):
+            return False
+        matches = [re.fullmatch(r"size=([1-9][0-9]*)([kmg]?)", flag)
+                   for flag in flags if flag.startswith("size=")]
+        if len(matches) != 1 or matches[0] is None:
+            return False
+        value, unit = matches[0].groups()
+        scale = {"": 1, "k": 1024, "m": 1024**2, "g": 1024**3}[unit]
+        if int(value) * scale > paths[path]:
+            return False
+        if any(flag in ("dev", "suid", "exec") for flag in flags):
+            return False
+    return True
+
+def _private_namespaces_and_devices(host):
+    return (
+        host.get("IpcMode") in ("", "private", None)
+        and host.get("PidMode") in ("", "private", None)
+        and host.get("UsernsMode") in ("", "private", None)
+        and host.get("CgroupnsMode") in ("", "private", None)
+        and host.get("UTSMode") in ("", "private", None)
+        and not host.get("Devices")
+        and not host.get("DeviceRequests")
+        and not host.get("VolumesFrom")
+        and not host.get("DeviceCgroupRules")
+    )
 
 def audit_one(container, role="web"):
     host=container.get("HostConfig") or {}
@@ -76,6 +119,8 @@ def audit_one(container, role="web"):
       "pid_limit_set":isinstance(pids,int) and pids>0,
       "readonly_root":host.get("ReadonlyRootfs") is True,
       "writable_mounts_scoped":_scoped_mounts(mounts,role),
+      "tmpfs_scoped":_safe_tmpfs(host.get("Tmpfs"),role),
+      "namespaces_and_devices_private":_private_namespaces_and_devices(host),
     }
     return checks
 
