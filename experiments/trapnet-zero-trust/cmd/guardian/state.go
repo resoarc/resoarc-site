@@ -17,11 +17,16 @@ import (
 type guardianState struct {
 	Version uint64 `json:"version"`
 	Digest  string `json:"digest"`
+ PolicyVersion uint64 `json:"policy_version,omitempty"`
+ PolicyDigest string `json:"policy_digest,omitempty"`
 }
 
 // verifyAndRecord never executes the contents of a feed. A signed feed with
 // the same version but a different payload is equivocation, not an update.
 func verifyAndRecord(sf protocol.SignedFeed, pub ed25519.PublicKey, statePath string, now time.Time) error {
+ return verifyAndRecordWithPolicy(sf,pub,nil,statePath,now)
+}
+func verifyAndRecordWithPolicy(sf protocol.SignedFeed, pub ed25519.PublicKey, policy *protocol.SignedSignerPolicy, statePath string, now time.Time) error {
 	if err := protocol.VerifyFeed(sf, pub, now); err != nil {
 		return err
 	}
@@ -61,7 +66,15 @@ func verifyAndRecord(sf protocol.SignedFeed, pub ed25519.PublicKey, statePath st
 	} else if !os.IsNotExist(err) {
 		return err
 	}
-	if sf.Feed.Version < state.Version {
+	var policyDigest string
+ if policy!=nil{
+  content,err:=json.Marshal(policy.Policy);if err!=nil{return err}
+  hash:=sha256.Sum256(content);policyDigest=hex.EncodeToString(hash[:])
+  if state.Version>0 && state.PolicyVersion==0{return errors.New("legacy state cannot silently upgrade to root-signed policy")}
+  if policy.Policy.Version<state.PolicyVersion{return errors.New("signer policy rollback detected")}
+  if policy.Policy.Version==state.PolicyVersion&&(state.PolicyDigest==""||state.PolicyDigest!=policyDigest){return errors.New("signer policy equivocation detected")}
+ }else if state.PolicyVersion>0{return errors.New("pinned root-signed policy cannot be bypassed by legacy signer")}
+ if sf.Feed.Version < state.Version {
 		return errors.New("feed rollback detected")
 	}
 	if sf.Feed.Version == state.Version {
@@ -70,9 +83,10 @@ func verifyAndRecord(sf protocol.SignedFeed, pub ed25519.PublicKey, statePath st
 		if state.Digest == "" || state.Digest != digest {
 			return errors.New("feed equivocation or legacy state; require a newer version")
 		}
-		return nil
-	}
-	next := guardianState{Version: sf.Feed.Version, Digest: digest}
+		if policy==nil||policy.Policy.Version==state.PolicyVersion{return nil}
+ 	}
+ next := guardianState{Version:sf.Feed.Version,Digest:digest}
+ if policy!=nil{next.PolicyVersion=policy.Policy.Version;next.PolicyDigest=policyDigest}
 	data, err := json.Marshal(next)
 	if err != nil {
 		return err
