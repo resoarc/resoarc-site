@@ -1,0 +1,61 @@
+name: TrapNet Guardian Release Candidate Gates
+
+on:
+  push:
+    paths:
+      - 'experiments/trapnet-zero-trust/**'
+      - '.github/workflows/trapnet-guardian-release-gates.yml'
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/**'
+      - '.github/workflows/trapnet-guardian-release-gates.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  guardian-candidate-only:
+    name: Guardian CLI acceptance and UNSIGNED candidate checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run source-parity and release gate unit tests
+        run: python3 -m unittest discover -s release -p 'test_*.py' -v
+      - name: Run actual Guardian signed-feed / rollback / invalid-input acceptance
+        run: python3 release/guardian_beta_acceptance.py --source . --output guardian-candidate-acceptance.json
+      - name: Build Windows/Linux/ARM64 UNSIGNED candidate in runner only
+        run: python3 release/guardian_candidate_package.py --source . --out ./guardian-ci-build
+      - name: Assert unapproved release evidence cannot receive GO
+        shell: bash
+        run: |
+          echo '{"checks":{}}' > ./test-unapproved-evidence.json
+          set +e
+          python3 release/release_gate.py --evidence ./test-unapproved-evidence.json > ./release-gate-result.json
+          result=$?
+          set -e
+          test "$result" -eq 3
+          grep -q '"ready_for_human_decision": false' ./release-gate-result.json
+          grep -q '"publication_executed": false' ./release-gate-result.json
+      - name: Upload reports and hashes only (NO binaries, keys or release)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-guardian-public-beta-gate-evidence
+          path: |
+            experiments/trapnet-zero-trust/guardian-candidate-acceptance.json
+            experiments/trapnet-zero-trust/guardian-ci-build/manifest.json
+            experiments/trapnet-zero-trust/guardian-ci-build/ZIP_SHA256.txt
+            experiments/trapnet-zero-trust/release-gate-result.json
+          if-no-files-found: warn
+          retention-days: 30
