@@ -53,3 +53,11 @@ The sample observation is explicitly synthetic. Do **not** misrepresent a demo r
 5. Test sensor isolation with default-deny egress on a dedicated VLAN/VPS and no route to home LAN.
 
 See `docs/architecture.md` for architecture and deployment gates.
+
+## Security hardening after v0.1 (development only)
+
+- HUB uses a receipt-time ledger so per-node 30/minute rate limits persist after restart, and previous event IDs remain blocked.
+- An optional `-revoked revoked.json` argument loads a JSON array of revoked node IDs on startup. Missing or malformed revocation files fail startup. The list is **not hot-reloaded** yet.
+- Guardian pins the SHA-256 digest of the verified warning feed alongside its version. Same-version different-content feeds are rejected even when signed. An old state file without a digest requires a newer feed version to migrate.
+- These are local protocol protections, **not evidence of truth**, nor a hardened public service. No remote commands, no auto-blocking, no public listener. Attacker-controlled operators and privileged local tampering remain out of scope.
+- The isolated GitHub Actions workflow runs tests with the Go race detector, `go vet`, and Windows/Linux amd64/arm64 cross-compilation. Passing CI is a prerequisite, not deployment approval.
