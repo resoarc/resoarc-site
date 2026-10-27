@@ -1,0 +1,13 @@
+[Unit]
+Description=TrapNet private passive coverage snapshot every 15 minutes
+Requires=resoarc-trapnet-sonar-snapshot.service
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=15min
+RandomizedDelaySec=45s
+AccuracySec=1min
+Unit=resoarc-trapnet-sonar-snapshot.service
+
+[Install]
+WantedBy=timers.target
