@@ -16,8 +16,10 @@ class BetaGateTests(unittest.TestCase):
         r=release_gate.assess({"checks":{k:True for k in release_gate.REQUIREMENTS}})
         self.assertFalse(r["ready_for_human_decision"])
     def test_full_evidence_still_does_not_publish(self):
-        checks={k:{"passed":True,"evidence":"https://example.invalid/reviewer-signoff"} for k in release_gate.REQUIREMENTS}
-        r=release_gate.assess({"checks":checks})
+        commit="a"*40;candidate="b"*64
+        checks={k:{"passed":True,"evidence":"https://github.com/resoarc/resoarc-site/actions/runs/123456",
+                   "source_commit_sha":commit,"candidate_sha256":candidate} for k in release_gate.REQUIREMENTS}
+        r=release_gate.assess({"source_commit_sha":commit,"candidate_sha256":candidate,"checks":checks})
         self.assertTrue(r["ready_for_human_decision"])
         self.assertFalse(r["publication_executed"])
 

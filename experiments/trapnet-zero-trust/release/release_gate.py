@@ -1,39 +1,75 @@
 #!/usr/bin/env python3
-"""Fail-closed Guardian public-beta evidence checklist. This tool cannot publish a release."""
-import argparse,json,sys
+"""Fail-closed review of Guardian public-beta evidence. Never signs or publishes."""
+import argparse
+import json
+import re
+import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
-REQUIREMENTS={
- "source_revision_pinned":"Exact source SHA and source security review",
- "ci_go_and_security_green":"Race/vet, cross-build and CLI acceptance green on exact commit",
- "binary_origin_attested":"Verifiable source-to-binary provenance",
- "distributable_signature_verified":"Detached binary signatures from separate release key verified",
- "installer_uninstaller_tested":"Documented install, remove and rollback on each target OS",
- "feed_signer_custody_and_rotation":"Offline feed key custody, compromise response and rotation",
- "no_remote_control_reviewed":"Verify no auto-block, arbitrary commands or forced telemetry",
- "incident_response_and_stop":"Operational emergency halt and recovery exercise",
- "privacy_terms_and_contact_reviewed":"Privacy notice and vulnerability contact",
- "independent_security_review":"Independent security review of the approved beta scope",
- "release_manager_approval":"Explicit named release authority approves exact candidate digest"
+REQUIREMENTS = {
+ "source_revision_pinned":"Exact source SHA and security review",
+ "ci_go_and_security_green":"Go race/vet, build and CLI acceptance at exact source revision",
+ "binary_origin_attested":"Independently verified source-to-binary provenance",
+ "distributable_signature_verified":"Publisher signature and pinned release key verified",
+ "installer_uninstaller_tested":"Install, removal and rollback on supported OS",
+ "feed_signer_custody_and_rotation":"Offline key custody and emergency revocation",
+ "no_remote_control_reviewed":"No automatic blocking, execution or telemetry",
+ "incident_response_and_stop":"Emergency stop and recovery exercise",
+ "privacy_terms_and_contact_reviewed":"Privacy notice and security contact",
+ "independent_security_review":"Independent review of exact beta candidate",
+ "release_manager_approval":"Named release authority approved exact candidate digest"
 }
-def assess(evidence):
-    checks=evidence.get("checks",{}) if isinstance(evidence,dict) else {}
-    pending=[]
-    for k,description in REQUIREMENTS.items():
-        item=checks.get(k)
-        if not (isinstance(item,dict) and item.get("passed") is True
-                and isinstance(item.get("evidence"),str) and len(item["evidence"].strip())>=12):
-            pending.append({"id":k,"requirement":description})
-    return {"schema":"trapnet.guardian-beta-gate.v1","ready_for_human_decision":not pending,
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+
+def evidence_reference(value):
+    if not isinstance(value,str) or len(value)>800 or any(c.isspace() for c in value):
+        return False
+    try: url=urlsplit(value)
+    except ValueError: return False
+    return url.scheme=="https" and bool(url.hostname) and bool(url.path.strip("/")) and not url.username and not url.password
+
+def assess(data):
+    data=data if isinstance(data,dict) else {}
+    commit=data.get("source_commit_sha")
+    candidate=data.get("candidate_sha256")
+    pinned=(isinstance(commit,str) and bool(HEX40.fullmatch(commit))
+            and isinstance(candidate,str) and bool(HEX64.fullmatch(candidate)))
+    checks=data.get("checks",{})
+    checks=checks if isinstance(checks,dict) else {}
+    missing=[]
+    for key,requirement in REQUIREMENTS.items():
+        item=checks.get(key)
+        passed=(pinned and isinstance(item,dict) and item.get("passed") is True
+                and evidence_reference(item.get("evidence"))
+                and item.get("source_commit_sha")==commit
+                and item.get("candidate_sha256")==candidate)
+        if not passed:missing.append({"id":key,"requirement":requirement})
+    return {"schema":"trapnet.guardian-beta-gate.v2","identity_pins_valid":bool(pinned),
+            "source_commit_sha":commit if pinned else None,
+            "candidate_sha256":candidate if pinned else None,
+            "ready_for_human_decision":bool(pinned and not missing),
             "publication_executed":False,"required":len(REQUIREMENTS),
-            "complete":len(REQUIREMENTS)-len(pending),"missing":pending,
-            "note":"Even a green assessment never publishes or signs an artifact."}
-if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("--evidence",required=True);p.add_argument("--out");a=p.parse_args()
+            "complete":len(REQUIREMENTS)-len(missing),"missing":missing,
+            "limitation":"Checks only evidence shape/revision consistency. A human must verify links, signatures, custody, independence and provenance."}
+
+def main():
+    p=argparse.ArgumentParser()
+    p.add_argument("--evidence",required=True)
+    p.add_argument("--out")
+    args=p.parse_args()
     try:
-        r=assess(json.loads(Path(a.evidence).read_text(encoding="utf-8")))
-        data=json.dumps(r,ensure_ascii=False,indent=2)+"\n"
-        if a.out:Path(a.out).write_text(data,encoding="utf-8")
-        print(data,end="");sys.exit(0 if r["ready_for_human_decision"] else 3)
-    except (OSError,ValueError,TypeError) as e:
-        print("beta gate refused: "+type(e).__name__,file=sys.stderr);sys.exit(2)
+        result=assess(json.loads(Path(args.evidence).read_text(encoding="utf-8")))
+        raw=json.dumps(result,ensure_ascii=False,indent=2)+"\n"
+        if args.out:
+            output=Path(args.out)
+            if output.is_symlink() or output.exists():raise ValueError("Refusing replacement of previous gate evidence")
+            with output.open("x",encoding="utf-8") as f:f.write(raw)
+        print(raw,end="")
+        return 0 if result["ready_for_human_decision"] else 3
+    except (OSError,ValueError,TypeError) as exc:
+        print("beta release gate refused:",type(exc).__name__,file=sys.stderr)
+        return 2
+
+if __name__=="__main__":sys.exit(main())
