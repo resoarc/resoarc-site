@@ -36,6 +36,8 @@ jobs:
         run: sh release/test_install_linux.sh
       - name: Run actual Guardian signed-feed / rollback / invalid-input acceptance
         run: python3 release/guardian_beta_acceptance.py --source . --output guardian-candidate-acceptance.json
+      - name: Exercise offline Root-signed signer revocation and beta-mode enforcement
+        run: python3 release/guardian_root_acceptance.py --source . --output guardian-root-acceptance-linux.json
       - name: Build Windows/Linux/ARM64 UNSIGNED candidate in runner only
         run: python3 release/guardian_candidate_package.py --source . --out ./guardian-ci-build
       - name: Assert unapproved release evidence cannot receive GO
@@ -56,6 +58,7 @@ jobs:
           name: trapnet-guardian-public-beta-gate-evidence
           path: |
             experiments/trapnet-zero-trust/guardian-candidate-acceptance.json
+            experiments/trapnet-zero-trust/guardian-root-acceptance-linux.json
             experiments/trapnet-zero-trust/guardian-ci-build/manifest.json
             experiments/trapnet-zero-trust/guardian-ci-build/ZIP_SHA256.txt
             experiments/trapnet-zero-trust/release-gate-result.json
@@ -81,6 +84,9 @@ jobs:
       - name: Exercise native Windows Guardian executable with temporary test keys
         shell: pwsh
         run: python release/guardian_beta_acceptance.py --source . --output guardian-windows-acceptance.json
+      - name: Exercise Root policy signer rotation on native Windows
+        shell: pwsh
+        run: python release/guardian_root_acceptance.py --source . --output guardian-root-acceptance-windows.json
       - name: Test Windows per-user install and guarded removal
         shell: pwsh
         run: ./release/test_install_windows.ps1
@@ -89,6 +95,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: trapnet-guardian-windows-acceptance
-          path: experiments/trapnet-zero-trust/guardian-windows-acceptance.json
+          path: |
+            experiments/trapnet-zero-trust/guardian-windows-acceptance.json
+            experiments/trapnet-zero-trust/guardian-root-acceptance-windows.json
           if-no-files-found: warn
           retention-days: 30
