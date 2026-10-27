@@ -28,6 +28,15 @@ jobs:
           cache: false
       - run: go test -race ./... -count=1
       - run: go vet ./...
+      - name: Multi-process loopback resilience lab (32 checks)
+        run: python3 lab/blackbox_lab.py --source . --out trapnet-lab-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trapnet-loopback-lab-evidence
+          path: experiments/trapnet-zero-trust/trapnet-lab-results.json
+          if-no-files-found: ignore
+          retention-days: 30
 
   compile-cross-platform:
     name: Cross compile (${{ matrix.goos }}/${{ matrix.goarch }})
