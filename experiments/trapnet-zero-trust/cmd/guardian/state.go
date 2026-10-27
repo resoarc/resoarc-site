@@ -19,6 +19,7 @@ type guardianState struct {
 	Digest  string `json:"digest"`
  PolicyVersion uint64 `json:"policy_version,omitempty"`
  PolicyDigest string `json:"policy_digest,omitempty"`
+ RootDigest string `json:"root_digest,omitempty"`
 }
 
 // verifyAndRecord never executes the contents of a feed. A signed feed with
@@ -27,7 +28,12 @@ func verifyAndRecord(sf protocol.SignedFeed, pub ed25519.PublicKey, statePath st
  return verifyAndRecordWithPolicy(sf,pub,nil,statePath,now)
 }
 func verifyAndRecordWithPolicy(sf protocol.SignedFeed, pub ed25519.PublicKey, policy *protocol.SignedSignerPolicy, statePath string, now time.Time) error {
-	if err := protocol.VerifyFeed(sf, pub, now); err != nil {
+ return verifyAndRecordWithPolicyTrust(sf,pub,policy,nil,statePath,now)
+}
+func verifyAndRecordWithPolicyTrust(sf protocol.SignedFeed, pub ed25519.PublicKey, policy *protocol.SignedSignerPolicy, root ed25519.PublicKey, statePath string, now time.Time) error {
+ if root!=nil && len(root)!=ed25519.PublicKeySize{return errors.New("invalid Guardian Root public key")}
+ if policy==nil && root!=nil{return errors.New("Root key without signed signer policy")}
+ if err:=protocol.VerifyFeed(sf,pub,now);err!=nil{
 		return err
 	}
 	// O_EXCL is an OS-wide inter-process lock: a concurrent or interrupted
@@ -66,7 +72,13 @@ func verifyAndRecordWithPolicy(sf protocol.SignedFeed, pub ed25519.PublicKey, po
 	} else if !os.IsNotExist(err) {
 		return err
 	}
-	var policyDigest string
+	var policyDigest,rootDigest string
+ if root!=nil {h:=sha256.Sum256(root);rootDigest=hex.EncodeToString(h[:])}
+ if state.RootDigest!="" {
+  if rootDigest==""||state.RootDigest!=rootDigest{return errors.New("Guardian Root mismatch or legacy bypass")}
+ }else if state.PolicyVersion>0 && rootDigest!=""{
+  return errors.New("existing state missing Root pin; explicit offline migration required")
+ }
  if policy!=nil{
   content,err:=json.Marshal(policy.Policy);if err!=nil{return err}
   hash:=sha256.Sum256(content);policyDigest=hex.EncodeToString(hash[:])
@@ -86,7 +98,7 @@ func verifyAndRecordWithPolicy(sf protocol.SignedFeed, pub ed25519.PublicKey, po
 		if policy==nil||policy.Policy.Version==state.PolicyVersion{return nil}
  	}
  next := guardianState{Version:sf.Feed.Version,Digest:digest}
- if policy!=nil{next.PolicyVersion=policy.Policy.Version;next.PolicyDigest=policyDigest}
+ if policy!=nil{next.PolicyVersion=policy.Policy.Version;next.PolicyDigest=policyDigest;next.RootDigest=rootDigest}
 	data, err := json.Marshal(next)
 	if err != nil {
 		return err

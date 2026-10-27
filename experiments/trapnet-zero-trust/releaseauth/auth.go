@@ -17,12 +17,33 @@ import(
 )
 const Schema="trapnet.guardian-release.v1"
 var versionPattern=regexp.MustCompile("^v[0-9]+\\.[0-9]+\\.[0-9]+-beta\\.[0-9]+$")
+var sourceCommitPattern=regexp.MustCompile(`^[0-9a-f]{40}// Package releaseauth verifies Guardian public-beta artifacts using an independent
+// release-signing key, distinct from the signer of informational warning feeds.
+package releaseauth
+import(
+ "crypto/ed25519"
+ "crypto/sha256"
+ "encoding/hex"
+ "encoding/json"
+ "errors"
+ "fmt"
+ "io"
+ "os"
+ "path/filepath"
+ "regexp"
+ "sort"
+ "time"
+)
+const Schema="trapnet.guardian-release.v1"
+var versionPattern=regexp.MustCompile("^v[0-9]+\\.[0-9]+\\.[0-9]+-beta\\.[0-9]+$")
+)
 var expected=[]string{"guardian-linux-amd64","guardian-linux-arm64","guardian-windows-amd64.exe"}
 type File struct{Name string `json:"name"`;SHA256 string `json:"sha256"`;Size int64 `json:"size"`}
-type Manifest struct{Schema string `json:"schema"`;Release string `json:"release"`;IssuedAt time.Time `json:"issued_at"`;ExpiresAt time.Time `json:"expires_at"`;Files []File `json:"files"`}
+type Manifest struct{Schema string `json:"schema"`;Release string `json:"release"`;SourceCommit string `json:"source_commit_sha"`;IssuedAt time.Time `json:"issued_at"`;ExpiresAt time.Time `json:"expires_at"`;Files []File `json:"files"`}
 type Signed struct{Manifest Manifest `json:"manifest"`;Signature string `json:"signature"`}
 func(m Manifest)Validate(now time.Time)error{
  if m.Schema!=Schema||!versionPattern.MatchString(m.Release){return errors.New("invalid release metadata")}
+ if !sourceCommitPattern.MatchString(m.SourceCommit){return errors.New("missing or malformed signed source commit")}
  if m.IssuedAt.IsZero()||m.IssuedAt.After(now.Add(2*time.Minute))||m.ExpiresAt.IsZero()||!m.ExpiresAt.After(now)||!m.ExpiresAt.After(m.IssuedAt)||m.ExpiresAt.After(m.IssuedAt.Add(30*24*time.Hour)){return errors.New("expired or future release metadata")}
  if len(m.Files)!=3{return errors.New("bundle must contain three platforms")}
  names:=make([]string,0,3)

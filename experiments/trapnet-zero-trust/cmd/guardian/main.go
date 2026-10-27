@@ -41,8 +41,10 @@ func main(){
  now:=time.Now().UTC()
  var pub ed25519.PublicKey
  var policy *protocol.SignedSignerPolicy
+ var rootPub ed25519.PublicKey
  if policyMode{
   root,err:=readHexPub(*rootPath);if err!=nil{panic(err)}
+  rootPub=root
   data,err:=os.ReadFile(*policyPath);if err!=nil{panic(err)}
   if len(data)>8192{panic("policy too large")}
   dec:=json.NewDecoder(strings.NewReader(string(data)));dec.DisallowUnknownFields()
@@ -54,7 +56,7 @@ func main(){
  }else{
   pub,err=readHexPub(*pubPath);if err!=nil{panic(err)}
  }
- if err=verifyAndRecordWithPolicy(sf,pub,policy,*statePath,now);err!=nil{panic(err)}
+ if err=verifyAndRecordWithPolicyTrust(sf,pub,policy,rootPub,*statePath,now);err!=nil{panic(err)}
  fmt.Println("verified informational feed version",sf.Feed.Version)
  for _,w:=range sf.Feed.Warnings{fmt.Printf("[%s] %s\n",w.Category,w.Summary)}
  fmt.Println("No network telemetry, remote commands, or blocking performed.")

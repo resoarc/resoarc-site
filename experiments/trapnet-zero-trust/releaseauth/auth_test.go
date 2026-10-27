@@ -17,7 +17,7 @@ func TestSignedReleaseRejectsTampering(t *testing.T){
   if err:=os.WriteFile(filepath.Join(dir,name),body,0600);err!=nil{t.Fatal(err)}
   sum:=sha256.Sum256(body);files=append(files,File{Name:name,SHA256:hex.EncodeToString(sum[:]),Size:int64(len(body))})
  }
- meta:=Manifest{Schema:Schema,Release:"v0.16.0-beta.1",IssuedAt:now,ExpiresAt:now.Add(time.Hour),Files:files}
+ meta:=Manifest{Schema:Schema,Release:"v0.16.0-beta.1",SourceCommit:"0123456789abcdef0123456789abcdef01234567",IssuedAt:now,ExpiresAt:now.Add(time.Hour),Files:files}
  signed,err:=Sign(meta,priv,now);if err!=nil{t.Fatal(err)}
  if err:=VerifyBundle(signed,pub,dir,now);err!=nil{t.Fatal(err)}
  wrong,_,_:=ed25519.GenerateKey(rand.Reader)
@@ -35,7 +35,7 @@ func TestReleaseUnexpectedFilesAndSymlinkRefused(t *testing.T){
   if err:=os.WriteFile(filepath.Join(dir,name),content,0600);err!=nil{t.Fatal(err)}
   sum:=sha256.Sum256(content);files=append(files,File{Name:name,SHA256:hex.EncodeToString(sum[:]),Size:int64(len(content))})
  }
- signed,err:=Sign(Manifest{Schema:Schema,Release:"v0.16.0-beta.1",IssuedAt:now,ExpiresAt:now.Add(time.Hour),Files:files},priv,now)
+ signed,err:=Sign(Manifest{Schema:Schema,Release:"v0.16.0-beta.1",SourceCommit:"0123456789abcdef0123456789abcdef01234567",IssuedAt:now,ExpiresAt:now.Add(time.Hour),Files:files},priv,now)
  if err!=nil{t.Fatal(err)}
  os.WriteFile(filepath.Join(dir,"extra"),[]byte("bad"),0600)
  if err:=VerifyBundle(signed,pub,dir,now);err==nil{t.Fatal("extra file accepted")}
@@ -51,4 +51,12 @@ func TestReleaseVersionMustMatchExactFormat(t *testing.T){
  {Name:expected[1],SHA256:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",Size:1},
  {Name:expected[2],SHA256:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",Size:1}}}
  if m.Validate(time.Now())==nil{t.Fatal("loose release regex accepted")}
+}
+
+func TestSignedReleaseSourceRevisionMandatory(t *testing.T){
+ now:=time.Now().UTC()
+ m:=Manifest{Schema:Schema,Release:"v0.16.0-beta.1",IssuedAt:now,ExpiresAt:now.Add(time.Hour)}
+ if m.Validate(now)==nil{t.Fatal("unsigned source identity omission accepted")}
+ m.SourceCommit="NOT-A-REAL-COMMIT"
+ if m.Validate(now)==nil{t.Fatal("malformed source identity accepted")}
 }

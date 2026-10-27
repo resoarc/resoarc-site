@@ -27,12 +27,13 @@ def acceptance(source):
             argv+=["-o",str(output),"./cmd/"+name]
             check("build_"+name,run(argv,source).returncode==0)
             exe[name]=output
-        root=tmp/"root";old=tmp/"old";new=tmp/"new"
-        for key in (root,old,new):
+        root=tmp/"root";old=tmp/"old";new=tmp/"new";rogue=tmp/"rogue-root"
+        for key in (root,old,new,rogue):
             check("generate_disposable_"+key.name,run([exe["keygen"],"-out",key],source).returncode==0)
-        def issue_policy(version,allowed,filename):
+        def issue_policy(version,allowed,filename,root_key=None):
+            root_key=root_key or root
             output=tmp/filename
-            r=run([exe["feed-policy-sign"],"-root-key",root/"private.hex","-allowed-pubs",allowed/"public.hex",
+            r=run([exe["feed-policy-sign"],"-root-key",root_key/"private.hex","-allowed-pubs",allowed/"public.hex",
                    "-version",str(version),"-out",output],source)
             check("issue_policy_"+str(version)+"_"+filename,r.returncode==0)
             return output
@@ -43,10 +44,11 @@ def acceptance(source):
             check("sign_feed_"+str(version)+"_"+filename,r.returncode==0)
             return output
         state=tmp/"guard-state.json"
-        def consume(feed,policy=None,legacy=False):
+        def consume(feed,policy=None,legacy=False,root_key=None):
+            root_key=root_key or root
             args=[exe["guardian"],"-feed",feed,"-state",state]
             if legacy: args+=["-pub",old/"public.hex"]
-            else:args+=["-rootpub",root/"public.hex","-policy",policy]
+            else:args+=["-rootpub",root_key/"public.hex","-policy",policy]
             return run(args,source)
         p1=issue_policy(1,old,"p1.json");f1=sign_feed(1,old,"f1.json")
         r=consume(f1,p1)
@@ -54,6 +56,9 @@ def acceptance(source):
         check("same_policy_and_feed_idempotent",consume(f1,p1).returncode==0)
         p2=issue_policy(2,new,"p2.json");f2=sign_feed(2,new,"f2.json")
         check("rotated_signer_feed_accepted",consume(f2,p2).returncode==0)
+        p3rogue=issue_policy(3,new,"p3-rogue.json",rogue)
+        f3new=sign_feed(3,new,"f3-rogue.json")
+        check("validly_signed_substituted_root_rejected",consume(f3new,p3rogue,root_key=rogue).returncode!=0)
         f3=sign_feed(3,old,"f3-revoked.json")
         check("old_signer_revoked",consume(f3,p2).returncode!=0)
         check("old_root_policy_rollback_rejected",consume(f1,p1).returncode!=0)
@@ -66,7 +71,7 @@ def acceptance(source):
         check("tampered_root_signature_refused",consume(f2,changed).returncode!=0)
         record=json.loads(state.read_text())
         check("persisted_signer_policy_and_feed_version",record["policy_version"]==2 and
-              record["version"]==2 and len(record["policy_digest"])==64)
+              record["version"]==2 and len(record["policy_digest"])==64 and len(record["root_digest"])==64)
     return {"schema":"trapnet.guardian-root-rotation-acceptance.v1",
             "passed":sum(c["passed"] for c in checks),"total":len(checks),
             "checks":checks,"temporary_keys_removed":True,"network_used":False,

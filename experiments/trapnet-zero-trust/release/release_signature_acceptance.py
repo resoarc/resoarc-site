@@ -40,6 +40,7 @@ def verify(source):
             entries.append({"name":name,"sha256":hashlib.sha256(payload).hexdigest(),"size":len(payload)})
         now=datetime.now(timezone.utc)
         meta={"schema":"trapnet.guardian-release.v1","release":"v0.16.0-beta.1",
+              "source_commit_sha":"0123456789abcdef0123456789abcdef01234567",
               "issued_at":(now-timedelta(minutes=1)).isoformat(),
               "expires_at":(now+timedelta(hours=1)).isoformat(),
               "files":entries}
@@ -58,6 +59,9 @@ def verify(source):
         check("unexpected_bundle_file_rejected",inspect().returncode!=0)
         (bundle/"extra.file").unlink()
         original=json.loads(signed.read_text())
+        original["manifest"]["source_commit_sha"]="abcdef0123456789abcdef0123456789abcdef01"
+        signed.write_text(json.dumps(original))
+        check("signed_source_commit_tamper_rejected",inspect().returncode!=0)
         original["manifest"]["release"]="v0.16.0-beta.2"
         signed.write_text(json.dumps(original))
         check("manifest_version_tamper_rejected",inspect().returncode!=0)
