@@ -59,3 +59,31 @@ jobs:
             experiments/trapnet-zero-trust/release-gate-result.json
           if-no-files-found: warn
           retention-days: 30
+
+  guardian-windows-runtime:
+    name: Windows Guardian real CLI acceptance (no install)
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exercise native Windows Guardian executable with temporary test keys
+        shell: pwsh
+        run: python release/guardian_beta_acceptance.py --source . --output guardian-windows-acceptance.json
+      - name: Retain key-free Windows acceptance result only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-guardian-windows-acceptance
+          path: experiments/trapnet-zero-trust/guardian-windows-acceptance.json
+          if-no-files-found: warn
+          retention-days: 30
