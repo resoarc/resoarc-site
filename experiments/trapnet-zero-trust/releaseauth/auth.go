@@ -34,7 +34,7 @@ import(
  "time"
 )
 const Schema="trapnet.guardian-release.v1"
-var versionPattern=)
+var versionPattern=regexp.MustCompile("^v[0-9]+\\.[0-9]+\\.[0-9]+-beta\\.[0-9]+$")
 var expected=[]string{"guardian-linux-amd64","guardian-linux-arm64","guardian-windows-amd64.exe"}
 type File struct{Name string `json:"name"`;SHA256 string `json:"sha256"`;Size int64 `json:"size"`}
 type Manifest struct{Schema string `json:"schema"`;Release string `json:"release"`;IssuedAt time.Time `json:"issued_at"`;ExpiresAt time.Time `json:"expires_at"`;Files []File `json:"files"`}
