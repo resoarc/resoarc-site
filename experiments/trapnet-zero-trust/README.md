@@ -145,3 +145,12 @@ See [off-HUB witness security guide](docs/v0.4-offhost-witness.md). Added an in-
 The experimental `archive` package and `cmd/archive-sign` now support separately signed, independently pinned witnessed **older** ledgers. Preparing a new empty active ledger never modifies an older one; HUB restores archived event IDs and reception-time throttling before accepting reports. `ledger.jsonl.archives-required` guards against accidentally starting a new generation without a signed archive manifest, pinned manifest SHA-256 and public archive trust root. See `docs/v0.6-witnessed-ledger-generation.md` for commands and unresolved limitations.
 
 **This is not automatic compaction/rotation or a verified production recovery system.** It scans all archived records on startup (bounded), requires a privileged operator to maintain external pins, and deliberately refuses missing evidence. Old archives may not be deleted. Tests do not establish safe handling of actual power loss, disk-full recovery or an attacker who controls both HUB and its protected service configuration.
+
+
+## v0.10: Windows LAN-isolation preflight (read-only; HOLD)
+
+The three-physical-host lab found that the Stick PC could initiate a direct TCP connection to a protected management service on the main PC. They share a home IPv4 subnet, so *host-to-host reachability exists* and an adversarial-facing Sensor must **not** be exposed there yet. This finding does not claim successful authentication or compromise.
+
+Run the strictly read-only, single-authorized-RFC1918-target `lab/windows_isolation_preflight.ps1` on Windows to record an IP-redacted JSON verdict. A live connection returns exit **2** (`UNSAFE_DIRECT_REACHABLE`); a failed TCP connection returns exit **3** (`NOT_PROVEN`), **never a false PASS**. Public IPs, address scans, firewall changes, automatic RDP changes and remote commands are not part of this diagnostic. The Windows self-tests run without any network probes.
+
+See [v0.10 network isolation preflight and safe VLAN migration](docs/v0.10-windows-lan-isolation-preflight.md). **Keep the whole PR in Draft; no public enrollment, production deploy or real honeypot on the shared home LAN.**
