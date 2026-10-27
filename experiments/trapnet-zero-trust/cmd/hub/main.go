@@ -21,6 +21,7 @@ import (
 )
 
 const perNodeMinuteLimit = 30
+const defaultLedgerMaxBytes int64 = 64 << 20 // 64 MiB, evidence is never automatically removed
 
 type ledgerEntry struct {
 	ReceivedAt time.Time             `json:"received_at"`
@@ -34,6 +35,7 @@ type server struct {
 	seen              map[string]bool
 	recent            map[string][]time.Time
 	ledger            *os.File
+	maxLedgerBytes    int64
 	head              ledgerHead
 	poisoned          bool
 	signedRevocations *signedRevocationSource
@@ -105,7 +107,7 @@ func newServer(keys map[string]ed25519.PublicKey, revoked map[string]bool, ledge
 	if err != nil {
 		return nil, err
 	}
-	return &server{keys: keys, revoked: revoked, seen: seen, recent: recent, ledger: ledger, head: head, now: clock}, nil
+	return &server{keys: keys, revoked: revoked, seen: seen, recent: recent, ledger: ledger, maxLedgerBytes: defaultLedgerMaxBytes, head: head, now: clock}, nil
 }
 
 func (s *server) report(w http.ResponseWriter, r *http.Request) {
@@ -179,6 +181,18 @@ func (s *server) report(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	row := append(entry, '\n')
+	// Enforce capacity before accepting any event; replay evidence MUST NOT
+	// be truncated or silently compacted to free space.
+	fi, statErr := s.ledger.Stat()
+	if statErr != nil {
+		s.poisoned = true
+		http.Error(w, "storage unavailable", http.StatusServiceUnavailable)
+		return
+	}
+	if s.maxLedgerBytes <= 0 || fi.Size() > s.maxLedgerBytes-int64(len(row)) {
+		http.Error(w, "ledger full: offline archival required", http.StatusInsufficientStorage)
+		return
+	}
 	next, err := nextHead(s.head, row)
 	if err != nil {
 		http.Error(w, "ledger digest failed", 500)
@@ -253,10 +267,12 @@ func main() {
 	keysFile := flag.String("allowlist", "allowlist.json", "node_id to public key mapping")
 	revokedFile := flag.String("revoked", "", "optional required-to-exist JSON list of revoked node IDs (read at startup)")
 	ledgerFile := flag.String("ledger", "ledger.jsonl", "local append-only evidence ledger")
+	ledgerLimit := flag.Int64("max-ledger-bytes", defaultLedgerMaxBytes, "bounded evidence size (1 MiB to 1 GiB; no auto-compaction)")
 	bootstrap := flag.Bool("bootstrap-ledger", false, "one-time manually reviewed sealing of legacy uncheckpointed ledger")
 	signedRevoke := flag.String("signed-revocations", "", "optional path to signed local revocation snapshot; fail-closed and hot-reloaded")
 	revokeRoot := flag.String("revocation-root", "", "offline root public key for signed snapshots")
 	flag.Parse()
+	if *ledgerLimit < 1<<20 || *ledgerLimit > 1<<30 { log.Fatal("max-ledger-bytes must be 1 MiB to 1 GiB") }
 	if *addr != "127.0.0.1:8788" {
 		log.Fatal("MVP only listens on 127.0.0.1:8788")
 	}
@@ -286,6 +302,9 @@ func main() {
 	if err != nil {
 		log.Fatal("invalid ledger: ", err)
 	}
+	info, err := f.Stat()
+	if err != nil || info.Size() > *ledgerLimit {log.Fatal("ledger capacity exceeded or inaccessible; archive offline before operator-reviewed recovery")}
+	s.maxLedgerBytes = *ledgerLimit
 	if *signedRevoke != "" {
 		source, err := newRevocationSource(*signedRevoke, *revokeRoot)
 		if err != nil {

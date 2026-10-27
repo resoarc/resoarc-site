@@ -122,3 +122,11 @@ checkpoints. **No public release or automatic blocking is permitted.**
 The offline-only cmd/witness utility computes the same SHA-256 chained ledger digest as HUB, verifies a closed snapshot and signs witnessed row boundaries **on a separate host**. Witness history is signed, sequential, hash-linked and designed to live outside HUB; operators must separately pin the latest history tip to detect rollback. Newer rows are unwitnessed until the next attestation. No trusted time source, auto witnessing, key rotation or automatic defense decisions are included.
 
 An in-memory five-identity adversarial regression test exercises replay, forged reports, old timestamps and static revocation. **This is not a five-host deployment and does not establish independent operator identities or Sybil resistance.** See [v0.4 off-HUB guide](docs/v0.4-offhost-witness.md). Public deployment remains HOLD.
+
+
+## v0.5 safe evidence snapshot and capacity
+
+- HUB now bounds the ledger with `-max-ledger-bytes` (default 64MiB); an over-limit report receives HTTP 507 without any automatic deletion or reuse of event IDs.
+- With HUB stopped, `go run ./cmd/snapshot -ledger ledger.jsonl -out /secure/export-0001` creates a verified, atomically published offline copy. It refuses running HUBs and stale locks.
+- Transfer both ledger and .head to separately controlled Witness and keep the original. See [v0.5 safe snapshot](docs/v0.5-safe-snapshot.md).
+- **This is not an authenticated compaction, general recovery procedure, or a public deployment.**
