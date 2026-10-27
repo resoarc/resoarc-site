@@ -12,14 +12,18 @@ REPORT=ROOT/"operational"/"sonar"/"privacy_latest.json"
 
 def collect():
     try:
-        proc=subprocess.run(["docker","logs","--tail","400","trapnet-web-stage"],
-                            capture_output=True,text=True,timeout=5,check=False)
+        proc=subprocess.run(
+            ["docker","logs","--tail","400","trapnet-web-stage"],
+            capture_output=True,text=True,timeout=5,check=False)
         if proc.returncode!=0:
-            records=[];status="log_unavailable"
+            records=[]
+            status="log_unavailable"
         else:
-            records=proc.stdout.splitlines()[:400];status="available"
+            records=proc.stdout.splitlines()[:400]
+            status="available"
     except (OSError,subprocess.TimeoutExpired):
-        records=[];status="log_unavailable"
+        records=[]
+        status="log_unavailable"
     report=sonar_hardening.aggregate(records)
     report["log_source_status"]=status
     report["coverage"]=sonar_hardening.coverage()
