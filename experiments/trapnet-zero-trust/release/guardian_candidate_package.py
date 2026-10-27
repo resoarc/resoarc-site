@@ -4,7 +4,10 @@ import argparse,hashlib,json,os,subprocess,sys,zipfile
 from pathlib import Path
 TARGETS=(("linux","amd64"),("linux","arm64"),("windows","amd64"))
 NOTICE="""TRAPNET GUARDIAN: UNSIGNED CI CANDIDATE ONLY. NOT FOR PUBLIC INSTALLATION.
-Requires offline-root-signed signer policy for any feed validation.\nNo installer, automatic updater, signing key, feed public key or network blocking
+Requires offline-root-signed signer policy and an independently verified
+SHA-256 fingerprint of the binary Root public key (-root-sha256).
+Do not obtain this fingerprint from the same untrusted feed/bundle.
+No installer, automatic updater, signing key, feed public key or network blocking
 is bundled. SHA-256 is a change detector, NOT publisher authentication. A
 separate human security review, signature and recovery plan are still required.
 """

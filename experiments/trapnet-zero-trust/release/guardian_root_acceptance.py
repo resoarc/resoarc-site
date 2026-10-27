@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Native Guardian root policy acceptance: ephemeral keys only, no network."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -44,13 +45,24 @@ def acceptance(source):
             check("sign_feed_"+str(version)+"_"+filename,r.returncode==0)
             return output
         state=tmp/"guard-state.json"
-        def consume(feed,policy=None,legacy=False,root_key=None):
+        # Simulate an out-of-band, independently verified Root fingerprint.
+        trusted_pin=hashlib.sha256(bytes.fromhex((root/"public.hex").read_text().strip())).hexdigest()
+        def consume(feed,policy=None,legacy=False,root_key=None,root_pin=None,omit_pin=False,state_path=None):
             root_key=root_key or root
-            args=[exe["guardian"],"-feed",feed,"-state",state]
+            args=[exe["guardian"],"-feed",feed,"-state",state_path or state]
             if legacy: args+=["-pub",old/"public.hex"]
-            else:args+=["-rootpub",root_key/"public.hex","-policy",policy]
+            else:
+                args+=["-rootpub",root_key/"public.hex","-policy",policy]
+                if not omit_pin:args+=["-root-sha256",trusted_pin if root_pin is None else root_pin]
             return run(args,source)
         p1=issue_policy(1,old,"p1.json");f1=sign_feed(1,old,"f1.json")
+        check("missing_initial_root_fingerprint_rejected",consume(f1,p1,omit_pin=True).returncode!=0)
+        check("invalid_initial_root_fingerprint_rejected",consume(f1,p1,root_pin="00"*32).returncode!=0)
+        rogue_initial=issue_policy(1,old,"initial-rogue-policy.json",rogue)
+        fresh_state=tmp/"fresh-guardian.json"
+        check("validly_signed_rogue_root_refused_on_first_install",
+              consume(f1,rogue_initial,root_key=rogue,state_path=fresh_state).returncode!=0)
+        check("failed_initial_trust_did_not_write_state",not fresh_state.exists())
         r=consume(f1,p1)
         check("first_root_signed_feed_accepted",r.returncode==0 and "No network telemetry" in r.stdout)
         check("same_policy_and_feed_idempotent",consume(f1,p1).returncode==0)
