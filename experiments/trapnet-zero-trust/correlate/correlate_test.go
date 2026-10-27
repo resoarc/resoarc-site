@@ -85,7 +85,6 @@ func TestIndependentTimeBuckets(t *testing.T){
 }
 func TestUntrustedGroupRejected(t *testing.T){
  r:=makeRig(t)
- n:=r.trust[r.ids[0]];n.OperatorGroup="foo
-X-Token";r.trust[r.ids[0]]=n
+ n:=r.trust[r.ids[0]];n.OperatorGroup="foo\r\nX-Token";r.trust[r.ids[0]]=n
  if _,err:=Analyze(strings.NewReader(r.signed(t,0,1,r.now)),r.trust,r.now);err==nil{t.Fatal("invalid operator group accepted")}
 }
