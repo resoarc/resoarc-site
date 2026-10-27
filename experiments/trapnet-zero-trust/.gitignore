@@ -1,0 +1,6 @@
+**/private.hex
+**/public.hex
+**/node.json
+*.signed.json
+guardian-state.json
+ledger.jsonl
