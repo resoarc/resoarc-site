@@ -63,3 +63,31 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CGO_ENABLED: '0'
         run: go build ./...
+
+  netns-isolation-lab:
+    name: Five isolated Docker networks (experimental)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Verify Docker Engine is operational
+        run: docker info
+      - name: Run five-netns isolation / signed report / offline Guardian lab
+        run: python3 lab/docker_isolation_lab.py --out lab/netns-results.json
+      - name: Preserve key-free lab result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-v09-docker-netns-result
+          path: experiments/trapnet-zero-trust/lab/netns-results.json
+          if-no-files-found: warn
+          retention-days: 7
