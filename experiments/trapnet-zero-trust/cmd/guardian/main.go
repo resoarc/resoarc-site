@@ -17,6 +17,9 @@ func readHexPub(path string)(ed25519.PublicKey,error){
  if len(raw)>1024{return nil,errors.New("public key file too large")}
  return protocol.PublicFromHex(strings.TrimSpace(string(raw)))
 }
+// Release-candidate builds set this to true using -ldflags -X main.requireRootPolicy=true.
+// Experimental builds retain -pub for older isolated lab scenarios only.
+var requireRootPolicy = "false"
 func main(){
  feedPath:=flag.String("feed","","local signed feed")
  pubPath:=flag.String("pub","","EXPERIMENTAL legacy feed signer pub, not for beta distribution")
@@ -26,6 +29,7 @@ func main(){
  flag.Parse()
  if *feedPath==""{panic("-feed required")}
  policyMode:=*policyPath!=""||*rootPath!=""
+ if requireRootPolicy=="true" && !policyMode {panic("Guardian beta binary requires -policy and -rootpub: legacy -pub forbidden")}
  if policyMode&&(*policyPath==""||*rootPath==""||*pubPath!=""){panic("policy mode requires -policy and -rootpub and forbids -pub")}
  if !policyMode&&*pubPath==""{panic("use -policy and -rootpub; -pub is experimental legacy mode only")}
  b,err:=os.ReadFile(*feedPath);if err!=nil{panic(err)}
