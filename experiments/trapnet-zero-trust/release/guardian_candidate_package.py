@@ -4,7 +4,7 @@ import argparse,hashlib,json,os,subprocess,sys,zipfile
 from pathlib import Path
 TARGETS=(("linux","amd64"),("linux","arm64"),("windows","amd64"))
 NOTICE="""TRAPNET GUARDIAN: UNSIGNED CI CANDIDATE ONLY. NOT FOR PUBLIC INSTALLATION.
-No installer, automatic updater, signing key, feed public key or network blocking
+Requires offline-root-signed signer policy for any feed validation.\nNo installer, automatic updater, signing key, feed public key or network blocking
 is bundled. SHA-256 is a change detector, NOT publisher authentication. A
 separate human security review, signature and recovery plan are still required.
 """
@@ -18,13 +18,13 @@ def build(source,out):
     for platform,arch in TARGETS:
         name="guardian-"+platform+"-"+arch+(".exe" if platform=="windows" else "")
         env=dict(os.environ,GOOS=platform,GOARCH=arch,CGO_ENABLED="0")
-        r=subprocess.run(["go","build","-trimpath","-buildvcs=false","-o",str(out/name),"./cmd/guardian"],
+        r=subprocess.run(["go","build","-trimpath","-buildvcs=false","-ldflags=-X main.requireRootPolicy=true","-o",str(out/name),"./cmd/guardian"],
                          cwd=source,env=env,capture_output=True,text=True,timeout=120)
         if r.returncode:raise ValueError("build failed: "+platform+"/"+arch)
         content=(out/name).read_bytes()
         items.append({"file":name,"os":platform,"arch":arch,"sha256":sha(content),"bytes":len(content)})
     manifest={"schema":"trapnet.unsigned-guardian-ci.v1","public_release":False,
-              "signed":False,"automatic_update":False,"auto_blocking":False,"builds":items}
+              "signed":False,"automatic_update":False,"auto_blocking":False, "root_signer_policy_required":True,"builds":items}
     (out/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
     (out/"READ_ME_FIRST.txt").write_text(NOTICE)
     dest=out/"guardian-UNSIGNED-CI-ONLY.zip"
