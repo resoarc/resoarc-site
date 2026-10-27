@@ -48,29 +48,8 @@ func main() {
 	if err = protocol.VerifyFeed(sf, pub, time.Now().UTC()); err != nil {
 		panic(err)
 	}
-	var state struct {
-		Version uint64 `json:"version"`
-	}
-	if b, err := os.ReadFile(*statePath); err == nil {
-		if json.Unmarshal(b, &state) != nil {
-			panic("invalid local state")
-		}
-	} else if !os.IsNotExist(err) {
+	if err = verifyAndRecord(sf, pub, *statePath, time.Now().UTC()); err != nil {
 		panic(err)
-	}
-	if sf.Feed.Version < state.Version {
-		panic("feed rollback detected")
-	}
-	if sf.Feed.Version > state.Version {
-		state.Version = sf.Feed.Version
-		b, _ := json.Marshal(state)
-		temp := *statePath + ".tmp"
-		if err = os.WriteFile(temp, b, 0600); err != nil {
-			panic(err)
-		}
-		if err = os.Rename(temp, *statePath); err != nil {
-			panic(err)
-		}
 	}
 	fmt.Println("verified informational feed version", sf.Feed.Version)
 	for _, w := range sf.Feed.Warnings {
