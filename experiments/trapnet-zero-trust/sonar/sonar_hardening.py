@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
-"""Local TrapNet diagnostics. Privacy-safe aggregates; no remote execution or traffic interception."""
+"""TrapNet privacy-preserving read-only telemetry and Sonar fingerprint diagnostics.
+
+Python stdlib only. No login, outbound HTTP, traffic interception, firewall or command execution,
+except allowlisted 'docker inspect' for coverage. No raw request, credential or client IP output.
+"""
 from __future__ import annotations
 import argparse
 import collections
+import datetime
 import http.client
 import json
 import pathlib
 import re
 import subprocess
 import sys
+import time
 
 MAX_LINE=8192
 MAX_RECORDS=40000
@@ -34,6 +40,7 @@ def status_family(v):
     return "unknown"
 
 def safe_records(stream):
+    """Parse bounded JSON observation events or conventional HTTP common logs. Discard IPs/raw paths."""
     parsed=0
     for line in stream:
         if parsed>=MAX_RECORDS:break
@@ -46,9 +53,10 @@ def safe_records(stream):
                 status=obj.get("status")
                 if path is None and isinstance(obj.get("request"),str):
                     m=re.match(r"^(GET|HEAD|POST|PUT|DELETE|OPTIONS|PATCH)\s+(\S+)\s+HTTP/",obj["request"])
-                    if m:path=m.group(2)
-                if path is None and isinstance(obj.get("url_path"),str):path=obj["url_path"]
+                    if m: path=m.group(2)
+                if path is None and isinstance(obj.get("url_path"),str): path=obj["url_path"]
         except (ValueError,TypeError):
+            # Only extract request line and status, not remote IP or quoted user agent.
             m=re.search(r'"(?:GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS)\s+([^\s"]{1,256})\s+HTTP/[0-9.]+"\s+([1-5][0-9][0-9])\s',line)
             if m:path=m.group(1);status=m.group(2)
         if path is None:continue
@@ -57,6 +65,7 @@ def safe_records(stream):
 
 def bucket(n,minimum=MIN_PUBLIC):
     if n<minimum:return "<"+str(minimum)
+    # Coarse lower/upper ranges; do not publish exact small cohorts.
     if n<10:return "5-9"
     if n<50:return "10-49"
     if n<100:return "50-99"
@@ -80,8 +89,8 @@ def aggregate(stream,min_public=MIN_PUBLIC):
     }
 
 def fingerprint_local(host="127.0.0.1",port=8086):
-    if host!="127.0.0.1" or not (1<=int(port)<=65535):
-        raise ValueError("localhost-only fingerprint audit")
+    """Only the LOCAL loopback endpoint, never an external host or port scan."""
+    if host!="127.0.0.1" or not (1<=int(port)<=65535):raise ValueError("localhost-only fingerprint audit")
     observations=[];findings=set()
     for path in ("/","/openapi.json","/api/v1/keys","/unlikely-no-such-path-v3"):
         conn=http.client.HTTPConnection("127.0.0.1",int(port),timeout=3)
@@ -90,13 +99,12 @@ def fingerprint_local(host="127.0.0.1",port=8086):
             response=conn.getresponse()
             data=response.read(8192)
             hdr={k.lower():v for k,v in response.getheaders()}
-            body=data.decode("utf-8","replace").lower()
-            if any(k in body for k in ("resoarc","trapnet","decoy_not_","synthetic_")):
-                findings.add("explicit_decoy_marker_in_response")
+            text=data.decode("utf-8","replace").lower()
+            if any(k in text for k in ("resoarc","trapnet","decoy_not_","synthetic_")):findings.add("explicit_decoy_marker_in_response")
             if "x-powered-by" in hdr:findings.add("stack_header_present")
             if "server" in hdr:findings.add("server_banner_present")
-            observations.append({"route_class":category_for(path),"http_status":response.status,
-                 "response_size_band":bucket(len(data),5),"server_header_present":"server" in hdr})
+            observations.append({"route_class":category_for(path),"http_status":response.status,"response_size_band":bucket(len(data),5),
+                                 "server_header_present":"server" in hdr})
         finally:conn.close()
     return {"schema":"trapnet.sonar-fingerprint-local.v1","scope":"loopback-only",
             "finding_codes":sorted(findings),"tested_routes":observations,
@@ -105,17 +113,18 @@ def fingerprint_local(host="127.0.0.1",port=8086):
 def coverage():
     services={}
     for name in CONTAINER_NAMES:
-        short=name.split("-")[1] if name.endswith("-stage") else name
         try:
             p=subprocess.run(["docker","inspect","--format","{{.State.Running}}",name],
                              capture_output=True,text=True,timeout=3,check=False)
-            services[short]="running" if p.returncode==0 and p.stdout.strip()=="true" else "unavailable"
-        except (OSError,subprocess.TimeoutExpired):services[short]="unavailable"
+            services[name.split("-")[1] if name.endswith("-stage") else name]=(
+                "running" if p.returncode==0 and p.stdout.strip()=="true" else "unavailable")
+        except (OSError,subprocess.TimeoutExpired):services[name.split("-")[1]]="unavailable"
     return {"schema":"trapnet.coverage-health.v1","runtime_services":services,
             "geographic_coverage_proven":False,"unique_independent_nodes_known":False,
             "classification":"service_health_only_not_detection_coverage"}
 
 def evasion(samples):
+    """Offline comparison of approved, pre-aggregated cohorts. Never infer intent."""
     if not isinstance(samples,list) or len(samples)>500:raise ValueError("expected bounded aggregate list")
     totals={"known":{"events":0,"hours":0.0,"windows":0},
             "heldout":{"events":0,"hours":0.0,"windows":0}}
@@ -144,8 +153,7 @@ def evasion(samples):
 
 def input_lines(path):
     p=pathlib.Path(path)
-    if p.is_symlink() or not p.is_file() or p.stat().st_size>8*1024*1024:
-        raise ValueError("file missing, symlink or oversized")
+    if p.is_symlink() or not p.is_file() or p.stat().st_size>8*1024*1024:raise ValueError("file missing, symlink or oversized")
     with p.open("r",encoding="utf-8",errors="replace") as stream:
         yield from stream
 
@@ -160,7 +168,9 @@ def main(argv=None):
     if opts.action=="passive":result=aggregate(input_lines(opts.input))
     elif opts.action=="fingerprint-local":result=fingerprint_local(port=opts.port)
     elif opts.action=="coverage":result=coverage()
-    else:result=evasion(json.loads("".join(input_lines(opts.input))))
+    else:
+        samples=json.loads("".join(input_lines(opts.input)))
+        result=evasion(samples)
     raw=json.dumps(result,ensure_ascii=False,indent=2,sort_keys=True)+"\n"
     if opts.action=="passive" and opts.output:
         target=pathlib.Path(opts.output)
