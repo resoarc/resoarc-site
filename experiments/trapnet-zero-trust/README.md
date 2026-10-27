@@ -104,10 +104,14 @@ go run ./cmd/revoke-sign -key revocation-root/private.hex \
 
 This is **not** a complete zero-trust/attested network. SHA-256 chaining only
 catches ledger edits against a separately protected head file; a privileged
-attacker able to rewrite both can forge a consistent history. External signed
-checkpoints/transparency, signed root key rotation, operator-independent
+attacker able to rewrite both can forge a consistent history. Independent externally pinned witness checkpoints are implemented in the experimental `cmd/witness` (see [v0.4 witness runbook](docs/v0.4-witness.md)). Strong multi-party transparency, signed root key rotation, operator-independent
 attestation, Sybil resistance, privacy audits, recovery tooling, 5-node lab,
 checkpoint retention/compaction, and a TUF-based update path remain unbuilt.
 A deleted revocation state file can also weaken rollback resistance unless
 operators protect backups and trust roots. Recovery must never blindly reset
 checkpoints. **No public release or automatic blocking is permitted.**
+
+
+## v0.4: off-HUB witness with independent tip pinning (experimental)
+
+`cmd/witness` signs stable, copied HUB ledger snapshots **off-HUB**, chains the signed history, and refuses continuing without a previously pinned witness tip. `verify` also requires an independently saved latest tip. It does not attest to observation truth and does not authorize public Sensor enrollment or automated blocking. See [offline operations, recovery and attack tests](docs/v0.4-witness.md).
