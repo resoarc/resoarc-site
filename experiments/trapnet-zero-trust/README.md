@@ -115,3 +115,10 @@ checkpoints. **No public release or automatic blocking is permitted.**
 ## v0.4: off-HUB witness with independent tip pinning (experimental)
 
 `cmd/witness` signs stable, copied HUB ledger snapshots **off-HUB**, chains the signed history, and refuses continuing without a previously pinned witness tip. `verify` also requires an independently saved latest tip. It does not attest to observation truth and does not authorize public Sensor enrollment or automated blocking. See [offline operations, recovery and attack tests](docs/v0.4-witness.md).
+
+
+## v0.4: independently witnessed evidence (experimental)
+
+The offline-only cmd/witness utility computes the same SHA-256 chained ledger digest as HUB, verifies a closed snapshot and signs witnessed row boundaries **on a separate host**. Witness history is signed, sequential, hash-linked and designed to live outside HUB; operators must separately pin the latest history tip to detect rollback. Newer rows are unwitnessed until the next attestation. No trusted time source, auto witnessing, key rotation or automatic defense decisions are included.
+
+An in-memory five-identity adversarial regression test exercises replay, forged reports, old timestamps and static revocation. **This is not a five-host deployment and does not establish independent operator identities or Sybil resistance.** See [v0.4 off-HUB guide](docs/v0.4-offhost-witness.md). Public deployment remains HOLD.
