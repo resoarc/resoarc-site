@@ -16,24 +16,6 @@ import(
  "time"
 )
 const Schema="trapnet.guardian-release.v1"
-var versionPattern=regexp.MustCompile(`^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+// Package releaseauth verifies Guardian public-beta artifacts using an independent
-// release-signing key, distinct from the signer of informational warning feeds.
-package releaseauth
-import(
- "crypto/ed25519"
- "crypto/sha256"
- "encoding/hex"
- "encoding/json"
- "errors"
- "fmt"
- "io"
- "os"
- "path/filepath"
- "regexp"
- "sort"
- "time"
-)
-const Schema="trapnet.guardian-release.v1"
 var versionPattern=regexp.MustCompile("^v[0-9]+\\.[0-9]+\\.[0-9]+-beta\\.[0-9]+$")
 var expected=[]string{"guardian-linux-amd64","guardian-linux-arm64","guardian-windows-amd64.exe"}
 type File struct{Name string `json:"name"`;SHA256 string `json:"sha256"`;Size int64 `json:"size"`}
