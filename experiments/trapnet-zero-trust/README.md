@@ -54,10 +54,60 @@ The sample observation is explicitly synthetic. Do **not** misrepresent a demo r
 
 See `docs/architecture.md` for architecture and deployment gates.
 
-## Security hardening after v0.1 (development only)
+## v0.3: local integrity and offline-signed revocation snapshots (experimental)
 
-- HUB uses a receipt-time ledger so per-node 30/minute rate limits persist after restart, and previous event IDs remain blocked.
-- An optional `-revoked revoked.json` argument loads a JSON array of revoked node IDs on startup. Missing or malformed revocation files fail startup. The list is **not hot-reloaded** yet.
-- Guardian pins the SHA-256 digest of the verified warning feed alongside its version. Same-version different-content feeds are rejected even when signed. An old state file without a digest requires a newer feed version to migrate.
-- These are local protocol protections, **not evidence of truth**, nor a hardened public service. No remote commands, no auto-blocking, no public listener. Attacker-controlled operators and privileged local tampering remain out of scope.
-- The isolated GitHub Actions workflow runs tests with the Go race detector, `go vet`, and Windows/Linux amd64/arm64 cross-compilation. Passing CI is a prerequisite, not deployment approval.
+**Still local-only. Do not deploy to the public Internet or a personal LAN.**
+
+* Each accepted evidence record advances a SHA-256 chain with a separately
+  checkpointed row count and digest (`ledger.jsonl.head`). A removed/changed
+  record, incomplete tail, missing checkpoint or interrupted checkpoint update
+  blocks HUB startup; write/storage failure poisons the running HUB. The
+  `ledger.jsonl.lock` file enforces **one HUB writer per ledger**. On a crash,
+  investigate and back up ledger + head before manually clearing a stale lock.
+* An **existing unsealed v0.1/v0.2 ledger is rejected**, not silently trusted.
+  After an offline backup and human review, run HUB once with `-bootstrap-ledger`
+  to seal this specific historical ledger as a new baseline. This does **not**
+  certify that historical records were genuine. The flag must not be used to
+  suppress an unexpected mismatch where a checkpoint already exists.
+* An optional **offline-signed, short-lived revocation snapshot** is read on
+  every report. Missing, expired, equivocated, malformed, or rolled-back
+  snapshots return HTTP 503. The signing private key stays OFF the HUB.
+  Strictly increasing versions permit additions and removals only through a
+  newly signed complete snapshot; rollback state is persisted on disk.
+* Guardian refuses competing updaters via an exclusive `.lock` beside its
+  state file. A stale lock stops updates until manually reviewed. It still
+  cannot execute remotely supplied instructions or block traffic.
+
+Generate a dedicated offline revocation keypair (do not reuse Sensor/feed keys):
+
+```sh
+go run ./cmd/keygen -out revocation-root
+go run ./cmd/revoke-sign -key revocation-root/private.hex \
+  -version 1 -out revocations.signed.json
+# Configure local-only HUB with:
+go run ./cmd/hub -allowlist allowlist.json -ledger ledger.jsonl \
+  -signed-revocations revocations.signed.json \
+  -revocation-root revocation-root/public.hex
+```
+
+To revoke a node, use the OFFLINE signing machine to create a new **full**
+revocation snapshot with a higher version, then atomically place that signed
+file on the HUB. Never transfer the private key to the HUB. Example:
+
+```sh
+go run ./cmd/revoke-sign -key revocation-root/private.hex \
+  -version 2 -ids 0123456789abcdef0123456789abcdef \
+  -out revocations.signed.json
+```
+
+### Security limitations requiring further work
+
+This is **not** a complete zero-trust/attested network. SHA-256 chaining only
+catches ledger edits against a separately protected head file; a privileged
+attacker able to rewrite both can forge a consistent history. External signed
+checkpoints/transparency, signed root key rotation, operator-independent
+attestation, Sybil resistance, privacy audits, recovery tooling, 5-node lab,
+checkpoint retention/compaction, and a TUF-based update path remain unbuilt.
+A deleted revocation state file can also weaken rollback resistance unless
+operators protect backups and trust roots. Recovery must never blindly reset
+checkpoints. **No public release or automatic blocking is permitted.**
