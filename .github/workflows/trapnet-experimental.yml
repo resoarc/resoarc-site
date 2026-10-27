@@ -1,0 +1,56 @@
+name: TrapNet Experimental Security Tests
+
+on:
+  push:
+    paths:
+      - 'experiments/trapnet-zero-trust/**'
+      - '.github/workflows/trapnet-experimental.yml'
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/**'
+      - '.github/workflows/trapnet-experimental.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  unit-security-tests:
+    name: Go tests, race detector and vet
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - run: go test -race ./... -count=1
+      - run: go vet ./...
+
+  compile-cross-platform:
+    name: Cross compile (${{ matrix.goos }}/${{ matrix.goarch }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { goos: linux, goarch: amd64 }
+          - { goos: linux, goarch: arm64 }
+          - { goos: windows, goarch: amd64 }
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Build without packaging or deployment
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: '0'
+        run: go build ./...
