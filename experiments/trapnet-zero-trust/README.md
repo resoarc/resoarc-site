@@ -104,29 +104,44 @@ go run ./cmd/revoke-sign -key revocation-root/private.hex \
 
 This is **not** a complete zero-trust/attested network. SHA-256 chaining only
 catches ledger edits against a separately protected head file; a privileged
-attacker able to rewrite both can forge a consistent history. Independent externally pinned witness checkpoints are implemented in the experimental `cmd/witness` (see [v0.4 witness runbook](docs/v0.4-witness.md)). Strong multi-party transparency, signed root key rotation, operator-independent
+attacker able to rewrite both can forge a consistent history. External signed
+checkpoints/transparency, signed root key rotation, operator-independent
 attestation, Sybil resistance, privacy audits, recovery tooling, 5-node lab,
 checkpoint retention/compaction, and a TUF-based update path remain unbuilt.
 A deleted revocation state file can also weaken rollback resistance unless
 operators protect backups and trust roots. Recovery must never blindly reset
 checkpoints. **No public release or automatic blocking is permitted.**
 
+## v0.4: external witness against local HUB ledger rewrites (experimental)
 
-## v0.4: off-HUB witness with independent tip pinning (experimental)
+`cmd/witness` independently validates a **closed offline copy** of the HUB
+ledger plus `.head`, then signs a sequence-numbered, hash-chained checkpoint
+into a history **outside the HUB trust boundary**. A separate auditor checks
+signature, all previously witnessed row boundaries, and an externally pinned
+history tip. The signer rejects continuation unless the prior pinned tip is
+supplied. The first record requires explicit `-bootstrap-history`.
 
-`cmd/witness` signs stable, copied HUB ledger snapshots **off-HUB**, chains the signed history, and refuses continuing without a previously pinned witness tip. `verify` also requires an independently saved latest tip. It does not attest to observation truth and does not authorize public Sensor enrollment or automated blocking. See [offline operations, recovery and attack tests](docs/v0.4-witness.md).
+This reduces the risk of undetected retroactive ledger edits after a recorded
+witness; it does **not** prove observation truth, resist witness-key compromise,
+or establish a five-node production-grade system. Read the complete
+[offline witness operations and recovery guide](docs/v0.4-witness.md) before
+using; do not put witness private keys on the HUB or deploy publicly.
 
+## v0.4 off-HUB witness (experimental)
 
-## v0.4: independently witnessed evidence (experimental)
+A separate `cmd/witness` CLI now supports manual signature witnessing of **closed ledger snapshots** on a different host. A witness private key stays outside HUB. The independent history catches post-attestation edits to witnessed rows even if a privileged HUB attacker rewrites both local ledger and `.head`. An independently pinned history tip is required to detect rolling back the witness history itself. There is no automatic witness service or live-replication channel.
 
-The offline-only cmd/witness utility computes the same SHA-256 chained ledger digest as HUB, verifies a closed snapshot and signs witnessed row boundaries **on a separate host**. Witness history is signed, sequential, hash-linked and designed to live outside HUB; operators must separately pin the latest history tip to detect rollback. Newer rows are unwitnessed until the next attestation. No trusted time source, auto witnessing, key rotation or automatic defense decisions are included.
+See [off-HUB witness security guide](docs/v0.4-offhost-witness.md). Added an in-memory five-identity adversarial test; this is not the planned multi-host isolation test. **No public deployment or Guardian auto-blocking.**
 
-An in-memory five-identity adversarial regression test exercises replay, forged reports, old timestamps and static revocation. **This is not a five-host deployment and does not establish independent operator identities or Sybil resistance.** See [v0.4 off-HUB guide](docs/v0.4-offhost-witness.md). Public deployment remains HOLD.
+## v0.5 bounded evidence and safe offline snapshot
 
+- `hub -max-ledger-bytes 67108864`: a **fail-closed** 64 MiB default capacity guard. An over-cap append returns HTTP 507; existing evidence is never deleted and replay IDs are not consumed.
+- With HUB fully stopped, `go run ./cmd/snapshot -ledger ledger.jsonl -out /secure/export-0001` creates a verified, atomically published offline copy of the ledger and `.head` after acquiring the same writer lock. It refuses a running HUB or stale lock.
+- Transfer the closed snapshot to a separately controlled Witness. This is not a snapshot taken while the HUB is accepting requests. See [`docs/v0.5-safe-snapshot.md`](docs/v0.5-safe-snapshot.md).
+- **No automatic compaction or recovery yet.** Prior witnessed evidence and replay prevention take priority over freeing space. No production or public deployment.
 
-## v0.5 safe evidence snapshot and capacity
+## v0.6 witnessed ledger generations (development only)
 
-- HUB now bounds the ledger with `-max-ledger-bytes` (default 64MiB); an over-limit report receives HTTP 507 without any automatic deletion or reuse of event IDs.
-- With HUB stopped, `go run ./cmd/snapshot -ledger ledger.jsonl -out /secure/export-0001` creates a verified, atomically published offline copy. It refuses running HUBs and stale locks.
-- Transfer both ledger and .head to separately controlled Witness and keep the original. See [v0.5 safe snapshot](docs/v0.5-safe-snapshot.md).
-- **This is not an authenticated compaction, general recovery procedure, or a public deployment.**
+The experimental `archive` package and `cmd/archive-sign` now support separately signed, independently pinned witnessed **older** ledgers. Preparing a new empty active ledger never modifies an older one; HUB restores archived event IDs and reception-time throttling before accepting reports. `ledger.jsonl.archives-required` guards against accidentally starting a new generation without a signed archive manifest, pinned manifest SHA-256 and public archive trust root. See `docs/v0.6-witnessed-ledger-generation.md` for commands and unresolved limitations.
+
+**This is not automatic compaction/rotation or a verified production recovery system.** It scans all archived records on startup (bounded), requires a privileged operator to maintain external pins, and deliberately refuses missing evidence. Old archives may not be deleted. Tests do not establish safe handling of actual power loss, disk-full recovery or an attacker who controls both HUB and its protected service configuration.

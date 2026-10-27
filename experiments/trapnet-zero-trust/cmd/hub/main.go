@@ -17,11 +17,13 @@ import (
 	"sync"
 	"time"
 
+	"github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/archive"
 	"github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/protocol"
+	"github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/witness"
 )
 
 const perNodeMinuteLimit = 30
-const defaultLedgerMaxBytes int64 = 64 << 20 // 64 MiB, evidence is never automatically removed
+const defaultLedgerMaxBytes int64 = 64 << 20 // 64 MiB; no automatic truncation
 
 type ledgerEntry struct {
 	ReceivedAt time.Time             `json:"received_at"`
@@ -110,6 +112,26 @@ func newServer(keys map[string]ed25519.PublicKey, revoked map[string]bool, ledge
 	return &server{keys: keys, revoked: revoked, seen: seen, recent: recent, ledger: ledger, maxLedgerBytes: defaultLedgerMaxBytes, head: head, now: clock}, nil
 }
 
+// restoreArchivedReplay is deliberately invoked only after the live ledger's
+// checkpoint has passed integrity verification. All archive material and the
+// expected manifest tip must be pinned independently of the HUB data volume.
+func (s *server) restoreArchivedReplay(manifest string, root ed25519.PublicKey, pinnedTip string) error {
+	archived, timestamps, err := archive.Load(manifest, root, pinnedTip, s.ledger.Name(), s.now().UTC())
+	if err != nil {
+		return err
+	}
+	for id := range archived {
+		if s.seen[id] {
+			return fmt.Errorf("replay identity occurs in both active ledger and witnessed archive: %s", id)
+		}
+		s.seen[id] = true
+	}
+	for node, entries := range timestamps {
+		s.recent[node] = append(s.recent[node], entries...)
+	}
+	return nil
+}
+
 func (s *server) report(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "method not allowed", 405)
@@ -181,8 +203,9 @@ func (s *server) report(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	row := append(entry, '\n')
-	// Enforce capacity before accepting any event; replay evidence MUST NOT
-	// be truncated or silently compacted to free space.
+	// Bound local storage WITHOUT compacting away the replay index. Manual
+	// off-host witness and incident-reviewed rotation are required before
+	// discarding any records. This is a fail-closed resource guard, not GC.
 	fi, statErr := s.ledger.Stat()
 	if statErr != nil {
 		s.poisoned = true
@@ -271,10 +294,21 @@ func main() {
 	bootstrap := flag.Bool("bootstrap-ledger", false, "one-time manually reviewed sealing of legacy uncheckpointed ledger")
 	signedRevoke := flag.String("signed-revocations", "", "optional path to signed local revocation snapshot; fail-closed and hot-reloaded")
 	revokeRoot := flag.String("revocation-root", "", "offline root public key for signed snapshots")
+	archiveManifest := flag.String("archives", "", "optional signed archive manifest; mandatory for all rollover generations")
+	archiveRoot := flag.String("archive-root", "", "pinned archive manifest signing public key")
+	archiveTip := flag.String("archive-tip", "", "independently pinned SHA256 of the signed archive manifest")
 	flag.Parse()
-	if *ledgerLimit < 1<<20 || *ledgerLimit > 1<<30 { log.Fatal("max-ledger-bytes must be 1 MiB to 1 GiB") }
+	if *ledgerLimit < 1<<20 || *ledgerLimit > 1<<30 {
+		log.Fatal("max-ledger-bytes must be 1 MiB to 1 GiB")
+	}
 	if *addr != "127.0.0.1:8788" {
 		log.Fatal("MVP only listens on 127.0.0.1:8788")
+	}
+	if (*archiveManifest != "") != (*archiveRoot != "") || (*archiveManifest != "") != (*archiveTip != "") {
+		log.Fatal("signed archive manifest, pinned root, and independently pinned tip must be provided together")
+	}
+	if err := requireArchiveSentinel(*ledgerFile, *archiveManifest != ""); err != nil {
+		log.Fatal("archive generation configuration refused: ", err)
 	}
 	if (*signedRevoke == "") != (*revokeRoot == "") || (*signedRevoke != "" && *revokedFile != "") {
 		log.Fatal("configure both -signed-revocations and -revocation-root, without -revoked")
@@ -303,7 +337,18 @@ func main() {
 		log.Fatal("invalid ledger: ", err)
 	}
 	info, err := f.Stat()
-	if err != nil || info.Size() > *ledgerLimit {log.Fatal("ledger capacity exceeded or inaccessible; archive offline before operator-reviewed recovery")}
+	if err != nil || info.Size() > *ledgerLimit {
+		log.Fatal("ledger capacity exceeded or inaccessible; archive offline before operator-reviewed recovery")
+	}
+	if *archiveManifest != "" {
+		root, err := witness.ReadPublicKey(*archiveRoot)
+		if err != nil {
+			log.Fatal("archive trust root unavailable: ", err)
+		}
+		if err := s.restoreArchivedReplay(*archiveManifest, root, *archiveTip); err != nil {
+			log.Fatal("witnessed archive verification refused HUB startup: ", err)
+		}
+	}
 	s.maxLedgerBytes = *ledgerLimit
 	if *signedRevoke != "" {
 		source, err := newRevocationSource(*signedRevoke, *revokeRoot)
