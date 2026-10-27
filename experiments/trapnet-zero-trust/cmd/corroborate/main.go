@@ -13,6 +13,7 @@ import (
  "strings"
  "time"
  "github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/correlate"
+ "github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/witness"
 )
 const maxLedgerBytes int64=8<<20
 const maxTrustBytes int64=512<<10
@@ -33,9 +34,12 @@ func run(args []string,output io.Writer,clock time.Time)error{
  trustPath:=flags.String("trust","","independently curated node trust registry")
  ledgerPin:=flags.String("ledger-sha256","","independently pinned SHA-256 of ledger")
  trustPin:=flags.String("trust-sha256","","independently pinned SHA-256 of trust registry")
+ witnessHistory:=flags.String("witness-history","","off-HUB Witness history")
+ witnessPub:=flags.String("witness-pub","","independently trusted Witness public key")
+ witnessTip:=flags.String("witness-tip","","independently pinned Witness tip")
  if err:=flags.Parse(args);err!=nil{return err}
- if *ledgerPath==""||*trustPath==""||*ledgerPin==""||*trustPin==""{
-  return errors.New("all four required flags must be supplied")
+ if *ledgerPath==""||*trustPath==""||*ledgerPin==""||*trustPin==""||*witnessHistory==""||*witnessPub==""||*witnessTip==""{
+  return errors.New("all seven required flags must be supplied; witnessed attestation mandatory")
  }
  f,err:=os.Open(*ledgerPath);if err!=nil{return err};defer f.Close()
  t,err:=os.Open(*trustPath);if err!=nil{return err};defer t.Close()
@@ -46,6 +50,19 @@ func run(args []string,output io.Writer,clock time.Time)error{
  dec:=json.NewDecoder(strings.NewReader(string(buf)));dec.DisallowUnknownFields()
  if err:=dec.Decode(&registry);err!=nil{return errors.New("invalid trust registry")}
  if err:=dec.Decode(new(any));err!=io.EOF{return errors.New("extra JSON in trust registry")}
+// An independently pinned digest is necessary but is NOT an attestation.
+ // Audit externally signed Witness history and require full coverage.
+ pub,err:=witness.ReadPublicKey(*witnessPub)
+ if err!=nil{return fmt.Errorf("witness key: %w",err)}
+ measured,tip,err:=witness.Audit(*ledgerPath,*witnessHistory,pub,*witnessTip)
+ if err!=nil{return fmt.Errorf("witness audit: %w",err)}
+ if tip!=*witnessTip{return errors.New("witness tip not pinned")}
+ checkpoints,err:=witness.ReadHistory(*witnessHistory,pub)
+ if err!=nil||len(checkpoints)==0{return errors.New("witness history empty or invalid")}
+ last:=checkpoints[len(checkpoints)-1].Checkpoint
+ if last.Rows!=measured.Rows||last.Digest!=measured.Digest{return errors.New("unwitnessed ledger tail refused")}
+ // Detect snapshot mutation between path-based witnessing and analysis.
+ if err:=verifyFile(f,*ledgerPin,maxLedgerBytes);err!=nil{return fmt.Errorf("snapshot changed during witness audit: %w",err)}
  result,err:=correlate.Analyze(f,registry,clock);if err!=nil{return err}
  data,err:=json.MarshalIndent(result,"","  ");if err!=nil{return err}
  _,err=fmt.Fprintln(output,string(data));return err
