@@ -43,7 +43,9 @@ def save_private_new(path,obj):
             out.flush()
             os.fsync(out.fileno())
         os.chmod(temp,0o600)
-        # Hard-link publication is atomic and refuses a racing pre-existing target.\n        os.link(temp,destination)\n        os.unlink(temp)
+        # Hard-link publication is atomic and refuses a racing pre-existing target.
+        os.link(temp,destination)
+        os.unlink(temp)
     finally:
         if os.path.exists(temp):
             os.unlink(temp)
