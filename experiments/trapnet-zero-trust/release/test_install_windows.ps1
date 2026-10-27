@@ -23,7 +23,7 @@ try{
  if(Test-Path (Join-Path $install 'guardian.exe')){throw 'Uninstall left executable'}
  if(!(Test-Path (Join-Path $install 'guardian-state.json'))){throw 'Uninstall deleted rollback state'}
  $outsideRejected=$false
- try{& $script -Action Install -Prefix ([IO.Path]::GetTempPath()) -Binary $source -Sha256 $digest|Out-Null}catch{$outsideRejected=$true}
+ try{& $script -Action Install -Prefix (Join-Path ([IO.Path]::GetPathRoot($HOME)) ('trapnet-outside-home-'+[guid]::NewGuid().ToString('N'))) -Binary $source -Sha256 $digest|Out-Null}catch{$outsideRejected=$true}
  if(!$outsideRejected){throw 'Installer permitted path outside HOME'}
  $mismatchRejected=$false
  try{& $script -Action Install -Prefix (Join-Path $root 'incorrect') -Binary $source -Sha256 ('a'*64)|Out-Null}catch{$mismatchRejected=$true}
