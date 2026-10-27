@@ -24,8 +24,15 @@ jobs:
               grep -Fq 'href="/os/"' /tmp/page.html || { echo "ResoArcOS navigation missing: $url" >&2; exit 1; }
               if [ "$path" = /os/ ]; then
                 grep -Fq '本番用OSとしては未対応' /tmp/page.html || { echo "Missing developer preview warning: $url" >&2; exit 1; }
-                grep -Fq 'resoarcos-pc-v0.1.0-dev-amd64.iso' /tmp/page.html || { echo "Missing ISO download link: $url" >&2; exit 1; }
-                grep -Fq '7706b665ef250be764cda9de43826edf9ad7c85baccbf7655f5ae43f0b5d61dd' /tmp/page.html || { echo "Missing pinned release checksum: $url" >&2; exit 1; }
+                # Official site intentionally pauses public ISO download links.
+                # Keep the non-production warning and alternative source path mandatory.
+                grep -Fq 'ISO一般配布なし' /tmp/page.html || { echo "Missing explicit ISO distribution hold: $url" >&2; exit 1; }
+                grep -Fq 'href="/source/#os"' /tmp/page.html || { echo "Missing verified alternative source route: $url" >&2; exit 1; }
+                if grep -Fq 'resoarcos-pc-v0.1.0-dev-amd64.iso' /tmp/page.html; then
+                  echo "Unexpected direct ISO download advertisement on paused OS page: $url" >&2
+                  exit 1
+                fi
+                grep -Fq '7706b665ef250be764cda9de43826edf9ad7c85baccbf7655f5ae43f0b5d61dd' /tmp/page.html || { echo "Missing pinned historical ISO checksum: $url" >&2; exit 1; }
               fi
               echo "OK $url"
             done
@@ -35,7 +42,7 @@ jobs:
           set -euo pipefail
           curl -fLsS --retry 3 --retry-all-errors --retry-delay 5             https://resoarc.com/downloads/resoarcos-pc-v0.1.0-dev-source.zip             -o /tmp/resoarcos-source.zip
           echo '72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20  /tmp/resoarcos-source.zip' | sha256sum --check
-      - name: Verify public developer-preview ISO checksums and accessibility
+      - name: Verify archived GitHub developer-preview ISO checksums and accessibility
         run: |
           set -euo pipefail
           base=https://github.com/resoarc/resoarc-site/releases/download/resoarcos-pc-v0.1.0-dev-20261016
