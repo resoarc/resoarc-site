@@ -2,6 +2,7 @@ name: TrapNet Windows Isolation Preflight
 
 on:
   push:
+    branches: [main]
     paths:
       - 'experiments/trapnet-zero-trust/lab/windows_isolation_preflight.psm1'
       - 'experiments/trapnet-zero-trust/lab/windows_isolation_preflight.ps1'
@@ -16,6 +17,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   windows-readonly-preflight:

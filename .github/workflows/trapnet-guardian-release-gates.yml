@@ -2,6 +2,7 @@ name: TrapNet Guardian Release Candidate Gates
 
 on:
   push:
+    branches: [main]
     paths:
       - 'experiments/trapnet-zero-trust/**'
       - '.github/workflows/trapnet-guardian-release-gates.yml'
@@ -12,6 +13,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   guardian-candidate-only:
