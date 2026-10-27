@@ -94,6 +94,42 @@ class TestContainment(unittest.TestCase):
         fixture=good()
         fixture["HostConfig"]["IpcMode"]="private"
         self.assertTrue(audit.audit_one(fixture,"web")["namespaces_and_devices_private"])
+    def test_unexpected_readonly_destination_rejected(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"bind","Destination":"/etc/hosts","RW":False}]
+        self.assertFalse(audit.audit_one(obj,"web")["writable_mounts_scoped"])
+    def test_known_readonly_web_destination_accepted(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"bind","Destination":"/app","RW":False}]
+        self.assertTrue(audit.audit_one(obj,"web")["writable_mounts_scoped"])
+    def test_known_readonly_edge_destination_accepted(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"bind","Destination":"/usr/local/etc/haproxy/haproxy.cfg","RW":False}]
+        self.assertTrue(audit.audit_one(obj,"edge")["writable_mounts_scoped"])
+    def test_cowrie_readonly_config_only(self):
+        obj=good()
+        obj["Mounts"]=[
+            {"Type":"bind","Destination":"/cowrie/cowrie-git/etc/cowrie.cfg","RW":False},
+            {"Type":"bind","Destination":"/cowrie/cowrie-git/var","RW":True}]
+        self.assertTrue(audit.audit_one(obj,"ssh")["writable_mounts_scoped"])
+        obj["Mounts"][0]["RW"]=True
+        self.assertFalse(audit.audit_one(obj,"ssh")["writable_mounts_scoped"])
+    def test_readonly_volume_refused(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"volume","Destination":"/app","RW":False}]
+        self.assertFalse(audit.audit_one(obj,"web")["writable_mounts_scoped"])
+    def test_readonly_socket_refused(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"bind","Source":"/var/run/docker.sock",
+                        "Destination":"/var/run/docker.sock","RW":False}]
+        self.assertFalse(audit.audit_one(obj,"web")["writable_mounts_scoped"])
+    def test_host_source_review_not_claimed(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"bind","Destination":"/app","RW":False}]
+        result=audit.assess({"web":obj,"ssh":good(),"edge":good()})
+        self.assertTrue(result["roles"]["web"]["checks"]["writable_mounts_scoped"])
+        self.assertFalse(result["mount_source_ownership_and_content_verified"])
+        self.assertFalse(result["image_declared_volume_override_verified"])
     def test_nonroot_default_not_sufficient(self):
         fixture=good();fixture["Config"]["User"]=""
         res=audit.assess({role:fixture for role in audit.ROLES})

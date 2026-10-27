@@ -21,7 +21,13 @@ CONTROLS = (
     "tmpfs_scoped", "namespaces_and_devices_private",
 )
 
+# A matching destination is not proof that the host source was reviewed.
 WRITE_ALLOWLIST = {"web": set(), "ssh": {"/cowrie/cowrie-git/var"}, "edge": set()}
+READONLY_BIND_ALLOWLIST = {
+    "web": {"/app"},
+    "edge": {"/usr/local/etc/haproxy/haproxy.cfg"},
+    "ssh": {"/cowrie/cowrie-git/etc", "/cowrie/cowrie-git/etc/cowrie.cfg"},
+}
 
 def _scoped_mounts(mounts, role):
     if role not in WRITE_ALLOWLIST or not isinstance(mounts,list):
@@ -38,9 +44,13 @@ def _scoped_mounts(mounts, role):
         if dest in seen:
             return False
         seen.add(dest)
-        if m.get("RW") is True and dest not in allowed:
-            return False
-        if m.get("RW") is not True and m.get("RW") is not False:
+        if m.get("RW") is True:
+            if dest not in allowed:
+                return False
+        elif m.get("RW") is False:
+            if kind != "bind" or dest not in READONLY_BIND_ALLOWLIST[role]:
+                return False
+        else:
             return False
     return True
 
@@ -142,6 +152,8 @@ def assess(inspections):
             "real_egress_firewall_verified":False,
             "destructive_recovery_verified":False,
             "operational_secrets_exported":False,
+            "mount_source_ownership_and_content_verified":False,
+            "image_declared_volume_override_verified":False,
             "roles":results,
             "notice":"A green inspect-only audit never proves escape resistance or authorizes release."}
 
