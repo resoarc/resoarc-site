@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"regexp"
 	"time"
+	"unicode"
 )
 
 const ReportSchema = "trapnet.report.v0.1"
@@ -129,7 +130,7 @@ func (f Feed) Validate(now time.Time) error {
 		return errors.New("too many warnings")
 	}
 	for _, w := range f.Warnings {
-		if !token.MatchString(w.Category) || len(w.Summary) == 0 || len(w.Summary) > 500 {
+		if !token.MatchString(w.Category) || len(w.Summary) == 0 || len(w.Summary) > 500 || unsafeDisplayControl(w.Summary) {
 			return fmt.Errorf("invalid warning")
 		}
 	}
@@ -155,4 +156,15 @@ func VerifyFeed(sf SignedFeed, pub ed25519.PublicKey, now time.Time) error {
 		return errors.New("feed signature failed")
 	}
 	return nil
+}
+
+ // unsafeDisplayControl refuses terminal escapes, bidi controls and line
+ // separators in signed warning content to prevent terminal output spoofing.
+func unsafeDisplayControl(s string) bool {
+ for _, r := range s {
+  if unicode.IsControl(r) || unicode.Is(unicode.Cf,r) || unicode.Is(unicode.Zl,r) || unicode.Is(unicode.Zp,r) {
+   return true
+  }
+ }
+ return false
 }
