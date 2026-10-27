@@ -16,10 +16,33 @@ CONTROLS = (
     "running", "unprivileged", "nonroot_user", "all_capabilities_dropped",
     "no_added_capabilities", "no_new_privileges", "not_host_network",
     "docker_socket_absent", "memory_limit_set", "cpu_limit_set",
-    "pid_limit_set", "readonly_root",
+    "pid_limit_set", "readonly_root", "writable_mounts_scoped",
 )
 
-def audit_one(container):
+WRITE_ALLOWLIST = {"web": set(), "ssh": {"/cowrie/cowrie-git/var"}, "edge": set()}
+
+def _scoped_mounts(mounts, role):
+    if role not in WRITE_ALLOWLIST or not isinstance(mounts,list):
+        return False
+    allowed=WRITE_ALLOWLIST[role]
+    seen=set()
+    for m in mounts:
+        if not isinstance(m,dict):
+            return False
+        dest=m.get("Destination")
+        kind=m.get("Type")
+        if type(dest) is not str or not dest.startswith("/") or kind not in ("bind","volume","tmpfs"):
+            return False
+        if dest in seen:
+            return False
+        seen.add(dest)
+        if m.get("RW") is True and dest not in allowed:
+            return False
+        if m.get("RW") is not True and m.get("RW") is not False:
+            return False
+    return True
+
+def audit_one(container, role="web"):
     host=container.get("HostConfig") or {}
     conf=container.get("Config") or {}
     state=container.get("State") or {}
@@ -52,6 +75,7 @@ def audit_one(container):
            (isinstance(quota,int) and quota>0 and isinstance(period,int) and period>0),
       "pid_limit_set":isinstance(pids,int) and pids>0,
       "readonly_root":host.get("ReadonlyRootfs") is True,
+      "writable_mounts_scoped":_scoped_mounts(mounts,role),
     }
     return checks
 
@@ -62,7 +86,7 @@ def assess(inspections):
     for role in ROLES:
         obj=inspections[role]
         if not isinstance(obj,dict):raise ValueError("invalid inspect payload")
-        tests=audit_one(obj)
+        tests=audit_one(obj,role)
         results[role]={"passed":sum(tests.values()),"total":len(CONTROLS),
                        "checks":tests,"failed":[k for k,v in tests.items() if not v]}
     allpass=all(not results[role]["failed"] for role in ROLES)

@@ -45,6 +45,23 @@ class TestContainment(unittest.TestCase):
     def test_missing_role_or_payload_refused(self):
         with self.assertRaises(ValueError):audit.assess({"web":good()})
         with self.assertRaises(ValueError):audit.assess({"web":good(),"ssh":good(),"edge":None})
+    def test_cowrie_writable_config_volume_refused(self):
+        obj=good()
+        obj["Mounts"]=[
+          {"Type":"volume","Destination":"/cowrie/cowrie-git/etc","RW":True},
+          {"Type":"bind","Destination":"/cowrie/cowrie-git/var","RW":True}]
+        x=audit.assess({role:obj for role in audit.ROLES})
+        self.assertIn("writable_mounts_scoped",x["roles"]["ssh"]["failed"])
+    def test_cowrie_data_mount_is_scoped(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"bind","Destination":"/cowrie/cowrie-git/var","RW":True}]
+        x=audit.assess({"ssh":obj,"web":good(),"edge":good()})
+        self.assertTrue(x["roles"]["ssh"]["checks"]["writable_mounts_scoped"])
+    def test_web_writable_app_rejected(self):
+        obj=good()
+        obj["Mounts"]=[{"Type":"bind","Destination":"/app","RW":True}]
+        x=audit.assess({"web":obj,"ssh":good(),"edge":good()})
+        self.assertIn("writable_mounts_scoped",x["roles"]["web"]["failed"])
     def test_nonroot_default_not_sufficient(self):
         fixture=good();fixture["Config"]["User"]=""
         res=audit.assess({role:fixture for role in audit.ROLES})
