@@ -49,6 +49,12 @@ class ReadonlyPreflight(unittest.TestCase):
  def test_unpinned_declarative_image_holds(self):
   c=config();c["Config"]["Image"]="cowrie/cowrie:latest"
   self.assertIn("IMMUTABLE_DEPLOYMENT_REFERENCE_NOT_PROVEN",self.check(c)["issues"])
+ def test_immutable_repository_digest_accepted(self):
+  c=config();c["Config"]["Image"]="cowrie/cowrie@"+DIGEST
+  self.assertTrue(self.check(c)["local_preflight_pass"])
+ def test_mutable_repository_tag_refused(self):
+  c=config();c["Config"]["Image"]="cowrie/cowrie:latest"
+  self.assertIn("IMMUTABLE_DEPLOYMENT_REFERENCE_NOT_PROVEN",self.check(c)["issues"])
  def test_writable_root_holds(self):
   c=config();c["HostConfig"]["ReadonlyRootfs"]=False
   self.assertIn("WRITABLE_CONTAINER_ROOT",self.check(c)["issues"])
