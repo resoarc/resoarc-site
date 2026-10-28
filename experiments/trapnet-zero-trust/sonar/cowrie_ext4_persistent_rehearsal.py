@@ -24,6 +24,7 @@ import uuid
 from cowrie_offline_integration import BASE, docker, image_verified
 from cowrie_log_health import assess
 from cowrie_lab_backup import copy_verified, manifest
+from cowrie_release_preflight import inspect_local
 
 CAPACITY=16*1024*1024
 IMAGE_DEFAULT="sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a"
@@ -129,6 +130,9 @@ def trial(image,storage_parent=None,wait_sec=3):
         before=assess(mountpoint)
         report["first_events"]=baseline_count
         report["initial_health_pass"]=before["passed"]
+        first_preflight=inspect_local(name,str(mountpoint))
+        report["initial_local_release_preflight"]=first_preflight["local_preflight_pass"]
+        report["initial_local_release_issues"]=first_preflight["issues"]
         report["measured_capacity_bytes"]=before["capacity_bytes"]
         if not before["passed"] or not 8*1024*1024<=before["capacity_bytes"]<=CAPACITY:
             raise RuntimeError("not a verified bounded ext4 mount")
@@ -184,10 +188,14 @@ def trial(image,storage_parent=None,wait_sec=3):
         report["second_events"]=updated_count
         report["recreate_verified"]=(updated.startswith(baseline) and updated_count>baseline_count)
         report["recovered_health_pass"]=assess(mountpoint)["passed"]
+        second_preflight=inspect_local(name,str(mountpoint))
+        report["recreated_local_release_preflight"]=second_preflight["local_preflight_pass"]
+        report["recreated_local_release_issues"]=second_preflight["issues"]
         report["gap_acknowledged"]=True
         report["passed"]=all(report[k] for k in [
             "backup_verified","full_var_restored","enospc","full_health_held","remount_verified",
-            "remount_health_pass","recreate_verified","recovered_health_pass"])
+            "remount_health_pass","recreate_verified","recovered_health_pass",
+            "initial_local_release_preflight","recreated_local_release_preflight"])
     except Exception as error:
         report["error_class"]=type(error).__name__
         report["failure_stage"]=report["stage"]
