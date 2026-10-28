@@ -84,8 +84,15 @@ func (r Report) Validate(now time.Time) error {
 	if !hex32.MatchString(r.NodeID) || !hex32.MatchString(r.EventID) {
 		return errors.New("invalid node or event id")
 	}
-	if !token.MatchString(r.Kind) || r.TargetPort < 1 || r.TargetPort > 65535 {
-		return errors.New("invalid event type or port")
+	if !token.MatchString(r.Kind) {
+		return errors.New("invalid event type")
+	}
+	if r.Kind == CoverageGapKind {
+		if r.TargetPort != 0 || !validCoverageGapFingerprint(r.CampaignFingerprint) {
+			return errors.New("invalid observation gap")
+		}
+	} else if r.TargetPort < 1 || r.TargetPort > 65535 {
+		return errors.New("invalid target port")
 	}
 	if !hex64.MatchString(r.CampaignFingerprint) {
 		return errors.New("invalid fingerprint")
