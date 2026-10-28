@@ -23,7 +23,8 @@ func main() {
 	kind := flag.String("kind", "http_probe", "event category")
 	port := flag.Int("port", 80, "target port")
 	fingerprint := flag.String("fingerprint", "demo-non-ip", "non-PII campaign characteristic; never send raw IP or payload")
-	flag.Parse()
+	gapReason := flag.String("gap-reason", "", "report a strictly typed observation gap; never asserts healthy coverage")
+    flag.Parse()
 	if *key == "" {
 		panic("-key required")
 	}
@@ -40,8 +41,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	hash := sha256.Sum256([]byte(*fingerprint))
-	r := protocol.Report{Schema: protocol.ReportSchema, NodeID: protocol.NodeID(pub), EventID: id, ObservedAt: time.Now().UTC(), Kind: *kind, TargetPort: *port, CampaignFingerprint: hex.EncodeToString(hash[:])}
+	kindChosen, portChosen, fpChosen, err := selectReportClass(*kind, *port, *fingerprint, *gapReason)
+    if err != nil { panic(err) }
+	r := protocol.Report{Schema: protocol.ReportSchema, NodeID: protocol.NodeID(pub), EventID: id, ObservedAt: time.Now().UTC(), Kind: kindChosen, TargetPort: portChosen, CampaignFingerprint: fpChosen}
 	if err = r.Validate(time.Now()); err != nil {
 		panic(err)
 	}
@@ -65,4 +67,22 @@ func main() {
 	if resp.StatusCode != http.StatusAccepted {
 		os.Exit(1)
 	}
+}
+
+ // selectReportClass never emits an assertion of healthy coverage. A gap
+ // categorically differs from a network event and has no target port.
+func selectReportClass(kind string, port int, fingerprint, gapReason string) (string,int,string,error) {
+    if gapReason == "" {
+        if kind == protocol.CoverageGapKind {
+            return "",0,"",fmt.Errorf("coverage_gap requires -gap-reason")
+        }
+        h := sha256.Sum256([]byte(fingerprint))
+        return kind,port,hex.EncodeToString(h[:]),nil
+    }
+    if kind != "http_probe" || port != 80 || fingerprint != "demo-non-ip" {
+        return "",0,"",fmt.Errorf("observation gap cannot be combined with event options")
+    }
+    digest,err:=protocol.CoverageGapFingerprint(gapReason)
+    if err!=nil{return "",0,"",err}
+    return protocol.CoverageGapKind,0,digest,nil
 }
