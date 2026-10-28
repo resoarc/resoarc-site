@@ -35,6 +35,27 @@ submitted a typed claim about *possible missing observations* at one time.
 It does not prove the claim is true, detect every gap, attest all previous
 intervals, or establish node/operator independence.
 
+## Read-only Cowrie health classification
+
+The optional `sonar/cowrie_gap_advice.py` consumes
+`cowrie_log_health.assess()` locally and returns a **categorical operator
+suggestion** without exporting any log content:
+
+```sh
+cd experiments/trapnet-zero-trust/sonar
+python3 cowrie_gap_advice.py --private-var /path/to/isolated/var
+```
+
+`FREE_SPACE_LOW` becomes `storage_full`, torn JSON becomes
+`log_corrupt`, and a missing log becomes `log_unavailable`.
+`VOLUME_LIMIT_NOT_PROVEN` causes an inspection HOLD but does not
+falsely assert that events were lost. A parseable snapshot is still
+`SNAPSHOT_PARSEABLE_COVERAGE_UNPROVEN`, never an all-clear.
+
+The operator must separately validate and choose to issue the signed
+Sensor notice. There is no network sending, durable retry queue,
+incident auto-clear, or automatic firewall control.
+
 ## Example: manual local-only operator drill
 
 With an explicit local test identity and an isolated loopback HUB:
