@@ -16,6 +16,8 @@ import tempfile
 import time
 import uuid
 
+from cowrie_lab_backup import copy_verified, manifest
+
 from cowrie_offline_integration import (
     BASE, docker, image_verified, initialize_var, ssh_probe, json_events,
     confirm_isolation,
@@ -144,7 +146,35 @@ def trial(image, delay=5):
         result["private_var_bytes"]=bytes_used
         if bytes_used > 4*1024*1024:
             raise ValueError("disposable test data exceeded cap")
-        result["passed"]=True
+        stage="offline_snapshot_restore"
+        # Stop the disposable container before copying. No real traffic or
+        # production data enters this private test fixture.
+        docker("stop","--time","5",name)
+        docker("rm","-v",name)
+        active.remove(name)
+        intact_snapshot,_,_=verify_log_continuity(third,data)
+        backup=root/"offline-backup"
+        verified=copy_verified(data,backup)
+        result["backup_files"]=len(verified)
+        result["backup_integrity_verified"]=bool(verified)
+        shutil.rmtree(data)
+        copy_verified(backup,data,verified,owner=999)
+        # The prior audit trail must survive total deletion of the lab /var.
+        restored,_,_=verify_log_continuity(intact_snapshot,data)
+        result["restored_log_before_start"]=restored==intact_snapshot
+        create()
+        restored_id=start()
+        result["restored_container_new_identity"]=restored_id!=new_id
+        result["restored_ssh"]=ssh_probe(name)
+        time.sleep(1.5)
+        final,count4,c4=verify_log_continuity(restored,data)
+        result["after_restore_events"]=count4
+        result["restored_log_append"]=count4>count3 and c4>c3
+        result["passed"]=all(result.get(k) is True for k in
+           ("restored_log_before_start","restored_container_new_identity",
+            "restored_ssh","restored_log_append","backup_integrity_verified"))
+        if not result["passed"]:
+            raise ValueError("offline backup/restore evidence failed")
     except Exception as error:
         result["error_class"]=type(error).__name__
         result["failure_stage"]=stage
