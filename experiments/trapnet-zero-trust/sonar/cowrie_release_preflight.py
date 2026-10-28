@@ -16,6 +16,7 @@ import cowrie_log_health
 
 SCHEMA="trapnet.cowrie-local-release-preflight.v1"
 _IMAGE_ID=re.compile(r"^sha256:[0-9a-f]{64}$")
+_IMMUTABLE_SOURCE=re.compile(r"^(?:sha256:[0-9a-f]{64}|[a-zA-Z0-9._:/-]+@sha256:[0-9a-f]{64})$")
 
 def assess_config(obj,network_internal,file_health):
     issues=set()
@@ -35,7 +36,7 @@ def assess_config(obj,network_internal,file_health):
         reject("IMMUTABLE_IMAGE_ID_NOT_CONFIRMED")
     configured_image=config.get("Image")
     # Docker inspect alone cannot prove the declarative deployment file is pinned.
-    if not isinstance(configured_image,str) or not _IMAGE_ID.fullmatch(configured_image):
+    if not isinstance(configured_image,str) or not _IMMUTABLE_SOURCE.fullmatch(configured_image):
         reject("IMMUTABLE_DEPLOYMENT_REFERENCE_NOT_PROVEN")
     if host.get("Privileged") is not False:reject("PRIVILEGED_NOT_DISABLED")
     if not host.get("ReadonlyRootfs"):reject("WRITABLE_CONTAINER_ROOT")
