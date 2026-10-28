@@ -1,0 +1,98 @@
+name: TrapNet Experimental Security Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/trapnet-zero-trust/**'
+      - '.github/workflows/trapnet-experimental.yml'
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/**'
+      - '.github/workflows/trapnet-experimental.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  unit-security-tests:
+    name: Go tests, race detector and vet
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - run: go test -race ./... -count=1
+      - run: go vet ./...
+      - name: Multi-process loopback resilience lab (32 checks)
+        run: python3 lab/blackbox_lab.py --source . --out trapnet-lab-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trapnet-loopback-lab-evidence
+          path: experiments/trapnet-zero-trust/trapnet-lab-results.json
+          if-no-files-found: ignore
+          retention-days: 30
+
+  compile-cross-platform:
+    name: Cross compile (${{ matrix.goos }}/${{ matrix.goarch }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { goos: linux, goarch: amd64 }
+          - { goos: linux, goarch: arm64 }
+          - { goos: windows, goarch: amd64 }
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Build without packaging or deployment
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: '0'
+        run: go build ./...
+
+  netns-isolation-lab:
+    name: Five isolated Docker networks (experimental)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Verify Docker Engine is operational
+        run: docker info
+      - name: Run five-netns isolation / signed report / offline Guardian lab
+        run: python3 lab/docker_isolation_lab.py --out lab/netns-results.json
+      - name: Preserve key-free lab result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-v09-docker-netns-result
+          path: experiments/trapnet-zero-trust/lab/netns-results.json
+          if-no-files-found: warn
+          retention-days: 7

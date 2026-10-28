@@ -1,0 +1,28 @@
+[Unit]
+Description=TrapNet privacy-safe passive Sensor and coverage snapshot
+Documentation=https://github.com/resoarc/resoarc-site/pull/32
+Wants=docker.service
+After=docker.service
+ConditionPathExists=/opt/resoarc-trapnet/bin/sonar_snapshot.py
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/resoarc-trapnet/bin/sonar_snapshot.py
+User=root
+Group=root
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+ReadWritePaths=/opt/resoarc-trapnet/operational/sonar
+MemoryMax=128M
+CPUQuota=20%
+TimeoutStartSec=25s
+StandardOutput=journal
+StandardError=journal

@@ -1,0 +1,36 @@
+name: TrapNet Sonar Privacy and Passive Adapter
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/trapnet-zero-trust/sonar/**'
+      - '.github/workflows/trapnet-sonar-privacy.yml'
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/sonar/**'
+      - '.github/workflows/trapnet-sonar-privacy.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  offline-sonar-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust/sonar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run no-network Python regressions
+        run: python -m unittest discover -s . -p 'test_*.py' -v
+      - name: Compile shipped tools
+        run: python -m py_compile sonar_hardening.py sonar_profiles.py passive_import.py cowrie_offline_integration.py cowrie_recreate_recovery.py cowrie_lab_backup.py cowrie_log_health.py cowrie_log_pressure.py

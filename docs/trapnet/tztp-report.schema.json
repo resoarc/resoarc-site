@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://resoarc.com/schemas/trapnet/tztp-report.v0.1.json",
+  "title": "TrapNet SignedReport v0.1 (structural validation only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report",
+    "signature"
+  ],
+  "properties": {
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "node_id",
+        "event_id",
+        "observed_at",
+        "kind",
+        "target_port",
+        "campaign_fingerprint"
+      ],
+      "properties": {
+        "schema": {
+          "const": "trapnet.report.v0.1"
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "event_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "kind": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+        },
+        "target_port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "campaign_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{128}$"
+    }
+  }
+}
