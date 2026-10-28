@@ -19,10 +19,26 @@ A Report object has exactly seven fields:
 - event_id: random 16-byte hex identifier
 - observed_at: timestamp, <=10 min old and <=2 min into future at ingress
 - kind: bounded category string (not a command)
-- target_port: 1..65535
+- target_port: 1..65535 for normal network events; 0 only for the reserved signed `coverage_gap` report
 - campaign_fingerprint: 32-byte SHA-256 of **nonpersonal characteristic** (never hash raw IPv4 as a false anonymity technique).
 
 SignedReport wraps `report` and `signature`, a 64-byte Ed25519 signature in hex over Go's canonical struct serialization of the report in the proof-of-concept. **Canonical JSON must be formally specified and test vectors published before interoperable clients**. Do not assume arbitrary JSON canonicalization agrees with Go's encoding.
+
+## Experimental signed observation-gap extension (2026-10-29)
+
+The reserved `kind=coverage_gap` is **not a network attack**. It uses
+`target_port=0`, a SHA-256 fingerprint of a strict six-item missing-coverage
+category, and the existing signed Sensor identity and replay-protected HUB
+ledger. Only the allowed reason categories can be encoded, no arbitrary
+narratives or raw IP/log contents.
+
+The offline correlation tool treats an authenticated coverage-gap report
+as an unreconciled observation interval and refuses to generate case
+summaries. Restored logging does not automatically establish a healthy
+interval, clear the gap or publish a feed. The Sensor's manual
+`-gap-reason` option remains **loopback-only**, and automated durable
+delivery, externally witnessed resolution and operator review are not
+implemented. See `experiments/trapnet-zero-trust/docs/signed-observation-gap-v042.md`.
 
 ## Trust, privacy and poisoning safeguards
 - Node allowlist and revocation before ingest; a valid signature shows key possession, not event truth.

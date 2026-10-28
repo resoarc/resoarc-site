@@ -42,15 +42,52 @@
           "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
         },
         "target_port": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 65535
+          "type": "integer"
         },
         "campaign_fingerprint": {
           "type": "string",
           "pattern": "^[0-9a-f]{64}$"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "coverage_gap"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "target_port": {
+                "const": 0
+              },
+              "campaign_fingerprint": {
+                "enum": [
+                  "66c54941737f3d96c436927651931249982d21c092ee14e7609125ce14333dba",
+                  "7cd5e5bb69bda2d7df4337618388976ba2809f7a78375d89e8a6181860b59a5b",
+                  "2f6a938bdaacdbff07d4c4c6a5a4e8f832fceb04082f3329f0626b3d92258f32",
+                  "b3d4ef8883e29ce14218fd5507d02947afb286ca970427b9e465eeab52a90c55",
+                  "9bba29553e54d14b88369b49e42d16b7ec4ff466b1487da33cb301c1e55b8f7e",
+                  "09e911d5559857c36dc9cec4e4c9c8a547d8eafec40af3328fd6519a00ae9dbd"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "target_port": {
+                "minimum": 1,
+                "maximum": 65535
+              }
+            }
+          }
+        }
+      ]
     },
     "signature": {
       "type": "string",

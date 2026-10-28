@@ -91,6 +91,12 @@ func Analyze(reader io.Reader,trust map[string]TrustedNode,clock time.Time)(Summ
   if err:=protocol.VerifyReport(row.Evidence,pub,row.ReceivedAt);err!=nil{
    return Summary{},fmt.Errorf("invalid report at row %d: %w",count,err)
   }
+  // A signed gap proves only that this node cannot vouch for continuous observation.
+  // Never interpret a gap as an attack, a quiet interval, or an all-clear.
+  // Keep the entire offline triage in HOLD until separately reconciled.
+  if row.Evidence.Report.Kind==protocol.CoverageGapKind {
+   return Summary{},errors.New("unreconciled observation coverage gap: manual external Witness review required")
+  }
   key:=node+":"+row.Evidence.Report.EventID
   if seen[key]{return Summary{},fmt.Errorf("replay at row %d",count)}
   seen[key]=true
