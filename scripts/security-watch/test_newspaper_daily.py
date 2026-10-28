@@ -112,4 +112,30 @@ assert result["metadata"]["carryover_total"]==1
 assert result["items"][0]["published_date"]==previous
 validate(result)
 print("PASS read-only public API previous-day fallback and provenance validation")
-print("SWWW_DAILY_NEWSPAPER_TESTS_6_OF_6_PASS")
+# Real-world duplicate advisories across two approved public feeds are valid.
+# Duplicate records within one source remain an integrity failure.
+from copy import deepcopy
+cross=deepcopy(later)
+same_id_other_source=deepcopy(cross["items"][0])
+same_id_other_source["source"]="OSV"
+same_id_other_source["url"]="https://osv.dev/vulnerability/"+same_id_other_source["id"]
+cross["items"].append(same_id_other_source)
+cross["metadata"]["published_date_count"]=len(cross["items"])
+cross["metadata"]["same_day_count"]=len(cross["items"])
+validate(cross)
+unique_ids={r["id"] for r in cross["items"]}
+featured=picks(cross["items"],32)
+assert len(featured)==len(unique_ids)
+assert len({r["id"] for r in featured})==len(featured)
+within=deepcopy(cross)
+within["items"].append(deepcopy(within["items"][0]))
+within["metadata"]["published_date_count"]=len(within["items"])
+within["metadata"]["same_day_count"]=len(within["items"])
+try:
+    validate(within)
+except ValueError as err:
+    assert "duplicate_advisory_within_same_source" in str(err)
+else:
+    raise AssertionError("same-source duplicate must fail")
+print("PASS multi-source duplicate ID permitted; same-source duplicates rejected; featured IDs unique")
+print("SWWW_DAILY_NEWSPAPER_TESTS_7_OF_7_PASS")

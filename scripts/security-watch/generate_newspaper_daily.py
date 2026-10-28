@@ -68,16 +68,22 @@ def scored(row):
     return (kev,sev,e,int(category(row)!="セキュリティ上の問題"),str(row.get("published_date","")),str(row.get("id","")))
 
 def picks(rows,n=8):
+    # Public feeds can report the same advisory ID through GitHub and OSV.
+    # Keep source records for provenance, but avoid repeating one headline.
     ordered=sorted(rows,key=scored,reverse=True)
-    result=[];groups=collections.Counter()
+    result=[];groups=collections.Counter();seen=set()
     for row in ordered:
+        advisory_id=str(row["id"])
         vendor=label(row).lower()
-        if groups[vendor]>=2:continue
-        result.append(row);groups[vendor]+=1
+        if advisory_id in seen or groups[vendor]>=2:continue
+        result.append(row);groups[vendor]+=1;seen.add(advisory_id)
         if len(result)>=n:break
-    if len(result)<min(n,len(rows)):
-        seen={x["id"] for x in result}
-        result.extend(x for x in ordered if x["id"] not in seen)
+    if len(result)<min(n,len({str(x["id"]) for x in rows})):
+        for row in ordered:
+            advisory_id=str(row["id"])
+            if advisory_id not in seen:
+                result.append(row);seen.add(advisory_id)
+                if len(result)>=n:break
     return result[:n]
 
 def data_hash(data):
@@ -228,7 +234,10 @@ def validate(data):
     carry=int(m.get("carryover_count",0))
     assert same>=0 and carry>=0 and same+carry==len(rows)
     assert not (same and carry)
-    assert len({str(x["id"]) for x in rows})==len(rows)
+    # Advisory IDs are unique per source, not globally unique across feeds.
+    identities=[(str(x["source"]),str(x["id"])) for x in rows]
+    if len(set(identities))!=len(rows):
+        raise ValueError("duplicate_advisory_within_same_source")
     for row in rows:
         assert row["resoarc_impact"] in ("NOT_CONFIRMED","UNREVIEWED")
         assert row["resoarc_response"]=="UNREVIEWED"
