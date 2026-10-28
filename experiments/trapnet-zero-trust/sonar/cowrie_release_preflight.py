@@ -8,6 +8,8 @@ Never prints paths, IPs, raw events, credentials or host inventory.
 """
 import argparse
 import json
+import os
+from pathlib import Path
 import re
 import subprocess
 import sys
@@ -91,6 +93,22 @@ def _docker_inspect(*args):
         raise ValueError("unexpected Docker metadata")
     return objs[0]
 
+def _mounted_var_matches(obj,private_var):
+    """The checked private var MUST be the running Cowrie's writable var mount."""
+    path=Path(private_var)
+    if path.is_symlink() or not path.is_dir():
+        return False
+    matches=[m for m in (obj.get("Mounts") or [])
+        if isinstance(m,dict) and m.get("Destination")=="/cowrie/cowrie-git/var"]
+    if len(matches)!=1:return False
+    mount=matches[0]
+    if mount.get("Type") not in ("bind","volume") or mount.get("RW") is not True:
+        return False
+    source=mount.get("Source")
+    if not isinstance(source,str) or not source:
+        return False
+    return os.path.samefile(source,path)
+
 def inspect_local(container,private_var):
     try:
         obj=_docker_inspect(container)
@@ -105,7 +123,11 @@ def inspect_local(container,private_var):
             internal=(len(net)==1 and net[0].get("Internal") is True)
         else:internal=False
         log_health=cowrie_log_health.assess(private_var)
-        return assess_config(obj,internal,log_health)
+        verdict=assess_config(obj,internal,log_health)
+        if not _mounted_var_matches(obj,private_var):
+            verdict["issues"]=sorted(set(verdict["issues"]+["LOG_VOLUME_SOURCE_NOT_CONFIRMED"]))
+            verdict["local_preflight_pass"]=False
+        return verdict
     except (OSError,ValueError,TypeError,subprocess.TimeoutExpired):
         return {"schema":SCHEMA,"local_preflight_pass":False,
                 "issues":["READONLY_INSPECTION_UNAVAILABLE"],
