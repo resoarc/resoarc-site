@@ -33,4 +33,4 @@ jobs:
       - name: Run no-network Python regressions
         run: python -m unittest discover -s . -p 'test_*.py' -v
       - name: Compile shipped tools
-        run: python -m py_compile sonar_hardening.py sonar_profiles.py passive_import.py cowrie_offline_integration.py cowrie_recreate_recovery.py cowrie_lab_backup.py
+        run: python -m py_compile sonar_hardening.py sonar_profiles.py passive_import.py cowrie_offline_integration.py cowrie_recreate_recovery.py cowrie_lab_backup.py cowrie_log_health.py cowrie_log_pressure.py
