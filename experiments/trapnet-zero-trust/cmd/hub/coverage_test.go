@@ -3,8 +3,10 @@ package main
 import(
  "os"
  "bytes"
+ "encoding/hex"
  "testing"
  "github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/protocol"
+ "github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/correlate"
 )
 
 func (rig *hubTestRig) signedGap(t *testing.T,n int,reason string) protocol.SignedReport {
@@ -50,4 +52,18 @@ func TestHubRejectsGapWithTargetPort(t *testing.T){
  signed,err:=protocol.SignReport(gap.Report,rig.private)
  if err!=nil{t.Fatal(err)}
  if status:=rig.post(signed);status!=403{t.Fatalf("gap with target port accepted: %d",status)}
+}
+
+func TestHubSignedGapForcesOfflineCorrelatorHold(t *testing.T){
+ rig:=newRig(t)
+ if status:=rig.post(rig.signed(t,105));status!=202{t.Fatalf("ordinary event rejected: %d",status)}
+ if status:=rig.post(rig.signedGap(t,106,"storage_full"));status!=202{t.Fatalf("signed gap rejected: %d",status)}
+ if status:=rig.post(rig.signed(t,107));status!=202{t.Fatalf("post-gap ordinary event rejected: %d",status)}
+ buf,err:=os.ReadFile(rig.path);if err!=nil{t.Fatal(err)}
+ trust:=map[string]correlate.TrustedNode{
+   protocol.NodeID(rig.pub):{PublicKey:hex.EncodeToString(rig.pub),OperatorGroup:"operator_one",Reviewed:true},
+ }
+ out,err:=correlate.Analyze(bytes.NewReader(buf),trust,rig.now)
+ if err==nil{t.Fatalf("signed gap silently ignored: %+v",out)}
+ if out.FeedPublished||out.AutomaticBlocking{t.Fatal("offline HOLD triggered forbidden action")}
 }
