@@ -81,6 +81,28 @@ filesystem, not a failure-independent separate physical disk.
    independently. Keep unverified epochs in HOLD; do not automatically
    release them on restart.
 
+## Read-only local preflight (no deployment)
+
+The `sonar/cowrie_release_preflight.py` command inspects only Docker
+metadata, internal-network configuration and the bounded private log mount.
+A passing *local* result never approves a public release.
+
+```sh
+cd experiments/trapnet-zero-trust/sonar
+python3 cowrie_release_preflight.py --container trapnet-cowrie-stage --private-var /opt/resoarc-trapnet/var
+```
+
+On 2026-10-28 the VPS report correctly returned **HOLD** with:
+`PERSISTENT_LOG_CAPACITY_NOT_PROVEN`,
+`WRITABLE_CONTAINER_ROOT` and
+`IMMUTABLE_DEPLOYMENT_REFERENCE_NOT_PROVEN`.
+The latter means Docker's configured image reference is not a pinned
+content-addressed immutable ID. The currently running image having a
+digest is not proof that a future re-create will use the same image.
+
+This does not evaluate egress rules, off-host Witness, independent signing,
+third-party security review, informed consent or updater protections.
+
 ## Acceptance gates for B2/B3/A4
 
 - [x] Read-only checker rejects shared/unbounded live log filesystem.
