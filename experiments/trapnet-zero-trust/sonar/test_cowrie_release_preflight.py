@@ -100,7 +100,31 @@ class ReadonlyPreflight(unittest.TestCase):
     stdout='[{"Internal":true}]'
    with patch.object(r.subprocess,"run",return_value=Stub()) as call:
     with patch.object(r.cowrie_log_health,"assess",return_value=healthy()):
-     x=r.inspect_local("fake","/private")
+     with patch.object(r,"_mounted_var_matches",return_value=True):
+      x=r.inspect_local("fake","/private")
   self.assertTrue(x["local_preflight_pass"])
   self.assertEqual(call.call_args[0][0][:3],["docker","network","inspect"])
+ def test_missing_real_var_mount_holds(self):
+  c=config();c["Mounts"]=[]
+  self.assertFalse(r._mounted_var_matches(c,"/tmp/fake"))
+ def test_volume_must_be_writable(self):
+  c=config();c["Mounts"]=[{"Destination":"/cowrie/cowrie-git/var","Type":"bind","RW":False,"Source":"/tmp/fake"}]
+  self.assertFalse(r._mounted_var_matches(c,"/tmp/fake"))
+ def test_mismatched_var_source_refused(self):
+  c=config()
+  c["Mounts"]=[{"Destination":"/cowrie/cowrie-git/var","Type":"bind","RW":True,"Source":"/tmp/untrusted-other"}]
+  with patch.object(r,"_docker_inspect",return_value=c):
+   with patch.object(r.subprocess,"run",return_value=type("S",(),{"returncode":0,"stdout":'[{"Internal":true}]'})()):
+    with patch.object(r.cowrie_log_health,"assess",return_value=healthy()):
+     with patch.object(r,"_mounted_var_matches",return_value=False):
+      verdict=r.inspect_local("fake","/tmp/safe")
+  self.assertIn("LOG_VOLUME_SOURCE_NOT_CONFIRMED",verdict["issues"])
+  self.assertFalse(verdict["local_preflight_pass"])
+ def test_samefile_actual_var_mount(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:
+   c=config()
+   c["Mounts"]=[{"Destination":"/cowrie/cowrie-git/var","Type":"bind","RW":True,"Source":d}]
+   self.assertTrue(r._mounted_var_matches(c,d))
 if __name__=="__main__":unittest.main()
