@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Read-only Cowrie JSON log + bounded storage preflight.
+"""Read-only Cowrie JSON log + bounded storage preflight (Linux).
 
-Avoid raw log, network, shell and mutation. Deliberately fails closed when
-the backing filesystem's capacity/quota cannot be shown to be bounded.
+The report is deliberately not a release approval, liveness proof, or event
+completeness guarantee. Open each directory/file by pinned descriptor, reject
+symlinks and hardlinks, and verify the *actual log file* storage capacity.
+Neither raw events nor filesystem paths are printed.
 """
 import argparse
+from contextlib import ExitStack
 import json
 import os
 from pathlib import Path
@@ -30,40 +33,66 @@ def assess(root,capacity_ceiling=DEFAULT_CEILING,min_free=DEFAULT_MIN_FREE,max_l
         type(max_log) is not int or not 0<min_free<capacity_ceiling<=512*1024*1024 or
         not 0<max_log<=capacity_ceiling):
         fail("INVALID_THRESHOLDS");return result
+    # Fail closed on platforms that cannot pin a symlink-free descriptor chain.
+    if not getattr(os,"O_NOFOLLOW",0) or not getattr(os,"O_DIRECTORY",0) or not hasattr(os,"fstatvfs"):
+        fail("PINNED_FILE_OPEN_UNAVAILABLE");return result
     try:
         if root.is_symlink() or not root.is_dir():
             fail("VAR_ROOT_UNSAFE");return result
         for relative in ("log","log/cowrie","log/cowrie/cowrie.json"):
-            item=root/relative
-            if item.is_symlink():fail("LOG_PATH_SYMLINK");return result
-        space=os.statvfs(root)
-        capacity=space.f_blocks*space.f_frsize
-        free=space.f_bavail*space.f_frsize
-        result["capacity_bytes"]=capacity
-        result["free_bytes"]=free
-        if capacity<=0 or capacity>capacity_ceiling:fail("VOLUME_LIMIT_NOT_PROVEN")
-        if free<min_free:fail("FREE_SPACE_LOW")
-        log=root/"log/cowrie/cowrie.json"
-        if not log.exists():fail("JSON_LOG_MISSING");return result
-        st=log.lstat()
-        if not stat.S_ISREG(st.st_mode) or st.st_nlink!=1:
-            fail("JSON_LOG_TYPE_UNSAFE");return result
-        if st.st_size<=0:fail("JSON_LOG_EMPTY");return result
-        if st.st_size>max_log:fail("JSON_LOG_TOO_LARGE");return result
-        with log.open("rb") as f:
-            while True:
-                line=f.readline(MAX_LINE+2)
-                if not line:break
-                if len(line)>MAX_LINE or not line.endswith(b"\n"):
-                    fail("JSON_LINE_INVALID");break
-                try:item=json.loads(line)
-                except (ValueError,UnicodeError):
-                    fail("JSON_LINE_INVALID");break
-                if not isinstance(item,dict) or type(item.get("eventid")) is not str:
-                    fail("JSON_EVENT_INVALID");break
-                result["log_entries"]+=1
-        if result["log_entries"]<=0:fail("JSON_LOG_NO_EVENTS")
-    except (OSError,ValueError,TypeError):
+            if (root/relative).is_symlink():
+                fail("LOG_PATH_SYMLINK");return result
+        directory_flags=os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|getattr(os,"O_CLOEXEC",0)
+        file_flags=os.O_RDONLY|os.O_NOFOLLOW|getattr(os,"O_NONBLOCK",0)|getattr(os,"O_CLOEXEC",0)
+        with ExitStack() as stack:
+            rootfd=os.open(str(root),directory_flags)
+            stack.callback(os.close,rootfd)
+            logfd=os.open("log",directory_flags,dir_fd=rootfd)
+            stack.callback(os.close,logfd)
+            cowriefd=os.open("cowrie",directory_flags,dir_fd=logfd)
+            stack.callback(os.close,cowriefd)
+            try:
+                filefd=os.open("cowrie.json",file_flags,dir_fd=cowriefd)
+            except FileNotFoundError:
+                fail("JSON_LOG_MISSING");return result
+            stack.callback(os.close,filefd)
+            before=os.fstat(filefd)
+            if not stat.S_ISREG(before.st_mode) or before.st_nlink!=1:
+                fail("JSON_LOG_TYPE_UNSAFE");return result
+            # Checking only the var directory is unsafe if the log itself is a
+            # bind mount from an unbounded host filesystem.
+            varspace=os.fstatvfs(rootfd)
+            logspace=os.fstatvfs(filefd)
+            for space in (varspace,logspace):
+                capacity=space.f_blocks*space.f_frsize
+                free=space.f_bavail*space.f_frsize
+                if capacity<=0 or capacity>capacity_ceiling:fail("VOLUME_LIMIT_NOT_PROVEN")
+                if free<min_free:fail("FREE_SPACE_LOW")
+            result["capacity_bytes"]=logspace.f_blocks*logspace.f_frsize
+            result["free_bytes"]=logspace.f_bavail*logspace.f_frsize
+            if before.st_size<=0:fail("JSON_LOG_EMPTY");return result
+            if before.st_size>max_log:fail("JSON_LOG_TOO_LARGE");return result
+            # The dup is owned by the stream, the pinned descriptor by ExitStack.
+            with os.fdopen(os.dup(filefd),"rb") as stream:
+                while True:
+                    line=stream.readline(MAX_LINE+2)
+                    if not line:break
+                    if len(line)>MAX_LINE or not line.endswith(b"\n"):
+                        fail("JSON_LINE_INVALID");break
+                    try:item=json.loads(line)
+                    except (ValueError,UnicodeError):
+                        fail("JSON_LINE_INVALID");break
+                    if not isinstance(item,dict) or type(item.get("eventid")) is not str:
+                        fail("JSON_EVENT_INVALID");break
+                    result["log_entries"]+=1
+            after=os.fstat(filefd)
+            # Reject concurrent append, truncate, replacement or metadata
+            # change. This does not resist a privileged attacker forging data.
+            fingerprint=lambda s:(s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+            if fingerprint(before)!=fingerprint(after):
+                fail("LOG_CHANGED_WHILE_READING")
+            if result["log_entries"]<=0:fail("JSON_LOG_NO_EVENTS")
+    except (OSError,ValueError,TypeError,NotImplementedError):
         fail("IO_OR_FORMAT_ERROR")
     result["passed"]=not issues
     return result
@@ -74,9 +103,9 @@ def main():
     parser.add_argument("--capacity-ceiling-bytes",type=int,default=DEFAULT_CEILING)
     parser.add_argument("--min-free-bytes",type=int,default=DEFAULT_MIN_FREE)
     parser.add_argument("--max-log-bytes",type=int,default=DEFAULT_MAX_LOG)
-    a=parser.parse_args()
-    result=assess(a.private_var,a.capacity_ceiling_bytes,a.min_free_bytes,a.max_log_bytes)
-    print(json.dumps(result,sort_keys=True))
-    return 0 if result["passed"] else 3
+    args=parser.parse_args()
+    report=assess(args.private_var,args.capacity_ceiling_bytes,args.min_free_bytes,args.max_log_bytes)
+    print(json.dumps(report,sort_keys=True))
+    return 0 if report["passed"] else 3
 
 if __name__=="__main__":sys.exit(main())
