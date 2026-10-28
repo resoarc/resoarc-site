@@ -109,8 +109,14 @@ def trial(image,storage_parent=None,wait_sec=3):
            "assert b.startswith(b'SSH-2.0-');"
            "s.sendall(b'SSH-2.0-TestExt4\\r\\n');s.close();"
            "print(json.dumps({'probe':True}))")
-        x=docker("exec",name,"/cowrie/cowrie-env/bin/python3","-c",code)
-        return json.loads(x.stdout)["probe"]
+        for _ in range(6):
+            x=docker("exec",name,"/cowrie/cowrie-env/bin/python3","-c",code,check=False)
+            if x.returncode==0:
+                try:
+                    if json.loads(x.stdout).get("probe") is True:return True
+                except (ValueError,TypeError):pass
+            time.sleep(2)
+        return False
     try:
         report["stage"]="create_ext4"
         with disk.open("wb") as f:f.truncate(CAPACITY)
