@@ -17,6 +17,22 @@ import time
 import uuid
 from cowrie_offline_integration import BASE,docker,image_verified
 
+def probe_private_log_health(container):
+    """Pass local trusted checker to the isolated container via stdin only."""
+    source_path=Path(__file__).with_name("cowrie_log_health.py")
+    if source_path.is_symlink() or not source_path.is_file() or source_path.stat().st_size>16384:
+        raise ValueError("missing or unsafe log-health checker")
+    source=source_path.read_text(encoding="utf-8")
+    result=subprocess.run(
+        ["docker","exec","-i",container,PYTHON,"-","--private-var",BASE+"/var"],
+        input=source,capture_output=True,text=True,timeout=15)
+    if result.returncode not in (0,3):
+        raise RuntimeError("log health checker failed unexpectedly")
+    payload=json.loads(result.stdout)
+    if payload.get("schema")!="trapnet.cowrie-log-health.v1":
+        raise ValueError("wrong health report schema")
+    return result.returncode==0,payload
+
 CAP=8*1024*1024
 PYTHON="/cowrie/cowrie-env/bin/python3"
 
@@ -87,6 +103,8 @@ print(json.dumps(r))""")
         first_ssh=connect()
         time.sleep(1.5)
         before=counts()
+        before_healthy,before_status=probe_private_log_health(cowrie)
+        result["healthy_before_pressure"]=before_healthy
         pressure_script="""import os,json,errno
 v=os.statvfs('/cowrie/cowrie-git/var');cap=v.f_blocks*v.f_frsize
 if cap!=8388608:
@@ -104,6 +122,9 @@ print(json.dumps({'cap':cap,'enospc':hit}))"""
         result["ssh_after_pressure"]=connect()
         time.sleep(1.5)
         during=counts()
+        during_healthy,during_status=probe_private_log_health(cowrie)
+        result["capacity_failure_detected"]=(not during_healthy and
+            "FREE_SPACE_LOW" in during_status.get("issues",[]))
         result["events_before"]=before["events"]
         result["events_during_pressure"]=during["events"]
         result["log_append_after_pressure"]=during["connections"]>before["connections"]
@@ -111,6 +132,8 @@ print(json.dumps({'cap':cap,'enospc':hit}))"""
         recovered_ssh=connect()
         time.sleep(1.5)
         after=counts()
+        after_healthy,after_status=probe_private_log_health(cowrie)
+        result["healthy_after_free"]=after_healthy
         result["events_after_free"]=after["events"]
         result["logging_recovers_after_free"]=after["connections"]>during["connections"]
         result["cowrie_still_running"]=json.loads(docker("inspect",cowrie).stdout)[0]["State"]["Running"]
@@ -119,7 +142,10 @@ print(json.dumps({'cap':cap,'enospc':hit}))"""
         result["passed"]=bool(first_ssh and before["connections"]>0 and
                               result["cap_verified"] and result["enospc"] and
                               result["ssh_after_pressure"] and recovered_ssh and
-                              result["logging_recovers_after_free"])
+                              result["logging_recovers_after_free"] and
+                              result["healthy_before_pressure"] and
+                              result["capacity_failure_detected"] and
+                              result["healthy_after_free"])
     except Exception as error:
         result["error_class"]=type(error).__name__
     finally:
