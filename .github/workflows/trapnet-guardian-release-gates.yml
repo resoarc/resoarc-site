@@ -41,6 +41,15 @@ jobs:
         run: sh release/test_install_linux.sh
       - name: Run actual Guardian signed-feed / rollback / invalid-input acceptance
         run: python3 release/guardian_beta_acceptance.py --source . --output guardian-candidate-acceptance.json
+      - name: Install Linux native syscall tracer (required, no silent skip)
+        run: |
+          if ! command -v strace >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq --no-install-recommends strace
+          fi
+          command -v strace
+      - name: Audit real Guardian Linux process against network and secondary exec
+        run: python3 release/guardian_native_syscall_audit.py --source . --output guardian-native-syscall-audit.json
       - name: Exercise offline Root-signed signer revocation and beta-mode enforcement
         run: python3 release/guardian_root_acceptance.py --source . --output guardian-root-acceptance-linux.json
       - name: Test independent release signing and verification (synthetic only)
@@ -65,6 +74,7 @@ jobs:
           name: trapnet-guardian-public-beta-gate-evidence
           path: |
             experiments/trapnet-zero-trust/guardian-candidate-acceptance.json
+            experiments/trapnet-zero-trust/guardian-native-syscall-audit.json
             experiments/trapnet-zero-trust/guardian-root-acceptance-linux.json
             experiments/trapnet-zero-trust/release-signature-linux.json
             experiments/trapnet-zero-trust/guardian-ci-build/manifest.json
@@ -110,5 +120,51 @@ jobs:
             experiments/trapnet-zero-trust/guardian-windows-acceptance.json
             experiments/trapnet-zero-trust/guardian-root-acceptance-windows.json
             experiments/trapnet-zero-trust/release-signature-windows.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  guardian-linux-arm64-native:
+    name: ARM64 native Guardian Root/STOP/install and syscall acceptance
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Prove native ARM64 runner, never emulated cross-build
+        shell: bash
+        run: |
+          test "$(uname -m)" = aarch64
+          test "$(go env GOARCH)" = arm64
+      - name: Native ARM64 signed Guardian CLI, STOP and antirollback
+        run: python3 release/guardian_beta_acceptance.py --source . --output guardian-arm64-acceptance.json
+      - name: Native ARM64 Root signer rotation and revocation
+        run: python3 release/guardian_root_acceptance.py --source . --output guardian-root-acceptance-arm64.json
+      - name: Native ARM64 per-user installation and guarded removal
+        run: sh release/test_install_linux.sh
+      - name: Prepare native ARM64 syscall tracer, required
+        shell: bash
+        run: |
+          if ! command -v strace >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq --no-install-recommends strace
+          fi
+          command -v strace
+      - name: Native ARM64 zero-egress and inert signed text syscall audit
+        run: python3 release/guardian_native_syscall_audit.py --source . --output guardian-arm64-syscall-audit.json
+      - name: Upload only key-free native ARM64 acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-guardian-arm64-native-acceptance
+          path: |
+            experiments/trapnet-zero-trust/guardian-arm64-acceptance.json
+            experiments/trapnet-zero-trust/guardian-root-acceptance-arm64.json
+            experiments/trapnet-zero-trust/guardian-arm64-syscall-audit.json
           if-no-files-found: warn
           retention-days: 30

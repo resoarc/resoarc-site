@@ -4,11 +4,19 @@ $root=Join-Path $HOME ('Documents\TrapNetGuardianInstallTrial-'+[guid]::NewGuid(
 $install=Join-Path $root 'per-user'
 New-Item -Path $root -ItemType Directory -Force|Out-Null
 try{
- $source=Join-Path $root 'synthetic-guardian.exe'
- [IO.File]::WriteAllBytes($source,[Text.Encoding]::UTF8.GetBytes('Synthetic test artifact, not a real release'))
+ $source=Join-Path $root 'guardian-built.exe'
+ $module=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+ Push-Location $module
+ try{
+  & go build -trimpath -o $source ./cmd/guardian
+  if($LASTEXITCODE -ne 0){throw 'Native Guardian build failed'}
+ }finally{Pop-Location}
  $digest=(Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
  & $script -Action Install -Prefix $install -Binary $source -Sha256 $digest |Out-Null
  if(!(Test-Path (Join-Path $install 'guardian.exe'))){throw 'Installer did not create binary'}
+ $bin=(Join-Path $install 'guardian.exe')
+ $process=Start-Process -FilePath $bin -ArgumentList '-h' -PassThru -Wait -NoNewWindow -RedirectStandardOutput (Join-Path $root 'usage-stdout.txt') -RedirectStandardError (Join-Path $root 'usage-stderr.txt')
+ if($process.ExitCode -ne 0){throw 'Installed native Guardian help process failed'}
  $overwritten=$false
  try{& $script -Action Install -Prefix $install -Binary $source -Sha256 $digest|Out-Null}catch{$overwritten=$true}
  if(!$overwritten){throw 'Installer overwrote existing executable'}
@@ -28,7 +36,7 @@ try{
  $mismatchRejected=$false
  try{& $script -Action Install -Prefix (Join-Path $root 'incorrect') -Binary $source -Sha256 ('a'*64)|Out-Null}catch{$mismatchRejected=$true}
  if(!$mismatchRejected){throw 'Installer permitted wrong SHA-256'}
- Write-Output 'Windows native user-home install, overwrite, tamper, removal, rollback preservation: PASS'
+ Write-Output 'Windows REAL Guardian native install/execute, overwrite, tamper, removal, rollback preservation: PASS'
 }finally{
  if(Test-Path -LiteralPath $root){Remove-Item -LiteralPath $root -Recurse -Force}
 }
