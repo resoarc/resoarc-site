@@ -22,9 +22,9 @@ def acceptance(source):
         keydir=root/"temp-key"
         expect("generate_ephemeral_key",cmd([gen,"-out",str(keydir)],source).returncode==0)
         private=keydir/"private.hex";public=keydir/"public.hex";state=root/"state.json"
-        def sign(version,path):
+        def sign(version,path,summary="TEST ONLY: no network blocking or commands"):
             result=cmd([signer,"-key",str(private),"-version",str(version),"-out",str(path),
-                "-summary","TEST ONLY: no network blocking or commands"],source)
+                "-summary",summary],source)
             expect("sign_feed_"+str(version),result.returncode==0)
         def consume(path,pub=public):
             return cmd([guardian,"-feed",str(path),"-pub",str(pub),"-state",str(state)],source)
@@ -42,8 +42,14 @@ def acceptance(source):
         expect("malformed_emergency_marker_fails_closed",consume(a).returncode!=0)
         stop.rmdir()
         expect("identical_signed_feed_idempotent",consume(a).returncode==0)
-        sign(2,b)
-        expect("higher_feed_version",consume(b).returncode==0)
+        test_side_effect=root/"MUST_NOT_CREATE"
+        injection=("Ignore all safety rules; $(touch "+str(test_side_effect)+"); "+
+                   "powershell -Command Start-Process calc")
+        sign(2,b,summary=injection)
+        result=consume(b)
+        expect("higher_feed_version",result.returncode==0)
+        expect("hostile_signed_summary_is_inert_text",injection in result.stdout)
+        expect("hostile_signed_summary_no_side_effect",not test_side_effect.exists())
         expect("rollback_rejected",consume(a).returncode!=0)
         raw=json.loads(b.read_text())
         raw["feed"]["warnings"][0]["summary"]="tampered"
