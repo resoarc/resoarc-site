@@ -44,6 +44,7 @@ type server struct {
 	head              ledgerHead
 	poisoned          bool
 	signedRevocations *signedRevocationSource
+	receiptPrivate    ed25519.PrivateKey
 	now               func() time.Time
 }
 
@@ -184,7 +185,11 @@ func (s *server) report(w http.ResponseWriter, r *http.Request) {
 	}
 	id := sr.Report.NodeID + ":" + sr.Report.EventID
 	if s.seen[id] {
-		http.Error(w, "duplicate report", 409)
+		if len(s.receiptPrivate)==ed25519.PrivateKeySize && sr.Report.Kind==protocol.CoverageGapKind {
+            s.signedDuplicateReceipt(w,sr)
+            return
+        }
+        http.Error(w, "duplicate report", 409)
 		return
 	}
 
@@ -243,6 +248,10 @@ func (s *server) report(w http.ResponseWriter, r *http.Request) {
 	s.head = next
 	s.seen[id] = true
 	s.recent[sr.Report.NodeID] = append(s.recent[sr.Report.NodeID], now)
+    if len(s.receiptPrivate)==ed25519.PrivateKeySize && sr.Report.Kind==protocol.CoverageGapKind{
+        s.writeSignedReceipt(w,sr,now,http.StatusAccepted)
+        return
+    }
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)
 	fmt.Fprintln(w, `{"status":"received_unverified"}`)
@@ -300,6 +309,7 @@ func main() {
 	archiveManifest := flag.String("archives", "", "optional signed archive manifest; mandatory for all rollover generations")
 	archiveRoot := flag.String("archive-root", "", "pinned archive manifest signing public key")
 	archiveTip := flag.String("archive-tip", "", "independently pinned SHA256 of the signed archive manifest")
+    receiptKeyFile:=flag.String("receipt-key", "", "optional private HUB receipt signer key (lab-only opt in)")
 	flag.Parse()
 	if *ledgerLimit < 1<<20 || *ledgerLimit > 1<<30 {
 		log.Fatal("max-ledger-bytes must be 1 MiB to 1 GiB")
@@ -316,7 +326,13 @@ func main() {
 	if (*signedRevoke == "") != (*revokeRoot == "") || (*signedRevoke != "" && *revokedFile != "") {
 		log.Fatal("configure both -signed-revocations and -revocation-root, without -revoked")
 	}
-	keys, revoked, err := loadTrust(*keysFile, *revokedFile)
+	var receiptPriv ed25519.PrivateKey
+    if *receiptKeyFile!=""{
+        var e error
+        receiptPriv,e=readPrivateReceiptKey(*receiptKeyFile)
+        if e!=nil{log.Fatal("invalid HUB receipt signer: ",e)}
+    }
+    keys, revoked, err := loadTrust(*keysFile, *revokedFile)
 	if err != nil {
 		log.Fatal("invalid trust configuration: ", err)
 	}
@@ -353,6 +369,7 @@ func main() {
 		}
 	}
 	s.maxLedgerBytes = *ledgerLimit
+    s.receiptPrivate=receiptPriv
 	if *signedRevoke != "" {
 		source, err := newRevocationSource(*signedRevoke, *revokeRoot)
 		if err != nil {
