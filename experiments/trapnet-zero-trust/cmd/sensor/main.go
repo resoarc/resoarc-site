@@ -10,6 +10,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/protocol"
+	"github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/gapspool"
 	"io"
 	"net/http"
 	"os"
@@ -24,6 +25,8 @@ func main() {
 	port := flag.Int("port", 80, "target port")
 	fingerprint := flag.String("fingerprint", "demo-non-ip", "non-PII campaign characteristic; never send raw IP or payload")
 	gapReason := flag.String("gap-reason", "", "report a strictly typed observation gap; never asserts healthy coverage")
+	outboxPath := flag.String("gap-outbox", "", "absolute private spool path for durable signed gap; required with -gap-reason")
+	retryGap := flag.Bool("retry-gap-outbox", false, "retry exact saved signed gap; never mint new event ID")
     flag.Parse()
 	if *key == "" {
 		panic("-key required")
@@ -37,7 +40,16 @@ func main() {
 		panic(err)
 	}
 	pub := priv.Public().(ed25519.PublicKey)
-	id, err := protocol.NewEventID()
+	if *retryGap {
+        if *outboxPath=="" || *gapReason!="" || *kind!="http_probe" || *port!=80 || *fingerprint!="demo-non-ip" {
+            panic("retry requires -gap-outbox only; event content must not change")
+        }
+        if *url!="http://127.0.0.1:8788/report" {panic("loopback only")}
+        if err:=gapspool.Dispatch(*outboxPath,pub,time.Now().UTC(),deliverLoopback);err!=nil{panic(err)}
+        fmt.Println("signed gap acknowledged locally, not proof of healthy coverage")
+        return
+    }
+    id, err := protocol.NewEventID()
 	if err != nil {
 		panic(err)
 	}
@@ -52,11 +64,20 @@ func main() {
 		panic(err)
 	}
 	b, _ := json.Marshal(sr)
+    if *gapReason!="" {
+        if *outboxPath=="" {panic("signed gaps require a private durable -gap-outbox path")}
+        if *url!="http://127.0.0.1:8788/report" {panic("loopback endpoint only")}
+        if err:=gapspool.Enqueue(*outboxPath,sr,pub,time.Now().UTC());err!=nil{panic(err)}
+        if err:=gapspool.Dispatch(*outboxPath,pub,time.Now().UTC(),deliverLoopback);err!=nil{panic(err)}
+        fmt.Println("signed gap acknowledged locally, no automatic all-clear")
+        return
+    }
+    if *outboxPath!="" {panic("-gap-outbox is only for signed coverage gaps")}
 	// Demo intentionally refuses remote or public upload before TLS/consent controls are implemented.
 	if *url != "http://127.0.0.1:8788/report" {
 		panic("MVP permits loopback endpoint only")
 	}
-	client := &http.Client{Timeout: 5 * time.Second}
+	client := &http.Client{Timeout: 5 * time.Second, CheckRedirect: func(*http.Request, []*http.Request) error {return http.ErrUseLastResponse}}
 	resp, err := client.Post(*url, "application/json", bytes.NewReader(b))
 	if err != nil {
 		panic(err)
@@ -85,4 +106,18 @@ func selectReportClass(kind string, port int, fingerprint, gapReason string) (st
     digest,err:=protocol.CoverageGapFingerprint(gapReason)
     if err!=nil{return "",0,"",err}
     return protocol.CoverageGapKind,0,digest,nil
+}
+
+func deliverLoopback(payload []byte)(int,[]byte,error){
+    client:=&http.Client{
+        Timeout:5*time.Second,
+        CheckRedirect:func(*http.Request,[]*http.Request)error{return http.ErrUseLastResponse},
+    }
+    resp,err:=client.Post("http://127.0.0.1:8788/report","application/json",bytes.NewReader(payload))
+    if err!=nil{return 0,nil,err}
+    defer resp.Body.Close()
+    ack,err:=io.ReadAll(io.LimitReader(resp.Body,1025))
+    if err!=nil{return 0,nil,err}
+    if len(ack)>1024{return 0,nil,fmt.Errorf("oversized HUB acknowledgment")}
+    return resp.StatusCode,ack,nil
 }
