@@ -105,3 +105,50 @@ jobs:
           path: experiments/trapnet-zero-trust/lab/netns-results.json
           if-no-files-found: warn
           retention-days: 7
+
+  real-cowrie-persistent-gap-lab:
+    name: Real Cowrie bounded ext4 + signed gap HUB E2E (disposable)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Verify hard prerequisites for privileged ephemeral lab
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = x86_64
+          command -v docker
+          command -v mkfs.ext4
+          command -v mount
+          command -v sudo
+          docker info >/dev/null
+      - name: Pull precisely pinned public Cowrie image, never mutable tags
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c
+          test "$(docker image inspect --format '{{.Id}}' cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c)" = "sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a"
+      - name: Verify privilege and no-public-binding safeguards in source
+        run: python3 -m unittest discover -s sonar -p 'test_real_cowrie_signed_gap_e2e.py' -v
+      - name: Real Cowrie ext4 ENOSPC to signed Sensor/HUB with cleanup
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo env PATH="$PATH" python3 lab/real_cowrie_signed_gap_e2e.py --image-id sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a | tee real-cowrie-gap-e2e-evidence.json
+      - name: Upload key-free real-container integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-real-cowrie-ext4-gap-lab
+          path: experiments/trapnet-zero-trust/real-cowrie-gap-e2e-evidence.json
+          if-no-files-found: warn
+          retention-days: 30
