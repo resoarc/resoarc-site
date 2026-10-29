@@ -81,6 +81,7 @@ def exercise(image):
                 ("missing","log_unavailable",None),
                 ("torn","log_corrupt",baseline+b'{"eventid":"cowrie.session.connect"'),
                 ("duplicate","log_corrupt",baseline+lines[-1]),
+                ("semantic_duplicate","log_corrupt",baseline+b" "+lines[-1]),
             ]
             pending=[]
             try:
