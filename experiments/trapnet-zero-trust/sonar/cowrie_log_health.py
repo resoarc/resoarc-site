@@ -86,7 +86,8 @@ def assess(root,capacity_ceiling=DEFAULT_CEILING,min_free=DEFAULT_MIN_FREE,max_l
                         fail("JSON_LINE_INVALID");break
                     if not isinstance(item,dict) or type(item.get("eventid")) is not str:
                         fail("JSON_EVENT_INVALID");break
-                    line_digest=hashlib.sha256(line).digest()
+                    canonical=json.dumps(item,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf-8')
+                    line_digest=hashlib.sha256(canonical).digest()
                     if line_digest in seen_event_lines:
                         fail("JSON_LINE_DUPLICATE")
                         break
