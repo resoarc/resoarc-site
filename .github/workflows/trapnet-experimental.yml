@@ -40,6 +40,11 @@ jobs:
         run: |
           set -o pipefail
           python3 lab/signed_gap_end_to_end.py | tee trapnet-signed-gap-lab-evidence.json
+      - name: Signed HUB durable receipt E2E with lost 202 and authenticated 409
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 lab/signed_receipt_end_to_end.py | tee trapnet-signed-hub-receipt-evidence.json
       - name: Cowrie signed gap bridge regression safety tests
         run: python3 -m unittest discover -s sonar -p 'test_cowrie_gap_lab_bridge.py' -v
       - uses: actions/upload-artifact@v4
@@ -49,6 +54,7 @@ jobs:
           path: |
             experiments/trapnet-zero-trust/trapnet-lab-results.json
             experiments/trapnet-zero-trust/trapnet-signed-gap-lab-evidence.json
+            experiments/trapnet-zero-trust/trapnet-signed-hub-receipt-evidence.json
           if-no-files-found: ignore
           retention-days: 30
 
