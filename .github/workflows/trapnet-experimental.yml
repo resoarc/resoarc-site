@@ -164,3 +164,48 @@ jobs:
           path: experiments/trapnet-zero-trust/real-cowrie-gap-e2e-evidence.json
           if-no-files-found: warn
           retention-days: 30
+
+  real-cowrie-a2-fault-matrix:
+    name: A2 real Cowrie missing/torn/exact+semantic duplicate acceptance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Require isolated Linux Docker/ext4 test host
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = x86_64
+          command -v docker
+          command -v mkfs.ext4
+          command -v mount
+          command -v sudo
+          docker info >/dev/null
+      - name: Pull immutable Cowrie image and require expected bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c
+          test "$(docker image inspect --format '{{.Id}}' cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c)" = "sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a"
+      - name: Real Cowrie four faults become four signed HUB gaps
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo env PATH="$PATH" python3 lab/real_cowrie_fault_matrix.py sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a | tee real-cowrie-a2-matrix-evidence.json
+      - name: Upload only anonymous A2 lab evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-real-cowrie-a2-fault-matrix
+          path: experiments/trapnet-zero-trust/real-cowrie-a2-matrix-evidence.json
+          if-no-files-found: warn
+          retention-days: 30

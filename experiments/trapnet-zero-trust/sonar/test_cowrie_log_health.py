@@ -43,6 +43,27 @@ class TestCowrieLogHealth(unittest.TestCase):
             self.assertIn("JSON_LOG_MISSING",self.assess_with(root)["issues"])
             path.write_bytes(b"NOTJSON\n")
             self.assertIn("JSON_LINE_INVALID",self.assess_with(root)["issues"])
+    def test_identical_log_line_duplicate_refused_without_data_export(self):
+        with tempfile.TemporaryDirectory() as d:
+            root,path=self.fixture(d)
+            line=path.read_bytes()
+            path.write_bytes(line+line)
+            result=self.assess_with(root)
+            self.assertFalse(result['passed'])
+            self.assertIn('JSON_LINE_DUPLICATE',result['issues'])
+            self.assertNotIn('PRIVATE',json.dumps(result))
+
+    def test_json_semantic_duplicate_with_reordered_fields_refused(self):
+        with tempfile.TemporaryDirectory() as d:
+            root,path=self.fixture(d)
+            path.write_bytes(
+                b'{"eventid":"cowrie.session.connect","src_ip":"PRIVATE"}\n'
+                b' { "src_ip": "PRIVATE", "eventid": "cowrie.session.connect" } \n')
+            result=self.assess_with(root)
+            self.assertFalse(result["passed"])
+            self.assertIn("JSON_LINE_DUPLICATE",result["issues"])
+            self.assertNotIn("PRIVATE",json.dumps(result))
+
     def test_no_newline_and_invalid_structure_refused(self):
         with tempfile.TemporaryDirectory() as d:
             root,path=self.fixture(d);path.write_bytes(b'{"eventid":"cowrie.session.connect"}')

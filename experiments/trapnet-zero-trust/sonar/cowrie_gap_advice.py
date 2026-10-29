@@ -15,7 +15,8 @@ SCHEMA="trapnet.cowrie-gap-operator-advice.v1"
 FAILURE_CATEGORIES=(
     ("storage_full",frozenset({"FREE_SPACE_LOW"})),
     ("log_corrupt",frozenset({"JSON_LINE_INVALID","JSON_EVENT_INVALID",
-                            "JSON_LOG_EMPTY","JSON_LOG_TOO_LARGE","JSON_LOG_NO_EVENTS"})),
+                            "JSON_LOG_EMPTY","JSON_LOG_TOO_LARGE","JSON_LOG_NO_EVENTS",
+                            "JSON_LINE_DUPLICATE"})),
     ("log_unavailable",frozenset({"JSON_LOG_MISSING","IO_OR_FORMAT_ERROR",
                                   "LOG_PATH_SYMLINK","VAR_ROOT_UNSAFE","JSON_LOG_TYPE_UNSAFE"})),
 )

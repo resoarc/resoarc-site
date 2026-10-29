@@ -49,7 +49,7 @@ def log_snapshot(log):
         count+=1
     return content,count
 
-def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=None):
+def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=None,fault_hook=None):
     image_verified(image)
     if os.geteuid()!=0 or not sys.platform.startswith("linux"):
         raise RuntimeError("authorized Linux root only")
@@ -205,6 +205,13 @@ def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=N
             report["signed_gap_recovery_hook"]=recovery_hook(root,mountpoint,report) is True
             if not report["signed_gap_recovery_hook"]:
                 raise RuntimeError("real Cowrie gap recovery hook HOLD")
+        if fault_hook is not None:
+            # A caller-provided negative-test hook may mutate only this
+            # disposable, stopped Cowrie tree. Never touch the live VPS.
+            docker("stop","--time","5",name)
+            report["fault_matrix_hook"]=fault_hook(root,mountpoint,report) is True
+            if not report["fault_matrix_hook"]:
+                raise RuntimeError("disposable Cowrie fault matrix HOLD")
         report["gap_acknowledged"]=recovery_hook is not None and report.get("signed_gap_recovery_hook") is True
         report["passed"]=all(report[k] for k in [
             "backup_verified","full_var_restored","enospc","full_health_held","remount_verified",
@@ -228,6 +235,8 @@ def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=N
         report["passed"]=report["passed"] and report["cleanup"]
         if failure_hook is not None or recovery_hook is not None:
             report["passed"]=report["passed"] and report.get("signed_gap_failure_hook",False) and report.get("signed_gap_recovery_hook",False)
+        if fault_hook is not None:
+            report["passed"]=report["passed"] and report.get("fault_matrix_hook",False)
     return report
 
 def main():
