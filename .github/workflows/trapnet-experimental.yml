@@ -35,11 +35,20 @@ jobs:
       - run: go vet ./...
       - name: Multi-process loopback resilience lab (32 checks)
         run: python3 lab/blackbox_lab.py --source . --out trapnet-lab-results.json
+      - name: Signed Cowrie-shaped log fault to Sensor durable outbox to real HUB
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 lab/signed_gap_end_to_end.py | tee trapnet-signed-gap-lab-evidence.json
+      - name: Cowrie signed gap bridge regression safety tests
+        run: python3 -m unittest discover -s sonar -p 'test_cowrie_gap_lab_bridge.py' -v
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: trapnet-loopback-lab-evidence
-          path: experiments/trapnet-zero-trust/trapnet-lab-results.json
+          path: |
+            experiments/trapnet-zero-trust/trapnet-lab-results.json
+            experiments/trapnet-zero-trust/trapnet-signed-gap-lab-evidence.json
           if-no-files-found: ignore
           retention-days: 30
 
