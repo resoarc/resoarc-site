@@ -9,6 +9,7 @@ Neither raw events nor filesystem paths are printed.
 import argparse
 from contextlib import ExitStack
 import json
+import hashlib
 import os
 from pathlib import Path
 import stat
@@ -73,6 +74,7 @@ def assess(root,capacity_ceiling=DEFAULT_CEILING,min_free=DEFAULT_MIN_FREE,max_l
             if before.st_size<=0:fail("JSON_LOG_EMPTY");return result
             if before.st_size>max_log:fail("JSON_LOG_TOO_LARGE");return result
             # The dup is owned by the stream, the pinned descriptor by ExitStack.
+            seen_event_lines=set()
             with os.fdopen(os.dup(filefd),"rb") as stream:
                 while True:
                     line=stream.readline(MAX_LINE+2)
@@ -84,6 +86,11 @@ def assess(root,capacity_ceiling=DEFAULT_CEILING,min_free=DEFAULT_MIN_FREE,max_l
                         fail("JSON_LINE_INVALID");break
                     if not isinstance(item,dict) or type(item.get("eventid")) is not str:
                         fail("JSON_EVENT_INVALID");break
+                    line_digest=hashlib.sha256(line).digest()
+                    if line_digest in seen_event_lines:
+                        fail("JSON_LINE_DUPLICATE")
+                        break
+                    seen_event_lines.add(line_digest)
                     result["log_entries"]+=1
             after=os.fstat(filefd)
             # Reject concurrent append, truncate, replacement or metadata
