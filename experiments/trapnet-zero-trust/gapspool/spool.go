@@ -19,6 +19,7 @@ import (
  "time"
 
  "github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/protocol"
+ "github.com/resoarc/resoarc-site/experiments/trapnet-zero-trust/receipt"
 )
 
 const MaxBytes=8192
@@ -119,6 +120,16 @@ func strictlyAcceptedAck(status int,body []byte)bool{
 // Dispatch resends the EXACT persisted report, never signs a new one.
 // A 409 duplicate or any ambiguous reply remains pending (HOLD).
 func Dispatch(path string,pub ed25519.PublicKey,now time.Time,post PostFunc)error{
+ return dispatch(path,pub,nil,now,post,false)
+}
+
+// DispatchSigned accepts a verified HUB signature on the exact pending event.
+// This explicitly pinned mode NEVER falls back to an unsigned 202 or bare 409.
+func DispatchSigned(path string,pub,hubPub ed25519.PublicKey,now time.Time,post PostFunc)error{
+ if len(hubPub)!=ed25519.PublicKeySize{return errors.New("trusted HUB receipt key required")}
+ return dispatch(path,pub,hubPub,now,post,true)
+}
+func dispatch(path string,pub,hubPub ed25519.PublicKey,now time.Time,post PostFunc,signed bool)error{
  if post==nil{return errors.New("missing transport")}
  unlock,err:=acquire(path);if err!=nil{return err};defer unlock()
  file,meta,data,err:=openPending(path)
@@ -136,8 +147,16 @@ func Dispatch(path string,pub ed25519.PublicKey,now time.Time,post PostFunc)erro
  // Only a one-shot explicit loopback caller may supply the post callback.
  status,ack,err:=post(append([]byte(nil),data...))
  if err!=nil{return fmt.Errorf("delivery unconfirmed: %w",err)}
- if !strictlyAcceptedAck(status,ack){
-  return fmt.Errorf("HUB did not provide an unambiguous 202 acknowledgment (HTTP %d)",status)
+ verifiedAck:=false
+ if signed{
+   if status==202 || status==409 {
+     verifiedAck=receipt.DecodeAndVerify(ack,notice,hubPub,now)==nil
+   }
+ }else{
+   verifiedAck=strictlyAcceptedAck(status,ack)
+ }
+ if !verifiedAck{
+  return fmt.Errorf("HUB delivery lacks trusted receipt evidence (HTTP %d)",status)
  }
  latest,err:=os.Lstat(path);if err!=nil{return err}
  if !os.SameFile(meta,latest) || !latest.Mode().IsRegular() || latest.Size()!=meta.Size(){
