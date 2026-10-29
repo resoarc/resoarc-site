@@ -4,6 +4,7 @@ package main
 
 import (
 	"bufio"
+
 	"crypto/ed25519"
 	"encoding/json"
 	"errors"
@@ -13,6 +14,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+    "os/signal"
+    "syscall"
 	"strings"
 	"sync"
 	"time"
@@ -373,5 +376,11 @@ func main() {
 	})
 	log.Println("HUB local-only MVP ready")
 	srv := &http.Server{Addr: *addr, Handler: mux, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 10 * time.Second, IdleTimeout: 15 * time.Second, MaxHeaderBytes: 8192}
-	log.Fatal(srv.ListenAndServe())
+	stop:=make(chan os.Signal,1)
+    signal.Notify(stop,os.Interrupt,syscall.SIGTERM)
+    defer signal.Stop(stop)
+    if err:=serveUntilGracefullyStopped(srv,s,stop);err!=nil{
+        log.Fatal("HUB stopped unsafely: ",err)
+    }
+    log.Println("HUB stopped gracefully; verified ledger synced")
 }
