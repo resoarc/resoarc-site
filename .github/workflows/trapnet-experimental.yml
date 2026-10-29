@@ -166,7 +166,7 @@ jobs:
           retention-days: 30
 
   real-cowrie-a2-fault-matrix:
-    name: A2 real Cowrie missing/torn/duplicate -> signed HUB replay acceptance
+    name: A2 real Cowrie missing/torn/exact+semantic duplicate acceptance
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     permissions:
@@ -196,7 +196,7 @@ jobs:
           set -euo pipefail
           docker pull cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c
           test "$(docker image inspect --format '{{.Id}}' cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c)" = "sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a"
-      - name: Real Cowrie log faults become three distinct signed HUB gaps
+      - name: Real Cowrie four faults become four signed HUB gaps
         shell: bash
         run: |
           set -euo pipefail
