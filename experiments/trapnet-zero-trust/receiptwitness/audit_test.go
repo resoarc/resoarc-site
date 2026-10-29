@@ -135,6 +135,21 @@ func TestRejectReceiptOutsideOriginalObservationWindow(t *testing.T){
  f.ack=s;f.now=f.now.Add(12*time.Minute)
  if f.verify()==nil{t.Fatal("late receipt accepted")}
 }
+func TestHistoricalReceiptStillAuditableAfterLongOutage(t *testing.T){
+ f:=fixture(t)
+ // Audit an ALREADY durably acknowledged report much later than the
+ // Sensor's 10-minute live ingestion window. This does not permit the
+ // original report to be re-sent or to clear an observation gap.
+ f.now=f.now.Add(24*time.Hour)
+ if err:=f.verify();err!=nil{t.Fatal(err)}
+}
+func TestRejectValidHUBSignatureClaimingUnwitnessedRows(t *testing.T){
+ f:=fixture(t)
+ signed,err:=receipt.Sign(f.report,f.ack.Receipt.LedgerTipSHA256,2,f.ack.Receipt.ReceivedAt,f.hubPriv)
+ if err!=nil{t.Fatal(err)}
+ f.ack=signed
+ if f.verify()==nil{t.Fatal("HUB signed receipt for unwitnessed future rows accepted")}
+}
 func TestRejectSymlinkSnapshot(t *testing.T){
  f:=fixture(t)
  original:=f.ledger+".real"
