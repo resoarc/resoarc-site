@@ -125,8 +125,10 @@ def lab():
 if __name__=="__main__":
     try:result=lab()
     except (OSError,ValueError,RuntimeError,AssertionError,subprocess.SubprocessError) as e:
+        safe_step=(str(e) if isinstance(e,AssertionError) and str(e).replace("_","").isalnum()
+                   and len(str(e))<=80 else "UNCLASSIFIED")
         print(json.dumps({"schema":"trapnet.signed-gap-e2e-lab.v046",
-            "passed":False,"error_class":type(e).__name__,
+            "passed":False,"error_class":type(e).__name__,"failure_step":safe_step,
             "release_approved":False},sort_keys=True))
         sys.exit(3)
     print(json.dumps(result,sort_keys=True))
