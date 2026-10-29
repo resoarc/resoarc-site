@@ -14,6 +14,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+    "path/filepath"
 	"strings"
 	"time"
 )
@@ -27,6 +28,7 @@ func main() {
 	gapReason := flag.String("gap-reason", "", "report a strictly typed observation gap; never asserts healthy coverage")
 	outboxPath := flag.String("gap-outbox", "", "absolute private spool path for durable signed gap; required with -gap-reason")
 	retryGap := flag.Bool("retry-gap-outbox", false, "retry exact saved signed gap; never mint new event ID")
+    hubReceiptPubFile:=flag.String("hub-receipt-pub", "", "pinned HUB receipt verification key for signed-ack mode")
     flag.Parse()
 	if *key == "" {
 		panic("-key required")
@@ -40,12 +42,26 @@ func main() {
 		panic(err)
 	}
 	pub := priv.Public().(ed25519.PublicKey)
+    var hubReceiptPub ed25519.PublicKey
+    if *hubReceiptPubFile!="" {
+        if !filepath.IsAbs(*hubReceiptPubFile) {panic("absolute pinned HUB receipt key path required")}
+        st,e:=os.Lstat(*hubReceiptPubFile)
+        if e!=nil || !st.Mode().IsRegular(){panic("unsafe pinned HUB key file")}
+        b,e:=os.ReadFile(*hubReceiptPubFile);if e!=nil{panic("cannot read pinned HUB key")}
+        hubReceiptPub,e=protocol.PublicFromHex(strings.TrimSpace(string(b)));if e!=nil{panic(e)}
+    }
+    sendGap:=func(path string) error{
+        if hubReceiptPub!=nil{
+            return gapspool.DispatchSigned(path,pub,hubReceiptPub,time.Now().UTC(),deliverLoopback)
+        }
+        return gapspool.Dispatch(path,pub,time.Now().UTC(),deliverLoopback)
+    }
 	if *retryGap {
         if *outboxPath=="" || *gapReason!="" || *kind!="http_probe" || *port!=80 || *fingerprint!="demo-non-ip" {
             panic("retry requires -gap-outbox only; event content must not change")
         }
         if *url!="http://127.0.0.1:8788/report" {panic("loopback only")}
-        if err:=gapspool.Dispatch(*outboxPath,pub,time.Now().UTC(),deliverLoopback);err!=nil{panic(err)}
+        if err:=sendGap(*outboxPath);err!=nil{panic(err)}
         fmt.Println("signed gap acknowledged locally, not proof of healthy coverage")
         return
     }
@@ -68,11 +84,11 @@ func main() {
         if *outboxPath=="" {panic("signed gaps require a private durable -gap-outbox path")}
         if *url!="http://127.0.0.1:8788/report" {panic("loopback endpoint only")}
         if err:=gapspool.Enqueue(*outboxPath,sr,pub,time.Now().UTC());err!=nil{panic(err)}
-        if err:=gapspool.Dispatch(*outboxPath,pub,time.Now().UTC(),deliverLoopback);err!=nil{panic(err)}
+        if err:=sendGap(*outboxPath);err!=nil{panic(err)}
         fmt.Println("signed gap acknowledged locally, no automatic all-clear")
         return
     }
-    if *outboxPath!="" {panic("-gap-outbox is only for signed coverage gaps")}
+    if *outboxPath!="" || hubReceiptPub!=nil {panic("-gap-outbox/-hub-receipt-pub only for signed coverage gaps")}
 	// Demo intentionally refuses remote or public upload before TLS/consent controls are implemented.
 	if *url != "http://127.0.0.1:8788/report" {
 		panic("MVP permits loopback endpoint only")
