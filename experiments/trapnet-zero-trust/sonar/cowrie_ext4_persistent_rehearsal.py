@@ -49,7 +49,7 @@ def log_snapshot(log):
         count+=1
     return content,count
 
-def trial(image,storage_parent=None,wait_sec=3):
+def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=None):
     image_verified(image)
     if os.geteuid()!=0 or not sys.platform.startswith("linux"):
         raise RuntimeError("authorized Linux root only")
@@ -163,6 +163,10 @@ def trial(image,storage_parent=None,wait_sec=3):
         report["full_health_held"]=not full["passed"] and ("FREE_SPACE_LOW" in full["issues"])
         if not hit or not report["full_health_held"]:
             raise RuntimeError("bounded filesystem did not fail closed")
+        if failure_hook is not None:
+            report["signed_gap_failure_hook"]=failure_hook(root,mountpoint,report) is True
+            if not report["signed_gap_failure_hook"]:
+                raise RuntimeError("real Cowrie gap failure hook HOLD")
         report["stage"]="stop_unmount_remount"
         docker("kill","--signal","SIGKILL",name)
         destroy()
@@ -197,7 +201,11 @@ def trial(image,storage_parent=None,wait_sec=3):
         second_preflight=inspect_local(name,str(mountpoint))
         report["recreated_local_release_preflight"]=second_preflight["local_preflight_pass"]
         report["recreated_local_release_issues"]=second_preflight["issues"]
-        report["gap_acknowledged"]=True
+        if recovery_hook is not None:
+            report["signed_gap_recovery_hook"]=recovery_hook(root,mountpoint,report) is True
+            if not report["signed_gap_recovery_hook"]:
+                raise RuntimeError("real Cowrie gap recovery hook HOLD")
+        report["gap_acknowledged"]=recovery_hook is not None and report.get("signed_gap_recovery_hook") is True
         report["passed"]=all(report[k] for k in [
             "backup_verified","full_var_restored","enospc","full_health_held","remount_verified",
             "remount_health_pass","recreate_verified","recovered_health_pass",
@@ -218,6 +226,8 @@ def trial(image,storage_parent=None,wait_sec=3):
             report["cleanup_error"]=type(error).__name__
         report["cleanup"]=not root.exists() and not created and not mounted
         report["passed"]=report["passed"] and report["cleanup"]
+        if failure_hook is not None or recovery_hook is not None:
+            report["passed"]=report["passed"] and report.get("signed_gap_failure_hook",False) and report.get("signed_gap_recovery_hook",False)
     return report
 
 def main():
