@@ -30,6 +30,7 @@ func main(){
  rootPin:=flag.String("root-sha256","","INDEPENDENTLY VERIFIED SHA-256 of the binary Ed25519 Root public key (64 lowercase hex)")
  statePath:=flag.String("state","guardian-state.json","local anti-rollback state")
  flag.Parse()
+ if err:=enforceEmergencyStop(*statePath);err!=nil{panic(err)}
  if *feedPath==""{panic("-feed required")}
  policyMode:=*policyPath!=""||*rootPath!=""
  if requireRootPolicy=="true" && !policyMode {panic("Guardian beta binary requires -policy and -rootpub: legacy -pub forbidden")}
