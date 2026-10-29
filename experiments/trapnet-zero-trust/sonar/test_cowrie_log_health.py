@@ -53,6 +53,17 @@ class TestCowrieLogHealth(unittest.TestCase):
             self.assertIn('JSON_LINE_DUPLICATE',result['issues'])
             self.assertNotIn('PRIVATE',json.dumps(result))
 
+    def test_json_semantic_duplicate_with_reordered_fields_refused(self):
+        with tempfile.TemporaryDirectory() as d:
+            root,path=self.fixture(d)
+            path.write_bytes(
+                b'{"eventid":"cowrie.session.connect","src_ip":"PRIVATE"}\n'
+                b' { "src_ip": "PRIVATE", "eventid": "cowrie.session.connect" } \n')
+            result=self.assess_with(root)
+            self.assertFalse(result["passed"])
+            self.assertIn("JSON_LINE_DUPLICATE",result["issues"])
+            self.assertNotIn("PRIVATE",json.dumps(result))
+
     def test_no_newline_and_invalid_structure_refused(self):
         with tempfile.TemporaryDirectory() as d:
             root,path=self.fixture(d);path.write_bytes(b'{"eventid":"cowrie.session.connect"}')
