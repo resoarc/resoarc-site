@@ -41,6 +41,15 @@ jobs:
         run: sh release/test_install_linux.sh
       - name: Run actual Guardian signed-feed / rollback / invalid-input acceptance
         run: python3 release/guardian_beta_acceptance.py --source . --output guardian-candidate-acceptance.json
+      - name: Install Linux native syscall tracer (required, no silent skip)
+        run: |
+          if ! command -v strace >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq --no-install-recommends strace
+          fi
+          command -v strace
+      - name: Audit real Guardian Linux process against network and secondary exec
+        run: python3 release/guardian_native_syscall_audit.py --source . --output guardian-native-syscall-audit.json
       - name: Exercise offline Root-signed signer revocation and beta-mode enforcement
         run: python3 release/guardian_root_acceptance.py --source . --output guardian-root-acceptance-linux.json
       - name: Test independent release signing and verification (synthetic only)
@@ -65,6 +74,7 @@ jobs:
           name: trapnet-guardian-public-beta-gate-evidence
           path: |
             experiments/trapnet-zero-trust/guardian-candidate-acceptance.json
+            experiments/trapnet-zero-trust/guardian-native-syscall-audit.json
             experiments/trapnet-zero-trust/guardian-root-acceptance-linux.json
             experiments/trapnet-zero-trust/release-signature-linux.json
             experiments/trapnet-zero-trust/guardian-ci-build/manifest.json
