@@ -83,6 +83,20 @@ def lab():
             check("locally_acknowledged_removed",not outbox.exists())
             lines=ledger.read_text(encoding="utf-8").splitlines()
             check("HUB_ledger_one_signed_gap",len(lines)==1 and json.loads(lines[0])["evidence"]==signed)
+            # A real process restart must restore replay protection
+            # from the fsynced ledger and its checkpoint, not in-memory state.
+            hub.terminate()
+            hub.wait(timeout=5)
+            hub=subprocess.Popen(list(map(str,args)),cwd=HERE,stdout=subprocess.DEVNULL,
+                                 stderr=subprocess.DEVNULL,stdin=subprocess.DEVNULL)
+            restarted=False
+            for _ in range(50):
+                if hub.poll() is not None:break
+                try:
+                    with urllib.request.urlopen(HUB_URL,timeout=0.5) as resp:
+                        if resp.status==200:restarted=True;break
+                except (urllib.error.URLError,TimeoutError,OSError):time.sleep(0.1)
+            check("HUB_restarted_with_persistent_ledger",restarted)
             # Replay exact historical signed bytes: HUB must reject it.
             req=urllib.request.Request("http://127.0.0.1:8788/report",data=original,
                                        headers={"Content-Type":"application/json"},method="POST")
@@ -90,7 +104,12 @@ def lab():
                 urllib.request.urlopen(req,timeout=3)
                 code=None
             except urllib.error.HTTPError as e:code=e.code
-            check("HUB_replay_rejected",code==409)
+            check("HUB_replay_rejected_after_restart",code==409)
+            (cowrie/"cowrie.json").write_bytes(json.dumps({"eventid":"cowrie.session.connect"}).encode("utf-8")+bytes([10]))
+            healed=bridge.execute(root,logroot,outbox,key,sensor,emit=True)
+            check("log_recovery_never_automatically_clears_gap",
+                  healed["status"]=="HOLD_NO_VERIFIED_GAP_REASON" and not outbox.exists())
+            check("previous_signed_gap_remains_in_ledger",len(ledger.read_text(encoding="utf-8").splitlines())==1)
             check("no_untrusted_public_feed",not list(root.rglob("feed*.json")))
         finally:
             hub.terminate()
