@@ -45,6 +45,11 @@ jobs:
         run: |
           set -o pipefail
           python3 lab/signed_receipt_end_to_end.py | tee trapnet-signed-hub-receipt-evidence.json
+      - name: Offline three-key Witness cross-audit of signed HUB receipt
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 lab/witness_receipt_cross_audit.py | tee trapnet-witness-receipt-evidence.json
       - name: Cowrie signed gap bridge regression safety tests
         run: python3 -m unittest discover -s sonar -p 'test_cowrie_gap_lab_bridge.py' -v
       - uses: actions/upload-artifact@v4
@@ -55,6 +60,7 @@ jobs:
             experiments/trapnet-zero-trust/trapnet-lab-results.json
             experiments/trapnet-zero-trust/trapnet-signed-gap-lab-evidence.json
             experiments/trapnet-zero-trust/trapnet-signed-hub-receipt-evidence.json
+            experiments/trapnet-zero-trust/trapnet-witness-receipt-evidence.json
           if-no-files-found: ignore
           retention-days: 30
 
