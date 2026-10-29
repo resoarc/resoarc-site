@@ -7,7 +7,7 @@
 Prior CI proved genuine Cowrie ENOSPC, full private-state restoration,
 and synthetic broken JSON → signed `coverage_gap` → durable HUB ledger.
 The public A2 checklist also requires **real Cowrie-generated JSON** being
-missing, partially torn, or duplicated, plus the correct fail-closed signed
+missing, partially torn, byte-identically duplicated or semantically duplicated, plus the correct fail-closed signed
 notice and persistent HUB replay refusal.
 
 ## Isolated test implementation
@@ -27,26 +27,24 @@ fault cases are injected into that local test file:
 | Missing `cowrie.json` | `JSON_LOG_MISSING` | `log_unavailable` |
 | Genuine rows followed by a partial torn row | `JSON_LINE_INVALID` | `log_corrupt` |
 | Exact duplicate of a genuine JSON row | `JSON_LINE_DUPLICATE` | `log_corrupt` |
+| Semantically identical JSON row with different leading space | `JSON_LINE_DUPLICATE` | `log_corrupt` |
 
-For each scenario, the diagnosis must never claim observation coverage.
+For each of the four scenarios, the diagnosis must never claim observation coverage.
 The operator-only bridge must not send by default; an explicitly armed
 send while HUB is absent must preserve an **independent signed original**
 in a separate, restrictive durable outbox. The exact genuine log is
 restored after every scenario even if a test fails.
 
 After all three faults, a disposable real Go HUB is started on
-`127.0.0.1:8788` only. It must persist exactly three differently signed
+`127.0.0.1:8788` only. It must persist exactly four differently signed
 Sensor events, discard their pending files only after accepted delivery,
 gracefully stop/restart with an intact checkpoint, and reject replay of
-all three originals with HTTP 409. Repair of the log must not claim
+all four originals with HTTP 409. Repair of the log must not claim
 that any historical missing observation interval became healthy.
 
-The new `cowrie_log_health.assess` detects **byte-identical repeated
-JSON rows** using SHA-256 digests in local memory. SHA256 values and
+The new `cowrie_log_health.assess` detects **semantically identical JSON rows** (including byte-identical rows and differences in JSON whitespace and field order) using canonical JSON plus SHA-256 digests in local memory. SHA256 values and
 raw events are never emitted. This deliberately classifies ambiguous
-duplicates as corrupted coverage, rather than an attack event. Similar
-but nonidentical rows, e.g. similar event types with new timestamps,
-are not falsely classified as exact duplicates.
+duplicates as corrupted coverage, rather than an attack event. Rows with different event fields, for example new timestamps, are not treated as semantic duplicates. This cannot prove that plausibly rewritten events or a deleted historical interval are complete.
 
 ### Gate acceptance limits
 
