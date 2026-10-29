@@ -130,9 +130,9 @@ def exercise(image):
                     check(name+"_original_signature_delivered",response.returncode==0)
                     check(name+"_pending_removed_after_202",not path.exists())
                 records=[json.loads(line) for line in ledger.read_text(encoding="utf-8").splitlines()]
-                check("real_HUB_ledger_contains_three_distinct_events",
-                      len(records)==3 and
-                      len({v["evidence"]["report"]["event_id"] for v in records})==3)
+                check("real_HUB_ledger_contains_four_distinct_events",
+                      len(records)==4 and
+                      len({v["evidence"]["report"]["event_id"] for v in records})==4)
                 hub.terminate();hub.wait(timeout=8)
                 check("normal_HUB_stop_released_lock",not Path(str(ledger)+".lock").exists())
                 hub=subprocess.Popen(list(map(str,hubArgs)),cwd=HERE,stdin=subprocess.DEVNULL,
@@ -149,7 +149,7 @@ def exercise(image):
                         status=err.code
                     check(name+"_replay_rejected_after_restart",status==409)
                 check("historic_faults_not_deleted",
-                      len(ledger.read_text(encoding="utf-8").splitlines())==3)
+                      len(ledger.read_text(encoding="utf-8").splitlines())==4)
             finally:
                 if hub.poll() is None:
                     hub.terminate()
