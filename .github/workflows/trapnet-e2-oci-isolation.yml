@@ -1,0 +1,68 @@
+name: TrapNet E2 Offline Model Isolation Lab
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/trapnet-zero-trust/lab/ai_container_isolation_probe.py'
+      - 'experiments/trapnet-zero-trust/sonar/ai_response_quarantine.py'
+      - '.github/workflows/trapnet-e2-oci-isolation.yml'
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/lab/ai_container_isolation_probe.py'
+      - 'experiments/trapnet-zero-trust/sonar/ai_response_quarantine.py'
+      - '.github/workflows/trapnet-e2-oci-isolation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  synthetic-no-network-oci-probe:
+    name: Non-root read-only OCI runtime and advisory gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout public source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Pull test interpreter outside the no-network runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull python:3.12-alpine
+          docker image inspect python:3.12-alpine --format '{{.Id}}'
+      - name: Run disposable offline probe with kernel-enforced limitations
+        shell: bash
+        run: |
+          set -euo pipefail
+          IMAGE_ID="$(docker image inspect python:3.12-alpine --format '{{.Id}}')"
+          docker run --rm --pull=never \
+            --network=none \
+            --read-only \
+            --user=65534:65534 \
+            --cap-drop=ALL \
+            --security-opt=no-new-privileges \
+            --pids-limit=64 \
+            --memory=128m \
+            --cpus=1 \
+            --tmpfs /tmp:rw,noexec,nosuid,size=4m,mode=1777 \
+            --mount "type=bind,source=$GITHUB_WORKSPACE/experiments/trapnet-zero-trust,target=/opt/trapnet,readonly" \
+            --workdir=/opt/trapnet \
+            "$IMAGE_ID" python -B /opt/trapnet/lab/ai_container_isolation_probe.py \
+            | tee "$RUNNER_TEMP/trapnet-e2-v055-oci-evidence.json"
+          python3 -m json.tool "$RUNNER_TEMP/trapnet-e2-v055-oci-evidence.json" >/dev/null
+          python3 -c 'import json,os; d=json.load(open(os.environ["RUNNER_TEMP"]+"/trapnet-e2-v055-oci-evidence.json",encoding="utf-8")); assert d["status"]=="pass"; assert all(d["environment_checks"].values()); assert d["model_boundary"]["hostile_responses_rejected"]>=12; assert not d["release_approved"]'
+          sha256sum "$RUNNER_TEMP/trapnet-e2-v055-oci-evidence.json"
+      - name: Upload synthetic runtime proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-e2-oci-proof-v055
+          path: ${{ runner.temp }}/trapnet-e2-v055-oci-evidence.json
+          if-no-files-found: ignore
+          retention-days: 30
