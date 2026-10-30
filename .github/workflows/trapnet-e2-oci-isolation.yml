@@ -56,7 +56,7 @@ jobs:
             "$IMAGE_ID" python -B /opt/trapnet/lab/ai_container_isolation_probe.py \
             | tee "$RUNNER_TEMP/trapnet-e2-v055-oci-evidence.json"
           python3 -m json.tool "$RUNNER_TEMP/trapnet-e2-v055-oci-evidence.json" >/dev/null
-          python3 -c 'import json,os; d=json.load(open(os.environ["RUNNER_TEMP"]+"/trapnet-e2-v055-oci-evidence.json",encoding="utf-8")); assert d["status"]=="pass"; assert all(d["environment_checks"].values()); assert d["model_boundary"]["hostile_responses_rejected"]>=12; assert not d["release_approved"]'
+          python3 -c 'import json,os; d=json.load(open(os.environ["RUNNER_TEMP"]+"/trapnet-e2-v055-oci-evidence.json",encoding="utf-8")); assert d["status"]=="pass"; assert all(d["environment_checks"].values()); assert d["model_boundary"]["hostile_responses_rejected"]>=12; assert d["model_boundary"]["synthetic_telemetry_chain"]["synthetic_log_events"]==11; assert not d["release_approved"]'
           sha256sum "$RUNNER_TEMP/trapnet-e2-v055-oci-evidence.json"
       - name: Upload synthetic runtime proof
         if: always()

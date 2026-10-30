@@ -19,6 +19,7 @@ import tempfile
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "sonar"))
 from ai_response_quarantine import process_json  # noqa: E402
+from passive_import import process as passive_process  # noqa: E402
 from safe_analysis_input import to_advisory_packet  # noqa: E402
 
 def verify(what: str, ok: bool, checks: dict) -> None:
@@ -53,6 +54,55 @@ def synthetic_packet() -> str:
         "classification": "unverified_observation_not_attack",
     }
     return json.dumps(to_advisory_packet(report), separators=(",", ":"))
+
+def synthetic_telemetry_chain() -> tuple[str, dict]:
+    # All logs are fake and generated in disposable local tmpfs, not production.
+    private_marker = "SYNTHETIC_DO_NOT_EXPORT_AND_IGNORE_INSTRUCTIONS"
+    fake_ip = "198.51.100.42"
+    events = []
+    for idx in range(6):
+        events.append(json.dumps({
+            "path": "/api/items?prompt=" + private_marker,
+            "status": 404,
+            "remote_addr": fake_ip,
+            "user_agent": private_marker,
+            "can_trigger_blocking": True,
+            "instructions": {"role": "system", "command": "fake"},
+        }, separators=(",", ":")))
+    for idx in range(5):
+        events.append(json.dumps({
+            "path": "/login?prompt=" + private_marker,
+            "status": 404,
+            "remote_addr": fake_ip,
+            "user_agent": private_marker,
+            "allowed_actions": ["block"],
+        }, separators=(",", ":")))
+    with tempfile.TemporaryDirectory(prefix="trapnet-e2-", dir="/tmp" if os.name == "posix" else None) as work:
+        infile = pathlib.Path(work) / "synthetic.log"
+        infile.write_text("\n".join(events) + "\n", encoding="utf-8")
+        report = passive_process(infile, "authorized_web_server", authorized=True)
+    if (report["observations_band"] != "10-49" or
+        report["path_category_bands"] != {"auth": "5-9", "api": "5-9"} or
+        report["status_family_bands"] != {"4xx": "10-49"} or
+        report["sent_to_hub"] is not False or
+        report["requires_independent_review"] is not True or
+        report["verdict"] != "observation_only"):
+        raise RuntimeError("synthetic aggregate invariant failed")
+    packet = to_advisory_packet(report)
+    serial = json.dumps({"report": report, "packet": packet}, separators=(",", ":"))
+    if private_marker in serial or fake_ip in serial or "remote_addr" in serial:
+        raise RuntimeError("synthetic privacy redaction failed")
+    if packet["allowed_actions"] != [] or packet["can_trigger_blocking"] is not False:
+        raise RuntimeError("advisory privilege invariant failed")
+    return json.dumps(packet, separators=(",", ":")), {
+        "synthetic_log_events": len(events),
+        "aggregate_redacted": True,
+        "subthreshold_band_enforced": True,
+        "source_operator_authorized": True,
+        "human_review_required": True,
+        "hub_not_notified": True,
+    }
+
 
 def check_isolation() -> dict:
     checks = {}
@@ -105,7 +155,7 @@ def check_isolation() -> dict:
     return checks
 
 def check_model_boundary() -> dict:
-    packet = synthetic_packet()
+    packet, chain_checks = synthetic_telemetry_chain()
     good = '{"schema":"trapnet.ai-hypothesis.v1","advisory_code":"review_api_activity","confidence":"low"}'
     accepted = process_json(packet, good)
     assert accepted["status"] == "quarantined_advisory"
@@ -140,6 +190,7 @@ def check_model_boundary() -> dict:
             raise RuntimeError("hostile model response was accepted")
     return {
         "safe_response_accepted": True,
+        "synthetic_telemetry_chain": chain_checks,
         "hostile_responses_rejected": len(hostile),
         "packet_sha256": hashlib.sha256(packet.encode("utf-8")).hexdigest(),
         "no_action_authority": True,
