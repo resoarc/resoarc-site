@@ -19,6 +19,21 @@ PASSIVE_FIELDS = {"adapter_schema","source_kind","requires_independent_review",
 PRIVACY_KEYS = {"raw_ip_exported","node_ids_exported","raw_ua_exported",
                 "raw_path_exported","raw_headers_exported","small_counts_suppressed"}
 
+def _reject_duplicate_json_keys(pairs):
+    """Reject ambiguous JSON object keys, including those in nested objects."""
+    parsed = {}
+    for key, value in pairs:
+        if key in parsed:
+            # No attacker-controlled key/value is echoed to the caller.
+            raise ValueError("duplicate JSON object key")
+        parsed[key] = value
+    return parsed
+
+
+def parse_strict_json(text):
+    return json.loads(text, object_pairs_hook=_reject_duplicate_json_keys)
+
+
 def to_advisory_packet(report):
     if type(report) is not dict or not BASE_FIELDS.issubset(report):
         raise ValueError("unexpected aggregate shape")
@@ -75,7 +90,7 @@ if __name__=="__main__":
         file=pathlib.Path(a.input)
         if file.is_symlink() or not file.is_file() or file.stat().st_size>16384:
             raise ValueError("unsafe input")
-        packet=to_advisory_packet(json.loads(file.read_text(encoding="utf-8")))
+        packet=to_advisory_packet(parse_strict_json(file.read_text(encoding="utf-8")))
         print(json.dumps(packet,sort_keys=True))
     except (OSError, ValueError, TypeError, KeyError) as error:
         print(json.dumps({"accepted":False,"error_class":type(error).__name__}))
