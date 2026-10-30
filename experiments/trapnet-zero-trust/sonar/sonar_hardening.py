@@ -10,6 +10,11 @@ import collections
 import datetime
 import http.client
 import json
+# Support both direct-script invocation and namespace-package imports.
+if __package__:
+    from .safe_analysis_input import parse_strict_json
+else:
+    from safe_analysis_input import parse_strict_json
 import pathlib
 import re
 import subprocess
@@ -46,17 +51,22 @@ def safe_records(stream):
         if parsed>=MAX_RECORDS:break
         if len(line)>MAX_LINE:continue
         path=None;status=None
-        try:
-            obj=json.loads(line)
-            if isinstance(obj,dict):
-                path=obj.get("path") if isinstance(obj.get("path"),str) else None
-                status=obj.get("status")
-                if path is None and isinstance(obj.get("request"),str):
-                    m=re.match(r"^(GET|HEAD|POST|PUT|DELETE|OPTIONS|PATCH)\s+(\S+)\s+HTTP/",obj["request"])
-                    if m: path=m.group(2)
-                if path is None and isinstance(obj.get("url_path"),str): path=obj["url_path"]
-        except (ValueError,TypeError):
-            # Only extract request line and status, not remote IP or quoted user agent.
+        if line.lstrip().startswith(("{", "[")):
+            # Never re-interpret malformed/ambiguous structured telemetry as a legacy HTTP log.
+            try:
+                obj=parse_strict_json(line)
+            except (ValueError,TypeError,RecursionError):
+                continue
+            if not isinstance(obj,dict):
+                continue
+            path=obj.get("path") if isinstance(obj.get("path"),str) else None
+            status=obj.get("status")
+            if path is None and isinstance(obj.get("request"),str):
+                m=re.match(r"^(GET|HEAD|POST|PUT|DELETE|OPTIONS|PATCH)\s+(\S+)\s+HTTP/",obj["request"])
+                if m: path=m.group(2)
+            if path is None and isinstance(obj.get("url_path"),str): path=obj["url_path"]
+        else:
+            # A conventional HTTP common/combined-log request, never raw user-agent or IP.
             m=re.search(r'"(?:GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS)\s+([^\s"]{1,256})\s+HTTP/[0-9.]+"\s+([1-5][0-9][0-9])\s',line)
             if m:path=m.group(1);status=m.group(2)
         if path is None:continue
