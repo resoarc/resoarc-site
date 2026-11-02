@@ -73,9 +73,11 @@ def call_guardian(binary, root, feed_path):
                 "-state", root / "guardian.state"], timeout=10)
 
 def check_hub(bin_dir, base, model_raw, quarantined_raw, checks):
+    # The real HUB intentionally refuses any port except fixed loopback 8788.
+    port = 8788
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
-        probe.bind(("127.0.0.1", 0))
-        port = probe.getsockname()[1]
+        if probe.connect_ex(("127.0.0.1", port)) == 0:
+            raise RuntimeError("refuse to reuse an occupied HUB test port")
     host = "127.0.0.1"
     url = "http://" + host + ":" + str(port)
     fixtures = base / "fixtures"
