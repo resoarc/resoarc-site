@@ -101,6 +101,7 @@ def check_hub(bin_dir, base, model_raw, quarantined_raw, checks):
         assert_true("real_loopback_hub_healthy", ready and proc.poll() is None, checks)
         assert_true("empty_hub_ledger", ledger.exists() and ledger.stat().st_size == 0, checks)
         old_hash = file_sha(ledger)
+        initial_head_hash = file_sha(base / "ledger.jsonl.head")
         inputs = (
             ("raw_model_reply", model_raw),
             ("quarantined_model_reply", quarantined_raw),
@@ -114,7 +115,10 @@ def check_hub(bin_dir, base, model_raw, quarantined_raw, checks):
             status = post_local(url + "/report", raw)
             assert_true("hub_rejects_" + name, status in (400, 403, 413), checks)
             assert_true("hub_ledger_unchanged_before_" + name, file_sha(ledger) == old_hash, checks)
-        assert_true("hub_no_checkpoint_before_auth", not (base / "ledger.jsonl.head").exists(), checks)
+            assert_true("hub_checkpoint_unchanged_before_" + name,
+                        file_sha(base / "ledger.jsonl.head") == initial_head_hash, checks)
+        assert_true("hub_initial_checkpoint_stable",
+                    file_sha(base / "ledger.jsonl.head") == initial_head_hash, checks)
 
         good = (fixtures / "report_valid.json").read_bytes()
         assert_true("real_signed_sensor_control_accepted",
