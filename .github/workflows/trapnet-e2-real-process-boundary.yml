@@ -1,0 +1,82 @@
+name: TrapNet E2 Real-Process AI Non-Authority Lab
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/trapnet-zero-trust/lab/ai_hub_guardian_real_process_lab.py'
+      - 'experiments/trapnet-zero-trust/lab/ai_hub_guardian_fixture/**'
+      - '.github/workflows/trapnet-e2-real-process-boundary.yml'
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/lab/ai_hub_guardian_real_process_lab.py'
+      - 'experiments/trapnet-zero-trust/lab/ai_hub_guardian_fixture/**'
+      - '.github/workflows/trapnet-e2-real-process-boundary.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  real-process-isolated-boundary:
+    name: Ephemeral signed controls and AI rejection in real HUB/Guardian
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Build three static lab binaries outside isolated runtime
+        working-directory: experiments/trapnet-zero-trust
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/trapnet-v056-bin"
+          export CGO_ENABLED=0
+          go build -trimpath -o "$RUNNER_TEMP/trapnet-v056-bin/hub" ./cmd/hub
+          go build -trimpath -o "$RUNNER_TEMP/trapnet-v056-bin/guardian" ./cmd/guardian
+          go build -trimpath -o "$RUNNER_TEMP/trapnet-v056-bin/fixture" ./lab/ai_hub_guardian_fixture
+      - name: Fetch and pin ephemeral interpreter before no-network phase
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull python:3.12-alpine
+          docker image inspect python:3.12-alpine --format '{{.Id}}'
+      - name: Prove real process signed boundaries inside no-network runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          IMAGE_ID="$(docker image inspect python:3.12-alpine --format '{{.Id}}')"
+          docker run --rm --pull=never \
+            --network=none \
+            --read-only \
+            --user=65534:65534 \
+            --cap-drop=ALL \
+            --security-opt=no-new-privileges \
+            --pids-limit=64 \
+            --memory=256m \
+            --cpus=1 \
+            --tmpfs /tmp:rw,noexec,nosuid,size=32m,mode=1777 \
+            --mount "type=bind,source=$GITHUB_WORKSPACE/experiments/trapnet-zero-trust,target=/opt/trapnet,readonly" \
+            --mount "type=bind,source=$RUNNER_TEMP/trapnet-v056-bin,target=/opt/bin,readonly" \
+            --env TRAPNET_E2_BIN_DIR=/opt/bin \
+            --workdir /opt/trapnet \
+            "$IMAGE_ID" python -B /opt/trapnet/lab/ai_hub_guardian_real_process_lab.py \
+            | tee "$RUNNER_TEMP/trapnet-e2-v056-real-process-evidence.json"
+          python3 -c 'import json,os; p=os.environ["RUNNER_TEMP"]+"/trapnet-e2-v056-real-process-evidence.json"; d=json.load(open(p,encoding="utf-8")); assert d["status"]=="pass"; assert d["checks_passed"]>=35; assert d["actual_go_hub_exercised"] and d["actual_go_guardian_exercised"]; assert not d["model_advisory_operational_authority"]; assert not d["production_modified"] and not d["release_approved"]'
+          sha256sum "$RUNNER_TEMP/trapnet-e2-v056-real-process-evidence.json"
+      - name: Retain synthetic-only verification summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-e2-v056-real-process-proof
+          path: ${{ runner.temp }}/trapnet-e2-v056-real-process-evidence.json
+          if-no-files-found: ignore
+          retention-days: 30
