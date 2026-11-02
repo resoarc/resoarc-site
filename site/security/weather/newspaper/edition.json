@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
-  "edition_date": "2026-11-01",
-  "generated_at": "2026-11-01T09:10:09.680467+09:00",
+  "edition_date": "2026-11-02",
+  "generated_at": "2026-11-02T09:10:07.682081+09:00",
   "source_count": 13,
   "quality": "OK",
   "published_date_count": 60,
   "same_day_count": 0,
   "carryover_count": 60,
-  "carryover_total": 148,
-  "content_sha256": "bbc8d2b0975ec028efde9688abe5ed0918ac7c6c446c1d14afc70cbed94c9602",
+  "carryover_total": 86,
+  "content_sha256": "496aec168bed56857ae02fcf4bed98d179a58ff637f612d3003fb48dd1d7cd2b",
   "render_version": "newspaper-daily-2",
   "model": "rules_and_verified_editorial",
   "notice": "公開品質に合格した情報のみ使用。前日付の情報は新着と明確に区別。PARTIALは発行しません。"
