@@ -35,7 +35,7 @@ func main() {
   pub,priv,err:=ed25519.GenerateKey(rand.Reader);check(err)
   otherPub,otherPriv,err:=ed25519.GenerateKey(rand.Reader);check(err)
   feedPub,feedPriv,err:=ed25519.GenerateKey(rand.Reader);check(err)
-  otherFeedPub,otherFeedPriv,err:=ed25519.GenerateKey(rand.Reader);check(err)
+  _,otherFeedPriv,err:=ed25519.GenerateKey(rand.Reader);check(err)
   now:=time.Now().UTC()
   report:=protocol.Report{Schema:protocol.ReportSchema,NodeID:protocol.NodeID(pub),
     EventID:strings.Repeat("1",32),ObservedAt:now,Kind:"http_probe",TargetPort:443,
