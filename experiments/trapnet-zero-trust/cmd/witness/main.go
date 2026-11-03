@@ -49,7 +49,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		measured, hash, err := witness.Audit(*ledger, *history, key, *tip)
+		measured, hash, err := witness.AuditClosed(*ledger, *history, key, *tip)
 		if err != nil {
 			log.Fatal(err)
 		}

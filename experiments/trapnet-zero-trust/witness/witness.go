@@ -272,6 +272,30 @@ func Audit(ledgerPath, historyPath string, pub ed25519.PublicKey, expectedTip st
 	return measured, tip, nil
 }
 
+// AuditClosed is required for formal receipt/Witness acceptance. In contrast
+// with the historical prefix-only Audit, it refuses any ledger rows beyond
+// the latest independently signed checkpoint. Otherwise a HUB could sign an
+// extra, UNWITNESSED receipt and still pass a historical prefix comparison.
+// The caller must have retained expectedTip OUTSIDE the ledger/HUB host.
+func AuditClosed(ledgerPath,historyPath string,pub ed25519.PublicKey,expectedTip string)(Head,string,error){
+ if !digestRE.MatchString(expectedTip){
+  return Head{},"",errors.New("independently pinned Witness tip required")
+ }
+ history,err:=ReadHistory(historyPath,pub)
+ if err!=nil{return Head{},"",err}
+ if len(history)==0{return Head{},"",errors.New("Witness history empty")}
+ tip,err:=Hash(history[len(history)-1])
+ if err!=nil{return Head{},"",err}
+ if tip!=expectedTip{return Head{},"",errors.New("Witness history tip rollback")}
+ measured,err:=Snapshot(ledgerPath,history)
+ if err!=nil{return Head{},"",err}
+ signed:=history[len(history)-1].Checkpoint
+ if signed.Rows!=measured.Rows || signed.Digest!=measured.Digest{
+  return Head{},"",errors.New("closed ledger contains unwitnessed appended rows")
+ }
+ return measured,tip,nil
+}
+
 // Attest appends a signed witness to an OFF-HUB history only after independently
 // checking all previously witnessed row boundaries in an offline copy.
 // Attest requires explicit independently pinned continuity when appending.

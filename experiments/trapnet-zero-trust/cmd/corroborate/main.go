@@ -70,7 +70,7 @@ func run(args []string,output io.Writer,clock time.Time)error{
  // Audit externally signed Witness history and require full coverage.
  pub,err:=witness.ReadPublicKey(*witnessPub)
  if err!=nil{return fmt.Errorf("witness key: %w",err)}
- measured,tip,err:=witness.Audit(*ledgerPath,*witnessHistory,pub,*witnessTip)
+ measured,tip,err:=witness.AuditClosed(*ledgerPath,*witnessHistory,pub,*witnessTip)
  if err!=nil{return fmt.Errorf("witness audit: %w",err)}
  if tip!=*witnessTip{return errors.New("witness tip not pinned")}
  checkpoints,err:=witness.ReadHistory(*witnessHistory,pub)
@@ -87,7 +87,7 @@ func run(args []string,output io.Writer,clock time.Time)error{
  if err:=verifySamePath(t,*trustPath);err!=nil{return fmt.Errorf("trust path replaced: %w",err)}
  if err:=verifyFile(f,*ledgerPin,maxLedgerBytes);err!=nil{return fmt.Errorf("ledger changed during analysis: %w",err)}
  if err:=verifyFile(t,*trustPin,maxTrustBytes);err!=nil{return fmt.Errorf("trust changed during analysis: %w",err)}
- measuredFinal,tipFinal,err:=witness.Audit(*ledgerPath,*witnessHistory,pub,*witnessTip)
+ measuredFinal,tipFinal,err:=witness.AuditClosed(*ledgerPath,*witnessHistory,pub,*witnessTip)
  if err!=nil||tipFinal!=tip||measuredFinal!=measured{return errors.New("signed witness evidence changed during analysis")}
  data,err:=json.MarshalIndent(result,"","  ");if err!=nil{return err}
  _,err=fmt.Fprintln(output,string(data));return err

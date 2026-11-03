@@ -51,7 +51,7 @@ func Audit(ledgerPath,historyPath,expectedWitnessTip string,
   return errors.New("HUB receipt time inconsistent with validated observation window")
  }
  if err:=safeLedger(ledgerPath);err!=nil{return err}
- measured,_,err:=witness.Audit(ledgerPath,historyPath,witnessPub,expectedWitnessTip)
+ measured,_,err:=witness.AuditClosed(ledgerPath,historyPath,witnessPub,expectedWitnessTip)
  if err!=nil{return fmt.Errorf("independent Witness chain failed: %w",err)}
  if ack.Receipt.LedgerRows>measured.Rows {
   return errors.New("receipt claims rows beyond independently witnessed snapshot")

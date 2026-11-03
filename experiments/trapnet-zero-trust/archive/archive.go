@@ -198,7 +198,7 @@ func Load(path string, root ed25519.PublicKey, pinnedHash string, activePath str
 		if err != nil {
 			return nil, nil, err
 		}
-		head, tip, err := witness.Audit(seg.Ledger, seg.History, pub, seg.ExpectedTip)
+		head, tip, err := witness.AuditClosed(seg.Ledger, seg.History, pub, seg.ExpectedTip)
 		if err != nil {
 			return nil, nil, fmt.Errorf("witness audit failed: %w", err)
 		}
