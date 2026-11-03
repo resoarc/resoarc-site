@@ -171,7 +171,7 @@ func TestRejectLedgerTailNotSignedByIndependentWitness(t *testing.T){
  // own local .head checkpoint. This must NOT be described as witnessed.
  w,err:=os.OpenFile(f.ledger,os.O_APPEND|os.O_WRONLY,0600)
  if err!=nil{t.Fatal(err)}
- if _,err=w.WriteString("{\"unwitnessed\":true}\\n");err!=nil{t.Fatal(err)}
+ if _,err=w.Write(append([]byte(`{"unwitnessed":true}`),byte(10)));err!=nil{t.Fatal(err)}
  if err=w.Sync();err!=nil{t.Fatal(err)}
  if err=w.Close();err!=nil{t.Fatal(err)}
  newHead,err:=witness.Measure(f.ledger,nil)
