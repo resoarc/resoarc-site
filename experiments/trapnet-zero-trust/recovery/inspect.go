@@ -39,7 +39,11 @@ func Inspect(ledger, history string, pub ed25519.PublicKey, expectedTip string, 
  if _,err:=os.Lstat(ledger+".lock");err==nil {
   return Result{},errors.New("HUB lock exists: do not inspect running evidence or automatically remove stale locks")
  }else if !errors.Is(err,os.ErrNotExist) {return Result{},fmt.Errorf("HUB lock check: %w",err)}
- measured,tip,err:=witness.AuditClosed(ledger,history,pub,expectedTip)
+ // Forensic inspection intentionally supports a historical prefix so it can
+ // return the explicit "unwitnessed_tail" HOLD category. Only when the
+ // verified last checkpoint equals measured end-of-ledger may it label
+ // evidence fully_witnessed. This function NEVER grants restart authority.
+ measured,tip,err:=witness.Audit(ledger,history,pub,expectedTip)
  if err!=nil {return Result{},fmt.Errorf("untrusted evidence: %w",err)}
  historyRows,err:=witness.ReadHistory(history,pub)
  if err!=nil || len(historyRows)==0 {return Result{},errors.New("signed history unavailable after audit")}
