@@ -162,3 +162,23 @@ func TestRejectNoWitnessHistory(t *testing.T){
  if err:=os.Remove(f.history);err!=nil{t.Fatal(err)}
  if f.verify()==nil{t.Fatal("missing off-HUB witness accepted")}
 }
+
+
+func TestRejectLedgerTailNotSignedByIndependentWitness(t *testing.T){
+ f:=fixture(t)
+ // The HUB may validly sign the original first-row receipt, while later
+ // inserting a second syntactically valid ledger row and recomputing its
+ // own local .head checkpoint. This must NOT be described as witnessed.
+ w,err:=os.OpenFile(f.ledger,os.O_APPEND|os.O_WRONLY,0600)
+ if err!=nil{t.Fatal(err)}
+ if _,err=w.WriteString("{\"unwitnessed\":true}\\n");err!=nil{t.Fatal(err)}
+ if err=w.Sync();err!=nil{t.Fatal(err)}
+ if err=w.Close();err!=nil{t.Fatal(err)}
+ newHead,err:=witness.Measure(f.ledger,nil)
+ if err!=nil{t.Fatal(err)}
+ b,err:=json.Marshal(newHead);if err!=nil{t.Fatal(err)}
+ if err=os.WriteFile(f.ledger+".head",b,0600);err!=nil{t.Fatal(err)}
+ if err=f.verify();err==nil{
+  t.Fatal("HUB-controlled appended ledger tail was mistaken for independently witnessed proof")
+ }
+}
