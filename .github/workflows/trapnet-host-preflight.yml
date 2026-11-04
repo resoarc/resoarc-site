@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: MIT
+name: TrapNet Offline Host Preflight Tests
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/ops/**'
+      - '.github/workflows/trapnet-host-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Run synthetic read-only preflight regressions
+        run: python -m unittest discover -s experiments/trapnet-zero-trust/ops -p 'test_*.py' -v
