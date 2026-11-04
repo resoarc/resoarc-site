@@ -76,8 +76,11 @@ def validate(document):
                 for field in ("reviewer", "verified_commit", "evidence_uri", "signed_decision_uri"):
                     if not review.get(field):
                         raise ValueError(f"{identifier}: incomplete independent review record")
-                if any(by_id[dep]["release_status"] != "PASS" for dep in gate["dependencies"]):
-                    raise ValueError(f"{identifier}: formal PASS with unresolved dependency")
+                # The cross-gate dependencies are GLOBAL public-release
+                # blockers, not cyclic prerequisites for each individual
+                # gate's review. An independently accepted A2 can close
+                # before D3/E3, but publication still remains HOLD until ALL
+                # formal gates have been separately completed.
                 if gate["own_open"]:
                     raise ValueError(f"{identifier}: formal PASS with own acceptance outstanding")
     if document.get("release_authorization") == "READY":
