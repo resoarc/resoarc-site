@@ -22,7 +22,7 @@ class ReleaseGateScorecardTests(unittest.TestCase):
         data=self.clone()
         self.assertTrue(scorecard.validate(data))
         self.assertEqual(scorecard.counts(data["gates"],"technical_status"),
-                         {"PASS":2,"PARTIAL":16,"TODO":2})
+                         {"PASS":3,"PARTIAL":15,"TODO":2})
         self.assertEqual(scorecard.counts(data["gates"],"release_status"),
                          {"PASS":1,"PARTIAL":17,"TODO":2})
         self.assertEqual(data["release_authorization"],"HOLD")
@@ -64,7 +64,7 @@ class ReleaseGateScorecardTests(unittest.TestCase):
 
     def test_cannot_infer_technical_pass_from_partial_test(self):
         data=self.clone()
-        self.item(data,"B2")["technical_status"]="PASS"
+        self.item(data,"B3")["technical_status"]="PASS"
         with self.assertRaisesRegex(ValueError,"own work incomplete"):
             scorecard.validate(data)
 
@@ -118,9 +118,25 @@ class ReleaseGateScorecardTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"ID duplication"):
             scorecard.validate(data)
 
+    def test_b2_formal_cannot_pass_until_deployment_evidence_exists(self):
+        data=self.clone()
+        b2=self.item(data,"B2")
+        self.assertEqual(b2["technical_status"],"PASS")
+        self.assertEqual(b2["release_status"],"PARTIAL")
+        self.assertTrue(b2["release_open"])
+        b2["release_status"]="PASS"
+        b2["review_approval"]={
+            "reviewer":"test-only",
+            "verified_commit":"335270ef0ad642beb16b562ab84aeb323e76bfd7",
+            "evidence_uri":"https://example.invalid/ci",
+            "signed_decision_uri":"https://example.invalid/decision",
+        }
+        with self.assertRaisesRegex(ValueError,"release-specific acceptance outstanding"):
+            scorecard.validate(data)
+
     def test_reports_all_twenty_and_explicit_hold(self):
         result=scorecard.report(self.clone())
-        self.assertIn("| ゲート固有の技術受入 | 2 | 16 | 2 |",result)
+        self.assertIn("| ゲート固有の技術受入 | 3 | 15 | 2 |",result)
         self.assertIn("| 従来の正式リリースゲート | 1 | 17 | 2 |",result)
         self.assertIn("A2",result)
         self.assertIn("D3",result)
