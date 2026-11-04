@@ -28,7 +28,7 @@ jobs:
           set -euo pipefail
           python3 experiments/trapnet-zero-trust/release/scorecard.py \
             --output experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
-          grep -F '| ゲート固有の技術受入 | 2 | 16 | 2 |' experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
+          grep -F '| ゲート固有の技術受入 | 3 | 15 | 2 |' experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
           grep -F '| 従来の正式リリースゲート | 1 | 17 | 2 |' experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
           grep -F '**HOLD**' experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
       - name: Upload non-sensitive evidence-status snapshot

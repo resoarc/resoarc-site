@@ -115,21 +115,30 @@
     {
       "id": "B2",
       "title": "コンテナ権限・資源上限",
-      "technical_status": "PARTIAL",
+      "technical_status": "PASS",
       "release_status": "PARTIAL",
-      "scope": "deployment",
+      "scope": "isolated real Cowrie nonroot/read-only rootfs/cap-drop/resource ceilings; 16MiB persistent ext4 + separate low-inode ENOSPC/recovery only, NOT production storage",
       "route": "internal",
-      "evidence_summary": "非root/cap-drop/OOM隔離試験",
-      "own_open": [
-        "rootfs完全read-only化",
-        "本番同等専用ストレージquota・inode・保持削除実証",
-        "変更時の切戻し証拠"
-      ],
+      "evidence_summary": "PR #56: real-Cowrie containment, actual in-container root write denial, private ext4 size and independent inode exhaustion/recovery 27/27 checks (production proof excluded)",
+      "own_open": [],
       "dependencies": [
         "E3"
       ],
-      "priority": 2,
-      "review_approval": null
+      "review_approval": null,
+      "release_open": [
+        "稼働中のVPSを含む実配備で専用容量・inode quotaを保護できる構成の採用と検証",
+        "本番ログの保管期限/削除・ローテーション、バックアップ保護と本番相当のリストア",
+        "独立した承認者による変更計画とロールバック手順の受入"
+      ],
+      "technical_evidence": [
+        {
+          "kind": "ci_artifact",
+          "uri": "https://github.com/resoarc/resoarc-site/actions/runs/41838784221",
+          "commit": "335270ef0ad642beb16b562ab84aeb323e76bfd7",
+          "artifact_name": "trapnet-real-cowrie-b2-runtime",
+          "sha256": "108af22c186696a1584ffb3965ef158fd56939a46a3bb61ee5e722b3c64e7c8c"
+        }
+      ]
     },
     {
       "id": "B3",
@@ -146,7 +155,8 @@
       "dependencies": [
         "E3"
       ],
-      "review_approval": null
+      "review_approval": null,
+      "priority": 3
     },
     {
       "id": "B4",
@@ -315,7 +325,7 @@
       "dependencies": [
         "E3"
       ],
-      "priority": 3,
+      "priority": 2,
       "review_approval": null
     },
     {

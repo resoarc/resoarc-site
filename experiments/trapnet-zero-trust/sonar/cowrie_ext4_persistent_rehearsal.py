@@ -49,7 +49,7 @@ def log_snapshot(log):
         count+=1
     return content,count
 
-def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=None,fault_hook=None):
+def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=None,fault_hook=None,runtime_hook=None):
     image_verified(image)
     if os.geteuid()!=0 or not sys.platform.startswith("linux"):
         raise RuntimeError("authorized Linux root only")
@@ -201,6 +201,12 @@ def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=N
         second_preflight=inspect_local(name,str(mountpoint))
         report["recreated_local_release_preflight"]=second_preflight["local_preflight_pass"]
         report["recreated_local_release_issues"]=second_preflight["issues"]
+        if runtime_hook is not None:
+            # Only this script's disposable Cowrie is supplied to an
+            # optional non-mutating runtime verification hook.
+            report["bounded_runtime_hook"]=runtime_hook(name,mountpoint,report) is True
+            if not report["bounded_runtime_hook"]:
+                raise RuntimeError("disposable runtime boundary HOLD")
         if recovery_hook is not None:
             report["signed_gap_recovery_hook"]=recovery_hook(root,mountpoint,report) is True
             if not report["signed_gap_recovery_hook"]:
@@ -237,6 +243,8 @@ def trial(image,storage_parent=None,wait_sec=3,failure_hook=None,recovery_hook=N
             report["passed"]=report["passed"] and report.get("signed_gap_failure_hook",False) and report.get("signed_gap_recovery_hook",False)
         if fault_hook is not None:
             report["passed"]=report["passed"] and report.get("fault_matrix_hook",False)
+        if runtime_hook is not None:
+            report["passed"]=report["passed"] and report.get("bounded_runtime_hook",False)
     return report
 
 def main():
