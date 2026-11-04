@@ -317,16 +317,26 @@
       "release_status": "PARTIAL",
       "scope": "privacy",
       "route": "internal",
-      "evidence_summary": "匿名集計プライバシー15テスト",
+      "evidence_summary": "PR #57: offline synthetic log retention dry-run + SHA256 approval and safe single-level deletion (14/14 Linux tests). No production data inventory, rotation or deletion E2E.",
       "own_open": [
-        "本番生ログの保持・アクセス・削除のE2E",
-        "プライバシー影響評価とレビュー"
+        "本番の生ログ・接続元IP・メタ情報の収集/保存経路と閲覧権限の全件棚卸",
+        "実データの保存期限・ローテーション・バックアップを含む削除E2Eと停止/問い合わせ手順",
+        "収集根拠・開示方針とプライバシー責任者による独立受入"
       ],
       "dependencies": [
         "E3"
       ],
       "priority": 2,
-      "review_approval": null
+      "review_approval": null,
+      "technical_evidence": [
+        {
+          "kind": "ci_artifact",
+          "uri": "https://github.com/resoarc/resoarc-site/actions/runs/41840858022",
+          "commit": "24055c8e4f26c3780048f0bb9d361a816db06228",
+          "artifact_name": "trapnet-e1-offline-retention-v060",
+          "sha256": "5766fbb8529f67d3ef09deb4601585c5b889adeede0418775b016a8e04e02597"
+        }
+      ]
     },
     {
       "id": "E2",
