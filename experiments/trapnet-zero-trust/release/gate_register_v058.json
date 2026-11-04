@@ -1,0 +1,372 @@
+{
+  "schema": "trapnet.release-gates.v058",
+  "as_of": "2026-11-04",
+  "source_tracker": "operator-held RELEASE_GATE_TRACKER_20261028.md (not included in public source)",
+  "baseline_commit": "bea7fe5d103f217acc4d9ffd9b0b9bea0c756aad",
+  "release_authorization": "HOLD",
+  "status_policy": {
+    "technical_PASS": "当該ゲートの範囲内で測定済みの試験だけを合格とする。A2は現存ログの欠落/途中破損/完全・意味的重複とHUB欠測通知に限る。過去の観測区間の完全性を保証しない。",
+    "release_PASS": "台帳で事前に定めた個別受入と担当者承認が実在する場合だけ。外部審査・複数運用者・鍵管理はD3/D4/E3で別途確認し、すべてがPASSまで一般公開HOLD。",
+    "separation": "技術PASSは公開承認でも正式リリース許可でもない。A1の既存release PASSは隔離試験としてのレガシー判定。A2のtechnical PASSを自動的にrelease PASSへ昇格しない。"
+  },
+  "gates": [
+    {
+      "id": "A1",
+      "title": "実CowrieのENOSPC再現",
+      "technical_status": "PASS",
+      "release_status": "PASS",
+      "scope": "lab",
+      "route": "none",
+      "evidence_summary": "v0.27 実Cowrie ENOSPC実測",
+      "own_open": [],
+      "dependencies": [],
+      "review_approval": null,
+      "technical_evidence": [
+        {
+          "kind": "local_json",
+          "uri": "v027-cowrie-enospc.json",
+          "sha256": "f627e3c87a23d7296132a35fc5ca52613bda4a70132138c573a11a2e7b02a6df",
+          "custody": "offline operator, provide --evidence-dir for local hash verification"
+        }
+      ]
+    },
+    {
+      "id": "A2",
+      "title": "ログ欠落・部分破損・重複",
+      "technical_status": "PASS",
+      "release_status": "PARTIAL",
+      "scope": "lab",
+      "route": "external",
+      "evidence_summary": "PR #46 45/45; #54 同一隔離CI通過",
+      "own_open": [],
+      "dependencies": [
+        "D3",
+        "E3"
+      ],
+      "priority": 1,
+      "review_approval": null,
+      "technical_evidence": [
+        {
+          "kind": "ci_artifact",
+          "uri": "https://github.com/resoarc/resoarc-site/actions/runs/40875700816",
+          "commit": "495a550a8faa3ce198daa1043bfd4d2ad98346a5",
+          "artifact_name": "trapnet-real-cowrie-a2-fault-matrix",
+          "sha256": "769673b5997eef6cdbd19ab79bb839f25ea938b14b106141b11f626112bd1146"
+        },
+        {
+          "kind": "ci_regression",
+          "uri": "https://github.com/resoarc/resoarc-site/actions/runs/41660722180",
+          "commit": "bea7fe5d103f217acc4d9ffd9b0b9bea0c756aad"
+        }
+      ]
+    },
+    {
+      "id": "A3",
+      "title": "ログ転送停止・復帰",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "integration",
+      "route": "mixed",
+      "evidence_summary": "PR #44 署名付き202/409; #45 Witness証跡",
+      "own_open": [
+        "10分超の未受領期間の照合",
+        "多件の永続キュー"
+      ],
+      "dependencies": [
+        "D3",
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "A4",
+      "title": "強制終了・停電・バックアップ復元",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "operational",
+      "route": "hardware",
+      "evidence_summary": "PR #43 実Cowrie SIGKILL/隔離ext4復旧",
+      "own_open": [
+        "本番相当の突然の電源断",
+        "別筐体バックアップからの完全復元"
+      ],
+      "dependencies": [
+        "D3",
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "B1",
+      "title": "保護LAN到達不能",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "physical-network",
+      "route": "hardware",
+      "evidence_summary": "v0.28 Dockerネット分離",
+      "own_open": [
+        "実ルータ・VLANを使ったPC/NAS/管理LAN到達不能確認"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "B2",
+      "title": "コンテナ権限・資源上限",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "deployment",
+      "route": "internal",
+      "evidence_summary": "非root/cap-drop/OOM隔離試験",
+      "own_open": [
+        "rootfs完全read-only化",
+        "本番同等専用ストレージquota・inode・保持削除実証",
+        "変更時の切戻し証拠"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "priority": 2,
+      "review_approval": null
+    },
+    {
+      "id": "B3",
+      "title": "大量イベント・異常入力",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "load",
+      "route": "internal",
+      "evidence_summary": "PR #43 ext4 ENOSPC署名HUB",
+      "own_open": [
+        "連続高負荷中のCPU/キュー飽和",
+        "イベント欠測HOLDと正常復帰"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "B4",
+      "title": "実行コードと公開ソース一致",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "provenance",
+      "route": "mixed",
+      "evidence_summary": "主要5ファイルSHA/systemd整合",
+      "own_open": [
+        "全Docker/依存/配布バイナリの再現ビルド",
+        "独立再現ハッシュ"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "C1",
+      "title": "署名済みGuardian配布/来歴",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "distribution",
+      "route": "external",
+      "evidence_summary": "3OSビルド・模擬署名改ざん拒否",
+      "own_open": [
+        "別管理Rootによる本物の配布署名",
+        "ソース/署名/配布物の来歴証明"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "C2",
+      "title": "OS別インストール・アンインストール",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "hardware",
+      "route": "hardware",
+      "evidence_summary": "PR #41 Windows/Linux x64/ARM64 CI",
+      "own_open": [
+        "実Raspberry Piで電源断・破損状態から完全削除/再導入"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "C3",
+      "title": "Root鍵更新・失効・状態消失",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "key-operations",
+      "route": "external",
+      "evidence_summary": "Root署名ポリシー検証",
+      "own_open": [
+        "独立鍵保管と実配布経路での失効・状態消失復旧"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "C4",
+      "title": "Guardian非侵襲性",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "platform",
+      "route": "hardware",
+      "evidence_summary": "PR #41 Linux syscall audit/Windows native",
+      "own_open": [
+        "Windows ETW/ファイアウォール通信監査",
+        "Pi実機・全分岐・配布版の非侵襲性"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "D1",
+      "title": "偽Sensor・リプレイ・Sybil耐性",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "multi-operator",
+      "route": "external",
+      "evidence_summary": "署名改ざん・失効・再送拒否CI",
+      "own_open": [
+        "異なる運用者による虚偽報告・複数HUB対抗試験"
+      ],
+      "dependencies": [
+        "D4",
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "D2",
+      "title": "悪意あるHUB・フィード改ざん",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "adversarial",
+      "route": "mixed",
+      "evidence_summary": "Guardian署名/版数/不正命令拒否CI",
+      "own_open": [
+        "実ネットワーク内の悪意HUBからの偽フィード拒否",
+        "独立Root/Witness証拠"
+      ],
+      "dependencies": [
+        "D3",
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "D3",
+      "title": "Witness外部保管と履歴改ざん",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "independent-custody",
+      "route": "external",
+      "evidence_summary": "PR #48 2物理ホスト; #54 全署名台帳頭照合",
+      "own_open": [
+        "別管理主体のWitness秘密鍵・履歴保管",
+        "不変オフサイトtipと実停電/断線復旧",
+        "鍵失効・独立承認"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "D4",
+      "title": "複数独立運用者",
+      "technical_status": "TODO",
+      "release_status": "TODO",
+      "scope": "operators",
+      "route": "external",
+      "evidence_summary": "未実施",
+      "own_open": [
+        "別の運用者2組織による登録・所有確認・失効・退出"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "E1",
+      "title": "個人情報・ログ保持削除",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "privacy",
+      "route": "internal",
+      "evidence_summary": "匿名集計プライバシー15テスト",
+      "own_open": [
+        "本番生ログの保持・アクセス・削除のE2E",
+        "プライバシー影響評価とレビュー"
+      ],
+      "dependencies": [
+        "E3"
+      ],
+      "priority": 3,
+      "review_approval": null
+    },
+    {
+      "id": "E2",
+      "title": "AIプロンプト注入耐性",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "ai-safety",
+      "route": "mixed",
+      "evidence_summary": "PR #53 実HUB/Guardian 67 assertions",
+      "own_open": [
+        "正式Root署名ポリシーでの受入",
+        "実LLM→Sonar→HUB→Guardian全経路と独立監査"
+      ],
+      "dependencies": [
+        "C1",
+        "E3"
+      ],
+      "review_approval": null
+    },
+    {
+      "id": "E3",
+      "title": "独立外部レビュー",
+      "technical_status": "TODO",
+      "release_status": "TODO",
+      "scope": "independent-review",
+      "route": "external",
+      "evidence_summary": "Issue #31/#47/#49 募集",
+      "own_open": [
+        "実在の独立レビュアーによるCritical/High監査と解消確認"
+      ],
+      "dependencies": [],
+      "review_approval": null
+    },
+    {
+      "id": "E4",
+      "title": "緊急停止・更新・巻き戻し",
+      "technical_status": "PARTIAL",
+      "release_status": "PARTIAL",
+      "scope": "incident-response",
+      "route": "mixed",
+      "evidence_summary": "PR #40/41 緊急停止・解除の実CLI",
+      "own_open": [
+        "全サービス系統での停止・キー失効",
+        "本番相当の更新巻き戻し・複数人訓練"
+      ],
+      "dependencies": [
+        "D4",
+        "E3"
+      ],
+      "review_approval": null
+    }
+  ]
+}
