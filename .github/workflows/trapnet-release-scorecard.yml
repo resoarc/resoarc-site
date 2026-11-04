@@ -1,0 +1,40 @@
+name: TrapNet Release Gate Accounting
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/release/**'
+      - '.github/workflows/trapnet-release-scorecard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-gate-register:
+    name: Validate gate evidence accounting (no automatic approvals)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate all twenty gates, PASS guardrails and evidence pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s experiments/trapnet-zero-trust/release -p 'test_scorecard.py' -v
+      - name: Produce two-axis scoreboard without releasing anything
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 experiments/trapnet-zero-trust/release/scorecard.py \
+            --output experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
+          grep -F '| ゲート固有の技術受入 | 2 | 16 | 2 |' experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
+          grep -F '| 従来の正式リリースゲート | 1 | 17 | 2 |' experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
+          grep -F '**HOLD**' experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
+      - name: Upload non-sensitive evidence-status snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-release-gate-scorecard-v058
+          path: experiments/trapnet-zero-trust/release/GATE_SCORECARD_RUN.md
+          retention-days: 30
+          if-no-files-found: error
