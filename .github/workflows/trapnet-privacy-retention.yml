@@ -1,0 +1,48 @@
+name: TrapNet Offline Privacy Retention Safety
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/trapnet-zero-trust/privacy/**'
+      - '.github/workflows/trapnet-privacy-retention.yml'
+      - 'experiments/trapnet-zero-trust/docs/offline-retention-e1-v060.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retention-offline-only:
+    name: E1 synthetic retention dry-run, pinning and safe deletion
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require Linux local file-descriptor safety support
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -c 'import os; assert hasattr(os,"O_NOFOLLOW") and hasattr(os,"O_DIRECTORY") and os.name=="posix"'
+      - name: Run 14 fail-closed and positive synthetic-only checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 privacy/run_retention_lab.py | tee privacy-retention-evidence.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("privacy-retention-evidence.json").read_text())
+          assert r["passed"] and r["checks_passed"]==14 and not r["release_approved"]
+          assert r["synthetic_only"] and not r["production_modified"]
+          PY
+      - name: Upload anonymous retention rehearsal result only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trapnet-e1-offline-retention-v060
+          path: experiments/trapnet-zero-trust/privacy-retention-evidence.json
+          retention-days: 30
+          if-no-files-found: warn
