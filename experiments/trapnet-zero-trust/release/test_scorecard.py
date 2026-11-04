@@ -41,17 +41,25 @@ class ReleaseGateScorecardTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"independent review"):
             scorecard.validate(data)
 
-    def test_even_named_reviewer_cannot_bypass_unresolved_dependency(self):
+    def test_scoped_formal_review_can_close_before_global_release(self):
+        # A hypothetical structurally complete external review can close A2
+        # independently of D3/E3. This test does not authenticate a reviewer,
+        # and NEVER edits the actual manifest.
         data=self.clone()
         a2=self.item(data,"A2")
         a2["release_status"]="PASS"
         a2["review_approval"]={
-            "reviewer":"not-verified@example.invalid",
-            "verified_commit":"placeholder",
+            "reviewer":"unverified-test-reviewer",
+            "verified_commit":"495a550a8faa3ce198daa1043bfd4d2ad98346a5",
             "evidence_uri":"https://example.invalid/ci",
             "signed_decision_uri":"https://example.invalid/decision"
         }
-        with self.assertRaisesRegex(ValueError,"unresolved dependency"):
+        self.assertTrue(scorecard.validate(data))
+        self.assertEqual(data["release_authorization"],"HOLD")
+        self.assertEqual(self.item(data,"D3")["release_status"],"PARTIAL")
+        self.assertEqual(self.item(data,"E3")["release_status"],"TODO")
+        data["release_authorization"]="READY"
+        with self.assertRaisesRegex(ValueError,"release READY"):
             scorecard.validate(data)
 
     def test_cannot_infer_technical_pass_from_partial_test(self):
