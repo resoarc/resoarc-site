@@ -118,6 +118,15 @@ class ReleaseGateScorecardTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"ID duplication"):
             scorecard.validate(data)
 
+    def test_e1_rehearsal_does_not_count_as_raw_log_compliance(self):
+        data=self.clone()
+        e1=self.item(data,"E1")
+        self.assertEqual(e1["technical_status"],"PARTIAL")
+        self.assertEqual(e1["release_status"],"PARTIAL")
+        self.assertIn("14/14",e1["evidence_summary"])
+        self.assertEqual(len(e1["own_open"]),3)
+        self.assertEqual(data["release_authorization"],"HOLD")
+
     def test_b2_formal_cannot_pass_until_deployment_evidence_exists(self):
         data=self.clone()
         b2=self.item(data,"B2")
