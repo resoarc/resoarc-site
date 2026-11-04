@@ -35,6 +35,11 @@ def validate(document):
             raise ValueError(f"{identifier}: invalid owner route")
         if not isinstance(gate.get("own_open"), list):
             raise ValueError(f"{identifier}: missing acceptance checklist")
+        if "release_open" in gate and (
+            not isinstance(gate["release_open"], list)
+            or any(not isinstance(v,str) or not v for v in gate["release_open"])
+        ):
+            raise ValueError(f"{identifier}: invalid release acceptance checklist")
         if not isinstance(gate.get("dependencies"), list):
             raise ValueError(f"{identifier}: missing dependencies")
         if any(dep not in ALL_IDS or dep == identifier for dep in gate["dependencies"]):
@@ -64,6 +69,8 @@ def validate(document):
                     raise ValueError(f"{identifier}: wrong CI origin or missing commit SHA")
         if formal == "PASS" and functional != "PASS":
             raise ValueError(f"{identifier}: formal PASS without technical PASS")
+        if formal == "PASS" and gate.get("release_open"):
+            raise ValueError(f"{identifier}: release-specific acceptance outstanding")
         if formal == "PASS":
             # Legacy A1 status was already accepted as a limited lab
             # component. All *new* formal approvals require a separate
@@ -161,7 +168,8 @@ def report(document):
         "|---|---|---|---|---|",
     ]
     for g in gates:
-        own = "、".join(g["own_open"]) if g["own_open"] else ("依存：" + "、".join(g["dependencies"]) if g["dependencies"] else "なし")
+        pending = g.get("release_open", []) if g["technical_status"] == "PASS" else g["own_open"]
+        own = "、".join(pending) if pending else ("依存：" + "、".join(g["dependencies"]) if g["dependencies"] else "なし")
         lines.append(f"| {g['id']} | {g['title']} | {g['technical_status']} | {g['release_status']} | {own} |")
     return "\n".join(lines) + "\n"
 
