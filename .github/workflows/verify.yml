@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Playwright 1.56 Chromium does not support Ubuntu 26.04 yet
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -39,6 +39,8 @@ jobs:
           node scripts/test_scorecard_live.mjs
       - name: Check public site source, links and checksums
         run: python scripts/verify_site.py
+      - name: Verify tracked release ZIP integrity and interim license notices
+        run: python scripts/audit_release_license_evidence.py
       - name: Validate browser tool JavaScript
         run: |
           node --check site/assets/tools/hash.js
