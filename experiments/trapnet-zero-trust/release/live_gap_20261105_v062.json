@@ -1,0 +1,33 @@
+{
+  "schema": "trapnet.operational-gap-evidence.v062",
+  "as_of": "2026-11-05",
+  "public_release": "HOLD",
+  "source": "authorized VPS Docker state / systemd guard metadata; no raw event contents",
+  "incident": "cowrie-active-json-log-mode-0664",
+  "gap_start_utc": "2026-11-05T01:12:50Z",
+  "gap_end_utc": "2026-11-05T13:39:52Z",
+  "start_precision": "seconds",
+  "end_precision": "seconds",
+  "reported_attacks_during_gap": null,
+  "claim_zero_attacks": false,
+  "signed_sensor_gap_report": false,
+  "independent_witness_ack": false,
+  "stop_behavior": "all-three-observation-containers-protective-stop",
+  "deployment_v062": {
+    "known_mode_dry_run": "HOLD",
+    "known_mode_repair": "PASS",
+    "all_three_services_restored": true,
+    "network_boundary_check": "PASS",
+    "bounded_storage_guard": "PASS",
+    "linux_negative_and_positive_tests": 14,
+    "external_human_review": false
+  },
+  "formal_gate_updates": [],
+  "remaining_gates": [
+    "A3",
+    "B2",
+    "E1",
+    "E3"
+  ],
+  "note": "Times represent Docker metadata and monitored restoration, not a proof of log completeness."
+}

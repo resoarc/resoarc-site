@@ -5,6 +5,8 @@ on:
   pull_request:
     paths:
       - 'experiments/trapnet-zero-trust/ops/**'
+      - 'experiments/trapnet-zero-trust/release/live_gap_20261105_v062.json'
+      - 'experiments/trapnet-zero-trust/release/test_live_gap_v062.py'
       - '.github/workflows/trapnet-host-preflight.yml'
   workflow_dispatch:
 
@@ -22,3 +24,5 @@ jobs:
           python-version: '3.10'
       - name: Run synthetic read-only preflight regressions
         run: python -m unittest discover -s experiments/trapnet-zero-trust/ops -p 'test_*.py' -v
+      - name: Prove observed outage is not misreported as zero attacks
+        run: python -m unittest discover -s experiments/trapnet-zero-trust/release -p 'test_live_gap_v062.py' -v
