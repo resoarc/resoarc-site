@@ -1,0 +1,192 @@
+{
+  "schema": "resoarc-release-licensing-audit-v1",
+  "snapshot_date": "2026-11-06",
+  "source_branch": "main",
+  "evidence_source": "GitHub public contents API and raw ZIP bytes",
+  "scope": "site/downloads/*.zip (tracked releases only)",
+  "companion_license": "site/downloads/LICENSE",
+  "companion_notice": "site/downloads/NOTICE.md",
+  "distribution_evidence_verified": false,
+  "all_license_obligations_verified": false,
+  "warning": "Existing signed installable packages lack embedded LICENSE. Sidecars are interim; check user-facing delivery and full obligations before claiming OSPS-LE-03.02 or OpenChain conformance.",
+  "assets": [
+    {
+      "filename": "resoarc-auto-number-signed-qa.zip",
+      "sha256": "69868db78f8ff6305e175b8ec159e68cefb735a259b9ba85f77af3b8514615ff",
+      "bytes": 9902,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-auto-number-v1.0.0.zip",
+      "sha256": "fd7d0873f8ebf7551ebc2a08116952e8b60c91e396600e5b800e0eba752145d9",
+      "bytes": 9043,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-auto-number-v1.1.0-beta.zip",
+      "sha256": "c2de1c7735e8c32a364b6d6d4de340d593a55b3a8c38dd369cc2feac73016d9b",
+      "bytes": 9916,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-conditional-format-signed-qa.zip",
+      "sha256": "283d7e2af5fdb0f9c308247b0c97fbd4db29627adf9128833b97f26b0152b473",
+      "bytes": 9432,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+      "sha256": "64ef943d7c302bd747042ea265723a94e16308ec46559238bcd1f38731c8d249",
+      "bytes": 15584,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "conditional-format-v0.1.0-alpha/LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarc-conditional-signed-qa.zip",
+      "sha256": "3c50e7cdf92fcdecaa17edabd48d3cf3056ee6e352b2845d66edc07e8cf5a279",
+      "bytes": 7697,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-date-calculator-signed-qa.zip",
+      "sha256": "2053e8914dbb47d933f1a39092b2374e3e1a464bc09c0757b6251d24a91d0fdb",
+      "bytes": 9882,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+      "sha256": "251fcb2bdcb7a7d848a41ff705cc6f86b2c370a1c60fa3413e0468bd848a38d4",
+      "bytes": 17029,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "date-calculator-v0.1.0-alpha/LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarc-grid-editor-signed-qa.zip",
+      "sha256": "9eca70f1f03944784eb3c9114511c4bd1c93dcaceee3e605007fdce6a8f1ec41",
+      "bytes": 11921,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+      "sha256": "fb806021a2947dea7ef821a5d8751455445f80fcd9e0d49ce070e7d6d5f95604",
+      "bytes": 22050,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "grid-editor-v0.1.0-alpha/LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarc-kanban-signed-qa.zip",
+      "sha256": "6c37aa7a701cad45303426048ba9cde237e976325590ae1ac9288fbebf549051",
+      "bytes": 8938,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-kanban-v0.1.0-alpha-source.zip",
+      "sha256": "b22336e832ac89a44f583be3a45da70e52a41d761d46da8d7b8dee047eb192bf",
+      "bytes": 14988,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "kanban-v0.1.0-alpha/LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarc-list-search-signed-qa.zip",
+      "sha256": "2bec234b936b6e3336f4444687302b8ec53e6f90c9b00262a21c17e4ad9c87d6",
+      "bytes": 11504,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-list-search-v0.1.0-alpha-source.zip",
+      "sha256": "55967bf46daede50ffd38c76794164dedc7dc72b43eb463ba9fc1f9fa32f9572",
+      "bytes": 21028,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "list-search-v0.1.0-alpha/LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarc-tabs-signed-qa.zip",
+      "sha256": "1d91b317497366828082973e243d3a4568581f96fee75ec7b84300db93941908",
+      "bytes": 7998,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-tabs-v0.1.0-beta.zip",
+      "sha256": "5eba44271945185e777c7e55af816d4644223d9fe9e2925c8b05fd116bd58689",
+      "bytes": 8002,
+      "signed_installable": true,
+      "embedded_license": false,
+      "embedded_license_paths": []
+    },
+    {
+      "filename": "resoarc-web8-v1.0.0-source.zip",
+      "sha256": "d9bee5d112c706b322037d4c2a595d24d39148b1d84e00856732f48114526374",
+      "bytes": 41439,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarcos-pc-v0.1.0-dev-source.zip",
+      "sha256": "72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20",
+      "bytes": 46159,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarcos-pc-v0.1.1-dev-source.zip",
+      "sha256": "ad60fd5629e91ae4c045d7411ff8a821eb4a442900127a6d89514b738e481ac4",
+      "bytes": 101001,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "LICENSE"
+      ]
+    },
+    {
+      "filename": "resoarcos-pi-firstboot-v0.2.1-alpha-source.zip",
+      "sha256": "d8beeccf39f457b45fa469285af6b905b4d4dc11aa8dae36af7b1ac145dd47c1",
+      "bytes": 76059,
+      "signed_installable": false,
+      "embedded_license": true,
+      "embedded_license_paths": [
+        "LICENSE"
+      ]
+    }
+  ]
+}
