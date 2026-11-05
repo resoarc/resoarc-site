@@ -20,21 +20,20 @@ func write(t *testing.T,value string)string{
 }
 func TestCanonicalSignedInputAccepted(t *testing.T){
     var v fixture
-    if err:=decodeCanonical(write(t,"{"a":"ok","b":3}
-"),200,&v);err!=nil{t.Fatal(err)}
+    if err:=decodeCanonical(write(t,`{"a":"ok","b":3}`),200,&v);err!=nil{t.Fatal(err)}
     if v.A!="ok"||v.B!=3{t.Fatalf("%+v",v)}
 }
 func TestDuplicateJSONKeysRejected(t *testing.T){
     var v fixture
-    if err:=decodeCanonical(write(t,"{"a":"first","a":"second","b":3}"),200,&v);err==nil{
+    if err:=decodeCanonical(write(t,`{"a":"first","a":"second","b":3}`),200,&v);err==nil{
         t.Fatal("duplicate key accepted")
     }
 }
 func TestUnknownOrReorderedFieldsRejected(t *testing.T){
     for _,raw:=range []string{
-        "{"a":"ok","b":3,"unreviewed":true}",
-        "{"b":3,"a":"ok"}",
-        "{"a":"ok","b":3}{"a":"x"}",
+        `{"a":"ok","b":3,"unreviewed":true}`,
+        `{"b":3,"a":"ok"}`,
+        `{"a":"ok","b":3}{"a":"x"}`,
     }{
         var v fixture
         if err:=decodeCanonical(write(t,raw),200,&v);err==nil{t.Fatal("noncanonical evidence accepted")}
