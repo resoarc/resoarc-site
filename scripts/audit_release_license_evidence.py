@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 import zipfile
 from pathlib import Path
@@ -71,6 +72,25 @@ def run(strict: bool = False) -> int:
 
     if strict and (without_embedded_license or not evidence.get("distribution_evidence_verified") or not evidence.get("all_license_obligations_verified")):
         problems.append("conformance gate remains HOLD: distribution evidence/full obligations not proven")
+    # Each signed QA install button must display the specific license/notice
+    # links in the same product card. This asserts source-page discoverability,
+    # not cloud deployment or downstream delivery.
+    qa_page = ROOT / "site" / "products" / "kintone" / "qa" / "index.html"
+    if not qa_page.is_file():
+        problems.append("signed QA download page missing")
+    else:
+        html = qa_page.read_text(encoding="utf-8")
+        cards = re.findall(r'<article class="product-card">(.*?)</article>', html, flags=re.S)
+        signed_qa = [row["filename"] for row in recorded if row["filename"].endswith("-signed-qa.zip")]
+        if len(cards) != len(signed_qa):
+            problems.append(f"signed QA download card mismatch: {len(cards)} cards for {len(signed_qa)} signed QA assets")
+        for filename in signed_qa:
+            matched_cards = [card for card in cards if f'/downloads/{filename}' in card]
+            if len(matched_cards) != 1:
+                problems.append(f"QA installer link missing or duplicated: {filename}")
+            elif '/downloads/LICENSE' not in matched_cards[0] or '/downloads/NOTICE.md' not in matched_cards[0]:
+                problems.append(f"missing adjacent license/notice links for {filename}")
+
     if problems:
         for problem in problems:
             print(f"ERROR: {problem}", file=sys.stderr)
