@@ -10,10 +10,10 @@
 This program governs open source licensing, third-party attribution and accompanying artifacts for the following **initial narrow scope**, not for the whole ResoArc organization:
 
 - Browser-only utilities implemented by `site/assets/tools/hash.js` and `site/assets/tools/csv.js`, their corresponding public tool pages and any specifically identified source release.
-- The associated first-party source, direct build/runtime dependencies (if any), user documentation and distribution metadata.
+- The first-party HTML pages at `site/tools/hash/index.html` and `site/tools/csv/index.html`, plus their directly delivered assets: shared stylesheets, JavaScript, first-party SVG icons/screenshots, `site/assets/fonts/noto-serif-jp-v10.woff2` (OFL-1.1), and the referenced Unsplash hero image (separately licensed) where applicable. The source tree, build/runtime dependencies, user documentation and distribution metadata are in scope for these pages. Their rights must be inventoried and reviewed before conformance.
 - The exact public repository is `resoarc/resoarc-site`; third-party rights remain subject to each rights holder's license.
 
-**Out of scope pending separate review:** every signed kintone plugin ZIP, the remaining Web8 tools, ResoArcOS, TrapNet, third-party photos/fonts and experimental releases. This is not an assertion that out-of-scope software is compliant. The separate ResoArc-wide OSPS Baseline work may cover a wider repository. Scope expansion requires an explicit change record, component inventory, release-by-release evidence and approval.
+**Out of scope pending separate review:** every signed kintone plugin ZIP, the remaining Web8 tools, ResoArcOS, TrapNet, unrelated pages/assets and other experimental releases. Third-party assets *actually used by the two in-scope tool pages remain in scope*. This is not an assertion that out-of-scope software is compliant. The separate ResoArc-wide OSPS Baseline work may cover a wider repository. Scope expansion requires an explicit change record, component inventory, release-by-release evidence and approval.
 
 This document establishes a procedure. **Its existence alone does not demonstrate the procedure is in use**, staffed, funded, reviewed or self-certified. Do not submit OpenChain conformance while evidence items in the companion register remain unresolved.
 
