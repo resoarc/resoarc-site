@@ -48,8 +48,8 @@ def audit() -> list[str]:
     extra = set(expected) - set(tracked)
     if extra:
         errors.append("reviewed asset inventory no longer matches tracked tree: " + str(sorted(extra)))
-    if len(expected) != 34:
-        errors.append(f"expected reviewed graphic/font assets: 34, now {len(expected)}")
+    if len(expected) != 38:
+        errors.append(f"expected reviewed graphic/font assets: 38, now {len(expected)}")
     return errors
 
 
@@ -57,6 +57,6 @@ if __name__ == "__main__":
     errors = audit()
     for issue in errors:
         print("FAIL:", issue, file=sys.stderr)
-    print(f"Current source-tree binary audit: 34 visual/font assets, {len(errors)} issues")
+    print(f"Current source-tree binary audit: 38 visual/font assets, {len(errors)} issues")
     print("The archive release and historical git commits are not overwritten or claimed to be independent audits.")
     raise SystemExit(1 if errors else 0)

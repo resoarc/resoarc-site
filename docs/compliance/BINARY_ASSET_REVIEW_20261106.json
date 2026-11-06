@@ -13,7 +13,21 @@
       "license_expression": "MIT"
     },
     {
+      "path": "plugins/auto-number/v1.0.1/src/image/icon.png",
+      "format": "png",
+      "size": 710,
+      "sha256": "e2cca515083ec83b9de419ca0b7d41ad090c524ee394b00033dc72739c52459a",
+      "license_expression": "MIT"
+    },
+    {
       "path": "plugins/auto-number/v1.1.0-beta/src/image/icon.png",
+      "format": "png",
+      "size": 710,
+      "sha256": "e2cca515083ec83b9de419ca0b7d41ad090c524ee394b00033dc72739c52459a",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/auto-number/v1.1.1-beta/src/image/icon.png",
       "format": "png",
       "size": 710,
       "sha256": "e2cca515083ec83b9de419ca0b7d41ad090c524ee394b00033dc72739c52459a",
@@ -55,7 +69,21 @@
       "license_expression": "MIT"
     },
     {
+      "path": "plugins/kanban/v0.1.1-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
       "path": "plugins/list-search/v0.1.0-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/list-search/v0.1.1-alpha/src/image/icon.png",
       "format": "png",
       "size": 758,
       "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
