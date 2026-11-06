@@ -1,0 +1,309 @@
+{
+  "version": "1",
+  "scope": "all 13 separately released source ZIP archives including recovered site",
+  "signed_release_members": [
+    {
+      "asset": "resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-auto-number-signed-qa.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-auto-number-v1.0.0.zip",
+      "matched_source_archive_members": 3,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "html/config.html",
+        "manifest.json"
+      ]
+    },
+    {
+      "asset": "resoarc-auto-number-v1.1.0-beta.zip",
+      "matched_source_archive_members": 6,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": [
+        "html/config.html",
+        "manifest.json"
+      ]
+    },
+    {
+      "asset": "resoarc-conditional-format-signed-qa.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+        "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+        "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+        "resoarc-kanban-v0.1.0-alpha-source.zip",
+        "resoarc-list-search-v0.1.0-alpha-source.zip",
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-conditional-signed-qa.zip",
+      "matched_source_archive_members": 7,
+      "total_nested_files": 7,
+      "source_archive_candidates": [
+        "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+        "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+        "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+        "resoarc-kanban-v0.1.0-alpha-source.zip",
+        "resoarc-list-search-v0.1.0-alpha-source.zip",
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-date-calculator-signed-qa.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+        "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+        "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+        "resoarc-kanban-v0.1.0-alpha-source.zip",
+        "resoarc-list-search-v0.1.0-alpha-source.zip",
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-grid-editor-signed-qa.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+        "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+        "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+        "resoarc-kanban-v0.1.0-alpha-source.zip",
+        "resoarc-list-search-v0.1.0-alpha-source.zip",
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-kanban-signed-qa.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+        "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+        "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+        "resoarc-kanban-v0.1.0-alpha-source.zip",
+        "resoarc-list-search-v0.1.0-alpha-source.zip",
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-list-search-signed-qa.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+        "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+        "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+        "resoarc-kanban-v0.1.0-alpha-source.zip",
+        "resoarc-list-search-v0.1.0-alpha-source.zip",
+        "resoarc-site-20261017-recovered-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 8,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/qr-lib.js",
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    },
+    {
+      "asset": "resoarc-tabs-signed-qa.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-site-20261017-recovered-source.zip",
+        "resoarc-tabs-v1.0.0-signed-package-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-tabs-v0.1.0-beta.zip",
+      "matched_source_archive_members": 7,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-site-20261017-recovered-source.zip",
+        "resoarc-tabs-v1.0.0-signed-package-source.zip"
+      ],
+      "unmatched": [
+        "manifest.json"
+      ]
+    },
+    {
+      "asset": "resoarc-tabs-v1.0.0-20261021.zip",
+      "matched_source_archive_members": 8,
+      "total_nested_files": 8,
+      "source_archive_candidates": [
+        "resoarc-site-20261017-recovered-source.zip",
+        "resoarc-tabs-v1.0.0-signed-package-source.zip"
+      ],
+      "unmatched": []
+    },
+    {
+      "asset": "resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "matched_source_archive_members": 0,
+      "total_nested_files": 7,
+      "source_archive_candidates": [],
+      "unmatched": [
+        "js/desktop.js",
+        "js/mobile.js",
+        "js/config.js",
+        "css/config.css",
+        "html/config.html",
+        "manifest.json",
+        "image/icon.png"
+      ]
+    }
+  ]
+}

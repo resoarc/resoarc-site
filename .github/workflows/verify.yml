@@ -34,6 +34,8 @@ jobs:
         run: python scripts/check_direct_dependencies.py
       - name: Verify all 35 release assets are listed with their licenses
         run: python scripts/verify_osps_35_license_delivery.py
+      - name: Audit signed release provenance and human approval boundaries (OSPS-LE-02.02)
+        run: python scripts/check_osps_le02_signed_provenance.py
       - name: Check immutable ResoArcOS source ZIP
         run: |
           python scripts/verify_resoarcos_snapshot.py
