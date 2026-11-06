@@ -71,3 +71,15 @@ These links are listed to ensure no source/QA release loses its corresponding pr
 **Integrity and mirror:** [immutable SHA-256 audit](compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.json), and [GitHub historical archive release](https://github.com/resoarc/resoarc-site/releases/tag/resoarc-osps-distribution-mirror-20261106). The archive release contains the same historical ZIP bytes plus the first-party LICENSE and NOTICE, but not a blanket security certification.
 
 **Limitations:** Publication of this map does not prove every individual user's receipt of notices, nor that every experimental capability is supported. This is a source/release documentation index; review actual product-specific pages before release.
+
+## CodeQL v0.69 signed successor QA and Web8 v1.0.1
+
+These versioned files do not replace the old signed or frozen GA archives. kintone tenant acceptance remains incomplete. Verify SHA-256 in site/downloads/resoarc-codeql17-v069-release-manifest.json.
+
+- resoarc-auto-number-v1.0.1-signed.zip (signed QA) and resoarc-auto-number-v1.0.1-source.zip (source)
+- resoarc-auto-number-v1.1.1-beta-signed.zip (signed QA) and resoarc-auto-number-v1.1.1-beta-source.zip (source)
+- resoarc-kanban-v0.1.1-alpha-signed.zip (signed QA) and resoarc-kanban-v0.1.1-alpha-source.zip (source)
+- resoarc-list-search-v0.1.1-alpha-signed.zip (signed QA) and resoarc-list-search-v0.1.1-alpha-source.zip (source)
+- resoarc-web8-v1.0.1-source.zip (Web8 v1.0.1 source)
+
+User entry points: site/products/web/v1.0.1/index.html and site/products/kintone/qa/index.html. The eight v1.0.1 Web8 pages are under site/tools/v1.0.1/.

@@ -1,0 +1,90 @@
+{
+  "schema": "resoarc.web8-maintenance.v1",
+  "version": "1.0.1",
+  "old_version_preserved": true,
+  "source_archive": "resoarc-web8-v1.0.1-source.zip",
+  "sha256": "7456e5bd72a5c22288bbdc6d370d0d72af45ab577fdf7da904ff4a79ceaf6f42",
+  "bytes": 41773,
+  "routes": [
+    "/tools/v1.0.1/kintone-bulk-preview/",
+    "/tools/v1.0.1/kintone-app-diff/",
+    "/tools/v1.0.1/kintone-permission-audit/",
+    "/tools/v1.0.1/kintone-import-check/",
+    "/tools/v1.0.1/kintone-duplicates/",
+    "/tools/v1.0.1/kintone-lookup-audit/",
+    "/tools/v1.0.1/kintone-cross-aggregate/",
+    "/tools/v1.0.1/kintone-print-report/"
+  ],
+  "sources": [
+    {
+      "path": "LICENSE",
+      "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+    },
+    {
+      "path": "docs/WEB8_V101_RELEASE.md",
+      "sha256": "2e4371c96454e79fff468709f1a97ab02ef699ec8de3653a7949c961efd8ff62"
+    },
+    {
+      "path": "site/assets/tools/app-diff.js",
+      "sha256": "0fbfc8e97d5da0a1059468a128aafd662a01a61f01cb6e2293468c267611cb7e"
+    },
+    {
+      "path": "site/assets/tools/import-diagnose-core.js",
+      "sha256": "6e302ea6b7ea31c0d457784a4593cb0c745cb2b56914d6b278ed807d2370039c"
+    },
+    {
+      "path": "site/assets/tools/import-diagnose-ui.js",
+      "sha256": "5081c11d76411c6486727ec0636e298a498638ec4cb1a2f3506353558e10fc09"
+    },
+    {
+      "path": "site/assets/tools/suite-core-v1.0.1.js",
+      "sha256": "3c5a5890e24262b8d98fc9dd72655976cb32c52baa3562f2d2e525024d2bb6f1"
+    },
+    {
+      "path": "site/assets/tools/suite-ui.js",
+      "sha256": "0492d010dc8f99109e63bab4830b3e1a4e9307505a31595af4e883e32b5fc82e"
+    },
+    {
+      "path": "site/assets/tools/suite.css",
+      "sha256": "bae800ff1441d6b44ad69c346ee2d156f16b2971ccc59ee578f6399c8b1078cf"
+    },
+    {
+      "path": "site/products/web/v1.0.1/index.html",
+      "sha256": "c81cf0d53fa731a5e7716dcbba371246ec34dce3dc55042482297ed663f3cbea"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-app-diff/index.html",
+      "sha256": "e374e2f9e5a850861aa398fa61b545dfed8e6a98755041c2b1de27ca11145100"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-bulk-preview/index.html",
+      "sha256": "8dd1d5cd2d48078d82ed54763aaf8bfdce1c253acf8ff0d6ff992f9c35b09c3e"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-cross-aggregate/index.html",
+      "sha256": "69d728e98ea47ec681998b3d639dbbac0754fa4541377a20afe76b7646e7073e"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-duplicates/index.html",
+      "sha256": "097adb6e9025cdefad9a2400d7023dd193c7f42adf34d07f29f607661361f174"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-import-check/index.html",
+      "sha256": "92450a8159eb37870e1ff9732b65f88a2fda807eec00c494469f5bfa361fc31b"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-lookup-audit/index.html",
+      "sha256": "a8603d3e153a58e4619219e128c0885f56c9b122218d439b217f29b870fde9b6"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-permission-audit/index.html",
+      "sha256": "85d92cfc2c0720fafd362524f9e35fc7a0f43060e94482bd6c9a59daaefea377"
+    },
+    {
+      "path": "site/tools/v1.0.1/kintone-print-report/index.html",
+      "sha256": "42b06b68814b5e8ff5b6c276522319def04d9251cd72fb017aa68f5056a32f23"
+    }
+  ],
+  "independent_review": false,
+  "publication_confirmed": false
+}

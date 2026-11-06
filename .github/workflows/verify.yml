@@ -22,6 +22,8 @@ jobs:
           node-version: "22"
       - name: Hydrate exact historical ZIP assets from verified GitHub Release
         run: python scripts/verify_external_archive_mirror.py --hydrate
+      - name: Hydrate and verify new CodeQL17 signed and source releases
+        run: python scripts/verify_codeql17_release_v069.py --hydrate
       - name: Audit workflow trust boundaries (OSPS-BR-01.01/01.03)
         run: python scripts/check_workflow_security.py
       - name: Prevent accidental tracked-secret commits (OSPS-BR-07.01)

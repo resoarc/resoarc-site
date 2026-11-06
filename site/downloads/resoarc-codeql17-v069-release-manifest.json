@@ -1,0 +1,115 @@
+{
+  "schema": "resoarc.codeql17.successor-release.v1",
+  "date": "2026-11-06",
+  "source_parent_main_sha": "a63002a4b98a869ad134dd31322737777efd8675",
+  "legacy_archives_overwritten": false,
+  "public_urls_verified": false,
+  "codeql_js17_baseline_result_rows": 17,
+  "codeql_js17_fixed_source_result_rows": 0,
+  "signed_plugins": [
+    {
+      "slug": "auto-number",
+      "version": "1.0.1",
+      "release_dir": "plugins/auto-number/v1.0.1",
+      "channel": "v1.0.1",
+      "plugin_id": "nnhajggbglcfnmlpopfnfkeinhfckpgb",
+      "signed": {
+        "filename": "resoarc-auto-number-v1.0.1-signed.zip",
+        "sha256": "6c19f083aa10362acd5ad4fb300320d93ebf5253cea09550f77f18b051909b94",
+        "size": 9004
+      },
+      "source": {
+        "filename": "resoarc-auto-number-v1.0.1-source.zip",
+        "sha256": "3486467310ace0d92fe1591e6561f307b3459ede59a201ec6ba3f41c4b6b3c05",
+        "size": 18399
+      },
+      "legacy_version": "v1.0.0",
+      "tested_in_real_kintone_tenant": false,
+      "independent_review": false,
+      "release_status": "SIGNED_QA_ONLY"
+    },
+    {
+      "slug": "auto-number",
+      "version": "1.1.1",
+      "release_dir": "plugins/auto-number/v1.1.1-beta",
+      "channel": "v1.1.1-beta",
+      "plugin_id": "nnhajggbglcfnmlpopfnfkeinhfckpgb",
+      "signed": {
+        "filename": "resoarc-auto-number-v1.1.1-beta-signed.zip",
+        "sha256": "e26de7aec2ba49fc11d662d636ce9cda1fab884bf578b7d214fa601b0a98101c",
+        "size": 9906
+      },
+      "source": {
+        "filename": "resoarc-auto-number-v1.1.1-beta-source.zip",
+        "sha256": "dd884887e71fc20fda87bd0b82566776bc555c5be3b47265f72f2093734a21c2",
+        "size": 23252
+      },
+      "legacy_version": "v1.1.0-beta",
+      "tested_in_real_kintone_tenant": false,
+      "independent_review": false,
+      "release_status": "SIGNED_QA_ONLY"
+    },
+    {
+      "slug": "kanban",
+      "version": "0.1.1",
+      "release_dir": "plugins/kanban/v0.1.1-alpha",
+      "channel": "v0.1.1-alpha",
+      "plugin_id": "deojmjandhcedjnaiijdaabllcecbadn",
+      "signed": {
+        "filename": "resoarc-kanban-v0.1.1-alpha-signed.zip",
+        "sha256": "9c92c25c1fcabc3d863ea54ddf033d0f020746b2b003e3fb235383a9242d15c4",
+        "size": 8947
+      },
+      "source": {
+        "filename": "resoarc-kanban-v0.1.1-alpha-source.zip",
+        "sha256": "0c5ea0944b1eed644a7e437fc943a46a1cc865b11003e15e2aafef933507a3e3",
+        "size": 14428
+      },
+      "legacy_version": "v0.1.0-alpha",
+      "tested_in_real_kintone_tenant": false,
+      "independent_review": false,
+      "release_status": "SIGNED_QA_ONLY"
+    },
+    {
+      "slug": "list-search",
+      "version": "0.1.1",
+      "release_dir": "plugins/list-search/v0.1.1-alpha",
+      "channel": "v0.1.1-alpha",
+      "plugin_id": "bnbdhhmoeaalneidelghecehobghfonk",
+      "signed": {
+        "filename": "resoarc-list-search-v0.1.1-alpha-signed.zip",
+        "sha256": "6bd6c586077cbe4b0551921ebbb26a73ad98ef0072d15f52a014763d8848bde9",
+        "size": 11522
+      },
+      "source": {
+        "filename": "resoarc-list-search-v0.1.1-alpha-source.zip",
+        "sha256": "88121d652433167187d1ca57164d4a748c300b29d4732d1fe25fbbc3884148ca",
+        "size": 20413
+      },
+      "legacy_version": "v0.1.0-alpha",
+      "tested_in_real_kintone_tenant": false,
+      "independent_review": false,
+      "release_status": "SIGNED_QA_ONLY"
+    }
+  ],
+  "web8": {
+    "version": "1.0.1",
+    "source": {
+      "filename": "resoarc-web8-v1.0.1-source.zip",
+      "sha256": "7456e5bd72a5c22288bbdc6d370d0d72af45ab577fdf7da904ff4a79ceaf6f42",
+      "size": 41773
+    },
+    "routes": [
+      "/tools/v1.0.1/kintone-bulk-preview/",
+      "/tools/v1.0.1/kintone-app-diff/",
+      "/tools/v1.0.1/kintone-permission-audit/",
+      "/tools/v1.0.1/kintone-import-check/",
+      "/tools/v1.0.1/kintone-duplicates/",
+      "/tools/v1.0.1/kintone-lookup-audit/",
+      "/tools/v1.0.1/kintone-cross-aggregate/",
+      "/tools/v1.0.1/kintone-print-report/"
+    ],
+    "legacy_1_0_0_preserved": true
+  },
+  "notes": "New QA installers are identity-pinned and signed locally. Publication and Cloudflare URL checks are separate required gates."
+}
