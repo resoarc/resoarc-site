@@ -22,6 +22,8 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+      - name: Restore immutable source archives from GitHub Release
+        run: python scripts/verify_external_archive_mirror.py --hydrate
       - name: Verify checked-in OS source and extract safely
         run: |
           set -euo pipefail

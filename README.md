@@ -35,6 +35,7 @@
 Python 3.10以降を推奨します。ビルドやクラウド鍵は不要です。
 
 ```bash
+python scripts/verify_external_archive_mirror.py --hydrate  # retrieve SHA-256-verified historical ZIP files
 python scripts/verify_site.py
 python -m http.server 8000 --directory site
 ```

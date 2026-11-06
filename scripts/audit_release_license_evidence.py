@@ -64,7 +64,7 @@ def run(strict: bool = False) -> int:
         except (OSError, zipfile.BadZipFile) as exc:
             problems.append(f"unreadable ZIP {row['filename']}: {exc}")
 
-    print(f"OSPS release-license audit: {len(recorded)} tracked ZIP assets")
+    print(f"OSPS release-license audit: {len(recorded)} immutable distribution ZIP assets (hydrated from the verified release if absent)")
     print(f"  without embedded LICENSE: {len(without_embedded_license)}")
     print("  companion LICENSE/NOTICE are interim and do not prove delivery to users or license compliance")
     for name in without_embedded_license:
