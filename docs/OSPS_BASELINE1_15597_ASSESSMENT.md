@@ -5,9 +5,36 @@
 Official project: https://www.bestpractices.dev/projects/15597/baseline-1
 Repository: https://github.com/resoarc/resoarc-site
 
-The official project exists (ID **15597**). On 2026-11-06, the public issuer lookup reports project name **ResoArc** and description populated, **17% Baseline Level 1** (four answers marked Met, no badge awarded); numerous required fields are still unknown. Do not mistake 17% for an earned badge. Submit only after signing in as the dedicated `resoarc` GitHub account and reviewing the actual evidence. Statuses below are **recommendations**, not submitted self-certification claims. A question mark means evidence is insufficient.
+The official project exists (ID **15597**) with project name and description populated. An earlier 2026-11-06 issuer snapshot showed **17%**; the later verified snapshot below supersedes that number. No badge is awarded. Do not mistake a percentage for an independent audit or award. Submit only after signing in as the dedicated `resoarc` GitHub account and reviewing the actual evidence. Statuses below are **recommendations**, not submitted self-certification claims. A question mark means evidence is insufficient.
 
-## Proposed responses and evidence
+## Latest verified status (2026-11-06 JST, after owner reauthentication)
+
+**Issuer project #15597: Baseline Level 1 self-assessment = 50%; no awarded badge.** The result counts **12 of 24** Level 1 controls marked `Met`. Other controls are either `Unmet` or `?` and are not presented as passing. The recorded answers are a *voluntary self-assessment*, not external certification.
+
+### Branch protection: active and validated in GitHub UI
+
+- Official [branches API](https://api.github.com/repos/resoarc/resoarc-site/branches/main) returns `protected=true` after the dedicated `@resoarc` owner completed a GitHub sudo-mode reauthentication. Earlier results of `protected=false` no longer apply.
+- Verified persisted classic protection rule matching `main`: **PR required**, status checks `verify` and `reuse` required, **administrator bypass prohibited**, force-push and deletion permissions disabled. A mandatory one-person approval was **not** imposed, as this project has no genuine independent reviewer at this time.
+- OSPS-AC-03.01 and OSPS-AC-03.02 were explicitly submitted to BadgeApp as **Met** with dated GitHub UI/API evidence. We did not deliberately attempt a destructive branch push/deletion to test rejection.
+
+### Owner security: 2FA is NOT enabled
+
+The actual authenticated `@resoarc` **GitHub Account security** page explicitly showed **"Two-factor authentication is not enabled yet."** The owner reauthentication for saving branch settings is not MFA. OSPS-AC-01.01 was therefore submitted as **Unmet**, not `Met`, pending actual 2FA setup and review of all privileged accounts.
+
+**Required owner action:** use [GitHub's 2FA setup page](https://github.com/settings/two_factor_authentication/setup/intro), choose a supported authenticator or hardware security method, and preserve recovery codes securely *outside* the source repository and conversation. Recheck account security afterwards. Do not expose TOTP seeds, backup codes, personal emails or account recovery details in public evidence.
+
+### Verified remaining blockers and conservative answers
+
+- **OSPS-LE-03.02: Unmet.** The 2026-11-06 ZIP audit found **11 signed plugin installers** without a license or notice in the outer or signed inner archive. Adding companion license files to GitHub does not prove user delivery; as of the most recent live check, `https://resoarc.com/downloads/LICENSE` and `/downloads/NOTICE.md` both returned HTTP **404**. Refer to [release audit](compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.md).
+- **OSPS-QA-05.01: Unmet.** The repository still tracks **20 generated distribution ZIPs** in `site/downloads`. No migration is complete and public URLs must remain intact.
+- **OSPS-DO-01.01 and OSPS-LE-02.02: conservatively Unmet** until all released products have verified coverage of user guides and corresponding software/third-party asset licenses. This reflects insufficient end-to-end evidence, not a claim that MIT itself is invalid.
+- Remaining access, CI, secret prevention and dependency items need their own current evidence and questionnaire updates. Do not infer passing from a Scorecard score or AI-only review.
+
+**History and caution:** BadgeApp's form initially populated other previously unverified items as `Met` when saving the two new protection answers. The project therefore re-audited the official public JSON, corrected provably false or not-demonstrated claims to `Unmet`, saved again, and confirmed the final 50% state. This evidence-first correction is deliberate; the project is not claiming all 24 controls pass.
+
+The per-criterion table below began as **2026-10-17 draft suggestions**; this section and the live issuer's machine-readable values supersede any conflicting historical wording.
+
+## Proposed responses and evidence (historical draft; see current status above)
 
 | Criterion | Proposed | English justification or next validation |
 | --- | --- | --- |
