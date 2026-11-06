@@ -80,13 +80,13 @@ def check() -> None:
     asset_refs: set[str] = set()
     for name in ("site/tools/hash/index.html", "site/tools/csv/index.html"):
         text = (ROOT / name).read_text(encoding="utf-8")
-        for raw in re.findall(r'(?:src|href|content)\\s*=\\s*["\\']([^"\\']+)["\\']', text):
+        for raw in re.findall(r"""(?:src|href|content)\s*=\s*["']([^"']+)["']""", text):
             url_path = urlsplit(raw).path
             if url_path.startswith("/assets/"):
                 asset_refs.add("site" + url_path)
     for name in ("site/assets/site-20261015-v10.css", "site/assets/recognition-20261017.css"):
         css = (ROOT / name).read_text(encoding="utf-8")
-        for raw in re.findall(r'url\\(\\s*["\\']?([^)"\\']+)', css):
+        for raw in re.findall(r"""url\(\s*["']?([^) "']+)""", css):
             url_path = urlsplit(raw.strip()).path
             if url_path.startswith("/assets/"):
                 asset_refs.add("site" + url_path)
