@@ -41,6 +41,8 @@ jobs:
         run: python scripts/verify_site.py
       - name: Verify tracked release ZIP integrity and interim license notices
         run: python scripts/audit_release_license_evidence.py
+      - name: Verify scoped OpenChain component inventory and file hashes
+        run: python scripts/verify_openchain_scoped_sbom.py
       - name: Validate browser tool JavaScript
         run: |
           node --check site/assets/tools/hash.js
