@@ -1,0 +1,715 @@
+{
+  "schema": "resoarc-osps-le02-license-identity-evidence-v1",
+  "captured_at_utc": "2026-11-06T14:42:31.844241+00:00",
+  "source_35_manifest": "docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json",
+  "requirement": "All released software assets have an OSI or FSF free-software-compliant license",
+  "software_licenses_found": [
+    "MIT",
+    "Apache-2.0"
+  ],
+  "nonsoftware_licenses_found": [
+    "OFL-1.1",
+    "Unsplash"
+  ],
+  "source_zip_license_count": 13,
+  "signed_zip_companion_count": 22,
+  "copyright_permission_legal_signoff": "NOT_PERFORMED",
+  "software_license_classification": "REPRODUCIBLY_VERIFIED_BY_BYTES_AND_DECLARATION",
+  "records": [
+    {
+      "asset": "resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "6f359dbaff4f37d4b56d966d0cef9d9fe8ac6ca1d7c5f6acb5de2af0a7c4a84d",
+      "bytes": 6783,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-auto-number-signed-qa.zip",
+      "sha256": "761224ac70ddd01159cef0ae6dbef657cb3432d72322b2fb13ba2a37580c5ac8",
+      "bytes": 9902,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-auto-number-v1.0.0.zip",
+      "sha256": "fd7d0873f8ebf7551ebc2a08116952e8b60c91e396600e5b800e0eba752145d9",
+      "bytes": 9043,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-auto-number-v1.1.0-beta.zip",
+      "sha256": "c2de1c7735e8c32a364b6d6d4de340d593a55b3a8c38dd369cc2feac73016d9b",
+      "bytes": 9916,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-backup-migration-v1.0.0-source.zip",
+      "sha256": "06648e849bb38b9dc5614fbaa507a50492f2684f7015316228df3bfb0e8041fb",
+      "bytes": 222382,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [
+        {
+          "component": "fflate 0.8.3",
+          "license_ids": [
+            "MIT"
+          ],
+          "notice_location": "plugins/backup-migration/licenses/fflate-MIT.txt",
+          "category": "software"
+        }
+      ],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-backup-migration-v1.0.0.zip",
+      "sha256": "ab858430620f1bd2ec8b240a2202153df25962a083cd048cdb415b7f4c172ad8",
+      "bytes": 54278,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [
+        {
+          "component": "fflate 0.8.3",
+          "license_ids": [
+            "MIT"
+          ],
+          "notice_location": "LICENSES/fflate-MIT.txt",
+          "category": "software"
+        }
+      ],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-conditional-format-signed-qa.zip",
+      "sha256": "b9a0d7db277e8efba835c7fb8914b22d6ee13274fc41db0d5c9e52fbd2c03401",
+      "bytes": 9432,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+      "sha256": "64ef943d7c302bd747042ea265723a94e16308ec46559238bcd1f38731c8d249",
+      "bytes": 15584,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "conditional-format-v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-conditional-signed-qa.zip",
+      "sha256": "1f706267511884ff9771a5c1ebb0a126e065d382869c67e769e001b675ff9bbc",
+      "bytes": 7697,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "sha256": "234ec6d8917c25bd793f19b5d38e64a5dab6c12281dea184de18a665d956a1f6",
+      "bytes": 6900,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-date-calculator-signed-qa.zip",
+      "sha256": "b2d74dcb6467d44015ba3364eb8f904916d44449ce8a21cba164c5318bbd2e87",
+      "bytes": 9882,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+      "sha256": "251fcb2bdcb7a7d848a41ff705cc6f86b2c370a1c60fa3413e0468bd848a38d4",
+      "bytes": 17029,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "date-calculator-v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "5c49a688ca878a47d30d1e37d8e3b8ea61bb728d85d16167a5458f3aae8b1db4",
+      "bytes": 6179,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-grid-editor-signed-qa.zip",
+      "sha256": "391568b0381fb99ce07a34f30d68505688fdf7684a2db8196dc59d4201ac5baf",
+      "bytes": 11921,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+      "sha256": "fb806021a2947dea7ef821a5d8751455445f80fcd9e0d49ce070e7d6d5f95604",
+      "bytes": 22050,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "grid-editor-v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-kanban-signed-qa.zip",
+      "sha256": "4d16cd3a8145d54376a107fb9a3fbfe0126505c1929bc704f957f502c200a59a",
+      "bytes": 8590,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-kanban-v0.1.0-alpha-source.zip",
+      "sha256": "41216d6bd4bdc091152ee3d25f72bad96a1f813066f0140adedf391b19bd972b",
+      "bytes": 14095,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "kanban-v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "9a6ffe625769f51d29bac0be2b1cf007ec3cf51f09d33e45aa8eb2fe0128e643",
+      "bytes": 6813,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-list-search-signed-qa.zip",
+      "sha256": "f4aa2680f68b6c0a50941a42a4968bd0618993ba201b9b691ae067fd42dafd01",
+      "bytes": 11503,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-list-search-v0.1.0-alpha-source.zip",
+      "sha256": "55967bf46daede50ffd38c76794164dedc7dc72b43eb463ba9fc1f9fa32f9572",
+      "bytes": 21028,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "list-search-v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "sha256": "d3b2c88810a2f5d04d64792b47fcdc0a5f94793a322d0a1a8f4d4c29db1c3276",
+      "bytes": 8851,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "78299ed5ac81d134e483ba6db57ce35d2f1914c4fd2cb55cb25d70bd7cd12ecf",
+      "bytes": 18679,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [
+        {
+          "component": "Kazuhiko Arase QR Code Generator implementation",
+          "license_ids": [
+            "MIT",
+            "Apache-2.0"
+          ],
+          "notice_location": "contents.zip/js/qr-lib.js",
+          "category": "software",
+          "permission_source": "upstream text embedded in signed payload"
+        }
+      ],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6ba55dbc1b500bc4968dacb2df7f6a5c1535722098be2e6bf48ce2ada5e25166",
+      "bytes": 6033,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "3a66cb126a16715ec166bb25979b490bf2a0b1de243f3a3cffc32b17b158df21",
+      "bytes": 6047,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6e281275e2eb276e7886d8dc562852e194b4002ce05625b75a10326b0e527fd8",
+      "bytes": 5840,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-site-20261017-recovered-source.zip",
+      "sha256": "dda9d520cf2df37fd2d1f79fd4e4c182bcda8b17de534010e4d30baaf6381a72",
+      "bytes": 4132099,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/auto-number/LICENSE",
+          "spdx": "MIT",
+          "sha256": "aa14c942b728c5b4d7d7129d9d45d4812ba245d4d41c0bdd27c1868b18c53b06"
+        },
+        {
+          "file": "plugins/auto-number/v1.1.0-beta/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/conditional-format/v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/conditional/v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/date-calculator/v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/grid-editor/v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/kanban/v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/list-search/v0.1.0-alpha/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        },
+        {
+          "file": "plugins/tabs/v0.1.0-beta/LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [
+        {
+          "component": "Noto Serif JP font",
+          "license_ids": [
+            "OFL-1.1"
+          ],
+          "notice_location": "site/licenses/NOTOSERIFJP-OFL.txt",
+          "category": "font-not-software-license-assertion"
+        },
+        {
+          "component": "Unsplash-sourced architecture image",
+          "license_ids": [
+            "Unsplash"
+          ],
+          "notice_location": "THIRD_PARTY_NOTICES.md",
+          "category": "media-not-software-license-assertion",
+          "review": "Nonsoftware media included in recovered source archive, licensing requires separate authorization and is not OSI software license"
+        }
+      ],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-tabs-signed-qa.zip",
+      "sha256": "5a9847558a71af67bfbbbec5d8a299172e88b039495da20030a13958afc72ad9",
+      "bytes": 7998,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-tabs-v0.1.0-beta.zip",
+      "sha256": "5eba44271945185e777c7e55af816d4644223d9fe9e2925c8b05fd116bd58689",
+      "bytes": 8002,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-tabs-v1.0.0-20261021.zip",
+      "sha256": "6be4e194acd495a27d1c1847b19b96d62703c57c9bbcb05acde4533586d4fa6e",
+      "bytes": 8049,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-tabs-v1.0.0-signed-package-source.zip",
+      "sha256": "a2a40a3042864d1df49622fac690f14d8f6446532da54da81151de0f8b7d24a6",
+      "bytes": 11703,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "3f2dc75c15f49f16e6e0da319cf8274b04e9c350f5e5d909ce0680d67d014cc5"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "16d4e43df291d033c08634f5d64245167c6b6598835d091337b8c26e3e0b8c42",
+      "bytes": 5936,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "unchanged-signed-archive-external-companion",
+      "embedded_full_mit_documents": [],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarc-web8-v1.0.0-source.zip",
+      "sha256": "d9bee5d112c706b322037d4c2a595d24d39148b1d84e00856732f48114526374",
+      "bytes": 41439,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarcos-pc-v0.1.0-dev-source.zip",
+      "sha256": "72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20",
+      "bytes": 46159,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "9a97a7af0955927a18d1a079f5164b936c46e5964d5b6e06f0f4652d322e0fcb"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarcos-pc-v0.1.1-dev-source.zip",
+      "sha256": "ad60fd5629e91ae4c045d7411ff8a821eb4a442900127a6d89514b738e481ac4",
+      "bytes": 101001,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "9a97a7af0955927a18d1a079f5164b936c46e5964d5b6e06f0f4652d322e0fcb"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    },
+    {
+      "asset": "resoarcos-pi-firstboot-v0.2.1-alpha-source.zip",
+      "sha256": "d8beeccf39f457b45fa469285af6b905b4d4dc11aa8dae36af7b1ac145dd47c1",
+      "bytes": 76059,
+      "released_software_license_spdx": "MIT",
+      "license_definition": "OSI",
+      "license_evidence_type": "embedded-full-mit-text",
+      "embedded_full_mit_documents": [
+        {
+          "file": "LICENSE",
+          "spdx": "MIT",
+          "sha256": "9a97a7af0955927a18d1a079f5164b936c46e5964d5b6e06f0f4652d322e0fcb"
+        }
+      ],
+      "companion_mit_sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+      "companion_license_url": "https://resoarc.com/downloads/LICENSE",
+      "additional_components": [],
+      "software_license_definition_supported": true,
+      "independent_author_copyright_permission_verified": false,
+      "license_scope_note": "Software license determination only; third-party media use their separate terms and authorship is not independently certified"
+    }
+  ]
+}
