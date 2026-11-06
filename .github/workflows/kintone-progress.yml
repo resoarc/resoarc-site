@@ -36,6 +36,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
+      - name: Restore signed QA packages from SHA-256 pinned GitHub Release
+        run: python scripts/verify_external_archive_mirror.py --hydrate
       - name: Validate 29 records, release gates and dashboard synchronization
         run: node scripts/kintone-progress.mjs --check
       - name: Test invalid release statuses and evidence handling
