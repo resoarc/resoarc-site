@@ -28,6 +28,8 @@ jobs:
         run: python scripts/check_repository_secrets.py
       - name: Check all released products have a basic user guide (OSPS-DO-01.01)
         run: python scripts/check_release_guides.py
+      - name: Reject generated executables and unreviewable binary blobs (OSPS-QA-05)
+        run: python scripts/check_binary_repo_assets.py
       - name: Check direct dependency inventory (OSPS-QA-02.01)
         run: python scripts/check_direct_dependencies.py
       - name: Check immutable ResoArcOS source ZIP
