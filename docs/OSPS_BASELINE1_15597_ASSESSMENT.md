@@ -1,15 +1,14 @@
-# OpenSSF Best Practices #15597 | Baseline Level 1 assessment draft
+# OpenSSF Best Practices #15597 | Baseline Level 1 achieved
 
-**Status: DRAFT; Baseline Level 1 NOT AWARDED.** Evidence and issuer-status refresh 2026-11-06 JST. The original per-criterion suggestions below were written 2026-10-17; they remain draft until revalidated.
+**Current verified official status (2026-11-07 JST): 100% / 24 of 24 Level 1 controls Met; Level 1 self-assessment badge awarded.** The official issuer provided `achieved_baseline_1_at=2026-11-06T15:59:05.301Z`. Official confirmation: https://www.bestpractices.dev/projects/15597/baseline-1
 
-Official project: https://www.bestpractices.dev/projects/15597/baseline-1
-Repository: https://github.com/resoarc/resoarc-site
+The final two criteria were resolved with real evidence: LE-03.02 verified 35 ZIPs x three domains plus LICENSE/NOTICE delivery; LE-02.02 documents MIT and Apache-2.0 licensing of all 35 released software assets, upstream legal text matches and the operator's statement of personal, AI-assisted original development with no employer/client code reuse. Both are marked **Met in the official issuer record**.
 
-The official project exists (ID **15597**) with project name and description populated. An earlier 2026-11-06 issuer snapshot showed **17%**; the later verified snapshot below supersedes that number. No badge is awarded. Do not mistake a percentage for an independent audit or award. Submit only after signing in as the dedicated `resoarc` GitHub account and reviewing the actual evidence. Statuses below are **recommendations**, not submitted self-certification claims. A question mark means evidence is insufficient.
+**Important distinction:** this is a voluntary **self-assessment badge**, not an independent security audit, legal clearance, or a guaranteed absence of third-party copyright issues. Historic source build provenance for older plugin versions remains under review. Full dated evidence: [Baseline 1 achieved report](compliance/OSPS_BASELINE1_ACHIEVED_20261107.md).
 
-## Latest verified status (2026-11-06 JST, after owner reauthentication)
+## Historical preparatory notes (2026-10-17 to 2026-11-06, superseded)
 
-**Current issuer status (2026-11-06 JST): 92% (22/24 controls Met); no awarded badge.** The only remaining `Unmet` controls are **OSPS-LE-02.02** (complete released-software license audit not yet evidenced) and **OSPS-LE-03.02** (complete license delivery to users on every public distribution channel not yet evidenced). This is a *voluntary self-assessment*, not an independent audit or certificate. Official source: https://www.bestpractices.dev/projects/15597/baseline-1 .
+The sections below were written before the final 2026-11-07 submission and are kept as change history only. Any prior "no badge", 17%, 50%, 92%, or unfinished controls are **historical**, not the current official status.
 
 ### Branch protection: active and validated in GitHub UI
 
