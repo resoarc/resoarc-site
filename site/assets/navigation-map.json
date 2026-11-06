@@ -261,6 +261,11 @@
       "parent": "/security/weather/newspaper/archive/",
       "visible": false
     },
+    "/security/weather/newspaper/archive/2026-11-04/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
     "/security/weather/newspaper/archive/": {
       "title": "SWWW 脆弱性朝刊 過去号",
       "parent": "/security/weather/newspaper/",
