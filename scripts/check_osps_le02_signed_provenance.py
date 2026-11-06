@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / "docs/compliance/OSPS_LE02_SIGNED22_PROVENANCE_REVIEW_20261106.json"
 LICENSES = ROOT / "docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json"
+SOURCE_ZIPS = ROOT / "docs/compliance/OSPS_13_SOURCE_ZIPS_TO_22_SIGNED_MATCH_20261106.json"
 
 
 def run():
@@ -53,7 +54,20 @@ def run():
         errors.append("Unexpected historical QA match breakdown "+str(qa))
     if formal != 8:
         errors.append("Formal historical release count differs from 8")
-    print("OSPS LE-02 provenance audit: signed",len(reports),"Git",pub,"QA",qa,"formal",formal)
+    recorded_source_zips = json.loads(SOURCE_ZIPS.read_text(encoding="utf-8"))["signed_release_members"]
+    if len(recorded_source_zips) != 22 or {r["asset"] for r in recorded_source_zips} != signed:
+        errors.append("13-source-archive-to-signed-release mapping incomplete")
+    source_zip_counts = {"FULL": 0, "PARTIAL": 0, "NONE": 0}
+    for entry in recorded_source_zips:
+        n = entry["total_nested_files"]
+        m = entry["matched_source_archive_members"]
+        if n < 1 or not 0 <= m <= n:
+            errors.append("invalid 13-source ZIP match count for "+entry["asset"])
+            continue
+        source_zip_counts["FULL" if m == n else "PARTIAL" if m > 0 else "NONE"] += 1
+    if source_zip_counts != {"FULL": 9, "PARTIAL": 3, "NONE": 10}:
+        errors.append("Unexpected 13-source ZIP matching breakdown "+str(source_zip_counts))
+    print("OSPS LE-02 provenance audit: signed",len(reports),"Git",pub,"QA",qa,"source-zips",source_zip_counts,"formal",formal)
     for e in errors:
         print("FAIL:",e,file=sys.stderr)
     print("LEGAL STATUS: HOLD; a code match or old release approval is not a human rights attestation")
