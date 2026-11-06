@@ -14,6 +14,7 @@ import sys
 import tempfile
 import urllib.error
 import urllib.request
+import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -100,16 +101,93 @@ def fetch_asset(row: dict, url: str) -> None:
             os.unlink(tempname)
 
 
+
+def check_public_download_without_api(row: dict, hydrate: bool) -> None:
+    """Byte-verify the canonical public Release URL when unauthenticated API is throttled.
+
+    Never trust a redirect target, Content-Length, or an asset filename alone.
+    Download all bytes and compare with repository-pinned SHA-256 and size.
+    """
+    name = row["filename"]
+    url = f"https://github.com/{REPO}/releases/download/{TAG}/{urllib.parse.quote(name)}"
+    target = DOWNLOADS / name
+    if target.is_file() and (
+        target.stat().st_size != row["bytes"] or hash_file(target) != row["sha256"]
+    ):
+        raise ValueError(f"Local asset has invalid pinned digest: {name}")
+
+    should_save = hydrate and not target.is_file()
+    tempname = None
+    fd = None
+    if should_save:
+        fd, tempname = tempfile.mkstemp(prefix=".osps-direct-", suffix=".part", dir=DOWNLOADS)
+    count = 0
+    digest = hashlib.sha256()
+    try:
+        with urllib.request.urlopen(
+            urllib.request.Request(url, headers={"User-Agent": HEADERS["User-Agent"]}),
+            timeout=80,
+        ) as response:
+            if response.status != 200:
+                raise ValueError(f"Direct release download returned {response.status}: {name}")
+            with (os.fdopen(fd, "wb") if should_save else open(os.devnull, "wb")) as dest:
+                fd = None
+                for piece in iter(lambda: response.read(131072), b""):
+                    count += len(piece)
+                    if count > MAX_BYTES or count > row["bytes"]:
+                        raise ValueError(f"Direct release exceeds pinned size: {name}")
+                    digest.update(piece)
+                    if should_save:
+                        dest.write(piece)
+        if count != row["bytes"] or digest.hexdigest() != row["sha256"]:
+            raise ValueError(f"Direct release bytes differ from immutable audit: {name}")
+        if should_save:
+            os.replace(tempname, target)
+            tempname = None
+    finally:
+        if fd is not None:
+            os.close(fd)
+        if tempname is not None and os.path.exists(tempname):
+            os.unlink(tempname)
+
+
+def check_direct_release(expected: list[dict], hydrate: bool) -> None:
+    for row in expected:
+        check_public_download_without_api(row, hydrate)
+    for name in ("LICENSE", "NOTICE.md"):
+        local = DOWNLOADS / name
+        if not local.is_file():
+            raise ValueError(f"Missing required license companion: {name}")
+        check_public_download_without_api(
+            {"filename": name, "bytes": local.stat().st_size, "sha256": hash_file(local)},
+            False,
+        )
+
+
 def main(hydrate: bool) -> None:
     data = json.loads(AUDIT.read_text(encoding="utf-8"))
     expected = data["assets"]
     if len(expected) != 20 or len({row["filename"] for row in expected}) != 20:
         raise ValueError("Historical distribution inventory has changed unexpectedly")
-    assets = mirror_map()
-    check_remote(assets, expected)
-    if hydrate:
-        for row in expected:
-            fetch_asset(row, assets[row["filename"]]["browser_download_url"])
+    try:
+        assets = mirror_map()
+    except urllib.error.HTTPError as exc:
+        limited = exc.code == 403 and (
+            exc.headers.get("X-RateLimit-Remaining") == "0"
+            or b"rate limit" in exc.read(500).lower()
+        )
+        if not limited:
+            raise
+        # Public unauthenticated REST API quota is shared by CI runner IPs.
+        # Do not pass GITHUB_TOKEN to an untrusted PR script or skip checks:
+        # verify the exact bytes at the public Release URLs instead.
+        check_direct_release(expected, hydrate)
+        print("INFO: GitHub API quota exhausted; verified direct Release downloads by pinned SHA-256")
+    else:
+        check_remote(assets, expected)
+        if hydrate:
+            for row in expected:
+                fetch_asset(row, assets[row["filename"]]["browser_download_url"])
     print(f"PASS: {len(expected)} historical ZIP release assets and LICENSE/NOTICE verified")
     print("No product security, license-delivery or OpenChain conformance assertion is implied.")
 

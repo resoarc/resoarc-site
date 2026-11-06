@@ -1,6 +1,9 @@
 # OpenSSF LE-02.02: released software rights and license closure report
 
-**Date of evidence:** 2026-11-06 JST. **Decision:** HOLD.  
+**Date of evidence:** 2026-11-06 JST. **Decision:** HOLD.
+
+**Later update (2026-11-07 JST):** The operator directly confirmed that original ResoArc code was made personally using AI without incorporating employer/client code. A new live 35-asset license scanner found 13 complete MIT source texts, 22 signed releases with adjacent MIT companion licensing, QR upstream MIT/Apache-2.0 and fflate MIT, and no explicit restrictive software-license terms among 681 examined text members. See [dated operator declaration and updated scope](OSPS_LE02_OWNER_DECLARATION_AND_REVIEW_20261107.md). The historical HOLD reflects rights uncertainty as of 2026-11-06 and remains a reminder that AI/generated-code provenance and third-party copyrights are not independently adjudicated. It should not be mistaken for an extra textual OpenSSF requirement to obtain a lawyer's opinion.
+  
 **Official [OpenSSF project #15597](https://www.bestpractices.dev/projects/15597/baseline-1):** 96% (23/24), LE-03.02 Met, **LE-02.02 Unmet**. A formal badge has not been earned.
 
 ## Scope and established technical evidence

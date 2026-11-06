@@ -1,6 +1,10 @@
 # OSPS LE-02.02: accountable maintainer release-rights review (unapproved draft)
 
-**State:** PENDING. Do not complete this form using an AI, inference from package names, or historical release hashes. It is a decision record for the real copyright-authorized ResoArc operator.
+**State:** PENDING.
+
+**2026-11-07 operator update:** The responsible ResoArc operator has now directly confirmed personal development with AI and no employer/client code reuse. That narrows the remaining issues; it is **not** an independently signed legal clearance of every contributed or embedded library. The original field-by-field approval template below remains available for future detailed assessments.
+
+ Do not complete this form using an AI, inference from package names, or historical release hashes. It is a decision record for the real copyright-authorized ResoArc operator.
 
 **Project:** ResoArc  
 **Review scope:** All 35 currently released ZIP assets under [the published inventory](OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json).  
