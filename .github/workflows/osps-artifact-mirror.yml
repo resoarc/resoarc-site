@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
+# One-time, owner-initiated preservation of byte-for-byte historical assets.
+# No PR trigger, no reusable secrets, no mutable third-party actions.
+name: Preserve historical downloads in GitHub Releases
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish-assets:
+    if: github.repository == 'resoarc/resoarc-site' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    timeout-minutes: 20
+    steps:
+      - name: Checkout public source without retaining credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify the 20 immutable source and signed ZIP bytes
+        run: |
+          set -euo pipefail
+          python scripts/audit_release_license_evidence.py
+      - name: Preserve archives alongside license and notices
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag='resoarc-osps-distribution-mirror-20261106'
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release already exists; no overwriting allowed"
+          else
+            gh release create "$tag" site/downloads/*.zip site/downloads/LICENSE site/downloads/NOTICE.md \
+              --target "$GITHUB_SHA" \
+              --title 'ResoArc historical source and signed QA downloads (mirror)' \
+              --notes 'Historical download mirror. Signed kintone QA builds are test-only and not certified or tenant-validated. These archives and their LICENSE/NOTICE are published for transparency, source continuity, and link-compatible migration. Byte-for-byte SHA-256 evidence is in docs/compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.json. No security certification is asserted.' \
+              --prerelease --latest=false
+          fi
+      - name: Verify archived asset names and byte-for-byte SHA-256
+        run: python scripts/verify_external_archive_mirror.py
