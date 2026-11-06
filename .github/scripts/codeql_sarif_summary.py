@@ -87,7 +87,7 @@ def summarize(directory, language, output):
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, sort_keys=True, separators=(",", ":"), ensure_ascii=True)+"\n",encoding="utf8")
-    print(json.dumps({"schema":SCHEMA,"language":language,"results":sum(rules.values()),
+    print("CODEQL_REAL_FINDINGS " + json.dumps({"schema":SCHEMA,"language":language,"results":sum(rules.values()),
                       "rules":len(rules),"level_counts":dict(levels),"formal_release":"HOLD"},sort_keys=True))
     return report
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Negative and privacy tests for CodeQL SARIF redacted accounting."""
 import json
+import contextlib
+import io
 from pathlib import Path
 import tempfile
 import unittest
@@ -44,7 +46,8 @@ class SummaryTests(unittest.TestCase):
             inp=Path(temp)/"go.sarif"
             inp.write_text(json.dumps(sarif()),encoding="utf8")
             out=Path(temp)/"summary.json"
-            result=summary.summarize(temp,"go",str(out))
+            with contextlib.redirect_stdout(io.StringIO()):
+                result=summary.summarize(temp,"go",str(out))
             self.assertEqual(result["sarif_results_not_unique_alerts"],2)
             self.assertFalse(result["human_reviewed"])
             self.assertEqual(result["formal_release"],"HOLD")
