@@ -2,13 +2,13 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
   "serialNumber": "urn:uuid:249d71fa-d8bd-5d71-97dc-a06dfe105a6a",
-  "version": 1,
+  "version": 2,
   "metadata": {
     "component": {
       "type": "application",
       "bom-ref": "resoarc-browser-tools-scope-20261106",
       "name": "ResoArc browser utility SHA-256 + CSV/TSV",
-      "version": "2026-11-06-source-snapshot",
+      "version": "2026-11-07-source-snapshot",
       "description": "Narrow, provisional scope. Not a conformant or complete OSS license audit."
     },
     "properties": [
@@ -174,7 +174,7 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "5b60f17139345a138cad001e1af0424e97825d71c5414877dd5a8a598f5b30e9"
+          "content": "4232a8d6b934ce202e13c52f405a2b58c081da5c62b682cfcac892410da31514"
         }
       ],
       "licenses": [
@@ -187,7 +187,7 @@
       "properties": [
         {
           "name": "resoarc:bytes",
-          "value": "7052"
+          "value": "7902"
         },
         {
           "name": "resoarc:rights-review",

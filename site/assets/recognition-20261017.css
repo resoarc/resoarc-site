@@ -65,3 +65,16 @@
 .rec-live-score-large b{font-size:40px}
 .rec-live-score-large span{font-size:16px;color:#6d7f92}
 .rec-proof-card .rec-live-date{font-size:11px;color:#547083;margin-top:2px}
+
+/* OSPS BASELINE LEVEL 1 CARD: 4 accomplishments with responsive equal-width columns */
+.rec-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rec-mini-baseline{border-top-color:#4c9a86}
+.rec-mini-baseline strong{font-size:15px}
+.rec-mini-baseline img{height:20px}
+.rec-proof-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.rec-proof-baseline{border-top-color:#4c9a86}
+.rec-baseline-figure{display:flex;align-items:baseline;gap:12px;margin:17px 0 4px;color:#1b705f;font-variant-numeric:tabular-nums}
+.rec-baseline-figure strong{font:800 39px/1.2 Arial,sans-serif;letter-spacing:-.04em}
+.rec-baseline-figure span{font-size:12px;font-weight:700;color:#4c6a76}
+@media(max-width:1170px){.rec-proof-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.rec-feature-grid,.rec-proof-grid{grid-template-columns:1fr}}
