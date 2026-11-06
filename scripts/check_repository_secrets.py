@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Block common accidental secret disclosures in the protected-branch CI.
 
-Scan the tracked source tree plus text members of tracked distribution ZIPs.
+Scan tracked source and text members of SHA-256-verified distributed ZIPs.
 Never print secret values. This is defense in depth, not a substitute for
 GitHub secret scanning/push protection and key rotation after an incident.
 """
@@ -53,7 +53,11 @@ def tracked_files() -> list[str]:
 
 def check() -> list[str]:
     violations: list[str] = []
-    for relative in tracked_files():
+    # The twenty historic distribution ZIPs are fetched from a pinned Release
+    # before CI: scan their real contents even though they are no longer tracked.
+    hydrated_archives = {p.relative_to(ROOT).as_posix()
+                         for p in (ROOT / 'site/downloads').glob('*.zip')}
+    for relative in sorted(set(tracked_files()) | hydrated_archives):
         path = ROOT / relative
         if SENSITIVE_FILENAMES.search(relative):
             violations.append(f"{relative}: prohibited secret-like tracked filename")
