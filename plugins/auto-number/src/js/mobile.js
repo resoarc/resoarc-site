@@ -46,7 +46,6 @@
   const core = typeof ResoArcAutoNumber !== 'undefined' ? ResoArcAutoNumber : null;
   const opts = core && core.validConfig(config);
   if (!opts) return;
-  const mobile = !!(kintone.mobile && /mobile\./.test((typeof location !== 'undefined' && location.pathname) || '')) ;
   // Register both desktop and mobile handlers: Kintone only fires the matching event.
   const showTypes = ['app.record.create.show', 'mobile.app.record.create.show',
     'app.record.edit.show', 'mobile.app.record.edit.show'];

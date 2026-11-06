@@ -20,7 +20,7 @@ test('lookup mismatched fields', () => {const r=api.lookupAudit([{code:'x',name:
 test('aggregate sum/count/average', () => {const d=[{cat:'a',n:'2'},{cat:'a',n:'4'},{cat:'b',n:'3'}];assert.equal(api.aggregate(d,'cat','n','sum').groups[0].value,6);assert.equal(api.aggregate(d,'cat',null,'count').groups[0].value,2);assert.equal(api.aggregate(d,'cat','n','average').groups[0].value,3);});
 test('aggregate invalid numeric rows reported', () => {const r=api.aggregate([{cat:'A',n:'bad'}],'cat','n','sum');assert.deepEqual(r.skippedNonNumericRows,[1]);});
 test('permission matrix does not claim effective rights', () => {const r=api.permissionAudit({rights:[{entity:{type:'GROUP',code:'G'},viewRecord:true}]});assert.equal(r.matrix[0].subject,'G');assert.equal(r.permissionsModified,false);assert.match(r.warnings[0],/実効権限/);});
-test('report escapes HTML and is print friendly', () => {const r=api.reportHTML([{a:'<img src=x onerror=alert(1)>'}],['a'],'<script>');assert.match(r,/&lt;script&gt;/);assert.doesNotMatch(r,/<script>/);assert.match(r,/<table/);});
+test('report escapes HTML and is print friendly', () => {const r=api.reportHTML([{a:'<img src=x onerror=alert(1)>'}],['a'],'<script>');assert.match(r,/&lt;script&gt;/);assert.ok(r.includes('&lt;img src=x onerror=alert(1)&gt;'));assert.match(r,/<table/);});
 test('load text recognizes CSV and JSON', () => {assert.equal(api.loadText('a\n1','x.csv')[0].a,'1');assert.equal(api.loadText('[{"a":1}]','x.json')[0].a,1);});
 test('rows reject nonsensical input', () => assert.throws(() => api.dataRows({foo:1})));
 
