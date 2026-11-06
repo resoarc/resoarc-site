@@ -20,6 +20,10 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
+      - name: Audit workflow trust boundaries (OSPS-BR-01.01/01.03)
+        run: python scripts/check_workflow_security.py
+      - name: Prevent accidental tracked-secret commits (OSPS-BR-07.01)
+        run: python scripts/check_repository_secrets.py
       - name: Check immutable ResoArcOS source ZIP
         run: |
           python scripts/verify_resoarcos_snapshot.py
