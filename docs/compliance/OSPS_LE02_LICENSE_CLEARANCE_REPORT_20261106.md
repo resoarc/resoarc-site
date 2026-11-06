@@ -20,6 +20,14 @@
 
 **The rows are different types of evidence, not additive counts.** A complete QA-archive match means that the same executable/configuration payload was preserved earlier in a dated internal QA ZIP; it is not independent proof of original authorship or rights to redistribute. The archived signing keys and any protected material were **not copied into this public report**.
 
+### Comparison against all 13 publicly downloadable source archives
+
+A separate byte-level check across **all 13 actual released source ZIPs**, not just the latest public Git tree, produced **9/22 full matches, 3/22 partial matches, and 10/22 without a matched source file**. This reveals an exact distributable source counterpart for **Tabs v1.0.0 (8/8 files)**, which had previously shown only a partial match to the current public Codeberg Git tree. The four different "missing source" measures should not be conflated.
+
+- [13-source-to-22-signed comparison, exact SHA-256 per nested member](OSPS_13_SOURCE_ZIPS_TO_22_SIGNED_MATCH_20261106.json).
+- **Technical scope**: shared byte-identical content in published source archives, not proof of the originator's copyright permission. Only the original operator and, where required, third-party licensing counsel can approve the rights declaration.
+- The **10 mobile release packages** lacking an exact counterpart in *any of the 13 public source ZIPs* remain traceable to private QA or formal signed release bundles in many cases; those private QA files are intentionally not misrepresented as already-public source code.
+
 ### Eight signed ZIPs with a formal historical release record
 
 Two historical, four-product central release manifests (dated 2026-10-19) were inspected. For **all eight exact public ZIPs**, the old manifest SHA-256, current public bytes, signed-verification flag and historical formal approval ID agree.
