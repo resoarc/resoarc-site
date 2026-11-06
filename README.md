@@ -18,8 +18,9 @@
 
 - **REUSE Specification 3.3 準拠:** [Free Software Foundation Europe の検査結果](https://api.reuse.software/info/github.com/resoarc/resoarc-site)で、著作権表示・ライセンス情報の準拠状況を確認できます。
 - **OpenSSF Scorecard:** [自動セキュリティ評価結果](https://scorecard.dev/viewer/?uri=github.com/resoarc/resoarc-site)を公開しています。点数は時点によって変わり、品質・安全性を保証するものではありません。
+- **OpenSSF OSPS Baseline Level 1：100%（24/24項目）:** [公式の自己評価結果と取得バッジ](https://www.bestpractices.dev/projects/15597/baseline-1)を公開しています。根拠・範囲・制約は[2026年11月7日の検証報告](docs/compliance/OSPS_BASELINE1_ACHIEVED_20261107.md)を参照してください。
 
-これらは種類の異なる取り組みです。REUSE準拠はライセンス情報の整備、Scorecardは自動評価であり、ResoArcに対する団体加盟認定、受賞、製品保証を意味しません。
+これらは種類の異なる取り組みです。REUSEはライセンス表記の検査、Scorecardは自動評価、OSPS Baseline Level 1は公開要件に対する任意の自己評価です。いずれもResoArcに対する独立セキュリティ監査、法的保証、OpenSSFの法人加盟を意味しません。
 
 ## 収録物
 
