@@ -26,7 +26,7 @@ function filter(records,rule,term){
  if(query.length>200)throw Error('検索語が長すぎます');
  return records.filter(record=>{
   const v=record&&record[rule.code];
-  const value=readable(v&&typeof v==='object'&&!Array.isArray(v)&&'value' in v?v.value:v).normalize('NFKC').toLowerCase();
+  const value=readable((v && typeof v==='object' && !Array.isArray(v) && ('value' in v)) ? v.value : v).normalize('NFKC').toLowerCase();
   switch(rule.operator){case 'equals':return value===query;case 'startsWith':return value.startsWith(query);default:return value.includes(query);}
  });
 }

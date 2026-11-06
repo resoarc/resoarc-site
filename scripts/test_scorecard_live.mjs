@@ -39,7 +39,6 @@ const elements = {
   "[data-scorecard-date]": [{tagName:"TIME",textContent:"",dateTime:""}],
   "[data-scorecard-state]": [{textContent:"確認中"}],
 };
-let waiting = Promise.resolve();
 const context = {
   document: {querySelectorAll: key => elements[key] ?? []},
   fetch: () => Promise.resolve({ok:true,json:async()=>({
