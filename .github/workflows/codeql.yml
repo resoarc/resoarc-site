@@ -48,6 +48,9 @@ jobs:
         with:
           go-version-file: experiments/trapnet-zero-trust/go.mod
           cache: false
+      - name: Verify SARIF summary stays metadata-only
+        if: matrix.language == 'go'
+        run: python3 -m unittest discover -s .github/scripts -p 'test_codeql_sarif_summary.py' -v
       - name: Initialize CodeQL
         uses: github/codeql-action/init@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
@@ -59,6 +62,23 @@ jobs:
         working-directory: experiments/trapnet-zero-trust
         run: go build ./...
       - name: Analyze security issues
+        id: analyze
         uses: github/codeql-action/analyze@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
           category: "/language:${{ matrix.language }}"
+          output: ${{ runner.temp }}/codeql-sarif
+      - name: Summarize findings without snippets, secrets, or raw messages
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/codeql_sarif_summary.py \
+            --sarif-dir "$RUNNER_TEMP/codeql-sarif" \
+            --language "${{ matrix.language }}" \
+            --output "$RUNNER_TEMP/codeql-summary-${{ matrix.language }}.json"
+      - name: Preserve metadata-only review inventory for triage
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: codeql-findings-${{ matrix.language }}
+          path: ${{ runner.temp }}/codeql-summary-${{ matrix.language }}.json
+          if-no-files-found: error
+          retention-days: 14
