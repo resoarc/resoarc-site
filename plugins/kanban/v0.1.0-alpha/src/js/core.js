@@ -12,7 +12,7 @@ function normalize(raw){
 }
 function text(v){
  if(v==null)return '';
- if(typeof v==='object'&&'value' in v)return text(v.value);
+ if(typeof v==='object' && ('value' in v))return text(v.value);
  if(Array.isArray(v))return v.map(text).join('、');
  if(typeof v==='object')return v.name||v.code||JSON.stringify(v);
  return String(v);

@@ -129,7 +129,7 @@
         });
         return {numbers:planned.numbers,updated:true};
       }catch(err){
-        const code=String(err && err.code||'');
+        const code=String((err && err.code) || '');
         if(attempt===0 && (code==='GAIA_RE20'||code==='GAIA_CO02'))continue;
         throw err;
       }
