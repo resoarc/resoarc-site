@@ -21,7 +21,7 @@
         else if (c === '"') { quoted = false; closed = true; }
         else cur += c;
       } else if (c === '"' && !cur && !closed) { quoted = true; }
-      else if (c === '"' && !quoted) { throw Error('CSVの引用符が不正な位置にあります'); }
+      else if (c === '"') { throw Error('CSVの引用符が不正な位置にあります'); }
       else if (c === sep) { finishCell(); }
       else if (c === '\r' || c === '\n') {
         if (c === '\r' && input[i + 1] === '\n') i++;

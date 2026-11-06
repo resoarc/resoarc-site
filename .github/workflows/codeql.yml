@@ -1,12 +1,13 @@
-# Static security analysis for the public JavaScript and Python source.
+# Static security and quality analysis of Python, JS/TS, Go and GitHub Actions.
 name: CodeQL security analysis
 on:
   push:
     branches: [main]
+  # Include stacked TrapNet draft PRs whose base is not main.
   pull_request:
-    branches: [main]
+  workflow_dispatch:
   schedule:
-    - cron: '27 3 * * 1'
+    - cron: '27 3 * * 1,4'
 
 permissions:
   contents: read
@@ -32,18 +33,52 @@ jobs:
             build-mode: none
           - language: python
             build-mode: none
+          - language: go
+            build-mode: manual
+          - language: actions
+            build-mode: none
     steps:
       - name: Checkout source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+      - name: Set up pinned Go toolchain for TrapNet
+        if: matrix.language == 'go'
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: experiments/trapnet-zero-trust/go.mod
+          cache: false
+      - name: Verify SARIF summary stays metadata-only
+        if: matrix.language == 'go'
+        run: python3 -m unittest discover -s .github/scripts -p 'test_codeql_sarif_summary.py' -v
       - name: Initialize CodeQL
         uses: github/codeql-action/init@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
-          queries: security-extended
+          queries: security-and-quality
+      - name: Build Go sources for complete CodeQL capture
+        if: matrix.language == 'go'
+        working-directory: experiments/trapnet-zero-trust
+        run: go build ./...
       - name: Analyze security issues
+        id: analyze
         uses: github/codeql-action/analyze@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
           category: "/language:${{ matrix.language }}"
+          output: ${{ runner.temp }}/codeql-sarif
+      - name: Summarize findings without snippets, secrets, or raw messages
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/codeql_sarif_summary.py \
+            --sarif-dir "$RUNNER_TEMP/codeql-sarif" \
+            --language "${{ matrix.language }}" \
+            --output "$RUNNER_TEMP/codeql-summary-${{ matrix.language }}.json"
+      - name: Preserve metadata-only review inventory for triage
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: codeql-findings-${{ matrix.language }}
+          path: ${{ runner.temp }}/codeql-summary-${{ matrix.language }}.json
+          if-no-files-found: error
+          retention-days: 14

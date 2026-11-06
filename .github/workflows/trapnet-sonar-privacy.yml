@@ -34,3 +34,45 @@ jobs:
         run: python -m unittest discover -s . -p 'test_*.py' -v
       - name: Compile shipped tools
         run: python -m py_compile sonar_hardening.py sonar_profiles.py passive_import.py cowrie_offline_integration.py cowrie_recreate_recovery.py cowrie_lab_backup.py cowrie_log_health.py cowrie_log_pressure.py
+
+  disposable-private-config:
+    name: Real Cowrie isolated configuration 0700 ownership regression
+    # Only run root-owned disposable tests for branches in our own repository.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: experiments/trapnet-zero-trust/sonar
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify disposable host and fetch immutable Cowrie image
+        shell: bash
+        working-directory: .
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "x86_64"
+          command -v docker
+          command -v sudo
+          docker info >/dev/null
+          docker pull cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c
+          test "$(docker image inspect --format '{{.Id}}' cowrie/cowrie@sha256:69e3317c6ecf8811d18faecb8a2fcedee0af1f0f864b50de07b688c7409f515c)" = "sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a"
+      - name: Prove private Cowrie config is readable by UID999 and SSH logs survive restart
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo env PATH="$PATH" python3 cowrie_offline_integration.py --image-id sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a --delay 3
+      - name: Prove private config permits offline container recreate and recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo env PATH="$PATH" python3 cowrie_recreate_recovery.py --image-id sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a --delay 3
+      - name: Prove private config permits isolated 8MiB disk-pressure diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo env PATH="$PATH" python3 cowrie_log_pressure.py --image-id sha256:17191d19f02bb9b9d9ebda0578f96bd13f764c10a7b5c11a1b50f6eb6c973a9a

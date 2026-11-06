@@ -99,4 +99,4 @@ if(arg==='--write'){
     tenantPassedItems:inventory.items.filter(x=>x.gates.tenant==='passed').length,
     releaseApproved:inventory.items.filter(x=>x.release_decision==='approved').length
   },null,2));
-}else{console.error('Usage: --check, --write, --summary');process.exitCode=2}
+}else{console.error('Usage: --check, --write, --summary');process.exitCode=2;}

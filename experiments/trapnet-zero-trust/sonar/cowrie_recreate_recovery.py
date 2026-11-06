@@ -98,7 +98,8 @@ def trial(image, delay=5):
         docker("rm","-v",preflight)
         active.remove(preflight)
         default_config_is_regular(config)
-        os.chmod(config,0o755)
+        os.chown(config,999,999)
+        os.chmod(config,0o700)
         initialize_var(data)
         stage="first_start"
         create()

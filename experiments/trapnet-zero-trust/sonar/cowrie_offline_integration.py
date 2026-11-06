@@ -116,7 +116,8 @@ def trial(image,delay=5):
         for directory,_,files in os.walk(config):
             if any((Path(directory)/f).is_symlink() for f in files):
                 raise ValueError("symlink in image default config")
-        os.chmod(config,0o755)
+        os.chown(config,999,999)
+        os.chmod(config,0o700)
         initialize_var(data)
         stage="start"
         docker("create","--name",name,"--network","none","--read-only",

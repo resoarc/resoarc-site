@@ -77,7 +77,8 @@ print(json.dumps(r))""")
         docker("create","--name",source,"--network","none",image);created.append(source)
         docker("cp",source+":"+BASE+"/etc/.",str(config))
         docker("rm","-v",source);created.remove(source)
-        os.chmod(config,0o755)
+        os.chown(config,999,999)
+        os.chmod(config,0o700)
         docker("volume","create","--driver","local","--opt","type=tmpfs",
                "--opt","device=tmpfs","--opt","o=size=8m,uid=999,gid=999",volume)
         volume_created=True
