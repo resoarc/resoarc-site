@@ -1,11 +1,11 @@
 # OpenSSF Best Practices #15597 | Baseline Level 1 assessment draft
 
-**Status: DRAFT. No baseline badge earned.** Updated 2026-10-17 JST.
+**Status: DRAFT; Baseline Level 1 NOT AWARDED.** Evidence and issuer-status refresh 2026-11-06 JST. The original per-criterion suggestions below were written 2026-10-17; they remain draft until revalidated.
 
 Official project: https://www.bestpractices.dev/projects/15597/baseline-1
 Repository: https://github.com/resoarc/resoarc-site
 
-The official project exists (ID **15597**, repo and homepage verified), but the badge issuer still reports **Name Unknown / 0%**. Its metadata and criteria have not been completed. Submit only after signing in as the dedicated `resoarc` GitHub account and reviewing the actual evidence. Statuses below are **recommendations**, not submitted self-certification claims. A question mark means evidence is insufficient.
+The official project exists (ID **15597**). On 2026-11-06, the public issuer lookup reports project name **ResoArc** and description populated, **17% Baseline Level 1** (four answers marked Met, no badge awarded); numerous required fields are still unknown. Do not mistake 17% for an earned badge. Submit only after signing in as the dedicated `resoarc` GitHub account and reviewing the actual evidence. Statuses below are **recommendations**, not submitted self-certification claims. A question mark means evidence is insufficient.
 
 ## Proposed responses and evidence
 
@@ -38,11 +38,11 @@ The official project exists (ID **15597**, repo and homepage verified), but the 
 
 ## Highest-priority remediation
 
-1. **Protect `main` with an active rule.** Deny direct pushes, block branch deletion, require the CI checks `verify` and `reuse`, and carefully test developer/admin bypass and release automation. A ruleset saved with **Disabled** enforcement does not satisfy OSPS-AC-03.01. Confirm owner and repository-plan enforcement compatibility instead of assuming a draft rule applies.
-2. **Add correct license alongside each released package**, without repacking signed kintone ZIP files. Publish the license and third-party notices next to each download, then verify the public URLs and release metadata.
-3. **Stop tracking generated installable plugin archives** after setting up independent, integrity-checked distribution hosting. Keep public links and checksum verification working first.
+1. **Protect `main` with an active rule.** The 2026-11-06 configuration attempt specified PR required, `verify` and `reuse` checks, no admin bypass, no force pushes/deletions, and **no mandatory peer approval** until a real reviewer is available. GitHub **Confirm access** password re-authentication stopped final creation; post-attempt public GitHub API still reports `protected=false`. An authorized human must finish sudo confirmation and verify enforcement via API/negative test. Do not claim the branch is protected until that happens. Confirm owner and repository-plan enforcement compatibility instead of assuming a draft rule applies.
+2. **Add correct license alongside each released package**, without repacking signed kintone ZIP files. In [the 2026-11-06 20-asset audit](compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.md), 11 signed installer ZIPs lacked embedded `LICENSE`, while 9 source ZIPs had one. The compliance PR adds an exact first-party `site/downloads/LICENSE`, a companion `NOTICE.md`, eight user-facing signed QA per-product links and SHA-256 evidence. **Cloudflare production deployment, user receipt of sidecars, full third-party obligations and three other signed legacy asset delivery flows still need evidence**; OSPS-LE-03.02 remains PARTIAL.
+3. **Stop tracking the 20 generated distribution ZIP assets** only after setting up independent, integrity-checked distribution hosting. Keep public links and checksum verification working first.
 4. **Review account MFA and collaborator permissions** on the owner-controlled account, and audit actual workflow secret isolation.
-5. **Enter the project name and description on #15597** and answer criteria only with validated evidence. Never show an earned badge until the issuer reports it.
+5. **Do not re-register or overwrite the existing project metadata**; the public issuer already shows name/description filled with 17% progress as of 2026-11-06. Confirm any existing `Met` claim such as OSPS-LE-02.02 against package-level proof. Submit remaining answers truthfully only after re-authentication and evidence review; no badge until the issuer awards it.
 
 ## Honest status
 
