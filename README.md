@@ -14,6 +14,11 @@
 
 ## 第三者が確認できる技術実績
 
+[![OpenSSF Baseline](https://www.bestpractices.dev/projects/15597/baseline)](https://www.bestpractices.dev/projects/15597)
+
+*OpenSSF Baseline Level 1（24/24項目）：自己評価に基づくバッジです。第三者によるセキュリティ認定ではありません。*
+
+
 [![REUSE status](https://api.reuse.software/badge/github.com/resoarc/resoarc-site)](https://api.reuse.software/info/github.com/resoarc/resoarc-site)
 
 - **REUSE Specification 3.3 準拠:** [Free Software Foundation Europe の検査結果](https://api.reuse.software/info/github.com/resoarc/resoarc-site)で、著作権表示・ライセンス情報の準拠状況を確認できます。
