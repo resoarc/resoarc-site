@@ -9,7 +9,7 @@ The official project exists (ID **15597**) with project name and description pop
 
 ## Latest verified status (2026-11-06 JST, after owner reauthentication)
 
-**Issuer project #15597: Baseline Level 1 self-assessment = 50%; no awarded badge.** The result counts **12 of 24** Level 1 controls marked `Met`. Other controls are either `Unmet` or `?` and are not presented as passing. The recorded answers are a *voluntary self-assessment*, not external certification.
+**Current issuer status (2026-11-06 JST): 92% (22/24 controls Met); no awarded badge.** The only remaining `Unmet` controls are **OSPS-LE-02.02** (complete released-software license audit not yet evidenced) and **OSPS-LE-03.02** (complete license delivery to users on every public distribution channel not yet evidenced). This is a *voluntary self-assessment*, not an independent audit or certificate. Official source: https://www.bestpractices.dev/projects/15597/baseline-1 .
 
 ### Branch protection: active and validated in GitHub UI
 
@@ -17,22 +17,18 @@ The official project exists (ID **15597**) with project name and description pop
 - Verified persisted classic protection rule matching `main`: **PR required**, status checks `verify` and `reuse` required, **administrator bypass prohibited**, force-push and deletion permissions disabled. A mandatory one-person approval was **not** imposed, as this project has no genuine independent reviewer at this time.
 - OSPS-AC-03.01 and OSPS-AC-03.02 were explicitly submitted to BadgeApp as **Met** with dated GitHub UI/API evidence. We did not deliberately attempt a destructive branch push/deletion to test rejection.
 
-### Owner security: 2FA is NOT enabled
+### Owner security: 2FA enabled, evidenced
 
-The actual authenticated `@resoarc` **GitHub Account security** page explicitly showed **"Two-factor authentication is not enabled yet."** The owner reauthentication for saving branch settings is not MFA. OSPS-AC-01.01 was therefore submitted as **Unmet**, not `Met`, pending actual 2FA setup and review of all privileged accounts.
+On 2026-11-06 the authenticated @resoarc GitHub account's security page showed a configured Authenticator app and recovery-code management; the project account received a GitHub email explicitly confirming that two-factor authentication had just been enabled. The earlier observation that 2FA was disabled was before enrollment and has been superseded. OSPS-AC-01.01 is now submitted as **Met**. Recovery code content and TOTP secrets were not accessed, copied or published. Maintain safe offline recovery methods and review privileged access when collaborators are added.
 
-**Required owner action:** use [GitHub's 2FA setup page](https://github.com/settings/two_factor_authentication/setup/intro), choose a supported authenticator or hardware security method, and preserve recovery codes securely *outside* the source repository and conversation. Recheck account security afterwards. Do not expose TOTP seeds, backup codes, personal emails or account recovery details in public evidence.
+### Verified final two Level 1 blockers, and remediated controls
 
-### Verified remaining blockers and conservative answers
+- **OSPS-LE-02.02: Unmet.** First-party code is declared MIT and source ZIPs generally include MIT license texts; signed installer ZIPs have companion source and MIT/NOTICE in the official GitHub Release. A complete package-by-package third-party rights review is not yet signed off. Do not assume rights merely because the software is available for download.
+- **OSPS-LE-03.02: Unmet.** All 20 historical ZIPs are in the [GitHub release mirror](https://github.com/resoarc/resoarc-site/releases/tag/resoarc-osps-distribution-mirror-20261106), alongside LICENSE and NOTICE, with SHA-256 verification. However, the Cloudflare production URL for LICENSE/NOTICE was previously observed as HTTP 404, so distribution-site recipient evidence is still outstanding. Publish through the canonical Cloudflare process and verify 200 responses/links and package hashes before closing.
+- **AC-02.01, BR-01.01, BR-01.03, BR-07.01, DO-01.01, QA-02.01, QA-04.01, QA-05.01, QA-05.02: Met as of 2026-11-06**, based on [merged PR #69](https://github.com/resoarc/resoarc-site/pull/69) and [merged PR #70](https://github.com/resoarc/resoarc-site/pull/70), both with passing CI. The current tree has **zero tracked distribution ZIPs**; original bytes are preserved externally. The remaining 34 binary assets are reviewable image/font media with pinned SHA-256 metadata, not generated installer executables.
+- Project-owned automation and review do not create an independent third-party security assessment. Historical git commits still reference the former ZIP files; this audit concerns the current working source tree and does not silently rewrite history.
 
-- **OSPS-LE-03.02: Unmet.** The 2026-11-06 ZIP audit found **11 signed plugin installers** without a license or notice in the outer or signed inner archive. Adding companion license files to GitHub does not prove user delivery; as of the most recent live check, `https://resoarc.com/downloads/LICENSE` and `/downloads/NOTICE.md` both returned HTTP **404**. Refer to [release audit](compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.md).
-- **OSPS-QA-05.01: Unmet.** The repository still tracks **20 generated distribution ZIPs** in `site/downloads`. No migration is complete and public URLs must remain intact.
-- **OSPS-DO-01.01 and OSPS-LE-02.02: conservatively Unmet** until all released products have verified coverage of user guides and corresponding software/third-party asset licenses. This reflects insufficient end-to-end evidence, not a claim that MIT itself is invalid.
-- Remaining access, CI, secret prevention and dependency items need their own current evidence and questionnaire updates. Do not infer passing from a Scorecard score or AI-only review.
-
-**History and caution:** BadgeApp's form initially populated other previously unverified items as `Met` when saving the two new protection answers. The project therefore re-audited the official public JSON, corrected provably false or not-demonstrated claims to `Unmet`, saved again, and confirmed the final 50% state. This evidence-first correction is deliberate; the project is not claiming all 24 controls pass.
-
-The per-criterion table below began as **2026-10-17 draft suggestions**; this section and the live issuer's machine-readable values supersede any conflicting historical wording.
+This section and the live issuer's machine-readable values supersede the **2026-10-17 proposed answer table below**. In particular, old table entries mentioning unprotected main, 2FA disabled, 20 tracked ZIPs, or a 17/50% badge state are historical and **must not be used as current evidence**.
 
 ## Proposed responses and evidence (historical draft; see current status above)
 
