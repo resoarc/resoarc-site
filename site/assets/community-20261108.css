@@ -1,0 +1,14 @@
+/* Community landing page - independent, keyboard accessible, no trackers */
+.community-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.15rem;margin-top:2rem}
+.community-card{border:1px solid #d5dfe0;padding:1.7rem;background:#fff;border-radius:.4rem;display:flex;flex-direction:column}
+.community-card>span{font-size:.72rem;font-weight:700;letter-spacing:.14em;color:#526c73}
+.community-card h3{font-size:1.35rem;margin:.9rem 0 .5rem}
+.community-card p{line-height:1.8;flex-grow:1;margin:.2rem 0 1.2rem}
+.community-card a,.community-links a,.community-issues a{color:#164d63;text-decoration:underline;text-underline-offset:.24rem;font-weight:650}
+.community-issues,.community-links{display:flex;flex-wrap:wrap;gap:1rem 1.7rem;margin:1.4rem 0}
+.community-note{color:#52676b;font-size:.92rem;line-height:1.8}
+.community-card a:focus-visible,.community-links a:focus-visible,.community-issues a:focus-visible{outline:3px solid #de9231;outline-offset:4px}
+@media(max-width:720px){.community-grid{grid-template-columns:1fr}.community-card{padding:1.25rem}}
+
+.en-mobile-links{display:none}
+@media(max-width:850px){.en-mobile-links{display:flex;gap:1rem;flex-wrap:wrap;padding:.8rem 1rem;background:#f3f7f7}.en-mobile-links a{color:#164d63;text-decoration:underline;font-size:.9rem}}

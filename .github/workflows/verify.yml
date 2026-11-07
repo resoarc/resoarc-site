@@ -55,10 +55,13 @@ jobs:
       - name: Test live Scorecard proxy and client fallback
         run: |
           node --check site/_worker.js
+          node tests/worker_activity.test.mjs
           node --check site/assets/scorecard-live-20261017.js
           node scripts/test_scorecard_live.mjs
       - name: Check public site source, links and checksums
-        run: python scripts/verify_site.py
+        run: |
+          python scripts/verify_site.py
+          python -m unittest discover -s tests -p test_community_site.py -v
       - name: Verify tracked release ZIP integrity and interim license notices
         run: python scripts/audit_release_license_evidence.py
       - name: Verify scoped OpenChain component inventory and file hashes

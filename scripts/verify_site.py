@@ -124,8 +124,9 @@ def main() -> int:
             continue
         if not text.lower().lstrip().startswith("<!doctype html>"):
             fail(f"{relative}: missing doctype")
-        if parser.html_lang != "ja":
-            fail(f"{relative}: html lang not ja")
+        expected_lang = "en" if relative == "en/index.html" else "ja"
+        if parser.html_lang != expected_lang:
+            fail(f"{relative}: html lang not {expected_lang}")
         if not parser.title_present:
             fail(f"{relative}: missing page title")
         if 'href="/os/"' not in text:
