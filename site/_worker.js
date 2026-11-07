@@ -11,6 +11,75 @@ const HISTORICAL_SCORECARD = Object.freeze({
   cached: true,
   historical: true,
 });
+// Privacy-preserving download telemetry: successful full-file GET responses only.
+// Does not store IP addresses, cookies, referrers, user agents, or per-visitor events.
+// Counts denote successful 200 responses initiated, not verified completed downloads.
+const DOWNLOAD_FILE_PATH = /^\/downloads\/(resoarc[a-z0-9._-]{1,190}\.(?:zip|iso))$/i;
+const DOWNLOAD_SQL = "INSERT INTO downloads_daily(date_utc, asset, hits) VALUES (?1, ?2, 1) ON CONFLICT(date_utc, asset) DO UPDATE SET hits = hits + 1";
+const DOWNLOAD_STATS_HEADERS = Object.freeze({
+  "Content-Type": "application/json; charset=utf-8",
+  "Cache-Control": "public, max-age=60",
+  "X-Content-Type-Options": "nosniff",
+  "Content-Security-Policy": "default-src 'none'",
+});
+async function trackedDownloadRequest(request, env, ctx, pathname) {
+  // Never interfere with the actual static asset delivery, even if recording fails.
+  const response = await env.ASSETS.fetch(request);
+  const match = DOWNLOAD_FILE_PATH.exec(pathname);
+  if (match && request.method === "GET" && response.status === 200 &&
+      !request.headers.has("range") && env.DOWNLOAD_DB?.prepare) {
+    const day = new Date().toISOString().slice(0, 10);
+    const task = env.DOWNLOAD_DB.prepare(DOWNLOAD_SQL).bind(day, match[1].toLowerCase())
+      .run().catch(() => undefined);
+    if (ctx?.waitUntil) ctx.waitUntil(task);
+    else await task;
+  }
+  return response;
+}
+async function downloadStatsRequest(request, env) {
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    return new Response(null, {status:405, headers:{Allow:"GET, HEAD"}});
+  }
+  let site = {available:false, metric:"successful_http_200_get_responses", assets:[], daily:[]};
+  if (env.DOWNLOAD_DB?.prepare) {
+    try {
+      const [totals, days] = await Promise.all([
+        env.DOWNLOAD_DB.prepare("SELECT asset, SUM(hits) AS hits FROM downloads_daily GROUP BY asset ORDER BY hits DESC LIMIT 200").all(),
+        env.DOWNLOAD_DB.prepare("SELECT date_utc AS day, SUM(hits) AS hits FROM downloads_daily GROUP BY date_utc ORDER BY date_utc DESC LIMIT 90").all(),
+      ]);
+      site = {available:true, metric:"successful_http_200_get_responses",
+        assets:(totals.results || []).map(r => ({name:String(r.asset), downloads:Number(r.hits)})),
+        daily:(days.results || []).map(r => ({day:String(r.day), downloads:Number(r.hits)}))};
+    } catch { site.error = "database_unavailable"; }
+  } else site.error = "database_not_bound";
+  let github = {available:false, metric:"github_release_asset_download_count", assets:[]};
+  try {
+    const response = await fetch("https://api.github.com/repos/resoarc/resoarc-site/releases?per_page=100", {
+      headers: {"Accept":"application/vnd.github+json", "User-Agent":"ResoArc-Download-Metrics/1.0"},
+      signal: AbortSignal.timeout(8000),
+      cf: {cacheEverything:true,cacheTtl:3600},
+    });
+    if (!response.ok) throw new Error("github_unavailable");
+    const releases = await response.json();
+    if (!Array.isArray(releases)) throw new Error("github_invalid_response");
+    github = {available:true, metric:"github_release_asset_download_count",
+      assets:releases.flatMap(release => (release.assets || []).map(a => ({
+        name:String(a.name || "").slice(0, 200),
+        downloads:Number(a.download_count || 0),
+        release:String(release.tag_name || "").slice(0, 120),
+      })))};
+  } catch { github.error = "github_unavailable"; }
+  const body = JSON.stringify({
+    schema_version:1,
+    updated_at:new Date().toISOString(),
+    explanation:"Counts represent file requests or GitHub Release asset downloads; not installs or unique users.",
+    site, github,
+  });
+  return new Response(request.method === "HEAD" ? null : body, {
+    status:200, headers:DOWNLOAD_STATS_HEADERS,
+  });
+}
+
 const API_PREFIX = "/api/v1/swww/";
 const API_ROUTES = new Set([
   "/api/v1/swww/advisories",
@@ -141,6 +210,8 @@ export default {
     if (API_ROUTES.has(url.pathname)) {
       return securityWeatherRequest(request, env, url);
     }
+    if (url.pathname === "/api/v1/downloads/summary") return downloadStatsRequest(request, env);
+    if (url.pathname.startsWith("/downloads/")) return trackedDownloadRequest(request, env, ctx, url.pathname);
     if (url.pathname !== "/api/scorecard") return env.ASSETS.fetch(request);
     if (request.method !== "GET" && request.method !== "HEAD") {
       return new Response(null, { status: 405, headers: { Allow: "GET, HEAD" } });

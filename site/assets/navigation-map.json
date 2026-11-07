@@ -41,6 +41,11 @@
       "parent": "/",
       "visible": true
     },
+    "/metrics/downloads/": {
+      "title": "ダウンロード統計",
+      "parent": "/",
+      "visible": false
+    },
     "/os/": {
       "title": "ResoArcOS",
       "parent": "/",

@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 ResoArc
+# SPDX-License-Identifier: MIT
+# Cloudflare Pages resoarc, settings downloaded from production on 2026-11-08.
+# Preserve the SWWW service binding when configuring the D1 download counter.
+name = "resoarc"
+pages_build_output_dir = "site"
+compatibility_date = "2026-10-15"
+
+[[services]]
+binding = "SWWW_LIVE"
+service = "resoarc-swww-live-edge"
+environment = ""
+
+[[d1_databases]]
+binding = "DOWNLOAD_DB"
+database_name = "resoarc-download-metrics"
+database_id = "a2c02dcd-0dc0-45d2-bae8-2250fe7a68bc"
+
+[env.production]
