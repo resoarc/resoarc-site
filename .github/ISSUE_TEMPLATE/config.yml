@@ -1,7 +1,7 @@
 blank_issues_enabled: true
 contact_links:
   - name: Private security report / 非公開の脆弱性報告
-    url: https://github.com/resoarc/resoarc-site/security/advisories/new
+    url: https://github.com/resoarc/resoarc-site/blob/main/SECURITY.md
     about: 未公開の脆弱性を公開Issueに投稿しないでください。SECURITY.mdを参照してください。
   - name: Project overview / プロジェクト紹介
     url: https://resoarc.com/community/
