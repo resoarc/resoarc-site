@@ -10,17 +10,17 @@ ROOT=Path(__file__).resolve().parents[1]
 SITE=ROOT/'site'
 index=BeautifulSoup((SITE/'products/kintone/index.html').read_text(encoding='utf8'),'html.parser')
 cards=index.select('article.kc-product')
-assert len(cards)==12,len(cards)
+assert len(cards)==15,len(cards)
 release=BeautifulSoup((SITE/'products/kintone/release-integrity/index.html').read_text(encoding='utf8'),'html.parser')
 rows={r['id']:r for r in release.select('tr[id]')}
-assert len(rows)==12
+assert len(rows)==15
 captures=SITE/'assets/kintone-settings-captures'
-assert len(list(captures.glob('*.webp')))==12
+assert len(list(captures.glob('*.webp')))==15
 for card in cards:
  title=card.h3.get_text(' ',strip=True)
- slug=card.select_one('img.kc-product-icon')['src'].split('/')[-1].removesuffix('.svg')
+ slug=card.select_one('img.kc-product-icon')['src'].split('/')[-1].removesuffix('.svg').removesuffix('.png')
  href=card.select_one('a.kc-product-link')['href']
- assert slug in rows
+ assert slug in rows,(slug,list(rows))
  assert '設定画面を再現したデモ画像' in card.get_text(' ',strip=True)
  img=card.select_one('.kc-card-media img')
  assert img and img['src']==f'/assets/kintone-settings-captures/{slug}.webp'
@@ -61,4 +61,4 @@ for f in SITE.rglob('*.html'):
  body=f.read_text(encoding='utf8')
  assert body.count('<script defer src="/assets/navigation.js"></script>')==1,f
  assert body.count('<link rel="stylesheet" href="/assets/navigation.css">')==1,f
-print('OFFICIAL_PLUGINS_TRANSPARENCY_PASS products=12 manifest-and-listing-match=12 stable-nav=56 public=46')
+print(f'OFFICIAL_PLUGINS_TRANSPARENCY_PASS products={len(cards)} manifest-and-listing-match={len(rows)} stable-nav={len(nav["pages"])} public={len(sitemap_urls)}')

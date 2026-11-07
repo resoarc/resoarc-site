@@ -96,6 +96,11 @@
       "parent": "/products/",
       "visible": true
     },
+    "/products/kintone/input-template/": {
+      "title": "入力テンプレート",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
     "/products/kintone/list-aggregate/": {
       "title": "一覧合計バー",
       "parent": "/products/kintone/",
@@ -103,6 +108,11 @@
     },
     "/products/kintone/lookup-suggest/": {
       "title": "ルックアップ候補表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/mail-compose/": {
+      "title": "メール作成ボタン",
       "parent": "/products/kintone/",
       "visible": true
     },
@@ -133,6 +143,11 @@
     },
     "/products/kintone/release-integrity/": {
       "title": "配布物の検証方法",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/reuse-reset/": {
+      "title": "レコード再利用制御",
       "parent": "/products/kintone/",
       "visible": true
     },

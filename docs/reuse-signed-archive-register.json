@@ -333,6 +333,51 @@
       "third_party_code_signals": [],
       "notice_state": "pending_separate_license_evidence",
       "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-input-template-v1.0.0-20261022.zip",
+      "sha256": "d466741e9d8ee554ecbdbe3d4d744fb804e8f5364f4bb213249db3fc8df80c65",
+      "payload_sha256": "6c2427db8f16b60e7c32a221f4f57d62115b6afc557849e2a879cfad3a3d9065",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-reuse-reset-v1.0.0-20261022.zip",
+      "sha256": "4b7d1e19637cc69a0895b69ddceb533fcb39e56822c200c1730775261ceae4f9",
+      "payload_sha256": "a6a2d500122a9b25ad098d25da2d998520f9d93dfb0e04445baed7bc138839a9",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-mail-compose-v1.0.0-20261022.zip",
+      "sha256": "1c68772578f2c12e1e98a77e983a0a91932880a7a01b1b4a6350cdaa98ac691e",
+      "payload_sha256": "a404af445ecf4dc03d4f9e47d3e16807c1abf0efb99287f934077a678b562ca5",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
     }
   ]
 }

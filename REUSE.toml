@@ -591,3 +591,69 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "scripts/merge_three_release_20261107.py",
+  "scripts/register_three_release_20261107.py",
+  "site/downloads/resoarc-input-template-v1.0.0-20261022.zip",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-20261022.zip",
+  "site/downloads/resoarc-mail-compose-v1.0.0-20261022.zip",
+  "site/downloads/resoarc-input-template-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-input-template-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-input-template-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-input-template-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-input-template-v1.0.0-signed-source.zip",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-signed-source.zip",
+  "site/downloads/resoarc-mail-compose-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-mail-compose-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-mail-compose-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-mail-compose-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-mail-compose-v1.0.0-signed-source.zip",
+  "site/products/kintone/input-template/index.html",
+  "site/products/kintone/reuse-reset/index.html",
+  "site/products/kintone/mail-compose/index.html",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "site/assets/kintone-icons/input-template.png",
+  "site/assets/kintone-icons/reuse-reset.png",
+  "site/assets/kintone-icons/mail-compose.png",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Brand-Art"
+
+[[annotations]]
+path = [
+  "site/assets/kintone-settings-captures/input-template.webp",
+  "site/assets/kintone-settings-captures/reuse-reset.webp",
+  "site/assets/kintone-settings-captures/mail-compose.webp",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Screenshots"
+
+[[annotations]]
+path = [
+  "scripts/release_three_archive_audit_20261107.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "tests/kintone_three_browser_release_20261107.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
