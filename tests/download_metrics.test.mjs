@@ -53,3 +53,33 @@ test("summary distinguishes unbound D1 from zero downloads",async()=>{
    assert.equal(post.status,405);
  } finally {globalThis.fetch=oldFetch;}
 });
+
+test("counted delivery endpoint increments on every successful GET; not HEAD or Range",async()=>{
+  const {env,saved}=fakeEnvironment();
+  const wait=[];
+  const ctx={waitUntil:x=>wait.push(x)};
+  const address="https://resoarc.com/api/v1/downloads/file?asset=resoarc-tabs-signed-qa.zip";
+  const request=(method,headers)=>worker.fetch(new Request(address,{method,headers}),env,ctx);
+  for(let n=0;n<3;n++){
+    const res=await request("GET");
+    assert.equal(res.status,200);
+    assert.match(res.headers.get("content-disposition"),/resoarc-tabs-signed-qa.zip/);
+    assert.match(res.headers.get("cache-control"),/no-store/);
+    assert.equal(await res.text(),"test");
+  }
+  await Promise.all(wait);
+  assert.equal(saved.length,3);
+  await request("HEAD");
+  await request("GET",{Range:"bytes=0-9"});
+  assert.equal(saved.length,3);
+  assert.equal((await worker.fetch(new Request("https://resoarc.com/api/v1/downloads/file?asset=../secret.zip"),env,ctx)).status,400);
+  assert.equal((await worker.fetch(new Request("https://resoarc.com/api/v1/downloads/file?asset=other.zip"),env,ctx)).status,400);
+  assert.equal((await worker.fetch(new Request("https://resoarc.com/api/v1/downloads/file?asset=resoarc-tabs-signed-qa.zip&asset=resoarc-other.zip"),env,ctx)).status,400);
+  assert.equal(saved.length,3);
+});
+test("counted endpoint does not record errors or unknown assets",async()=>{
+  const {env,saved}=fakeEnvironment(404);
+  const url="https://resoarc.com/api/v1/downloads/file?asset=resoarc-tabs-signed-qa.zip";
+  assert.equal((await worker.fetch(new Request(url),env,{waitUntil:()=>{}})).status,404);
+  assert.equal(saved.length,0);
+});

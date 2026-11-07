@@ -5,9 +5,11 @@
 
 ## Coverage and definitions
 
-- A Cloudflare Pages `_worker.js` counts **full successful HTTP 200 GET responses** to official `/downloads/resoarc*.zip` or `*.iso` URLs. This is not proof that the client received the whole file, nor a count of installations or unique humans.
+- A Cloudflare Pages `_worker.js` counts **full successful HTTP 200 GET responses** through uncached `/api/v1/downloads/file?asset=resoarc*.zip` or `*.iso` delivery URLs, used by all direct ZIP/ISO links in the published catalog. It is not proof that the client received the whole file, nor a count of installations or unique humans.
+- Legacy direct `/downloads/resoarc*.zip` paths are kept intact for backward compatibility and counted on an uncached Worker execution, but Cloudflare CDN cache hits can bypass the Worker. Those legacy routes cannot be guaranteed counted. The primary counted links route through an API path with an explicit `Cache-Control: no-store` response.
+- Generated or new catalog pages must run `python -X utf8 scripts/route_public_download_links.py` before publishing; the script is idempotent.
 - The response is served even if the counter database is unavailable. Only the non-blocking counter update fails.
-- HEAD requests, partial Range requests, nonexistent paths, and non-200 responses do not increment.
+- HEAD requests, partial Range requests, nonexistent paths, and non-200 responses do not increment. The delivery endpoint accepts only a strictly validated ResoArc ZIP/ISO filename; the file content remains identical and Content-Disposition retains the original filename.
 - GitHub Releases file download totals are read independently from the public GitHub API and are not backfilled into D1. Automated requests and attachments such as LICENSE/NOTICE/SHA256SUMS may appear in GitHub totals.
 - Do not sum both channels as distinct people. For identical asset names, downloads from separate channels are independent request counts.
 - The database only stores UTC day, release filename, and cumulative daily request count. No IP, user agents, cookies, referrers, or per-person event logs.

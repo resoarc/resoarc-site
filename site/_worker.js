@@ -36,6 +36,41 @@ async function trackedDownloadRequest(request, env, ctx, pathname) {
   }
   return response;
 }
+// Route product download buttons through an uncached Worker URL.
+// The original static /downloads/ URLs remain available for compatibility.
+async function countedFileDownloadRequest(request, env, ctx, url) {
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    return new Response(null, {status:405, headers:{Allow:"GET, HEAD"}});
+  }
+  if ([...url.searchParams.keys()].some(k => k !== "asset") ||
+      url.searchParams.getAll("asset").length !== 1) {
+    return new Response("Invalid asset", {status:400, headers:{"Cache-Control":"no-store"}});
+  }
+  const filename = url.searchParams.get("asset") || "";
+  if (!DOWNLOAD_FILE_PATH.test("/downloads/" + filename)) {
+    return new Response("Invalid asset", {status:400, headers:{"Cache-Control":"no-store"}});
+  }
+  const assetURL = new URL("/downloads/" + filename, url);
+  // The CDN can cache the static file internally; only the uncached public API
+  // request triggers a counter write. Forward Range/HEAD without counting.
+  const response = await env.ASSETS.fetch(new Request(assetURL.toString(), request));
+  const headers = new Headers(response.headers);
+  headers.set("Cache-Control", "private, no-store, max-age=0");
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("Content-Disposition", 'attachment; filename="' + filename + '"');
+  const served = new Response(request.method === "HEAD" ? null : response.body, {
+    status:response.status, statusText:response.statusText, headers,
+  });
+  if (response.status === 200 && request.method === "GET" &&
+      !request.headers.has("range") && env.DOWNLOAD_DB?.prepare) {
+    const day = new Date().toISOString().slice(0,10);
+    const task = env.DOWNLOAD_DB.prepare(DOWNLOAD_SQL).bind(day,filename.toLowerCase())
+      .run().catch(() => undefined);
+    if (ctx?.waitUntil) ctx.waitUntil(task);
+    else await task;
+  }
+  return served;
+}
 async function downloadStatsRequest(request, env) {
   if (request.method !== "GET" && request.method !== "HEAD") {
     return new Response(null, {status:405, headers:{Allow:"GET, HEAD"}});
@@ -210,6 +245,7 @@ export default {
     if (API_ROUTES.has(url.pathname)) {
       return securityWeatherRequest(request, env, url);
     }
+    if (url.pathname === "/api/v1/downloads/file") return countedFileDownloadRequest(request, env, ctx, url);
     if (url.pathname === "/api/v1/downloads/summary") return downloadStatsRequest(request, env);
     if (url.pathname.startsWith("/downloads/")) return trackedDownloadRequest(request, env, ctx, url.pathname);
     if (url.pathname !== "/api/scorecard") return env.ASSETS.fetch(request);

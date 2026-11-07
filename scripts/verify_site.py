@@ -7,7 +7,7 @@ import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
@@ -119,6 +119,16 @@ def main() -> int:
                 continue
             parsed = urlsplit(ref.strip())
             if parsed.scheme or parsed.netloc or ref.startswith("//"):
+                continue
+            # Dynamic download delivery is a Worker route, not a filesystem file.
+            # Resolve only the validated asset against immutable published ZIPs.
+            if parsed.path == "/api/v1/downloads/file":
+                params = parse_qs(parsed.query, keep_blank_values=True)
+                names = params.get("asset", [])
+                if (set(params) != {"asset"} or len(names) != 1 or
+                    not re.fullmatch(r"resoarc[a-zA-Z0-9._-]{1,190}\.(?:zip|iso)", names[0], re.I) or
+                    not (SITE / "downloads" / names[0]).is_file()):
+                    fail(f"{relative}: invalid tracked download reference {ref}")
                 continue
             # site links are root-relative; also support document-relative links
             target = to_target(ref) if ref.startswith("/") else to_target(
