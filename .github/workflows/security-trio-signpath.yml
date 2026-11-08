@@ -13,7 +13,7 @@ jobs:
     if: startsWith(github.ref, 'refs/heads/release/security-trio-')
     environment: signpath-approved
     runs-on: windows-2022
-    timeout-minutes: 45
+    timeout-minutes: 90
     defaults:
       run:
         working-directory: apps/security-trio
@@ -31,12 +31,13 @@ jobs:
           SP_ORG: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
           SP_PROJECT: ${{ vars.SIGNPATH_PROJECT_SLUG }}
           SP_POLICY: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          SP_CONFIG: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG }}
           SP_THUMB: ${{ vars.SIGNPATH_SIGNER_SHA1_THUMBPRINT }}
           SP_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          foreach ($key in @('SP_ORG','SP_PROJECT','SP_POLICY','SP_THUMB','SP_TOKEN')) {
+          foreach ($key in @('SP_ORG','SP_PROJECT','SP_POLICY','SP_CONFIG','SP_THUMB','SP_TOKEN')) {
             if ([string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($key))) {
               throw "BLOCK: SignPath configuration $key is not configured"
             }
@@ -74,8 +75,10 @@ jobs:
           organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
           project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
           signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          artifact-configuration-slug: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG }}
           github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
           wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: 3600
           output-artifact-directory: apps/security-trio/signed
       - name: Verify actual signer, code-signing EKU, timestamp and hashes
         shell: pwsh
