@@ -6,7 +6,7 @@ if exist ".buildvenv\Scripts\python.exe" set "PYTHON_CMD=%CD%\.buildvenv\Scripts
 "%PYTHON_CMD%" -m PyInstaller --version >nul 2>&1 || (echo PyInstaller is missing in %PYTHON_CMD% & exit /b 2)
 "%PYTHON_CMD%" -c "import sys; assert sys.version_info >= (3,10)" || exit /b 2
 set "DND="
-"%PYTHON_CMD%" -c "import tkinterdnd2" >nul 2>&1 && set "DND=--collect-all=tkinterdnd2"
+"%PYTHON_CMD%" -c "import tkinterdnd2" >nul 2>&1 && set "DND=--additional-hooks-dir=hooks"
 "%PYTHON_CMD%" -m PyInstaller --noconfirm --clean --windowed --onefile --name ResoArcSecretScout --version-file metadata\ResoArcSecretScout.txt %DND% SecretScout.pyw || exit /b 1
 "%PYTHON_CMD%" -m PyInstaller --noconfirm --clean --windowed --onefile --name ResoArcLogLantern --version-file metadata\ResoArcLogLantern.txt %DND% LogLantern.pyw || exit /b 1
 "%PYTHON_CMD%" -m PyInstaller --noconfirm --clean --windowed --onefile --name ResoArcFileInspector --version-file metadata\ResoArcFileInspector.txt %DND% FileInspector.pyw || exit /b 1
