@@ -13,13 +13,24 @@ $expectedThumb=($ExpectedCertificateThumbprint -replace '[^0-9A-Fa-f]','').ToUpp
 if($expectedThumb.Length -ne 40){throw 'BLOCK: actual approved signer certificate fingerprint required (40 hex).'}
 if($ExpectedPublisher.Trim().Length -lt 5){throw 'BLOCK: publisher required.'}
 if(!(Test-Path -LiteralPath $Dist -PathType Container)){throw 'BLOCK: missing dist.'}
-$actual=@(Get-ChildItem -LiteralPath $Dist -Filter '*.exe' -File | ForEach-Object Name | Sort-Object)
-if(($actual -join '|') -ne (@($names | Sort-Object) -join '|')){throw 'BLOCK: unexpected or missing EXE.'}
+# No extra binaries, scripts, directories or symlink/junction outputs may be
+# bundled with a successful signed release. The SHA-256 manifest is written only
+# after all signatures and file metadata have passed.
+$all=@(Get-ChildItem -LiteralPath $Dist -Force | ForEach-Object Name | Sort-Object)
+if(($all -join '|') -ne (@($names | Sort-Object) -join '|')){throw 'BLOCK: unexpected, missing or additional signed output files.'}
 $manifest=@()
 foreach($name in $names){
  $file=Join-Path $Dist $name
  $sig=Get-AuthenticodeSignature -LiteralPath $file
  if($sig.Status -ne 'Valid' -or $null -eq $sig.SignerCertificate){throw "BLOCK: $name signature: $($sig.Status)"}
+ $metadata=(Get-Item -LiteralPath $file).VersionInfo
+ if($metadata.ProductName -ne 'ResoArc Security Trio' -or
+    $metadata.ProductVersion -ne '0.3.0.4' -or
+    $metadata.FileVersion -ne '0.3.0.4' -or
+    $metadata.OriginalFilename -ne $name -or
+    $metadata.CompanyName -ne 'ResoArc'){
+   throw "BLOCK: signed EXE file metadata mismatch: $name"
+ }
  $cert=$sig.SignerCertificate
  if($cert.Subject -notlike ('*'+$ExpectedPublisher+'*')){throw "BLOCK: wrong publisher: $name"}
  if($cert.Thumbprint.ToUpperInvariant() -ne $expectedThumb){throw "BLOCK: unknown signer certificate: $name"}
