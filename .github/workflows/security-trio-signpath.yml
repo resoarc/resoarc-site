@@ -57,6 +57,9 @@ jobs:
       - name: Build exact sources, never accept externally uploaded EXEs
         shell: cmd
         run: build_windows.bat
+      - name: Inspect PyInstaller archive contents for bundled foreign-platform libraries
+        shell: pwsh
+        run: python audit_frozen_archives.py
       - name: Inventory bundled build-time dependency licenses
         shell: pwsh
         run: python audit_build_dependencies.py
