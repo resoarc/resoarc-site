@@ -82,17 +82,26 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+          # Build dist/ includes SHA256SUMS.txt by design. The SignPath output
+          # artifact contains exactly the three EXEs, so test that same shape.
+          $staging = Join-Path $env:RUNNER_TEMP 'SecurityTrio-negative-signing-gate'
+          New-Item -ItemType Directory -Path $staging -Force | Out-Null
+          foreach ($name in @('ResoArcSecretScout.exe','ResoArcLogLantern.exe','ResoArcFileInspector.exe')) {
+            Copy-Item -LiteralPath (Join-Path 'dist' $name) -Destination $staging
+          }
           $blocked = $false
           try {
-            & './verify_signed_release.ps1' -Dist './dist' -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint ('0' * 40)
+            & './verify_signed_release.ps1' -Dist $staging -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint ('0' * 40)
           } catch {
             if ($_.Exception.Message -notmatch '^BLOCK:.*signature: NotSigned') {
               throw "Unexpected signing gate failure: $($_.Exception.Message)"
             }
             $blocked = $true
+          } finally {
+            Remove-Item -LiteralPath $staging -Recurse -Force -ErrorAction SilentlyContinue
           }
           if (-not $blocked) { throw 'FAIL: unsigned EXEs passed signed release gate' }
-          Write-Output 'PASS: unsigned Windows EXEs cannot be released as signed.'
+          Write-Output 'PASS: unsigned Windows EXEs rejected for NotSigned status.'
 
       - name: Persist review-only build evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
