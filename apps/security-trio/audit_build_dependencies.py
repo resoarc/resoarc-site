@@ -31,10 +31,12 @@ def inspect_distribution(package: str) -> dict:
         if not local.is_file():
             continue
         if rel.suffix.lower() in NATIVE_SUFFIXES:
+            with local.open("rb") as handle:
+                digest = hashlib.file_digest(handle, "sha256").hexdigest()
             native.append({
                 "wheel_path": rel_name,
                 "size_bytes": local.stat().st_size,
-                "sha256": hashlib.file_digest(local.open("rb"), "sha256").hexdigest(),
+                "sha256": digest,
             })
         if any(k in rel.name.lower() for k in LICENSE_HINTS):
             licenses.append(rel_name)
