@@ -57,3 +57,7 @@ ResoArc独自のソフトウェア・HTML・CSS・文章・SVGは、リポジト
 公開後の変更はコミットとPull Requestで追跡できる形を目指します。リリース時には変更内容、確認結果、既知の制約を残します。[検証手順](docs/VERIFICATION.md) と [公開チェックリスト](docs/PUBLISHING.md) を参照してください。
 
 公式公開リポジトリ: https://github.com/resoarc/resoarc-site 。`main` のコードはGitHub Actionsで自動検証します。本番配信との一致は別途照合する必要があり、コードの公開だけで全インフラの安全性を保証するものではありません。
+
+## Security Trio（Windows向け・開発プレビュー）
+
+[Secret Scout / Log Lantern / File Inspector の公開ソース](apps/security-trio/) を収録しています。Windows向けEXEは現在 **未署名** です。[Code signing policy](apps/security-trio/CODE_SIGNING_POLICY.md)に署名方針、実際の署名状態、担当者ロール、承認前の残課題を記載しています。ソースのGitHub掲載と公式サイトの本番反映は別の工程です。
