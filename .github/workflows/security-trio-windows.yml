@@ -78,6 +78,22 @@ jobs:
           }
           Write-Output 'Unsigned EXEs: three present; signatures absent as expected; hashes agree.'
 
+      - name: Prove the signed-release gate rejects unsigned build outputs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $blocked = $false
+          try {
+            & './verify_signed_release.ps1' -Dist './dist' -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint ('0' * 40)
+          } catch {
+            if ($_.Exception.Message -notmatch '^BLOCK:.*signature: NotSigned') {
+              throw "Unexpected signing gate failure: $($_.Exception.Message)"
+            }
+            $blocked = $true
+          }
+          if (-not $blocked) { throw 'FAIL: unsigned EXEs passed signed release gate' }
+          Write-Output 'PASS: unsigned Windows EXEs cannot be released as signed.'
+
       - name: Persist review-only build evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
