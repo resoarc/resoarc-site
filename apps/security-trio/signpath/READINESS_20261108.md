@@ -5,20 +5,30 @@ Date: 2026-11-08 UTC/JST. This document records completed public CI checks, not 
 ## Verified in GitHub on PR #91
 
 - Review branch: `feat/security-trio-signpath-readiness-20261108`.
-- Latest verified source commit: `a37a7c484035a4b09fc03c9a9e2ba62f12997c43`.
-- [Windows CI run 42481405906](https://github.com/resoarc/resoarc-site/actions/runs/42481405906): **success**.
-  - 118 automated tests executed by Windows Python; exact individual test results remain in logs.
+- Latest fully green source commit before this documentation-only update: `fb099a991c85736f6379b73e41ea3f52ffa20015`.
+- [Windows CI run 42495092937](https://github.com/resoarc/resoarc-site/actions/runs/42495092937): **success**.
+  - 139 automated tests executed by Windows Python; exact individual test results remain in logs.
   - Windows acceptance script completed.
   - Three EXEs built from checked-out public sources with PyInstaller 6.22.3.
   - Three EXEs confirmed **NotSigned**, never claimed signed.
   - Three SHA-256 manifest checks passed.
   - PE product name / file version / original file name checks passed.
-  - GitHub Actions artifact: `SecurityTrio-Windows-UNSIGNED-review-only`, artifact ID `13617438107` (short retention, not a permanent release).
-- [Verify public source run 42481405894](https://github.com/resoarc/resoarc-site/actions/runs/42481405894): **success** (release mirror hydration, source-asset audits, repository secret checks and site checks).
-- [CodeQL run 42481405940](https://github.com/resoarc/resoarc-site/actions/runs/42481405940): **success**.
-- [REUSE run 42481405896](https://github.com/resoarc/resoarc-site/actions/runs/42481405896): **success**.
+  - GitHub Actions artifact: `SecurityTrio-Windows-UNSIGNED-review-only`, review artifact produced by run 42495092937 (short retention, not a permanent release).
+- [Verify public source run 42495092911](https://github.com/resoarc/resoarc-site/actions/runs/42495092911): **success** (release mirror hydration, source-asset audits, repository secret checks and site checks).
+- [CodeQL run 42495092943](https://github.com/resoarc/resoarc-site/actions/runs/42495092943): **success**.
+- [REUSE run 42495092918](https://github.com/resoarc/resoarc-site/actions/runs/42495092918): **success**.
 
 The prior failing release archive hydration was addressed separately in [PR #92](https://github.com/resoarc/resoarc-site/pull/92), merged into `main` at `14b9aed61e21c46bb4b2f1e1e099b347476abc52`; the fix preserves exact size and SHA-256 checks.
+
+## Source and dependency packaging audit
+
+- The GitHub source tree now includes the previous rc3 archive preflight (6 tests) and privacy/accuracy regression corpus (15 tests) that were absent from the initial public CI branch. Windows CI exercises **139 tests**, and the unsigned 3-EXE build/PE metadata/hash/signature rejection checks pass.
+- Actual `tkinterdnd2==0.4.3` installed-wheel inventory identifies one MIT wrapper license file and seven platform-native libraries (Linux, macOS, Windows x86, Windows x64, Windows ARM64). **This alone does not establish the complete licensing of the included TkDND native code.**
+- PyInstaller's previous `--collect-all=tkinterdnd2` caused **67 TkDND archive members per EXE**, including **56 entries from other operating systems or CPU architectures**. Evidence: [Windows CI 42494862870](https://github.com/resoarc/resoarc-site/actions/runs/42494862870).
+- A local Windows-x64 PyInstaller hook now collects the target platform's DLL and Tcl files only. Follow-up [Windows CI 42495092937](https://github.com/resoarc/resoarc-site/actions/runs/42495092937) confirms **11 TkDND archive members, zero cross-platform entries** for each of the three executables; total archive entries decreased from 1073 to 1008 per EXE.
+- `dist/SUPPLY_CHAIN_REVIEW.json` includes version, license file paths and native wheel SHA-256; `dist/FROZEN_CONTENTS_REVIEW.json` lists actual frozen EXE archive members. These are attached to short-retention unsigned CI review artifacts, not formal signed releases.
+- The locally packaged EXEs published in the separate preview site are still the **previous unsigned rc4 builds**, unchanged. The narrower hook's new EXEs are **CI-generated, internal review candidates**. Frozen Windows GUI drag-and-drop runtime acceptance on an independent desktop remains required before a signed release.
+- Complete third-party license-text distribution review, full transitive SBOM, and an independent security review remain **HOLD**.
 
 ## External eligibility inquiry
 
