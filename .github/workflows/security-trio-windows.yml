@@ -56,6 +56,10 @@ jobs:
         shell: cmd
         run: build_windows.bat
 
+      - name: Inventory pinned dependency licenses and native wheel files
+        shell: pwsh
+        run: python audit_build_dependencies.py
+
       - name: Assert build stays unsigned and the checksum manifest matches
         shell: pwsh
         run: |
@@ -112,6 +116,7 @@ jobs:
             apps/security-trio/dist/ResoArcLogLantern.exe
             apps/security-trio/dist/ResoArcFileInspector.exe
             apps/security-trio/dist/SHA256SUMS.txt
+            apps/security-trio/dist/SUPPLY_CHAIN_REVIEW.json
             apps/security-trio/dist-build-dependencies.txt
           if-no-files-found: error
           retention-days: 14
