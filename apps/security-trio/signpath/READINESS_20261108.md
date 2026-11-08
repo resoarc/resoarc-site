@@ -20,6 +20,19 @@ Date: 2026-11-08 UTC/JST. This document records completed public CI checks, not 
 
 The prior failing release archive hydration was addressed separately in [PR #92](https://github.com/resoarc/resoarc-site/pull/92), merged into `main` at `14b9aed61e21c46bb4b2f1e1e099b347476abc52`; the fix preserves exact size and SHA-256 checks.
 
+## External eligibility inquiry
+
+- 2026-11-08: An eligibility inquiry was **sent** from the connected ResoArc project mailbox to the company contact `office@signpath.io`. The question explicitly covers all three applications and the *No hacking tools* exceptions.
+- This is a preliminary email inquiry, **not the formal program application**. Delivery acceptance by the recipient and Foundation feedback have not yet been verified; no eligibility decision may be inferred.
+- The official conditions remain at https://signpath.org/terms.html. SignPath Foundation alone decides whether to accept the project.
+
+## Strengthened signature release validation
+
+- The signed-release gate now rejects any additional files or directories alongside the expected three EXEs before producing the post-signing hash manifest.
+- Signed PE metadata (product, company, version and original filename) must match the approved release configuration.
+- The unsigned Windows CI also runs the signed-release verifier as a negative test; it must reject the locally built unsigned EXEs.
+- This is a test of failure behavior only. Actual SignPath-signed binaries have not yet been tested.
+
 ## What was explicitly NOT completed
 
 - No SignPath Foundation application submitted and no eligibility ruling received.
