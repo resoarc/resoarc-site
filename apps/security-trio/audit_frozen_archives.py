@@ -27,6 +27,15 @@ def main() -> None:
                 "linux-", "osx-", "macos-", "win-x86", "win-arm64"
             ))
         ]
+        # Strict unsigned-release preflight: do not ship unused Linux/macOS
+        # or other Windows architectures in these win-x64 executables.
+        normalized = [n.replace("\\", "/").lower() for n in tkdnd_entries]
+        if foreign:
+            raise RuntimeError(f"BLOCK: foreign-platform TkDND components in {path.name}: {len(foreign)}")
+        if not any("/win-x64/libtkdnd" in n and n.endswith(".dll") for n in normalized):
+            raise RuntimeError(f"BLOCK: Windows x64 TkDND DLL missing from {path.name}")
+        if not any("/win-x64/pkgindex.tcl" in n for n in normalized):
+            raise RuntimeError(f"BLOCK: Windows x64 TkDND Tcl package index missing from {path.name}")
         results.append({
             "binary": path.name,
             "carchive_member_count": len(names),
