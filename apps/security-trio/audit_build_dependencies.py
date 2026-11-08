@@ -76,6 +76,10 @@ def main() -> int:
     print("INVENTORY: " + str(destination))
     for item in entries:
         print(f"  {item['package']}=={item['version']}: license files={len(item['license_files_present'])}, native files={len(item['native_binaries_in_installed_distribution'])}")
+        for license_name in item["license_files_present"]:
+            print(f"    LICENSE: {license_name}")
+        for native_file in item["native_binaries_in_installed_distribution"]:
+            print(f"    NATIVE: {native_file['wheel_path']}")
     print("REVIEW HOLD: bundled licenses and comprehensive SBOM require independent verification.")
     return 0
 
