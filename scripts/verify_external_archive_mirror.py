@@ -12,6 +12,7 @@ import json
 import os
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.request
 import urllib.parse
@@ -25,9 +26,25 @@ REPO = "resoarc/resoarc-site"
 HEADERS = {"User-Agent": "ResoArc-OSPS-artifact-check", "Accept": "application/vnd.github+json"}
 MAX_BYTES = 16_000_000
 
+# Retry only transient transport/5xx failures. Never retry digest mismatches,
+# malformed metadata, or non-transient authorization/not-found responses.
+def _urlopen_with_bounded_retry(request, timeout: float):
+    for attempt in range(3):
+        try:
+            return urllib.request.urlopen(request, timeout=timeout)
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (502, 503, 504) or attempt == 2:
+                raise
+        except urllib.error.URLError:
+            if attempt == 2:
+                raise
+        time.sleep(1 << attempt)
+    raise AssertionError("retry loop exhausted")
+
+
 
 def fetch_json(url: str) -> dict:
-    with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=40) as response:
+    with _urlopen_with_bounded_retry(urllib.request.Request(url, headers=HEADERS), timeout=40) as response:
         return json.load(response)
 
 
@@ -83,7 +100,7 @@ def fetch_asset(row: dict, url: str) -> None:
         h = hashlib.sha256()
         total = 0
         with os.fdopen(fd, "wb") as dest:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=80) as response:
+            with _urlopen_with_bounded_retry(urllib.request.Request(url, headers=HEADERS), timeout=80) as response:
                 while True:
                     chunk = response.read(131072)
                     if not chunk:
@@ -124,7 +141,7 @@ def check_public_download_without_api(row: dict, hydrate: bool) -> None:
     count = 0
     digest = hashlib.sha256()
     try:
-        with urllib.request.urlopen(
+        with _urlopen_with_bounded_retry(
             urllib.request.Request(url, headers={"User-Agent": HEADERS["User-Agent"]}),
             timeout=80,
         ) as response:
@@ -176,13 +193,18 @@ def main(hydrate: bool) -> None:
             exc.headers.get("X-RateLimit-Remaining") == "0"
             or b"rate limit" in exc.read(500).lower()
         )
-        if not limited:
+        # The release API occasionally returns a transient 502/503/504. After
+        # bounded retries, use the same fail-closed, byte-verified public URL
+        # path already used when unauthenticated API quota is exhausted.
+        # Any missing, changed, truncated or unauthenticated data still fails.
+        fallback = limited or exc.code in (502, 503, 504)
+        if not fallback:
             raise
-        # Public unauthenticated REST API quota is shared by CI runner IPs.
-        # Do not pass GITHUB_TOKEN to an untrusted PR script or skip checks:
-        # verify the exact bytes at the public Release URLs instead.
         check_direct_release(expected, hydrate)
-        print("INFO: GitHub API quota exhausted; verified direct Release downloads by pinned SHA-256")
+        print(
+            f"INFO: GitHub API HTTP {exc.code}; "
+            "verified direct Release downloads using repository-pinned SHA-256"
+        )
     else:
         check_remote(assets, expected)
         if hydrate:
