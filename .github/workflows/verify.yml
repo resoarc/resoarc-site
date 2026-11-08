@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
+      - name: Test bounded HTTP 504 retries and strict release mirror checks
+        run: python -m unittest discover -s tests -p test_release_mirror_retry.py -v
       - name: Hydrate exact historical ZIP assets from verified GitHub Release
         run: python scripts/verify_external_archive_mirror.py --hydrate
       - name: Audit workflow trust boundaries (OSPS-BR-01.01/01.03)
