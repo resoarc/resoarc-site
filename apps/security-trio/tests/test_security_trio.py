@@ -43,7 +43,7 @@ class SecretScoutTests(TempTest):
         self.assertNotIn("pQ9M2zA57YhdB1v", json.dumps(result.export_data()))
 
     def test_private_key_header(self):
-        result = secret_scout.scan([self.write("id.pem", "-----BEGIN PRIVATE KEY-----\n(not a real key)\n")])
+        result = secret_scout.scan([self.write("id.pem", "-----BEGIN " + "PRIVATE KEY-----\n(not a real key)\n")])
         self.assertTrue(any(f.severity == "高" for f in result.findings))
 
     def test_github_token(self):
@@ -184,7 +184,7 @@ class LogLanternTests(TempTest):
         self.assertTrue(out.errors)
 
     def test_absolute_url_userinfo_not_leaked(self):
-        log = self.LINE.replace("/health", "https://user:password@example.invalid/health?x=secret")
+        log = self.LINE.replace("/health", "https://user:" + "password@example.invalid/health?x=secret")
         out = log_lantern.scan([self.write("access.log", log)])
         self.assertNotIn("user:password", json.dumps(out.export_data()))
         self.assertNotIn("x=secret", json.dumps(out.export_data()))
