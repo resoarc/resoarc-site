@@ -78,7 +78,7 @@ class SigningContractTests(unittest.TestCase):
 
     def test_public_policy_does_not_claim_approval(self):
         data = (ROOT / "CODE_SIGNING_POLICY.md").read_text(encoding="utf-8")
-        for marker in ("未署名", "未完了", "SignPath Foundation", "manual"):
+        for marker in ("未署名", "未完了", "SignPath Foundation", "手動承認"):
             self.assertIn(marker.lower(), data.lower())
 
 
