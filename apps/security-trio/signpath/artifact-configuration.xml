@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Candidate configuration. Must be reviewed and approved by SignPath before activation. -->
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <zip-file>
+    <pe-file path="ResoArcSecretScout.exe"
+             product-name="ResoArc Security Trio"
+             product-version="0.3.0.4"
+             file-version="0.3.0.4"
+             company-name="ResoArc"
+             original-filename="ResoArcSecretScout.exe">
+      <authenticode-sign />
+    </pe-file>
+    <pe-file path="ResoArcLogLantern.exe"
+             product-name="ResoArc Security Trio"
+             product-version="0.3.0.4"
+             file-version="0.3.0.4"
+             company-name="ResoArc"
+             original-filename="ResoArcLogLantern.exe">
+      <authenticode-sign />
+    </pe-file>
+    <pe-file path="ResoArcFileInspector.exe"
+             product-name="ResoArc Security Trio"
+             product-version="0.3.0.4"
+             file-version="0.3.0.4"
+             company-name="ResoArc"
+             original-filename="ResoArcFileInspector.exe">
+      <authenticode-sign />
+    </pe-file>
+  </zip-file>
+</artifact-configuration>
