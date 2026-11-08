@@ -1,0 +1,18 @@
+# Windows PE version metadata for SignPath artifact verification.
+VSVersionInfo(
+  ffi=FixedFileInfo(filevers=(0, 3, 0, 4), prodvers=(0, 3, 0, 4),
+      mask=0x3f, flags=0x0, OS=0x40004, fileType=0x1, subtype=0x0, date=(0, 0)),
+  kids=[
+    StringFileInfo([StringTable('040904B0', [
+      StringStruct('CompanyName', 'ResoArc'),
+      StringStruct('FileDescription', 'ResoArc Log Lantern'),
+      StringStruct('FileVersion', '0.3.0.4'),
+      StringStruct('InternalName', 'ResoArcLogLantern'),
+      StringStruct('LegalCopyright', 'Copyright 2026 ResoArc. MIT License.'),
+      StringStruct('OriginalFilename', 'ResoArcLogLantern.exe'),
+      StringStruct('ProductName', 'ResoArc Security Trio'),
+      StringStruct('ProductVersion', '0.3.0.4')
+    ])]),
+    VarFileInfo([VarStruct('Translation', [1033, 1200])])
+  ]
+)
