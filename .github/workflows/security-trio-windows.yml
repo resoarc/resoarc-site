@@ -1,0 +1,88 @@
+name: Security Trio - Windows unsigned build and verification
+
+on:
+  pull_request:
+    paths:
+      - "apps/security-trio/**"
+      - ".github/workflows/security-trio-windows.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/security-trio/**"
+      - ".github/workflows/security-trio-windows.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-trio-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-unsigned:
+    name: Test and build unsigned EXEs (NOT a signed release)
+    runs-on: windows-2022
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: apps/security-trio
+    steps:
+      - name: Check out the exact requested commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use pinned Python major and minor version
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run security regression tests
+        shell: pwsh
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Run Windows non-GUI acceptance tests
+        shell: pwsh
+        run: python tests/windows_acceptance.py
+
+      - name: Install exact build-tool versions
+        shell: pwsh
+        run: |
+          python -m pip install --disable-pip-version-check --no-input 'pyinstaller==6.22.3' 'tkinterdnd2==0.4.3'
+          python -m pip freeze > dist-build-dependencies.txt
+
+      - name: Compile exactly three Windows EXEs (unsigned)
+        shell: cmd
+        run: build_windows.bat
+
+      - name: Assert build stays unsigned and the checksum manifest matches
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $names = @('ResoArcSecretScout.exe','ResoArcLogLantern.exe','ResoArcFileInspector.exe')
+          foreach ($name in $names) {
+            $path = Join-Path 'dist' $name
+            if (-not (Test-Path $path)) { throw "Missing $name" }
+            $signature = Get-AuthenticodeSignature $path
+            if ($signature.Status -ne 'NotSigned') { throw "Unexpected signature state on $name : $($signature.Status)" }
+          }
+          $actual = Get-Content dist/SHA256SUMS.txt
+          foreach ($name in $names) {
+            $hash = (Get-FileHash (Join-Path 'dist' $name) -Algorithm SHA256).Hash.ToLowerInvariant()
+            if (-not ($actual -contains "$hash  $name")) { throw "Manifest mismatch: $name" }
+          }
+          Write-Output 'Unsigned EXEs: three present; signatures absent as expected; hashes agree.'
+
+      - name: Persist review-only build evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: SecurityTrio-Windows-UNSIGNED-review-only
+          path: |
+            apps/security-trio/dist/ResoArcSecretScout.exe
+            apps/security-trio/dist/ResoArcLogLantern.exe
+            apps/security-trio/dist/ResoArcFileInspector.exe
+            apps/security-trio/dist/SHA256SUMS.txt
+            apps/security-trio/dist-build-dependencies.txt
+          if-no-files-found: error
+          retention-days: 14
