@@ -56,6 +56,9 @@ jobs:
         shell: cmd
         run: build_windows.bat
 
+      - name: Inspect PyInstaller archive contents for bundled foreign-platform libraries
+        shell: pwsh
+        run: python audit_frozen_archives.py
       - name: Inventory pinned dependency licenses and native wheel files
         shell: pwsh
         run: python audit_build_dependencies.py
@@ -117,6 +120,7 @@ jobs:
             apps/security-trio/dist/ResoArcFileInspector.exe
             apps/security-trio/dist/SHA256SUMS.txt
             apps/security-trio/dist/SUPPLY_CHAIN_REVIEW.json
+            apps/security-trio/dist/FROZEN_CONTENTS_REVIEW.json
             apps/security-trio/dist-build-dependencies.txt
           if-no-files-found: error
           retention-days: 14
