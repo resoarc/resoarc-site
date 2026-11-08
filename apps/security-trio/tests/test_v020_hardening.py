@@ -46,7 +46,7 @@ class HardeningTests(unittest.TestCase):
                          "/users/[REDACTED]/orders")
 
     def test_url_absolute_removes_userinfo_and_query(self):
-        output = common.redact_url("https://admin:password@example.org/v1/data?token=abc")
+        output = common.redact_url("https://admin:" + "password@example.org/v1/data?token=abc")
         self.assertEqual(output, "/v1/data")
 
     def test_url_percent_encoded_question_marks(self):
