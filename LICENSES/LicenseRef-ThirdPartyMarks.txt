@@ -1,0 +1,15 @@
+ResoArc third-party recognition marks
+
+The files in site/assets/recognition/ include marks, verification badges and
+logos identifying third-party organizations or services. Their original
+owners retain copyright and trademark rights. ResoArc's MIT license does
+not apply to these third-party marks.
+
+No copyright or trademark license or general permission to redistribute,
+modify, or endorse is granted by ResoArc. Use of the marks must comply
+with each rights holder's licensing and brand guidelines. The ResoArc
+site uses them to describe and identify the relevant services, audit
+results and recognition claims, not to claim sponsorship or ownership.
+
+SPDX identifier: LicenseRef-ThirdPartyMarks
+Rights: reserved by their respective owners.

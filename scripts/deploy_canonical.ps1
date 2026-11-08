@@ -33,6 +33,8 @@ try {
   # A GitHub merge alone is not evidence that the public Direct Upload site is synchronized.
   & python -X utf8 (Join-Path $root "scripts/verify_live_route_preservation.py")
   if ($LASTEXITCODE -ne 0) { throw "Live route preservation failed; refusing full-site overwrite" }
+  & python -X utf8 (Join-Path $root "scripts/verify_live_data_preservation.py")
+  if ($LASTEXITCODE -ne 0) { throw "Live SWWW snapshot mismatch; refusing full-site overwrite" }
   Write-Output ("Deploying verified Git commit " + $head)
   & $WranglerPath pages deploy $site --project-name resoarc --branch main --commit-hash $head --commit-dirty=true
   if ($LASTEXITCODE -ne 0) { throw "Cloudflare Pages deployment failed" }

@@ -1,0 +1,167 @@
+<!doctype html>
+<!-- SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project -->
+<!-- SPDX-License-Identifier: MIT -->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="description" content="ResoArc Webサービス障害速報。kintone、Cloudflare、GitHub、OpenAIなどの公式障害情報を集約し、障害中・復旧済みを一覧表示。">
+<meta name="theme-color" content="#071529"><meta name="color-scheme" content="light">
+<link rel="canonical" href="https://resoarc.com/status/">
+<link rel="icon" href="/assets/resoarc-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site-20261015-v10.css?v=20261018-design-v1">
+<link rel="stylesheet" href="/assets/navigation.css">
+<link rel="stylesheet" href="/assets/brand-cosmic-20261022.css">
+<link rel="stylesheet" href="/assets/outage-radar-20261023.css">
+<link rel="stylesheet" href="/assets/php-service-observatory-20261024.css?v=20261024-auto2">
+<link rel="stylesheet" href="/assets/gmo-incident-20261024.css">
+<link rel="stylesheet" href="/assets/outage-wide-20261024.css?v=wide1">
+<title>Webサービス障害速報 | ResoArc</title>
+<meta property="og:title" content="Webサービス障害速報 | ResoArc">
+<meta property="og:description" content="主要Webサービスの公式ステータスを横断表示。障害中・経過観察・復旧情報を確認できます。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://resoarc.com/status/">
+</head>
+<body>
+<a class="outage-skip" href="#main">本文へ移動</a>
+<header class="site-header"><div class="container header-inner"><a href="/" class="brand" aria-label="ResoArc トップページ"><img class="arc-brand-symbol" src="/assets/resoarc-icon.svg" width="42" height="42" alt="" aria-hidden="true"/><span class="wordmark"><img class="arc-wordmark-image" src="/assets/resoarc-wordmark-official.svg" width="158" height="31" alt="ResoArc"/><small>OPEN TOOLS / CREATIVE ENGINEERING</small></span></a>
+<nav class="desktop-nav" aria-label="主要メニュー"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a href="/recognition/" class="rec-nav-link"><span>実績・協賛</span><small>Recognition</small></a><a href="/os/"><span>ResoArcOS</span><small>OS</small></a></nav>
+<a class="nav-action" href="/products/"><span>ツールを探す</span><b aria-hidden="true">↗</b></a>
+<details class="mobile-menu"><summary><span>メニュー</span><span class="menu-bars" aria-hidden="true"><i></i><i></i></span></summary><nav class="mobile-panel" aria-label="モバイルメニュー"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a href="/privacy/">プライバシー <span>↗</span></a><a href="/recognition/"><span>実績・協賛</span><small>Recognition</small></a><a href="/os/"><span>ResoArcOS</span><small>PC版</small></a></nav></details></div></header>
+<main id="main" class="outage-page">
+  <section class="outage-hero">
+    <div class="outage-shell">
+      <p class="outage-eyebrow">RESOARC / SERVICE OUTAGE RADAR</p>
+      <h1>Webサービス<br>障害速報</h1>
+      <p class="outage-lead">いつも使うサービスが止まったとき、まず事実を確かめる場所。各提供元の公式ステータスを集め、障害中・経過観察中・復旧済みを整理してお届けします。</p>
+      <div class="outage-updated">
+        <span><span class="outage-live-dot" aria-hidden="true"></span>毎時05分に自動収集</span>
+        <span id="outage-stamp">更新情報を取得中</span>
+        <button type="button" class="outage-refresh" id="outage-refresh">情報を更新</button>
+      </div>
+    </div>
+  </section>
+  <div class="outage-shell">
+    <section class="outage-metrics" aria-label="障害速報サマリー">
+      <div class="outage-metric danger"><small>継続中の障害</small><strong id="metric-active">—</strong><span>公式に公表された事案</span></div>
+      <div class="outage-metric warn"><small>うち重大障害</small><strong id="metric-major">—</strong><span>Major / Critical</span></div>
+      <div class="outage-metric"><small>直近7日・復旧済み</small><strong id="metric-recovered">—</strong><span>過去の障害更新</span></div>
+      <div class="outage-metric unknown"><small>取得失敗した情報源</small><strong id="metric-unknown">—</strong><span>正常扱いせず別集計</span></div>
+    </section>
+    <div id="outage-alert" class="outage-message problem" role="status" hidden></div>
+    <section class="outage-panel" aria-labelledby="outage-grid-title">
+      <div class="outage-titleline"><h2 id="outage-grid-title">主要サービスの状況</h2><p>各サービスの公式ステータスページへ移動できます ↗</p></div>
+      <div class="outage-status-grid" id="outage-services" aria-live="polite"><div class="outage-message">データを読み込んでいます。</div></div>
+    </section>
+    <section class="wide-news-panel" id="service-discovery" aria-labelledby="wide-news-heading">
+  <h2 id="wide-news-heading">国内企業・公共サービスの障害速報候補</h2>
+  <p class="wide-news-desc">PHPだけでなく、サイバー攻撃、情報漏えい、クラウド、通信、金融決済、公共・教育、Webサービスの停止や復旧を横断検索します。ニュースの見出しは真偽・影響範囲・現在の稼働を保証しません。</p>
+  <div class="wide-news-overview"><span id="wide-news-updated">最終収集：確認中</span><span id="wide-news-source-count">情報源を確認中</span></div>
+  <p id="wide-news-status" class="wide-news-status" role="status">複数のニュース情報源から報道候補を収集中です。</p>
+  <div class="wide-news-filters" role="group" aria-label="報道候補のカテゴリ">
+    <button type="button" data-wide-category="all" aria-pressed="true">すべて</button>
+    <button type="button" data-wide-category="cyber" aria-pressed="false">サイバー攻撃</button>
+    <button type="button" data-wide-category="leak" aria-pressed="false">情報漏えい</button>
+    <button type="button" data-wide-category="cloud" aria-pressed="false">クラウド</button>
+    <button type="button" data-wide-category="telecom" aria-pressed="false">通信</button>
+    <button type="button" data-wide-category="payments" aria-pressed="false">金融・決済</button>
+    <button type="button" data-wide-category="public" aria-pressed="false">公共・教育</button>
+    <button type="button" data-wide-category="general" aria-pressed="false">その他の停止</button>
+  </div>
+  <div class="wide-news-toolbar">
+    <input type="search" id="wide-news-search" aria-label="報道候補を検索" placeholder="企業・サービス・キーワードで検索">
+    <button type="button" id="wide-news-reload">再読み込み</button>
+    <span class="wide-news-count" id="wide-news-count">取得中</span>
+  </div>
+  <div id="wide-news-list" class="wide-news-list" aria-live="polite"><p class="wide-news-empty">記事を取得しています。</p></div>
+  <div class="wide-news-bottom"><button type="button" class="wide-news-more" id="wide-news-more" hidden>さらに24件表示</button></div>
+  <p class="wide-news-fineprint">広域ニュースの収集は毎時25分、従来の障害監視は毎時05分（配信環境により遅延する場合あり）。BingニュースRSSを優先し、取得できない場合はGoogleニュースRSSに切り替えます。7日以内の候補を重複排除し、30日分の件数推移を記録します。公式発表を確認できた停止・復旧情報は下の専用欄に分けています。<a href="https://resoarc.com/api/v1/outages/discovery" target="_blank" rel="noopener noreferrer">検索候補の公開JSON API ↗</a></p>
+</section>
+<section class="gmo-security-panel" id="security-company-incidents" aria-labelledby="security-company-title">
+  <h2 id="security-company-title">企業サービスの重大な停止・セキュリティ事案</h2>
+  <p>PHP脆弱性への予防停止とは別に、公式に公表された不正アクセスなどによるサービス停止を確認します。停止中かどうかは企業の公式発表とその公表日時に基づいて記載します。</p>
+  <div id="security-company-info" class="gmo-panel-info">公式発表を取得中</div>
+  <div id="security-company-records" aria-live="polite">
+    <p>GMO「お名前.com デスクトップクラウド」は、2026年10月24日15時公表時点で全プラン停止継続、再開時期未定です。
+    <a href="https://internet.gmo/news/article/250/" rel="noopener noreferrer" target="_blank">公式発表を確認 ↗</a></p>
+  </div>
+</section>
+<section class="php-section" id="php-incidents" aria-labelledby="php-incidents-title">
+  <div class="php-section-top">
+    <div>
+      <p class="outage-eyebrow" style="color:#217694">PHP SECURITY RESPONSE / CORPORATE SERVICE STATUS</p>
+      <h2 id="php-incidents-title">企業サイト・PHP関連の停止／復旧</h2>
+      <p>企業の公式告知に基づく予防停止と復旧状況を集約。対象サービスが停止中でも、その企業のホームページは表示できる場合があります。</p>
+    </div>
+    <span id="php-last-updated" class="php-update">収集時刻を確認中</span>
+  </div>
+  <div class="php-stat-grid">
+    <div class="php-stat"><small>停止を公表</small><strong id="php-count-suspended">—</strong></div>
+    <div class="php-stat"><small>一部停止を公表</small><strong id="php-count-partial">—</strong></div>
+    <div class="php-stat"><small>復旧を公表</small><strong id="php-count-restored">—</strong></div>
+  </div>
+  <div id="php-feed-info" class="php-feed-info" role="status">企業の公式発表と外形応答の情報を収集中。</div>
+  <div class="php-controls" role="group" aria-label="企業PHP関連情報の絞り込み">
+    <button type="button" data-php-filter="active" aria-pressed="true">停止・一部停止</button>
+    <button type="button" data-php-filter="suspended" aria-pressed="false">停止公表</button>
+    <button type="button" data-php-filter="partial" aria-pressed="false">一部停止公表</button>
+    <button type="button" data-php-filter="restored" aria-pressed="false">復旧公表</button>
+    <button type="button" data-php-filter="all" aria-pressed="false">すべて</button>
+    <input type="search" id="php-search" placeholder="企業・サービス名で検索" aria-label="企業・サービス名で検索">
+    <button type="button" id="php-fetch">情報を再取得</button>
+  </div>
+  <p id="php-results" class="php-record-count"></p>
+  <div id="php-records" class="php-records" aria-live="polite">
+    <div class="outage-message">公表資料を取得しています。</div>
+  </div>
+  <h3 class="php-provider-title">PHP・WordPress関連の提供基盤</h3>
+  <div id="php-providers" class="php-providers" aria-label="PHP関連ホスティング事業者の公式情報">
+    <div class="outage-message">プロバイダー情報を取得しています。</div>
+  </div>
+  <div class="php-discovery-shell" id="php-discoveries" aria-labelledby="php-discovery-head">
+    <div class="php-section-top">
+      <div>
+        <h3 id="php-discovery-head">新たに発見した障害告知の候補 <span id="php-discovery-count">—</span>件</h3>
+        <p>ニュースRSSを定期検索し、既存リスト外の発表を発見します。候補には未照合ラベルを付け、公式の停止・復旧件数には含めません。</p>
+      </div>
+      <span id="php-discovery-time" class="php-update">探索中</span>
+    </div>
+    <p id="php-discovery-notice" class="php-feed-info">検索結果を収集中</p>
+    <div id="php-discovery-items" class="php-discovery-list" aria-live="polite"></div>
+  </div>
+  <p class="php-source-note">公式公表の状態は掲載日の情報です。外形監視は企業公開サイトに対する毎時1回のHEAD応答を検査地点から確認するもので、PHPバージョン、業務システムの実際の稼働、障害原因の証明ではありません。二度続けてHTTP 5xxやネットワークエラーが発生した場合だけ「不達の疑い」と表示し、403などのアクセス制御は未判定とします。元の発表や復旧情報は各カードの出典から確認してください。新たな停止・復旧情報はRSSで毎時探索し、既知の一次ソースを分割再検証します。別URLの復旧や曖昧な告知は自動確定しません。対象の脆弱性：<a href="https://www.ipa.go.jp/security/security-alert/2026/alert20261022.html" target="_blank" rel="noopener noreferrer">IPA公式情報 ↗</a> ／ <a href="https://resoarc.com/api/v1/outages/php">公開JSON API ↗</a></p>
+</section>
+<section class="outage-panel" id="outage-feed" aria-labelledby="outage-feed-title">
+      <div class="outage-titleline"><h2 id="outage-feed-title">障害・復旧の発表一覧</h2><p id="outage-result-count">読み込み中</p></div>
+      <div class="outage-controls">
+        <div class="outage-tabs" role="group" aria-label="表示する障害の状態">
+          <button type="button" data-outage-mode="active" aria-pressed="true">継続中</button>
+          <button type="button" data-outage-mode="major" aria-pressed="false">重大障害</button>
+          <button type="button" data-outage-mode="recovered" aria-pressed="false">復旧済み</button>
+          <button type="button" data-outage-mode="all" aria-pressed="false">すべて</button>
+        </div>
+        <input id="outage-search" type="search" placeholder="サービス名・障害内容で検索" aria-label="サービス名・障害内容で検索" autocomplete="off">
+        <select id="outage-category" aria-label="分野で絞り込み"><option value="all">すべての分野</option></select>
+        <button class="outage-refresh" id="outage-clear" type="button">絞り込み解除</button>
+      </div>
+      <div class="outage-items" id="outage-items" aria-live="polite">
+        <div class="outage-message">公式発表を確認しています。</div>
+      </div>
+    </section>
+    <section class="outage-panel outage-method" aria-labelledby="outage-method-title">
+      <div class="outage-titleline"><h2 id="outage-method-title">収集方法と判断の基準</h2></div>
+      <p>対象は公開ステータスAPIを提供する主要12サービスです。APIの「調査中・原因特定・経過観察」を継続中、「復旧・事後報告」を復旧済みとして扱います。重大度は提供元が付けた区分で、ResoArc独自の被害認定ではありません。掲載時刻は日本時間です。</p>
+      <p><strong>Cloudflare Cronで毎時05分（日本時間）に自動収集</strong>し、Cloudflare KVに最新スナップショットと直近30日間の集計履歴を保存します。PCの電源は必要ありません。障害詳細は公式公開APIの直近7日分を保持し、画面閲覧中は約3分ごとに保存済みデータを再取得します。収集失敗時は前回のデータを残して警告を表示します。実行時刻はプラットフォームの都合で多少前後します。</p>
+      <p>情報源が取得できないときは「取得失敗」と表示し、「問題なし」とは判定しません。提供元の公開情報に遅延や不足がある可能性があります。公式発表の原文を必ず確認してください。</p>
+      <p>関連：<a href="/security/weather/">脆弱性天気予報</a> ／ <a href="/security/weather/newspaper/">脆弱性新聞</a> ／ <a href="https://resoarc.com/api/v1/outages/hourly">JSONフィード（毎時更新API）</a></p>
+    </section>
+  </div>
+</main>
+<footer class="footer"><div class="container footer-top"><div class="footer-brand"><img class="arc-brand-symbol" src="/assets/resoarc-icon.svg" width="48" height="48" alt="" aria-hidden="true"/><div><img class="arc-footer-wordmark" src="/assets/resoarc-wordmark-official.svg" width="196" height="38" alt="ResoArc"/><small>OPEN TOOLS / CREATIVE ENGINEERING</small><p>自由で、開かれた技術を。</p></div></div><nav class="footer-nav" aria-label="フッターのサイト案内"><div class="footer-group"><h3>EXPLORE</h3><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/releases/">更新履歴</a></div><div class="footer-group"><h3>PRODUCTS</h3><a href="/products/">無料ツール</a><a href="/os/">ResoArcOS</a><a href="/guide/">利用ガイド</a></div><div class="footer-group"><h3>TRUST &amp; QUALITY</h3><a href="/principles/">品質方針</a><a href="/trust/">信頼性と説明責任</a><a href="/recognition/">実績・協賛</a><a href="/license/">ライセンス</a></div><div class="footer-group"><h3>INFORMATION</h3><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/sitemap.xml">サイトマップ</a><a href="/source/">公開ソース・Codeberg <span aria-hidden="true">↗</span></a></div></nav></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer>
+<script src="/assets/outage-radar-20261023.js?v=20261024-hourly" defer></script>
+<script src="/assets/php-service-observatory-20261024.js?v=20261024-auto2" defer></script>
+<script src="/assets/gmo-incident-20261024.js" defer></script>
+<script src="/assets/outage-wide-20261024.js?v=wide1" defer></script>
+<script defer src="/assets/navigation.js"></script></body>
+</html>

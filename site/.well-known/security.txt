@@ -1,0 +1,5 @@
+Contact: mailto:security@resoarc.com
+Expires: 2027-04-18T00:00:00Z
+Preferred-Languages: ja, en
+Canonical: https://resoarc.com/.well-known/security.txt
+Policy: https://resoarc.com/trust/#disclosure

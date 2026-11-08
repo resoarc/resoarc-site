@@ -1,0 +1,129 @@
+/* ResoArc Navigation v2: responsive and site-scoped. */
+.ra-sidebar,.ra-breadcrumb,.ra-nav-toggle,.ra-overlay{box-sizing:border-box}
+.ra-sidebar{
+ position:fixed;left:0;top:91px;bottom:0;width:232px;z-index:90;
+ overflow-y:auto;overscroll-behavior:contain;
+ padding:18px 11px 32px;background:#f5f8fa;border-right:1px solid #dce6eb;
+ font-family:inherit;scrollbar-width:thin;
+}
+.ra-sidebar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 12px 16px}
+.ra-sidebar-title{font-size:12px;font-weight:800;letter-spacing:.09em;color:#597488}
+.ra-site-tree{display:block}
+.ra-node{min-width:0}
+.ra-node-row{display:flex;align-items:stretch;min-width:0;border-radius:6px}
+.ra-node-row:hover{background:#e9f1f4}
+.ra-node-row>.ra-link{
+ flex:1;min-width:0;display:block;text-decoration:none;color:#294f63;
+ font:600 12px/1.65 inherit;font-size:12px;line-height:1.7;
+ padding:9px 9px 9px 11px;overflow-wrap:anywhere
+}
+.ra-node-row>.ra-link:hover{text-decoration:underline;text-underline-offset:3px}
+.ra-node-row>.ra-link.ra-current{
+ color:#146d85;font-weight:800;background:#e2f0f3;border-radius:5px;
+ box-shadow:inset 3px 0 0 #328b9a;
+}
+.ra-expand{
+ cursor:pointer;flex:0 0 29px;border:0;background:transparent;color:#4d7181;
+ font:700 17px system-ui;border-radius:5px;
+}
+.ra-expand:hover{background:#d6e8ef}
+.ra-children{margin-left:10px;padding-left:8px;border-left:1px solid #d4e4eb}
+.ra-children[hidden]{display:none}
+.ra-breadcrumb{
+ display:flex;align-items:center;flex-wrap:wrap;gap:14px;
+ border-bottom:1px solid #e2ebef;background:#f5f9fa;
+ padding:11px max(18px,calc((100% - 1040px)/2));
+ color:#537082;min-height:45px;font:500 12px/1.6 inherit;font-size:12px;
+}
+.ra-crumb-items{display:flex;flex-wrap:wrap;align-items:center;gap:9px;min-width:0}
+.ra-breadcrumb a{color:#266d85;text-decoration:underline;text-underline-offset:3px}
+.ra-crumb-current{font-weight:700;color:#21495c}
+.ra-sep{color:#8198a7}
+.ra-nav-toggle,.ra-sidebar-close,.ra-overlay{cursor:pointer}
+.ra-nav-toggle{display:none;border:1px solid #c6dce5;border-radius:6px;background:#fff;color:#205d72;padding:8px 10px;font:700 12px system-ui;white-space:nowrap}
+.ra-sidebar-close{display:none;border:1px solid #bed1dc;border-radius:5px;background:white;color:#2c596c;padding:7px 10px;font:700 12px system-ui}
+.ra-overlay{display:none}
+.ra-sidebar :focus-visible,.ra-breadcrumb :focus-visible{outline:3px solid #de9a39;outline-offset:2px}
+@media (min-width:960px){
+ body.ra-nav-ready>main,body.ra-nav-ready>.footer{margin-left:232px}
+ body.ra-nav-ready .site-header{position:relative;z-index:100}
+}
+@media (max-width:959px){
+ .ra-sidebar{width:min(320px,86vw);top:0;z-index:310;transform:translateX(-105%);transition:transform .2s;background:#f7fafb;box-shadow:0 0 28px #0f283444}
+ .ra-sidebar-close{display:block}
+ .ra-nav-toggle{display:inline-flex}
+ .ra-breadcrumb{padding:9px 15px;gap:10px;min-height:50px}
+ .ra-overlay{position:fixed;inset:0;border:0;background:#142e399c;z-index:300}
+ body.ra-drawer-open .ra-sidebar{transform:translateX(0)}
+ body.ra-drawer-open .ra-overlay{display:block}
+ body.ra-drawer-open{overflow:hidden}
+ body.ra-nav-ready>main,body.ra-nav-ready>.footer{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){.ra-sidebar{transition:none}}
+
+
+/* Sticky-navigation refinement: place page list and breadcrumbs in the shared
+   persistent header; sidebar follows the actual measured header height. */
+:root{--ra-nav-head-height:143px}
+html{scroll-padding-top:var(--ra-nav-head-height)}
+body.ra-nav-ready .site-header{
+  position:sticky!important;top:0!important;z-index:250;
+  isolation:isolate;
+}
+body.ra-nav-ready .site-header .ra-breadcrumb{
+  width:100%;min-width:0;min-height:48px;
+  padding:8px clamp(14px,2.5vw,28px);
+  margin:0;border-bottom:0;border-top:1px solid #e4ebef;
+  background:#f5f9fa;flex-wrap:nowrap;align-items:center;
+}
+body.ra-nav-ready .site-header .ra-nav-toggle{
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:0 0 auto;min-height:34px;
+}
+body.ra-nav-ready .site-header .ra-crumb-items{
+  flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;
+  white-space:nowrap;min-width:0;scrollbar-width:thin;
+  padding:4px 1px;
+}
+body.ra-nav-ready .site-header .ra-crumb-items>*{flex:0 0 auto}
+body.ra-nav-ready .site-header .ra-crumb-current{max-width:65vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.ra-nav-ready .ra-sidebar{top:var(--ra-nav-head-height)}
+body.ra-nav-ready .site-header .mobile-panel{z-index:260}
+@media (min-width:960px){
+  body.ra-nav-ready.ra-sidebar-hidden .ra-sidebar{transform:translateX(-110%);visibility:hidden}
+  body.ra-nav-ready.ra-sidebar-hidden>main,
+  body.ra-nav-ready.ra-sidebar-hidden>.footer{margin-left:0}
+  body.ra-nav-ready .site-header .ra-breadcrumb{
+    padding-left:max(18px,calc((100vw - 1180px)/2));
+  }
+}
+@media (max-width:959px){
+  body.ra-nav-ready .ra-sidebar{top:0}
+  body.ra-nav-ready .site-header .ra-breadcrumb{padding:7px 12px;gap:10px}
+  body.ra-nav-ready .site-header .ra-crumb-current{max-width:45vw}
+  body.ra-nav-ready .site-header .ra-nav-toggle{min-height:34px}
+}
+
+
+/* UX audit 2026-10-25: compact persistent navigation without changing site hierarchy. */
+.ra-sidebar-search{
+ display:block;width:calc(100% - 20px);margin:0 10px 13px;
+ padding:9px 10px;border:1px solid #b7cdd9;border-radius:6px;
+ background:#fff;color:#21465b;font:500 13px/1.4 system-ui,sans-serif;
+}
+.ra-sidebar-search:focus-visible{outline:3px solid #de9a39;outline-offset:2px}
+.ra-node[hidden]{display:none!important}
+.ra-node-row>.ra-link{font-size:13px;line-height:1.55;min-height:40px;display:flex;align-items:center}
+.ra-expand{flex-basis:36px;min-width:36px}
+@media(min-width:960px){
+ body.ra-nav-ready .site-header .header-inner{height:74px}
+ body.ra-nav-ready .site-header .ra-breadcrumb{min-height:42px;padding-top:3px;padding-bottom:3px}
+}
+@media(max-width:959px){
+ body.ra-nav-ready .site-header .header-inner{height:70px}
+ body.ra-nav-ready .site-header .ra-breadcrumb{min-height:44px;padding-top:4px;padding-bottom:4px}
+}
+@media(max-width:700px){
+ body.ra-nav-ready .site-header .header-inner{height:68px}
+ body.ra-nav-ready .site-header .ra-breadcrumb{min-height:42px}
+}

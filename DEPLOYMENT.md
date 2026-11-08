@@ -19,3 +19,7 @@ Cloudflare Pages project `resoarc` uses **Direct Upload** (`Git Provider: No`). 
 On 2026-10-16 a manual Cloudflare deployment from an old `dist/` tree removed `/os/` and its download assets, even though the OS page existed in a different deployment. Another stale deployment reproduced the problem. The canonical `site/` integration and release checks prevent the same mistake when the guarded process is used.
 
 Cloudflare Pages currently does not auto-publish from GitHub. Do not assume a successful Git commit has changed the live website.
+
+## Canonical recovery, November 2026
+
+The verified 54-route production source has been reconciled with GitHub main into 64 routes. See docs/SITE_RECONCILIATION_20261108.md for provenance, tests, and risk controls. Both live-route and independent SWWW data guards must pass before any Direct Upload.

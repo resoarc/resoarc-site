@@ -7,6 +7,7 @@ GitHub secret scanning/push protection and key rotation after an incident.
 """
 from __future__ import annotations
 import io
+import hashlib
 import re
 import subprocess
 import sys
@@ -31,6 +32,16 @@ PATTERNS = (
         r"""(?i)\b(?:api[_-]?key|secret[_-]?key|access[_-]?token|password|client_secret)\b\s*[:=]\s*['"][A-Za-z0-9_/+=.-]{26,}['"]""")),
     ("credential-url", re.compile(r"https?://[A-Za-z0-9._~-]{3,}:[^@\s/]{8,}@")),
 )
+# Exactly two SHA-256-pinned synthetic credential URLs inside security tests
+# of the already-public migration source ZIP. Do not permit new test fixtures,
+# other paths, or edited lines to bypass detection.
+SYNTHETIC_TEST_URL_FIXTURES = {
+    "site/downloads/resoarc-backup-migration-v1.0.0-source.zip/plugins/backup-migration/tests/qa-guards.test.js":
+        {"580c1b3ae53ad926a842949d900adcde0dfd0d89dc02e27e595a8fbee0040e96"},
+    "site/downloads/resoarc-backup-migration-v1.0.0-source.zip/plugins/backup-migration/tests/tenant-probe.test.js":
+        {"cb00a01deb94c40075ac5bae3864f7130c7b349e652f94c6fac26467350ff828"},
+}
+
 MAX_TEXT_BYTES = 4_000_000
 
 
@@ -40,9 +51,17 @@ def findings(label: str, data: bytes) -> list[str]:
     if b"\0" in data[:4096]:
         return []
     lines = data.decode("utf-8", errors="replace").splitlines()
-    return [f"{label}:{index}: {name}"
-            for index, line in enumerate(lines, 1)
-            for name, regex in PATTERNS if regex.search(line)]
+    result: list[str] = []
+    for index, line in enumerate(lines, 1):
+        for name, regex in PATTERNS:
+            if not regex.search(line):
+                continue
+            if (name == "credential-url" and
+                    hashlib.sha256(line.encode("utf-8")).hexdigest() in
+                    SYNTHETIC_TEST_URL_FIXTURES.get(label, set())):
+                continue
+            result.append(f"{label}:{index}: {name}")
+    return result
 
 
 def tracked_files() -> list[str]:

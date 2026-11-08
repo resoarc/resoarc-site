@@ -1,0 +1,23 @@
+/* 2026-10-17: scoped free kintone app QA catalog */
+.qa-mini-overview{margin:28px 0 18px;padding:20px 24px;border:1px solid #cedfe5;border-left:3px solid #517f89;background:#f5fafb;border-radius:9px}
+.qa-mini-overview strong{display:block;color:#173c4d;font-size:16px;letter-spacing:.02em}
+.qa-mini-overview p{margin:9px 0 0;font-size:13px;line-height:1.9;color:#486574}
+.qa-mini-section .qa-mini-heading{font-size:23px;line-height:1.5;margin:18px 0}
+.qa-mini-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0 10px}
+.qa-mini-card{min-width:0;background:#fff;border:1px solid #d8e4e9;border-radius:11px;padding:20px;display:flex;flex-direction:column;gap:9px}
+.qa-mini-card:target{outline:2px solid #4d8298;outline-offset:2px}
+.qa-mini-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.qa-mini-number{font:600 12px/1.3 ui-monospace,monospace;color:#486774;letter-spacing:.07em}
+.qa-mini-subtitle{font-size:11px;color:#567b80;white-space:nowrap}
+.qa-mini-card h3{font-size:18px;line-height:1.5;margin:2px 0 0;color:#18374d}
+.qa-mini-card p{font-size:12px;line-height:1.85;margin:0;color:#506a76}
+.qa-mini-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.qa-mini-tags span{border:1px solid #cbdce1;color:#315f67;border-radius:5px;padding:3px 7px;font-size:10px;line-height:1.5;background:#f7fbfb}
+.qa-mini-card .qa-mini-distribution{font-size:10px;color:#6d7384;border-top:1px solid #e5ebed;padding-top:9px}
+.qa-mini-status{text-align:left;margin-top:14px;color:#4c6575;font-size:13px;line-height:1.85}
+.qa-mini-list{margin:16px 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 15px}
+.qa-mini-list a{display:block;background:#fff;border:1px solid #dee7eb;border-radius:7px;padding:9px 12px;font-size:13px;text-decoration:none;color:#2b5964}
+.qa-mini-list a:hover{text-decoration:underline;border-color:#83a7b4}
+.qa-mini-list small{display:block;font-size:11px;line-height:1.6;color:#687987}
+@media(max-width:940px){.qa-mini-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.qa-mini-grid,.qa-mini-list{grid-template-columns:1fr}.qa-mini-overview{padding:15px 18px}.qa-mini-card{padding:16px}.qa-mini-section .qa-mini-heading{font-size:20px}}

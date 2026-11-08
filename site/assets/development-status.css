@@ -1,0 +1,25 @@
+/* ResoArc development disclosure / 2026-10-22 */
+.ds-date{font-size:.93rem;color:var(--ink-muted,#64748b);margin:0 0 1rem}
+.ds-boundary{border:1px solid #aebfcb;border-left:5px solid #326f96;background:#eff5f8;color:#18384d;padding:1.2rem 1.5rem;border-radius:8px}
+.ds-boundary p{margin:.55rem 0 0;line-height:1.75}
+.ds-overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:2rem 0 2.6rem}
+.ds-overview a{display:flex;flex-direction:column;gap:.5rem;border:1px solid #d4e0e7;background:#fff;padding:1.1rem 1.2rem;border-radius:10px;color:#173951;text-decoration:none}
+.ds-overview a:hover,.ds-overview a:focus-visible{border-color:#3a7897;text-decoration:underline}
+.ds-overview a strong{font-size:1.05rem}.ds-overview a span{font-size:.88rem;line-height:1.6;color:#527287}
+.ds-feature{margin:2.1rem 0 3rem;padding:2rem;scroll-margin-top:5rem;border:1px solid #d1dde4;background:#fff;border-radius:12px}
+.ds-number{color:#406985;font-size:.76rem;font-weight:700;letter-spacing:.14em}
+.ds-feature h2{margin:.5rem 0 1rem;font-size:clamp(1.45rem,2.2vw,2rem)}
+.ds-feature h3{font-size:1.05rem;margin:0 0 .5rem}
+.ds-feature p{line-height:1.82}
+.ds-stage{display:inline-block;border:1px solid #bdd0db;background:#e8f0f5;color:#254e69;border-radius:99px;padding:.37rem .9rem;font-weight:650;font-size:.85rem}
+.ds-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.8rem;margin:1.4rem 0}
+.ds-columns>div{border-top:1px solid #d7e3ea;padding-top:1rem}
+.ds-warning{background:#f5f8fb;border-left:3px solid #5c8297;padding:.9rem 1.1rem;border-radius:2px 6px 6px 2px;font-size:.94rem}
+.ds-shot{max-width:780px;margin:1.7rem auto 2rem}
+.ds-shot img{width:100%;height:auto;display:block;border:1px solid #d2dce4;border-radius:8px}
+.ds-shot figcaption{font-size:.83rem;color:#536d80;line-height:1.6;margin-top:.55rem}
+.ds-outro{border-top:1px solid #c8d9e3;padding:1.8rem 0 2.5rem}.ds-outro h2{font-size:1.35rem}
+@media(max-width:690px){.ds-feature{padding:1.1rem}.ds-columns{grid-template-columns:1fr;gap:.4rem}.ds-boundary{padding:1rem}.ds-overview{grid-template-columns:1fr}}
+
+/* Backup checksum: mobile safe wrapping */
+.ds-feature code{overflow-wrap:anywhere;word-break:break-all}
