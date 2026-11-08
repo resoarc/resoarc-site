@@ -66,6 +66,10 @@ jobs:
             if (-not (Test-Path $path)) { throw "Missing $name" }
             $signature = Get-AuthenticodeSignature $path
             if ($signature.Status -ne 'NotSigned') { throw "Unexpected signature state on $name : $($signature.Status)" }
+            $v = (Get-Item $path).VersionInfo
+            if ($v.ProductName -ne 'ResoArc Security Trio') { throw "ProductName mismatch: $name" }
+            if ($v.ProductVersion -ne '0.3.0.4' -or $v.FileVersion -ne '0.3.0.4') { throw "PE version mismatch: $name" }
+            if ($v.OriginalFilename -ne $name) { throw "OriginalFilename mismatch: $name" }
           }
           $actual = Get-Content dist/SHA256SUMS.txt
           foreach ($name in $names) {
