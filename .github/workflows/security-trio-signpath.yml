@@ -1,0 +1,93 @@
+# PRE-APPROVAL TEMPLATE: inactive until the SignPath enrollment and protected environment are configured.
+name: Security Trio - manual SignPath signing (approval required)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  sign:
+    if: startsWith(github.ref, 'refs/heads/release/security-trio-')
+    environment: signpath-approved
+    runs-on: windows-2022
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: apps/security-trio
+    steps:
+      - name: Check out reviewed source commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refuse unconfigured SignPath account
+        env:
+          SP_ORG: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          SP_PROJECT: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          SP_POLICY: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          SP_THUMB: ${{ vars.SIGNPATH_SIGNER_SHA1_THUMBPRINT }}
+          SP_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          foreach ($key in @('SP_ORG','SP_PROJECT','SP_POLICY','SP_THUMB','SP_TOKEN')) {
+            if ([string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($key))) {
+              throw "BLOCK: SignPath configuration $key is not configured"
+            }
+          }
+          if ($env:SP_THUMB -notmatch '^[0-9a-fA-F]{40}$') {
+            throw 'BLOCK: known real certificate thumbprint required'
+          }
+      - name: Run security regression tests
+        shell: pwsh
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Run Windows acceptance tests
+        shell: pwsh
+        run: python tests/windows_acceptance.py
+      - name: Install pinned build tools
+        shell: pwsh
+        run: python -m pip install --disable-pip-version-check --no-input 'pyinstaller==6.22.3' 'tkinterdnd2==0.4.3'
+      - name: Build exact sources, never accept externally uploaded EXEs
+        shell: cmd
+        run: build_windows.bat
+      - name: Upload unsigned artifact to GitHub for provenance check
+        id: unsigned
+        uses: actions/upload-artifact@v4
+        with:
+          name: SecurityTrio-signing-input-3-EXE-unsigned
+          path: |
+            apps/security-trio/dist/ResoArcSecretScout.exe
+            apps/security-trio/dist/ResoArcLogLantern.exe
+            apps/security-trio/dist/ResoArcFileInspector.exe
+          if-no-files-found: error
+          retention-days: 7
+      - name: Request human-approved SignPath Foundation signing
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: apps/security-trio/signed
+      - name: Verify actual signer, code-signing EKU, timestamp and hashes
+        shell: pwsh
+        env:
+          EXPECTED_SIGNER_THUMBPRINT: ${{ vars.SIGNPATH_SIGNER_SHA1_THUMBPRINT }}
+        run: |
+          & './verify_signed_release.ps1' -Dist 'signed' -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint $env:EXPECTED_SIGNER_THUMBPRINT -ManifestPath 'signed/SHA256SUMS.txt'
+          if ($LASTEXITCODE -ne 0) { throw 'BLOCK: signature verification failed' }
+      - name: Retain verified signed artifact for explicit release review
+        uses: actions/upload-artifact@v4
+        with:
+          name: SecurityTrio-SIGNED-candidate-needs-manual-release
+          path: apps/security-trio/signed/
+          if-no-files-found: error
+          retention-days: 14
