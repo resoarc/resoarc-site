@@ -13,6 +13,7 @@ APP_NAME = "ResoArc File Inspector"
 MAX_FILE_SIZE = 2 * 1024 ** 3
 MAX_ZIP_ENTRIES = 2500
 MAX_RELS_BYTES = 128 * 1024
+MAX_RELS_TOTAL = 2 * 1024 * 1024
 LNK_HEADER = bytes.fromhex("4c0000000114020000000000c000000000000046")
 OLE_HEADER = bytes.fromhex("d0cf11e0a1b11ae1")
 EXECUTABLE_EXTENSIONS = {
@@ -113,32 +114,50 @@ def _check_zip(path: Path, out: ScanResult):
                 out.add(Finding("高", "Office VBAマクロを含む", safe_name(path.name),
                                 "ZIP内部でVBAマクロ用のファイルを検出しました。",
                                 "マクロは実行せず送信元を確認してください。"))
+            # A too-large, encrypted, or malformed .rels file can hide an
+            # external template/object relationship. Never report an apparently
+            # complete scan after silently ignoring relationship metadata.
+            # Bound aggregate decompression, not just each member's size.
+            rels_budget = MAX_RELS_TOTAL
+            rels_unchecked = 0
+            external_found = False
             for item in info:
-                if not item.filename.lower().endswith(".rels") or item.file_size > MAX_RELS_BYTES or item.flag_bits & 1:
+                if not item.filename.lower().endswith(".rels"):
                     continue
+                if (item.flag_bits & 1 or item.file_size > MAX_RELS_BYTES or
+                        item.file_size > rels_budget):
+                    rels_unchecked += 1
+                    continue
+                rels_budget -= item.file_size
                 try:
                     with archive.open(item, "r") as stream:
                         xml = stream.read(MAX_RELS_BYTES + 1)
-                    # External hyperlinks are commonplace in legitimate Office
-                    # files. They are *not* equivalent to external templates or
-                    # remotely loaded objects. Inspect bounded relationship tags
-                    # without parsing external XML entities.
-                    for rel in re.finditer(rb"(?is)<(?:[A-Za-z0-9_]+:)?Relationship\b[^>]{0,8192}>", xml):
-                        tag = rel.group(0)
-                        if not re.search(rb"(?i)\bTargetMode\s*=\s*['\"]\s*External\s*['\"]", tag):
-                            continue
-                        if re.search(rb"(?i)\bType\s*=\s*['\"][^'\"]*/hyperlink['\"]", tag):
-                            continue
-                        out.add(Finding("中", "Office外部参照", safe_name(path.name),
-                                        "外部テンプレートやオブジェクト等の読み込みを示す関係定義を検出しました。",
-                                        "不明な外部コンテンツの読み込みを許可しないでください。"))
-                        break
-                    else:
+                    if len(xml) > MAX_RELS_BYTES:
+                        rels_unchecked += 1
                         continue
-                    break
+                    # Ordinary external hyperlinks are common in legitimate
+                    # documents. Do not treat them as external templates.
+                    # Inspect only bounded tag data; never resolve XML entities.
+                    for rel in re.finditer(rb"(?is)<(?:[A-Za-z0-9_]+:)?Relationship\\b[^>]{0,8192}>", xml):
+                        tag = rel.group(0)
+                        if not re.search(rb"(?i)\\bTargetMode\\s*=\\s*['\\\"]\\s*External\\s*['\\\"]", tag):
+                            continue
+                        if re.search(rb"(?i)\\bType\\s*=\\s*['\\\"][^'\\\"]*/hyperlink['\\\"]", tag):
+                            continue
+                        external_found = True
+                        break
                 except (OSError, ValueError, RuntimeError, EOFError, zipfile.BadZipFile):
-                    out.skipped += 1
-                    continue
+                    rels_unchecked += 1
+            if external_found:
+                out.add(Finding("中", "Office外部参照", safe_name(path.name),
+                                "外部テンプレートやオブジェクト等の読み込みを示す関係定義を検出しました。",
+                                "不明な外部コンテンツの読み込みを許可しないでください。"))
+            if rels_unchecked:
+                out.skipped += rels_unchecked
+                out.truncated = True
+                out.add(Finding("中", "Office関係定義の未検査", safe_name(path.name),
+                                f"ZIP内の関係定義 {rels_unchecked} 件をサイズ・暗号化・破損・総処理量の制限で検査できませんでした。",
+                                "外部参照の有無を断定できません。信頼できる方法で追加確認してください。"))
     except (OSError, ValueError, RuntimeError, EOFError, zipfile.BadZipFile):
         out.skipped += 1
         out.truncated = True
