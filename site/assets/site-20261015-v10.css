@@ -473,3 +473,4 @@ main .visual-badge strong{border-radius:3px}
 /* Integration fix: long Git clone URLs and SHA-256 digests must wrap on narrow screens. */
 .source-card,.source-note{min-width:0;overflow-wrap:anywhere}
 .source-card code,.source-note code{white-space:normal;overflow-wrap:anywhere;word-break:break-all}
+@media (max-width:780px){.suite-layout{grid-template-columns:minmax(0,1fr)!important}.suite-layout>.suite-panel{min-width:0}}
