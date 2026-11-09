@@ -18,6 +18,7 @@ These tools have a direct page with inputs, a processing action, outputs and sta
 | --- | --- | --- |
 | SHA-256 file checker | Choose a file, calculate the hash and compare it against the distributor's trusted checksum | [hash](../site/tools/hash/index.html) |
 | CSV/TSV structure validator | Choose CSV/TSV, inspect encoding/structure and row or column diagnostics before import | [csv](../site/tools/csv/index.html) |
+| qAIUIck v0.2 beta demo | Open the demo, enter a memo and press Enter or Add; remove a memo with Delete. Records stay in that browser's localStorage, are not backed up, and may be cleared. Do not enter confidential data. See the product page for the downloadable source ZIP and localhost-only SQLite sample. | [qAIUIck demo](../site/tools/qaiuick-demo/index.html) |
 | Bulk-change preflight | Input a change dataset, preview and inspect problems before making any bulk update elsewhere | [bulk-preview](../site/tools/kintone-bulk-preview/index.html) |
 | App configuration diff | Select two JSON configuration exports, inspect differences and mismatched fields | [app-diff](../site/tools/kintone-app-diff/index.html) |
 | Permission definition audit | Supply a permitted kintone permission export to inspect access rules | [permission-audit](../site/tools/kintone-permission-audit/index.html) |
