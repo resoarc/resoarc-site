@@ -378,6 +378,21 @@
       "third_party_code_signals": [],
       "notice_state": "pending_separate_license_evidence",
       "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-postal-address-v1.0.1-20261109.zip",
+      "sha256": "08a48b005749bf6a38583bfb2823a7b83c930c34140a133cf041b1d48b5ae148",
+      "payload_sha256": "b357e717672af0bd26714b5a2317d00521f03c3135559b2dafaa437046c3e7c4",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": true,
+      "inner_count": 8,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [],
+      "third_party_code_signals": [
+        "Japan Post postcode data; redistributed per Japan Post public data terms"
+      ],
+      "notice_state": "separate_public_license_evidence",
+      "source_contents_not_modified": true
     }
   ]
 }

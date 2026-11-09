@@ -1,6 +1,8 @@
 name: Verify public source
 on:
   push:
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
@@ -9,27 +11,64 @@ permissions:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Playwright 1.56 Chromium does not support Ubuntu 26.04 yet
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.11"
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
+      - name: Test bounded HTTP 504 retries and strict release mirror checks
+        run: python -m unittest discover -s tests -p test_release_mirror_retry.py -v
+      - name: Hydrate exact historical ZIP assets from verified GitHub Release
+        run: python scripts/verify_external_archive_mirror.py --hydrate
+      - name: Audit workflow trust boundaries (OSPS-BR-01.01/01.03)
+        run: python scripts/check_workflow_security.py
+      - name: Prevent accidental tracked-secret commits (OSPS-BR-07.01)
+        run: python scripts/check_repository_secrets.py
+      - name: Check all released products have a basic user guide (OSPS-DO-01.01)
+        run: python scripts/check_release_guides.py
+      - name: Reject generated executables and unreviewable binary blobs (OSPS-QA-05)
+        run: python scripts/check_binary_repo_assets.py
+      - name: Check direct dependency inventory (OSPS-QA-02.01)
+        run: python scripts/check_direct_dependencies.py
+      - name: Verify all 35 release assets are listed with their licenses
+        run: python scripts/verify_osps_35_license_delivery.py
+      - name: Audit signed release provenance and human approval boundaries (OSPS-LE-02.02)
+        run: python scripts/check_osps_le02_signed_provenance.py
+      - name: Verify approved release software license identifiers (OSPS-LE-02.02)
+        run: python scripts/check_osps_le02_35_osi_licenses.py
       - name: Check immutable ResoArcOS source ZIP
         run: |
           python scripts/verify_resoarcos_snapshot.py
           python -m unittest discover -s tests -p test_resoarcos_snapshot.py -v
+      - name: Check least-privilege OS release workflow boundaries
+        run: python -m unittest discover -s tests -p test_release_workflow_security.py -v
       - name: Verify Pi first-boot alpha source ZIP
         run: python scripts/verify_pi_preview.py
       - name: Verify frozen Web8 GA v1.0.0 release
         run: python scripts/verify_web8_v1.py
       - name: Verify signed kintone QA packages and all 16 feature routes
         run: python scripts/verify_suite16_readiness.py
+      - name: Test live Scorecard proxy and client fallback
+        run: |
+          node --check site/_worker.js
+          node tests/worker_activity.test.mjs
+          node --check site/assets/scorecard-live-20261017.js
+          node scripts/test_scorecard_live.mjs
       - name: Check public site source, links and checksums
-        run: python scripts/verify_site.py
+        run: |
+          python scripts/verify_site.py
+          python -m unittest discover -s tests -p test_community_site.py -v
+          python -m unittest discover -s tests -p test_live_route_preservation.py -v
+      - name: Verify tracked release ZIP integrity and interim license notices
+        run: python scripts/audit_release_license_evidence.py
+      - name: Verify scoped OpenChain component inventory and file hashes
+        run: python scripts/verify_openchain_scoped_sbom.py
       - name: Validate browser tool JavaScript
         run: |
           node --check site/assets/tools/hash.js
@@ -44,6 +83,8 @@ jobs:
           node --test tests/suite.test.cjs
       - name: Test kintone CSV import preflight
         run: node --test tests/import-diagnose.test.cjs
+      - name: Validate tenant acceptance preflight without credentials
+        run: python -m unittest discover -s tests -p test_kintone_tenant_preflight.py -v
       - name: Test auto-number subtable beta
         working-directory: plugins/auto-number/v1.1.0-beta
         run: npm run check
@@ -68,6 +109,7 @@ jobs:
         run: |
           python tests/alpha_configs_smoke.py
           python tests/search_grid_browser_smoke.py
+          python tests/kanban_runtime_browser.py
           python tests/browser_suite_smoke.py
           python tests/web8_acceptance_smoke.py
           python tests/pi_site_smoke.py

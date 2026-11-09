@@ -7,6 +7,7 @@ Cloudflare Pages project `resoarc` uses **Direct Upload** (`Git Provider: No`). 
 1. Fast-forward the official `main` branch locally. Do not replace its current `site/` with an older `dist/`, `os-release-stage-*`, or a single-project preview.
 2. Apply changes inside `site/`, preserving all existing web and kintone tools, and regenerate `site-manifest.sha256` with `python scripts/update_manifest.py`.
 3. Run `python scripts/verify_site.py`. This requires the ResoArcOS page, OS navigation on all HTML pages, and a pinned source ZIP digest.
+4. Before a full-site deploy, run `python scripts/verify_live_route_preservation.py` against the current production sitemap. A failure means the candidate would remove public routes or cannot verify the live baseline; **do not override this gate**. See `docs/LIVE_SITE_RECONCILIATION_20261108.md` for the currently identified drift.
 4. Commit and publish the changes using the **ResoArc account only**. Do not mix in personal projects, untracked files, or private identities.
 5. Run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy_canonical.ps1 -WranglerPath <path-to-wrangler.cmd>` from the repository checkout. The script refuses stale or dirty site trees, verifies the GitHub head, deploys the canonical `site/` and checks apex, www, Pages hostnames, and the source ZIP.
 6. Do not declare a release complete until live smoke tests pass. If they fail, restore from the previous verified Git commit and redeploy it.

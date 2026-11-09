@@ -1,0 +1,9 @@
+ResoArc postal-address plugin version 1.0.1
+Copyright (c) 2026 ResoArc Open Technology Project.
+MIT license covers the ResoArc original code and materials except explicitly stated otherwise.
+Postal data: Japan Post, 2026-10-30 UTF-8 one-record-per-line postcode dataset.
+Japan Post states it makes no copyright claim to the postcode data and allows redistribution.
+Source: https://www.post.japanpost.jp/service/search/zipcode/download/utf-zip.html
+Terms: https://www.post.japanpost.jp/service/search/zipcode/download/utf-readme.html
+No external postcode lookup API is used by this version.
+The signed kintone container uses RSA/PKCS#1 v1.5 with SHA-1 as required by the established kintone format.

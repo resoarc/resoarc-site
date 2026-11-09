@@ -10,12 +10,12 @@ ROOT=Path(__file__).resolve().parents[1]
 SITE=ROOT/'site'
 index=BeautifulSoup((SITE/'products/kintone/index.html').read_text(encoding='utf8'),'html.parser')
 cards=index.select('article.kc-product')
-assert len(cards)==15,len(cards)
+assert len(cards)==16,len(cards)
 release=BeautifulSoup((SITE/'products/kintone/release-integrity/index.html').read_text(encoding='utf8'),'html.parser')
 rows={r['id']:r for r in release.select('tr[id]')}
-assert len(rows)==15
+assert len(rows)==16
 captures=SITE/'assets/kintone-settings-captures'
-assert len(list(captures.glob('*.webp')))==15
+assert len(list(captures.glob('*.webp')))==16
 for card in cards:
  title=card.h3.get_text(' ',strip=True)
  slug=card.select_one('img.kc-product-icon')['src'].split('/')[-1].removesuffix('.svg').removesuffix('.png')

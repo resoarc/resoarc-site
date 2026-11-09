@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-17",
+  "scope": "MR kintone-plugin-preflight.inspectMany; manifest asset validation only",
+  "attestation": "Successful local preflight; does not verify plugin ZIP signature or actual kintone install.",
+  "source": "Documents/AI-Work/MR-kintone-tests/reports/preflight-all-20261017.json",
+  "total": 9,
+  "passed": 9,
+  "failed": 0,
+  "entries": [
+    {
+      "slug": "auto-number-stable",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "auto-number-beta",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "conditional",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "conditional-format",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "date-calculator",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "grid-editor",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "kanban",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "list-search",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "slug": "tabs",
+      "passed": true,
+      "issues": []
+    }
+  ]
+}

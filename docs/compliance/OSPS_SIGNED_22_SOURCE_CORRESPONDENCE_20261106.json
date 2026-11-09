@@ -1,0 +1,1252 @@
+{
+  "codeberg_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+  "records": [
+    {
+      "archive": "resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-auto-number-signed-qa.zip",
+      "current_tree_source_match_count": 8,
+      "git_history_blob_match_count": 8,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/js/desktop.js",
+            "plugins/auto-number/v1.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/runtime.css",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/css/runtime.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/js/desktop.js",
+            "plugins/auto-number/v1.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/auto-number/src/image/icon.png",
+            "plugins/auto-number/v1.1.0-beta/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-auto-number-v1.0.0.zip",
+      "current_tree_source_match_count": 3,
+      "git_history_blob_match_count": 3,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/runtime.css",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/css/runtime.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/auto-number/src/image/icon.png",
+            "plugins/auto-number/v1.1.0-beta/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-auto-number-v1.1.0-beta.zip",
+      "current_tree_source_match_count": 6,
+      "git_history_blob_match_count": 6,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/js/desktop.js",
+            "plugins/auto-number/v1.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/runtime.css",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/css/runtime.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/js/desktop.js",
+            "plugins/auto-number/v1.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/auto-number/v1.1.0-beta/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/auto-number/src/image/icon.png",
+            "plugins/auto-number/v1.1.0-beta/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-conditional-format-signed-qa.zip",
+      "current_tree_source_match_count": 8,
+      "git_history_blob_match_count": 8,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/conditional-format/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/conditional-format/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/core.js",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/js/core.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/css/config.css",
+            "plugins/date-calculator/v0.1.0-alpha/src/css/config.css",
+            "plugins/grid-editor/v0.1.0-alpha/src/css/config.css",
+            "plugins/kanban/v0.1.0-alpha/src/css/config.css",
+            "plugins/list-search/v0.1.0-alpha/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+            "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+            "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+            "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+            "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+            "plugins/list-search/v0.1.0-alpha/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-conditional-signed-qa.zip",
+      "current_tree_source_match_count": 7,
+      "git_history_blob_match_count": 7,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/conditional/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/conditional/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/conditional/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/conditional/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/conditional/v0.1.0-alpha/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/conditional/v0.1.0-alpha/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/conditional/v0.1.0-alpha/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/conditional/v0.1.0-alpha/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+            "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+            "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+            "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+            "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+            "plugins/list-search/v0.1.0-alpha/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-date-calculator-signed-qa.zip",
+      "current_tree_source_match_count": 8,
+      "git_history_blob_match_count": 8,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/date-calculator/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/date-calculator/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/date-calculator/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/date-calculator/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/core.js",
+          "matched_paths": [
+            "plugins/date-calculator/v0.1.0-alpha/src/js/core.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/date-calculator/v0.1.0-alpha/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/css/config.css",
+            "plugins/date-calculator/v0.1.0-alpha/src/css/config.css",
+            "plugins/grid-editor/v0.1.0-alpha/src/css/config.css",
+            "plugins/kanban/v0.1.0-alpha/src/css/config.css",
+            "plugins/list-search/v0.1.0-alpha/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/date-calculator/v0.1.0-alpha/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/date-calculator/v0.1.0-alpha/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+            "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+            "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+            "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+            "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+            "plugins/list-search/v0.1.0-alpha/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-grid-editor-signed-qa.zip",
+      "current_tree_source_match_count": 8,
+      "git_history_blob_match_count": 8,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/grid-editor/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/grid-editor/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/grid-editor/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/grid-editor/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/core.js",
+          "matched_paths": [
+            "plugins/grid-editor/v0.1.0-alpha/src/js/core.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/grid-editor/v0.1.0-alpha/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/css/config.css",
+            "plugins/date-calculator/v0.1.0-alpha/src/css/config.css",
+            "plugins/grid-editor/v0.1.0-alpha/src/css/config.css",
+            "plugins/kanban/v0.1.0-alpha/src/css/config.css",
+            "plugins/list-search/v0.1.0-alpha/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/grid-editor/v0.1.0-alpha/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/grid-editor/v0.1.0-alpha/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+            "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+            "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+            "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+            "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+            "plugins/list-search/v0.1.0-alpha/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-kanban-signed-qa.zip",
+      "current_tree_source_match_count": 8,
+      "git_history_blob_match_count": 8,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/kanban/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/kanban/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/kanban/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/kanban/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/core.js",
+          "matched_paths": [
+            "plugins/kanban/v0.1.0-alpha/src/js/core.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/kanban/v0.1.0-alpha/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/css/config.css",
+            "plugins/date-calculator/v0.1.0-alpha/src/css/config.css",
+            "plugins/grid-editor/v0.1.0-alpha/src/css/config.css",
+            "plugins/kanban/v0.1.0-alpha/src/css/config.css",
+            "plugins/list-search/v0.1.0-alpha/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/kanban/v0.1.0-alpha/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/kanban/v0.1.0-alpha/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+            "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+            "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+            "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+            "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+            "plugins/list-search/v0.1.0-alpha/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-list-search-signed-qa.zip",
+      "current_tree_source_match_count": 8,
+      "git_history_blob_match_count": 8,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/list-search/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/list-search/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/list-search/v0.1.0-alpha/src/js/desktop.js",
+            "plugins/list-search/v0.1.0-alpha/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/core.js",
+          "matched_paths": [
+            "plugins/list-search/v0.1.0-alpha/src/js/core.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/list-search/v0.1.0-alpha/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/css/config.css",
+            "plugins/date-calculator/v0.1.0-alpha/src/css/config.css",
+            "plugins/grid-editor/v0.1.0-alpha/src/css/config.css",
+            "plugins/kanban/v0.1.0-alpha/src/css/config.css",
+            "plugins/list-search/v0.1.0-alpha/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/list-search/v0.1.0-alpha/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/list-search/v0.1.0-alpha/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+            "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+            "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+            "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+            "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+            "plugins/list-search/v0.1.0-alpha/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/qr-lib.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-tabs-signed-qa.zip",
+      "current_tree_source_match_count": 8,
+      "git_history_blob_match_count": 8,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/js/desktop.js",
+            "plugins/tabs/v0.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/runtime.css",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/css/runtime.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/js/desktop.js",
+            "plugins/tabs/v0.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/manifest.json"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-tabs-v0.1.0-beta.zip",
+      "current_tree_source_match_count": 7,
+      "git_history_blob_match_count": 7,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/js/desktop.js",
+            "plugins/tabs/v0.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/runtime.css",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/css/runtime.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/js/desktop.js",
+            "plugins/tabs/v0.1.0-beta/src/js/mobile.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-tabs-v1.0.0-20261021.zip",
+      "current_tree_source_match_count": 5,
+      "git_history_blob_match_count": 5,
+      "total": 8,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/runtime.css",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/css/runtime.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/js/config.js"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/css/config.css"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/html/config.html"
+          ],
+          "historical_blob_present": true
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [
+            "plugins/tabs/v0.1.0-beta/src/image/icon.png"
+          ],
+          "historical_blob_present": true
+        }
+      ]
+    },
+    {
+      "archive": "resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "current_tree_source_match_count": 0,
+      "git_history_blob_match_count": 0,
+      "total": 7,
+      "entries": [
+        {
+          "name": "js/desktop.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/mobile.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "js/config.js",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "css/config.css",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "html/config.html",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "manifest.json",
+          "matched_paths": [],
+          "historical_blob_present": false
+        },
+        {
+          "name": "image/icon.png",
+          "matched_paths": [],
+          "historical_blob_present": false
+        }
+      ]
+    }
+  ]
+}

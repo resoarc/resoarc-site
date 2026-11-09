@@ -1,0 +1,474 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:249d71fa-d8bd-5d71-97dc-a06dfe105a6a",
+  "version": 2,
+  "metadata": {
+    "component": {
+      "type": "application",
+      "bom-ref": "resoarc-browser-tools-scope-20261106",
+      "name": "ResoArc browser utility SHA-256 + CSV/TSV",
+      "version": "2026-11-07-source-snapshot",
+      "description": "Narrow, provisional scope. Not a conformant or complete OSS license audit."
+    },
+    "properties": [
+      {
+        "name": "resoarc:assessment-status",
+        "value": "PROVISIONAL_NOT_CONFORMANT"
+      },
+      {
+        "name": "resoarc:source-repository",
+        "value": "https://github.com/resoarc/resoarc-site"
+      },
+      {
+        "name": "resoarc:scope",
+        "value": "Two HTML utility pages and directly referenced local assets; other ResoArc software excluded"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "file",
+      "bom-ref": "file:site/tools/hash/index.html",
+      "name": "site/tools/hash/index.html",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c6ffa4e9fed7fe75ac9eb64435b2d3b396de56aef45c144340f990e40539335f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "8356"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/tools/csv/index.html",
+      "name": "site/tools/csv/index.html",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ec82f6d0703426c8943b8b7d5b1986b02d75b7ab2d5cd56342bb13f2ce2ba3bc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "8877"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/tools/hash.js",
+      "name": "site/assets/tools/hash.js",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1f7e19217cdfe9817f580b0efe946261511f0964ebab06c489e00a0f6689789a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "3924"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/tools/csv.js",
+      "name": "site/assets/tools/csv.js",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dfe2dc43016ef84dce26018dadddbb2d6b863d858733ca9eccf18e8b7e90125e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "7795"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/site-20261015-v10.css",
+      "name": "site/assets/site-20261015-v10.css",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "95aae495c14a2f11a183a2583228f54d38b4283ce82050e95a5f8080c6099efb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "40543"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/recognition-20261017.css",
+      "name": "site/assets/recognition-20261017.css",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4232a8d6b934ce202e13c52f405a2b58c081da5c62b682cfcac892410da31514"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "7902"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/resoarc-icon.svg",
+      "name": "site/assets/resoarc-icon.svg",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fa077d9e3585eb3d881547606df47319fc922ce43835c4d0ef69c484a378be8e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "283"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/tool-icons/hash.svg",
+      "name": "site/assets/tool-icons/hash.svg",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b942e24b411f5acf5e8976d5e3fd5a7c77b7fd5dea4a233a7e6a6a3017b14c18"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "380"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/tool-icons/csv.svg",
+      "name": "site/assets/tool-icons/csv.svg",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3aa2a6b8c4ed0d2234af7ef89aab8e3aab7e16cd0de1eea0f5bd302dc3c2f84e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "374"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/tool-screens/hash.webp",
+      "name": "site/assets/tool-screens/hash.webp",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4e318a60a02a5435b95522bffe64562eb5303dac572f25e0decd81968be36f3a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "31314"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/tool-screens/csv.webp",
+      "name": "site/assets/tool-screens/csv.webp",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "95d6c916a30cafe1234f82eb5fe3e592ef06888307072b46037a5d6e1af83cb8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "30238"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/fonts/noto-serif-jp-v10.woff2",
+      "name": "site/assets/fonts/noto-serif-jp-v10.woff2",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "79e5800ef22ec28a506e29abdd39c034892c4268ea209f44e008b1752ec328fb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "OFL-1.1"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "403704"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "THIRD_PARTY_REQUIRES_VERIFICATION"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/assets/hero-architecture.jpg",
+      "name": "site/assets/hero-architecture.jpg",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1b669d08e2f4e1b072de83172f69cc5866ef2a1a0649f470cbc5ff355aa2cf13"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Unsplash License",
+            "url": "https://unsplash.com/license"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "456049"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "THIRD_PARTY_REQUIRES_VERIFICATION"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/licenses/RESOARC-MIT.txt",
+      "name": "site/licenses/RESOARC-MIT.txt",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4b1d5c0298f3626bb3639997084b30818fa13222be2a216c22bb91aa0c834b89"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "1088"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "PROVISIONAL_FIRST_PARTY"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "bom-ref": "file:site/licenses/NOTOSERIFJP-OFL.txt",
+      "name": "site/licenses/NOTOSERIFJP-OFL.txt",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "OFL-1.1"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "resoarc:bytes",
+          "value": "4350"
+        },
+        {
+          "name": "resoarc:rights-review",
+          "value": "THIRD_PARTY_REQUIRES_VERIFICATION"
+        }
+      ]
+    }
+  ],
+  "compositions": [
+    {
+      "aggregate": "incomplete",
+      "assemblies": [
+        "file:site/tools/hash/index.html",
+        "file:site/tools/csv/index.html",
+        "file:site/assets/tools/hash.js",
+        "file:site/assets/tools/csv.js",
+        "file:site/assets/site-20261015-v10.css",
+        "file:site/assets/recognition-20261017.css",
+        "file:site/assets/resoarc-icon.svg",
+        "file:site/assets/tool-icons/hash.svg",
+        "file:site/assets/tool-icons/csv.svg",
+        "file:site/assets/tool-screens/hash.webp",
+        "file:site/assets/tool-screens/csv.webp",
+        "file:site/assets/fonts/noto-serif-jp-v10.woff2",
+        "file:site/assets/hero-architecture.jpg",
+        "file:site/licenses/RESOARC-MIT.txt",
+        "file:site/licenses/NOTOSERIFJP-OFL.txt"
+      ]
+    }
+  ]
+}

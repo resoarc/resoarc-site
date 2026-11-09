@@ -11,7 +11,7 @@ ITEMS=[
  ('date-calculator','日付・期間計算','開始日・終了日からカレンダー日数と営業日数を算出。休日指定に対応。','[{"start":"start_date","end":"end_date","target":"days","mode":"business","holidays":["2026-10-19"]}]','フォームでDATE型の開始日と終了日から計算し、数値・文字列型の出力先のみを書き換えます。元の日付が消されたら計算結果を空欄に戻します。開始日を含まず終了日を含みます。'),
  ('list-search','高機能検索・絞り込み','現在ページ内検索と、一覧の絞り込み条件を尊重した最大2,000件の範囲検索に対応。','[{"code":"Name","label":"名称","operator":"contains"}]','通常は表示中ページのみ検索。明示的な操作で一覧条件に合う最大2,000件を読み取り検索します。上限を超えたデータは未検索であり、全件検索ではありません。変更APIは使いません。'),
  ('grid-editor','Excel風一覧編集','単一フィールドを最大100件、リビジョン検査付きで一括更新。失敗時は全件取消。','[{"field":"Notes","limit":25}]','現在の一覧ページのみ。通常文字列・複数行文字列・数値フィールドを最大100件まで、更新前にGETで現在値・リビジョンを再確認し、変化がなければ1回の原子的なPUTリクエストで更新します。1件でも失敗すれば全件取消。ネットワーク障害では実際の結果を再読込で確認してください。複数列編集は未実装です。'),
- ('kanban','カード・カンバン表示','現在の一覧ページをグループ化して読み取り専用カードで表示。','[{"groupField":"Status","labelField":"Title","limit":60}]','現在の一覧ページのみ。ドラッグ＆ドロップ更新、全レコード取得は未実装です。'),
+ ('kanban','カード・カンバン表示','現在の一覧ページをグループ化して読み取り専用カードで表示。','[{"groupField":"Status","labelField":"Title","limit":60}]','現在の一覧ページのみ。カード詳細リンクはPC・モバイルとゲストスペースの画面URLに対応。操作なしでデータ更新は行いません。ドラッグ＆ドロップ更新、全レコード取得は未実装です。'),
 ]
 for slug,title,desc,example,limit in ITEMS:
     pkg=ROOT/'plugins'/slug/'v0.1.0-alpha'
@@ -38,7 +38,14 @@ for slug,title,desc,example,limit in ITEMS:
       +'<p><a href="/products/kintone/">kintoneツール一覧に戻る ↗</a></p></div></section></main>')
     target=SITE/'tools'/('kintone-'+slug)/'index.html'
     target.parent.mkdir(parents=True,exist_ok=True)
-    target.write_text(head+'\n'+header+'\n'+main+'\n'+footer+'</body></html>\n',encoding='utf-8',newline='\n')
+    rendered=head+'\n'+header+'\n'+main+'\n'+footer+'</body></html>\n'
+    # A later media pass adds real screenshots. Preserve its markup across repackaging.
+    if target.is_file():
+        existing=target.read_text(encoding='utf-8')
+        preview=re.search(r'(<section class="tool-preview-section".*?</section>)',existing,re.S)
+        if preview and 'tool-preview-section' not in rendered:
+            rendered=rendered.replace('</main>',preview.group(1)+'</main>',1)
+    target.write_text(rendered,encoding='utf-8',newline='\n')
 product=SITE/'products'/'kintone'/'index.html'
 p=product.read_text(encoding='utf-8')
 if 'href="/tools/kintone-date-calculator/"' not in p:

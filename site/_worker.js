@@ -25,6 +25,7 @@ const DOWNLOAD_STATS_HEADERS = Object.freeze({
 async function trackedDownloadRequest(request, env, ctx, pathname) {
   // Never interfere with the actual static asset delivery, even if recording fails.
   const response = await env.ASSETS.fetch(request);
+  recordPrivacySafeActivity(request, response, env, ctx);
   const match = DOWNLOAD_FILE_PATH.exec(pathname);
   if (match && request.method === "GET" && response.status === 200 &&
       !request.headers.has("range") && env.DOWNLOAD_DB?.prepare) {
@@ -234,6 +235,53 @@ async function securityWeatherRequest(request, env, url) {
       message: "The published daily snapshot cannot be read; try again later." }, 503, method);
   }
 }
+// Privacy-first aggregate events. The binding is optional and disabled unless
+// RESOARC_ACTIVITY (Cloudflare Analytics Engine) is configured by the operator.
+// No IP addresses, cookies, user agents, full referrers, query strings or IDs.
+const ACTIVITY_DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+function referrerGroup(requestUrl, referrer) {
+  if (!referrer) return "direct";
+  try {
+    const host = new URL(referrer).hostname.toLowerCase();
+    if (host === new URL(requestUrl).hostname.toLowerCase()) return "internal";
+    if (host === "note.com" || host.endsWith(".note.com")) return "note.com";
+    if (host === "github.com" || host.endsWith(".github.com")) return "github.com";
+    if (/^(www\.)?google\.[a-z.]+$/.test(host)) return "google";
+    if (host === "bing.com" || host === "www.bing.com") return "bing";
+    if (host === "search.yahoo.co.jp") return "yahoo";
+    if (host === "duckduckgo.com") return "duckduckgo";
+    return "other";
+  } catch {
+    return "unknown";
+  }
+}
+function recordPrivacySafeActivity(request, response, env, ctx) {
+  if (request.method !== "GET" || !response || response.status >= 400) return;
+  if (!env.RESOARC_ACTIVITY || typeof env.RESOARC_ACTIVITY.writeDataPoint !== "function") return;
+  if (!ctx || typeof ctx.waitUntil !== "function") return;
+  const url = new URL(request.url);
+  const isDownload = /^\/downloads\/[a-z0-9._-]+\.zip$/i.test(url.pathname);
+  const contentType = response.headers.get("Content-Type") || "";
+  const isPage = /text\/html/i.test(contentType) && (url.pathname === "/" || /^\/[a-z0-9/_-]*\/?$/i.test(url.pathname));
+  if (!isDownload && !isPage) return;
+  // Each row counts a request, not a unique visitor or a proven ZIP transfer.
+  // Requests returning redirects may be counted as download attempts.
+  const path = isDownload ? url.pathname : url.pathname.replace(/\/index\.html$/, "/");
+  const kind = isDownload ? "download_request" : "page_request";
+  const day = new Date().toISOString().slice(0, 10);
+  if (!ACTIVITY_DAY_PATTERN.test(day)) return;
+  const data = {
+    indexes: [kind],
+    blobs: [day, kind, path.slice(0, 160), referrerGroup(request.url, request.headers.get("Referer"))],
+    doubles: [1],
+  };
+  try {
+    ctx.waitUntil(Promise.resolve().then(() => env.RESOARC_ACTIVITY.writeDataPoint(data)).catch(() => {}));
+  } catch {
+    // Site delivery must not depend on analytics.
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -248,7 +296,11 @@ export default {
     if (url.pathname === "/api/v1/downloads/file") return countedFileDownloadRequest(request, env, ctx, url);
     if (url.pathname === "/api/v1/downloads/summary") return downloadStatsRequest(request, env);
     if (url.pathname.startsWith("/downloads/")) return trackedDownloadRequest(request, env, ctx, url.pathname);
-    if (url.pathname !== "/api/scorecard") return env.ASSETS.fetch(request);
+    if (url.pathname !== "/api/scorecard") {
+      const response = await env.ASSETS.fetch(request);
+      recordPrivacySafeActivity(request, response, env, ctx);
+      return response;
+    }
     if (request.method !== "GET" && request.method !== "HEAD") {
       return new Response(null, { status: 405, headers: { Allow: "GET, HEAD" } });
     }

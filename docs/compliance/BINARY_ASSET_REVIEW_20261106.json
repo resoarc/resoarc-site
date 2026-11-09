@@ -1,0 +1,247 @@
+{
+  "schema": "resoarc-reviewed-nonexecutable-assets-v1",
+  "observed_date": "2026-11-06",
+  "source": "main-to-PR working tree after generated ZIP removal",
+  "status": "FORMAT_AND_LICENSE_METADATA_AUDIT_NOT_INDEPENDENT_REVIEW",
+  "policy": "Tracked non-source binary assets only: PNG, WebP, JPEG and WOFF2. No .zip/.exe/.dll/.iso or other generated executables may remain in current source tree. Fonts/images remain subject to rights/provenance review.",
+  "assets": [
+    {
+      "path": "plugins/auto-number/src/image/icon.png",
+      "format": "png",
+      "size": 710,
+      "sha256": "e2cca515083ec83b9de419ca0b7d41ad090c524ee394b00033dc72739c52459a",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/auto-number/v1.1.0-beta/src/image/icon.png",
+      "format": "png",
+      "size": 710,
+      "sha256": "e2cca515083ec83b9de419ca0b7d41ad090c524ee394b00033dc72739c52459a",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/list-search/v0.1.0-alpha/src/image/icon.png",
+      "format": "png",
+      "size": 758,
+      "sha256": "a63d2db97321f3acdc98b91943b9ef607d0606027f9937b67484c3e3dc0bf212",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "plugins/tabs/v0.1.0-beta/src/image/icon.png",
+      "format": "png",
+      "size": 533,
+      "sha256": "2e12cf71fb4adb04efeb63e99b3d44ffb7a695b270e6d3042320ae2b6b8c6573",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/fonts/noto-serif-jp-v10.woff2",
+      "format": "woff2",
+      "size": 403704,
+      "sha256": "79e5800ef22ec28a506e29abdd39c034892c4268ea209f44e008b1752ec328fb",
+      "license_expression": "OFL-1.1"
+    },
+    {
+      "path": "site/assets/fonts/noto-serif-jp-v5.woff2",
+      "format": "woff2",
+      "size": 372792,
+      "sha256": "2400ee5a7f45d37c0c0d98629395490484f556eda611ad69fa58addee001ccb6",
+      "license_expression": "OFL-1.1"
+    },
+    {
+      "path": "site/assets/fonts/noto-serif-jp-v6.woff2",
+      "format": "woff2",
+      "size": 380844,
+      "sha256": "0196e3e50ad6f01a2b7156586a86276fb40b7e279342dc603aa2a3bea13a63df",
+      "license_expression": "OFL-1.1"
+    },
+    {
+      "path": "site/assets/fonts/noto-serif-jp-v7.woff2",
+      "format": "woff2",
+      "size": 382908,
+      "sha256": "fddac08067d4839300ddf77bd812a909d4099fb2d71ae1c5ab8a9bbcba889a28",
+      "license_expression": "OFL-1.1"
+    },
+    {
+      "path": "site/assets/fonts/noto-serif-jp-v8.woff2",
+      "format": "woff2",
+      "size": 385248,
+      "sha256": "f2d3aa2236a7207e183a94ca75d0f80991c7e508d15e4f547f0cc70bc97d9f13",
+      "license_expression": "OFL-1.1"
+    },
+    {
+      "path": "site/assets/fonts/noto-serif-jp-v9.woff2",
+      "format": "woff2",
+      "size": 391456,
+      "sha256": "5b66368b77cd2a8ce00fcc3f5f8dfb0514541ab7937b54903d5719fd7c9a2521",
+      "license_expression": "OFL-1.1"
+    },
+    {
+      "path": "site/assets/hero-architecture.jpg",
+      "format": "jpeg",
+      "size": 456049,
+      "sha256": "1b669d08e2f4e1b072de83172f69cc5866ef2a1a0649f470cbc5ff355aa2cf13",
+      "license_expression": "LicenseRef-Unsplash"
+    },
+    {
+      "path": "site/assets/tool-screens/csv.webp",
+      "format": "webp",
+      "size": 30238,
+      "sha256": "95d6c916a30cafe1234f82eb5fe3e592ef06888307072b46037a5d6e1af83cb8",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/hash.webp",
+      "format": "webp",
+      "size": 31314,
+      "sha256": "4e318a60a02a5435b95522bffe64562eb5303dac572f25e0decd81968be36f3a",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-app-diff.webp",
+      "format": "webp",
+      "size": 32554,
+      "sha256": "c88a85f169f8de24eb5a9557f3ef7b5de92e739080bdbbf73ebe0f667925b5a8",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-auto-number.webp",
+      "format": "webp",
+      "size": 25770,
+      "sha256": "64e78402ee63cc122fe56dd40d20db5033c1ac364c96e27fbf02e7d5ac249e7f",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-bulk-preview.webp",
+      "format": "webp",
+      "size": 26230,
+      "sha256": "992a0b0f08e84e05c5085afb972d9cc605acccf07fd1949c65161b8e43e31d8d",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-conditional-format.webp",
+      "format": "webp",
+      "size": 22690,
+      "sha256": "6559977c7b67282d2edf88c741b3464b7d5b96c7a9843c07fef41e2ab4f69129",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-conditional.webp",
+      "format": "webp",
+      "size": 25998,
+      "sha256": "3f4292e03943fb1ab1f5ab36ad2e0fdd8664b8a023723221194185435afafcec",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-cross-aggregate.webp",
+      "format": "webp",
+      "size": 30230,
+      "sha256": "2160fb3e1f532dd81e4e0765521360a3f50d94b3e7c041152b2d1a462c98f3f1",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-date-calculator.webp",
+      "format": "webp",
+      "size": 27864,
+      "sha256": "fbe6cfd86552c388c0b6c381d6ea410c241dbd8b68eef914581ae6b9633a39fd",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-duplicates.webp",
+      "format": "webp",
+      "size": 20896,
+      "sha256": "5c9d60252e76868a4685c30c70eca2c4d1df118db78cdf074bb2978828458d3c",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-grid-editor.webp",
+      "format": "webp",
+      "size": 18764,
+      "sha256": "47968afbcccd71b6879fb3a3b935ef5792e3793b7cecfe2ceeb88e08f6feb7aa",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-import-check.webp",
+      "format": "webp",
+      "size": 35244,
+      "sha256": "5f13e94f8244dc5764bf23aab66de92e85a7102afd022fd2f691549dff966f3f",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-kanban.webp",
+      "format": "webp",
+      "size": 19712,
+      "sha256": "4fe46893810ed2dfca45a7d13569035a2e3d2407abbc74aab69f1b26a0d1b871",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-list-search.webp",
+      "format": "webp",
+      "size": 21188,
+      "sha256": "df98904b3b53c21ad8fc3ddef42ecf361c26e6afb1e8835c888507f4b8b3bac9",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-lookup-audit.webp",
+      "format": "webp",
+      "size": 29832,
+      "sha256": "3f9375369314cfd860beefd83a39a5ae8f3c7a90f93c5bf096549b358291b3b6",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-permission-audit.webp",
+      "format": "webp",
+      "size": 22232,
+      "sha256": "3e22f188e3495b65a12a53d3ce52c50fc505b5a21040fb6e3dc49686ce4fc1fe",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-print-report.webp",
+      "format": "webp",
+      "size": 21720,
+      "sha256": "41aa50e0337856e510e6ac2bf2d59edf4f8180ee5d6537c7f730eb738dfd805c",
+      "license_expression": "MIT"
+    },
+    {
+      "path": "site/assets/tool-screens/kintone-tabs.webp",
+      "format": "webp",
+      "size": 26644,
+      "sha256": "82e618ed1d30f2f80d3e2aa80f2f2df1e58dbc355534b7ba5429c7731977725e",
+      "license_expression": "MIT"
+    }
+  ]
+}

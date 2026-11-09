@@ -24,8 +24,9 @@ function show(event){
   group.records.forEach(item=>{
    const card=elem('div',item.label||'(無題)',col);
    card.style.cssText='background:#fff;border:1px solid #d1d9db;padding:9px;margin:6px 0;overflow-wrap:anywhere';
-   if(/^\d+$/.test(item.id)&&/^\d+$/.test(appId)){
-    const link=elem('a','詳細を開く',card);link.href='/k/'+appId+'/show#record='+item.id;
+   const href=core.recordLink(window.location.pathname,appId,item.id,mobile);
+   if(href){
+    const link=elem('a','詳細を開く',card);link.href=href;
    }
   });
  }

@@ -6,6 +6,11 @@
       "parent": "/",
       "visible": false
     },
+    "/community/": {
+      "title": "参加・活動",
+      "parent": "/",
+      "visible": true
+    },
     "/education/circuit/": {
       "title": "電子回路",
       "parent": "/education/",
@@ -19,6 +24,11 @@
     "/education/programming/": {
       "title": "ロボットプログラミング",
       "parent": "/education/",
+      "visible": true
+    },
+    "/en/": {
+      "title": "ResoArc",
+      "parent": "/",
       "visible": true
     },
     "/guide/backup-migration/": {
@@ -118,6 +128,11 @@
     },
     "/products/kintone/mail-compose/": {
       "title": "メール作成ボタン",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/postal-address/": {
+      "title": "郵便番号住所入力",
       "parent": "/products/kintone/",
       "visible": true
     },
