@@ -63,7 +63,7 @@ try {
   if (!(Test-Path $qaZip)) { throw "qAIUIck source ZIP missing" }
   $qaDigest = (Get-FileHash $qaZip -Algorithm SHA256).Hash.ToLowerInvariant()
   foreach ($hostName in @("resoarc.com", "www.resoarc.com", "resoarc.pages.dev")) {
-    foreach ($route in @("/products/web/qaiuick/", "/tools/qaiuick-demo/")) {
+    foreach ($route in @("/products/web/qaiuick/", "/tools/qaiuick-demo/", "/tools/qaiuick-inventory/", "/tools/qaiuick-budget/", "/tools/qaiuick-tickets/", "/tools/qaiuick-customers/")) {
       $url = "https://" + $hostName + $route + "?deploycheck=" + $stamp
       $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
       if ($response.StatusCode -ne 200 -or !$response.Content.Contains("qAIUIck") -or
@@ -77,6 +77,22 @@ try {
     if ($assetResponse.StatusCode -ne 200 -or
         $assetResponse.Headers["Content-Type"] -notmatch "image/webp") {
       throw ("qAIUIck hero not live: " + $assetUrl)
+    }
+    foreach ($asset in @(
+      "/assets/qaiuick-beta/source-viewer.js",
+      "/assets/qaiuick-beta/samples.css",
+      "/assets/qaiuick-beta/examples/sample-data.js",
+      "/assets/qaiuick-beta/examples/inventory.js",
+      "/assets/qaiuick-beta/examples/budget.js",
+      "/assets/qaiuick-beta/examples/tickets.js",
+      "/assets/qaiuick-beta/examples/customers.js"
+    )) {
+      $assetUrl = "https://" + $hostName + $asset + "?deploycheck=" + $stamp
+      $assetResponse = Invoke-WebRequest -Uri $assetUrl -UseBasicParsing -TimeoutSec 30
+      if ($assetResponse.StatusCode -ne 200 -or $assetResponse.Content.Length -lt 100) {
+        throw ("qAIUIck sample source not live: " + $assetUrl)
+      }
+      Write-Output ("QAIUICK_ASSET_OK " + $assetUrl)
     }
     $zipUrl = "https://" + $hostName + "/downloads/qaiuick-v0.2-beta-source.zip?deploycheck=" + $stamp
     $tempZip = Join-Path ([IO.Path]::GetTempPath()) ("qaiuick-verify-" + [guid]::NewGuid().ToString("N") + ".zip")
