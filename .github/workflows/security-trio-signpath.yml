@@ -83,6 +83,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
       - name: Request human-approved SignPath Foundation signing
+        id: signpath_request
         uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092 # v3.0
         with:
           api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
@@ -101,6 +102,20 @@ jobs:
         run: |
           & './verify_signed_release.ps1' -Dist 'signed' -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint $env:EXPECTED_SIGNER_THUMBPRINT -ManifestPath 'signed/SHA256SUMS.txt'
           if ($LASTEXITCODE -ne 0) { throw 'BLOCK: signature verification failed' }
+      - name: Build signed candidate with fresh signed hashes, license originals and provenance
+        shell: pwsh
+        env:
+          EXPECTED_SIGNER_THUMBPRINT: ${{ vars.SIGNPATH_SIGNER_SHA1_THUMBPRINT }}
+          SIGNPATH_SIGNING_REQUEST_ID: ${{ steps.signpath_request.outputs.signing-request-id }}
+          SIGNPATH_SIGNING_REQUEST_URL: ${{ steps.signpath_request.outputs.signing-request-web-url }}
+        run: python package_signed_candidate.py
+      - name: Retain signed candidate ZIP for explicit release review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SecurityTrio-SIGNED-candidate-with-licenses-not-published
+          path: apps/security-trio/dist/ResoArc-Security-Trio-Windows-x64-SIGNED-candidate-not-released.zip
+          if-no-files-found: error
+          retention-days: 14
       - name: Retain verified signed artifact for explicit release review
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
