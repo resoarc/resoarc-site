@@ -31,28 +31,20 @@ response = await handler.fetch(new Request("https://resoarc.com/products/"), {AS
 assert.equal(await response.text(), "STATIC_OK");
 globalThis.fetch = async () => new Response("temporary error", {status: 500});
 response = await handler.fetch(resource, {});
-assert.equal(response.status, 502);
+assert.equal(response.status, 200);
+assert.equal(response.headers.get("cache-control"), "no-store");
+const historical = await response.json();
+assert.equal(historical.live_status, "temporarily_unavailable");
+assert.equal(historical.historical, true);
+assert.equal(historical.repository, "historical-source");
+assert.match(historical.source, /not current Codeberg/);
 
 const code = await fs.readFile(new URL("assets/scorecard-live-20261017.js", root), "utf8");
-const elements = {
-  "[data-scorecard-value]": [{textContent:"5.8"}, {textContent:"5.8"}],
-  "[data-scorecard-date]": [{tagName:"TIME",textContent:"",dateTime:""}],
-  "[data-scorecard-state]": [{textContent:"確認中"}],
-};
-const context = {
-  document: {querySelectorAll: key => elements[key] ?? []},
-  fetch: () => Promise.resolve({ok:true,json:async()=>({
-    score:7.1,date:"2026-10-16T18:54:23Z",repository:"github.com/resoarc/resoarc-site"
-  })}),
-  Date,Number,Intl,Error,
-};
-vm.runInNewContext(code,context);
-await new Promise(r => setTimeout(r,0));
-assert(elements["[data-scorecard-value]"].every(x=>x.textContent==="7.1"));
-assert(elements["[data-scorecard-date]"][0].textContent.includes("JST"));
-assert.equal(elements["[data-scorecard-state]"][0].textContent,"公式APIから自動取得");
-context.fetch = async ()=>({ok:false});
-vm.runInNewContext(code,context);
-await new Promise(r => setTimeout(r,0));
-assert(elements["[data-scorecard-state]"][0].textContent.includes("直近確認値"));
-console.log("SCORECARD_AUTO_PASS server proxy status, static assets, error handling, client success/fallback");
+const states = [{textContent:"確認中"}, {textContent:"確認中"}];
+vm.runInNewContext(code, {
+  document: {querySelectorAll: key => key === "[data-scorecard-state]" ? states : []},
+  fetch: () => { throw Error("historical UI must not claim a fresh API lookup"); }
+});
+assert(states.every(x => x.textContent.includes("過去の外部評価")));
+assert(states.every(x => x.textContent.includes("現行Codebergソースの評価ではありません")));
+console.log("SCORECARD_AUTO_PASS official upstream, historical fallback, static UI without false current claims");
