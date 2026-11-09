@@ -922,3 +922,27 @@ path = [
 precedence = 'override'
 SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
 SPDX-License-Identifier = 'MIT'
+
+# qAIUIck beta: authored code, documentation site and distributable source.
+[[annotations]]
+path = [
+  'site/assets/qaiuick-beta/demo.js',
+  'site/assets/qaiuick-beta/landing.css',
+  'site/assets/qaiuick/qaiuick.css',
+  'site/assets/qaiuick/qaiuick.js',
+  'site/assets/qaiuick/store.js',
+  'site/downloads/qaiuick-v0.2-beta-source.zip',
+  'site/downloads/qaiuick-v0.2-beta-source.zip.sha256',
+  'site/products/web/qaiuick/index.html',
+  'site/tools/qaiuick-demo/index.html',
+]
+precedence = 'override'
+SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
+SPDX-License-Identifier = 'MIT'
+
+# qAIUIck wordmark/orbit hero is brand artwork, not an open trademark grant.
+[[annotations]]
+path = ['site/assets/qaiuick-beta/hero.webp']
+precedence = 'override'
+SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
+SPDX-License-Identifier = 'LicenseRef-ResoArc-Brand-Art'

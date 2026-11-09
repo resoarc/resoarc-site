@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja" data-q-theme="teal">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>今日のメモ · qAIUIck</title>
+  <link rel="stylesheet" href="/assets/qaiuick/qaiuick.css">
+<meta name="description" content="qAIUIckのブラウザ内保存を体験できるベータデモ。入力したメモはこのブラウザにだけ保存されます。"><link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg"><link rel="stylesheet" href="/assets/navigation.css"></head>
+<body class="q-app">
+  <main class="q-page" id="app">
+    <nav class="q-topbar" aria-label="アプリ情報">
+      <div class="q-brand"><span class="q-brand-mark" aria-hidden="true">q</span> qAIUIck</div>
+      <span class="q-topmeta"><a href="/products/web/qaiuick/">製品ページに戻る ↗</a> &nbsp; / &nbsp; Zero build · Local first</span>
+    </nav>
+
+    <header class="q-hero">
+      <span class="q-eyebrow">YOUR SMALL WORKSPACE</span>
+      <h1>今日のメモ。</h1>
+      <p class="q-lead">気になったことを、すぐ書き留める。シンプルな操作と、ブラウザ内保存だけの小さなアプリ。</p>
+    </header>
+
+    <section class="q-panel q-stack" aria-labelledby="tasks-heading">
+      <div class="q-panel-heading">
+        <h2 id="tasks-heading">やることリスト</h2>
+        <span class="q-pill"><span q-text="count"></span> 件のメモ</span>
+      </div>
+      <form q-submit="add" class="q-form">
+        <label>新しいメモ
+          <input q-model="draft" placeholder="例えば：資料を確認する" maxlength="120" autocomplete="off">
+        </label>
+        <button type="submit">追加する</button>
+      </form>
+      <p class="q-error" q-text="error" role="alert"></p>
+      <ul class="q-list" aria-label="保存したメモ">
+        <template q-each="tasks" q-as="item">
+          <li>
+            <div class="q-list-item"><span class="q-list-dot" aria-hidden="true"></span><span q-text="item.title"></span></div>
+            <button type="button" class="q-button--quiet q-button--small" q-action="remove" q-arg="item.id" aria-label="メモを削除">削除</button>
+          </li>
+        </template>
+      </ul>
+      <div class="q-empty" q-show="empty">まだメモはありません。ひとつ書いてみましょう。</div>
+      <details class="q-design-notes">
+        <summary>この画面の設計について</summary>
+        <p>一覧・追加・削除だけに絞り、データはブラウザ内に保存します。HTMLで画面、main.jsで動作、CSSで配色を管理しています。</p>
+      </details>
+    </section>
+    <footer class="q-footer">Made with qAIUIck v0.2 Beta · このデモの保存先はブラウザ内です。公開サーバーには送信しません。 <a href="/products/web/qaiuick/">製品ページ ↗</a></footer>
+    <p class="q-muted">ResoArcOS: <a href="/os/">プロジェクトを見る</a></p>
+  </main>
+  <script type="module" src="/assets/qaiuick-beta/demo.js"></script>
+<script defer src="/assets/navigation.js"></script></body>
+</html>
