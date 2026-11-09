@@ -26,6 +26,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_release_mirror_retry.py -v
       - name: Hydrate exact historical ZIP assets from verified GitHub Release
         run: python scripts/verify_external_archive_mirror.py --hydrate
+      - name: Hydrate other current ZIPs using checked-in exact SHA-256 inventory
+        run: python scripts/hydrate_current_distribution.py
       - name: Audit workflow trust boundaries (OSPS-BR-01.01/01.03)
         run: python scripts/check_workflow_security.py
       - name: Prevent accidental tracked-secret commits (OSPS-BR-07.01)
@@ -54,6 +56,8 @@ jobs:
         run: python scripts/verify_web8_v1.py
       - name: Verify signed kintone QA packages and all 16 feature routes
         run: python scripts/verify_suite16_readiness.py
+      - name: Verify pinned signed QA ZIPs and public catalogs
+        run: python scripts/check_signed_qa_reconciliation.py
       - name: Test live Scorecard proxy and client fallback
         run: |
           node --check site/_worker.js

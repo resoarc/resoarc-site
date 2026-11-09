@@ -21,8 +21,8 @@
     },
     {
       "filename": "resoarc-auto-number-signed-qa.zip",
-      "sha256": "761224ac70ddd01159cef0ae6dbef657cb3432d72322b2fb13ba2a37580c5ac8",
-      "payload_sha256": "981041c200d1bdae0871660c97743b4b4d970bb27ee49ab10f44f7e020c035c1",
+      "sha256": "69868db78f8ff6305e175b8ec159e68cefb735a259b9ba85f77af3b8514615ff",
+      "payload_sha256": "9168acdeb6074f486ff16442d7099503494459aee845b7db3e5d8f0085644173",
       "code_files_with_spdx": 2,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
@@ -45,16 +45,16 @@
     },
     {
       "filename": "resoarc-conditional-format-signed-qa.zip",
-      "sha256": "b9a0d7db277e8efba835c7fb8914b22d6ee13274fc41db0d5c9e52fbd2c03401",
-      "payload_sha256": "662bcb5ee0a689e8330ce7a3606aee81f8828cf9fead1aa004666327ec03ff8f",
+      "sha256": "283d7e2af5fdb0f9c308247b0c97fbd4db29627adf9128833b97f26b0152b473",
+      "payload_sha256": "bd2e211d6fc8bcb7e718dd0d4277975b2020f76dc0afc18c2e5e3532a9a09eb4",
       "code_files_with_spdx": 3,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
     },
     {
       "filename": "resoarc-conditional-signed-qa.zip",
-      "sha256": "1f706267511884ff9771a5c1ebb0a126e065d382869c67e769e001b675ff9bbc",
-      "payload_sha256": "7d23b2df1143ff15c5c4e5caece8a6d0b0ccf2d7f52e16a0e930935be5d1a1ee",
+      "sha256": "3c50e7cdf92fcdecaa17edabd48d3cf3056ee6e352b2845d66edc07e8cf5a279",
+      "payload_sha256": "4c09738dec2dd74716b46147d5cd3e989f9c515371c098fa8791230dccc09ace",
       "code_files_with_spdx": 2,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
@@ -69,8 +69,8 @@
     },
     {
       "filename": "resoarc-date-calculator-signed-qa.zip",
-      "sha256": "b2d74dcb6467d44015ba3364eb8f904916d44449ce8a21cba164c5318bbd2e87",
-      "payload_sha256": "c84ca425809309c8d2306443bdd95bf92cf2ac171105729c488f9b562245470f",
+      "sha256": "2053e8914dbb47d933f1a39092b2374e3e1a464bc09c0757b6251d24a91d0fdb",
+      "payload_sha256": "bbd451cf0db22fe4e724afc8dfb64345302ffbceefd0784706ca6fc9810c019b",
       "code_files_with_spdx": 0,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
@@ -85,16 +85,16 @@
     },
     {
       "filename": "resoarc-grid-editor-signed-qa.zip",
-      "sha256": "391568b0381fb99ce07a34f30d68505688fdf7684a2db8196dc59d4201ac5baf",
-      "payload_sha256": "1072dc0cbca57924a49029a7345205736ae9ff722a1500ea6dfd9f32966ddba2",
+      "sha256": "9eca70f1f03944784eb3c9114511c4bd1c93dcaceee3e605007fdce6a8f1ec41",
+      "payload_sha256": "8c1f60aa77d012a328e06eaf7d5a86199914a23f146046dc785bc30a4eb9fc41",
       "code_files_with_spdx": 0,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
     },
     {
       "filename": "resoarc-kanban-signed-qa.zip",
-      "sha256": "4d16cd3a8145d54376a107fb9a3fbfe0126505c1929bc704f957f502c200a59a",
-      "payload_sha256": "d243f6f679bd0203dfb9d6f2f1ae47dbc0bfe48eef652946bd364912136e7a15",
+      "sha256": "6c37aa7a701cad45303426048ba9cde237e976325590ae1ac9288fbebf549051",
+      "payload_sha256": "907e9d41f0cbfe67066041c7cac248d9812645cce1ced6c00a46c9ed9b093fb7",
       "code_files_with_spdx": 0,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
@@ -109,8 +109,8 @@
     },
     {
       "filename": "resoarc-list-search-signed-qa.zip",
-      "sha256": "f4aa2680f68b6c0a50941a42a4968bd0618993ba201b9b691ae067fd42dafd01",
-      "payload_sha256": "81b43e936b9a0183107b2be9910afc8a8dab85553e34b67758764fb4ec78f1f0",
+      "sha256": "2bec234b936b6e3336f4444687302b8ec53e6f90c9b00262a21c17e4ad9c87d6",
+      "payload_sha256": "48a430fd227cca23ac669d1a264300aa1893b9a139ce309ccb38976bb058c1b2",
       "code_files_with_spdx": 0,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
@@ -157,8 +157,8 @@
     },
     {
       "filename": "resoarc-tabs-signed-qa.zip",
-      "sha256": "5a9847558a71af67bfbbbec5d8a299172e88b039495da20030a13958afc72ad9",
-      "payload_sha256": "1487d5df4ab92968fd74eee3455f13cede5c70fc01b629c2c3286ef99a6c70d5",
+      "sha256": "1d91b317497366828082973e243d3a4568581f96fee75ec7b84300db93941908",
+      "payload_sha256": "6fee1daa9460aefe4ec5cdf9fa9c39d81625960eccb191ea97ab420e4f2fcba0",
       "code_files_with_spdx": 2,
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
@@ -187,5 +187,12 @@
       "embedded_license_docs": [],
       "status": "pending_separate_license_evidence"
     }
-  ]
+  ],
+  "reconciliation_20261109": {
+    "scope": "Eight signed QA plugin archives",
+    "action": "Restored verified immutable GitHub Release mirror bytes without changing signatures",
+    "signature_cryptographic_verification": "not assessed",
+    "source_byte_comparison": "all eight verified",
+    "previous_unmatched_assets": "preserved in independent local evidence directory"
+  }
 }

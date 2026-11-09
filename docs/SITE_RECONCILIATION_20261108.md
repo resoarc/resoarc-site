@@ -64,3 +64,53 @@ uploaded independently, while the official GitHub `main` stayed behind.
 A merged PR alone does **not** synchronize production. Full completion
 requires merging to official GitHub `main`, Direct Upload of that exact
 commit with the guarded deploy script, and live HTTP/API smoke tests.
+
+
+## Signed QA distribution reconciliation, 2026-11-09
+
+The live-derived QA manifest listed eight ZIP hashes different from the
+immutable official GitHub Release mirror `resoarc-osps-distribution-mirror-20261106`.
+The mirror packages passed exact SHA-256 pinning and all eight contents.zip
+payloads matched current tracked plugin sources byte-for-byte. The live-derived
+Kanban package had a contents.zip/source mismatch.
+
+We preserved the live-derived eight packages and manifest under the isolated
+PC evidence folder `site-reconcile-20261108/evidence/previous_live_qa_20261109`;
+they were not deleted or overwritten as evidence. The canonical site now
+contains the verified official mirror ZIPs, using their original names and
+signatures, and restores the corresponding immutable signed QA manifest.
+
+The public download checksum table, recognition JSON, and new
+`docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261109.json` point
+to exactly the mirrored bytes. Historical 2026-11-06 compliance inventories
+remain unchanged as dated snapshots. Both CI and the deployment guard enforce
+byte-level consistency; the deploy script hydrates missing audited ZIP assets
+from GitHub Releases and refuses mismatches.
+
+**Release qualification:** These packages are signed QA candidates, NOT
+tenant-accepted/GA plugins. SHA-256 and source-byte identity are not a
+cryptographic signature check or an independent legal rights attestation.
+Cloudflare production is not changed until PR checks and live-data guards pass.
+
+
+## 35-ZIP distribution reproducibility
+
+The official 2026-11-06 Release mirror pins 20 historical ZIPs, whereas the
+current site serves 35 ZIP assets. During reconciliation the Kanban alpha
+source ZIP on the live-derived worktree differed from the immutable official
+archive and the ResoArcOS v0.1.1-dev source ZIP was absent locally. Both were
+restored from the official mirror using exact SHA-256/byte-size checks; the
+previous Kanban ZIP was preserved in the isolated evidence folder.
+
+The remaining 15 ZIPs are not yet present in an independent GitHub Release
+mirror. To make a clean CI checkout and a reproducible deployment possible,
+`scripts/hydrate_current_distribution.py` downloads only those missing
+15 from `https://resoarc.com/downloads/`, accepts bytes **only if** SHA-256
+and byte length match the repository-pinned active 2026-11-09 inventory, and
+fails closed on mismatch. The 20 historical assets can only come from the
+official immutable GitHub Release path. CI and deployment both hydrate the
+historical mirror first, then the additional exact-hash current assets.
+
+This is a continuity mechanism, not proof of independent long-term archive
+availability, cryptographic signing or human rights approval. Independent
+mirroring of the 15 remaining ZIPs is a follow-up requirement.

@@ -20,6 +20,17 @@ try {
   if ($head -ne $remote) { throw "Local HEAD is not the latest official main commit. Fetch and fast-forward first." }
   $dirty = @(git status --porcelain -- site site-manifest.sha256 scripts/verify_site.py)
   if ($dirty.Count -gt 0) { throw ("Canonical site has uncommitted changes: " + ($dirty -join "; ")) }
+  # Verify and hydrate only immutable GitHub Release binaries; never silently replace a mismatch.
+  & python -X utf8 (Join-Path $root "scripts/verify_external_archive_mirror.py") --hydrate
+  if ($LASTEXITCODE -ne 0) { throw "Pinned GitHub Release assets unavailable or mismatched" }
+  & python -X utf8 (Join-Path $root "scripts/hydrate_current_distribution.py")
+  if ($LASTEXITCODE -ne 0) { throw "Current distribution assets unavailable or mismatched" }
+  & python -X utf8 (Join-Path $root "scripts/verify_suite16_readiness.py")
+  if ($LASTEXITCODE -ne 0) { throw "Signed QA source integrity failed" }
+  & python -X utf8 (Join-Path $root "scripts/check_signed_qa_reconciliation.py")
+  if ($LASTEXITCODE -ne 0) { throw "Signed QA public catalog integrity failed" }
+  & python -X utf8 (Join-Path $root "scripts/verify_web8_v1.py")
+  if ($LASTEXITCODE -ne 0) { throw "Frozen Web8 release integrity failed" }
   $osPage = Join-Path $site "os/index.html"
   $source = Join-Path $site "downloads/resoarcos-pc-v0.1.0-dev-source.zip"
   if (!(Test-Path $osPage) -or !(Test-Path $source)) { throw "ResoArcOS release files missing. Deployment blocked." }

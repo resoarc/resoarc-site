@@ -14,7 +14,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json"
+MANIFEST = ROOT / "docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261109.json"
 CATALOG = ROOT / "site/downloads/index.html"
 THIRDPARTY = ROOT / "site/downloads/THIRD_PARTY_LICENSES.md"
 HOSTS = ("resoarc.com", "www.resoarc.com", "resoarc.pages.dev")
@@ -47,6 +47,8 @@ def validate() -> tuple[dict, list[str]]:
             errors.append(f"bad sha256 for {name}")
         if row["bytes"] < 1 or row["bytes"] > MAX_BYTES:
             errors.append(f"invalid asset byte size: {name}")
+        if html.count(row["sha256"]) != 1:
+            errors.append(f"missing/duplicated catalog SHA-256: {name}")
         if html.count('href="/downloads/' + name + '"') != 1:
             errors.append(f"missing/duplicated license catalog link: {name}")
         if row.get("copyright_chain_independently_verified") is not False:
