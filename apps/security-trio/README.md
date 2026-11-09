@@ -1,4 +1,4 @@
-# ResoArc Security Trio 0.3.0-rc1
+# ResoArc Security Trio 0.3.0-rc4 (unsigned developer preview / source under review)
 
 **3つの無料・オフライン・読み取り専用の日本語セキュリティ点検アプリ**です。Windowsユーザーが、難しいコマンドを覚えずに「公開前の秘密情報」「Webサーバーのアクセスログ」「怪しいファイルの静的な特徴」を確認できるよう設計しました。
 
@@ -38,7 +38,7 @@
 
 ## Pythonなしで動くWindows EXEを作る
 
-このソース配布ZIPに**Windows用EXEそのものは含めていません**。ただし内部評価用の未署名EXE 3本は、2026-11-08にWindows 11のメインPCで生成・起動を確認しました。Windowsマシン上で下記を実行すれば、3本の独立した `.exe` を生成できます。
+**Windows向け未署名のrc4開発プレビューEXEは専用サイトで公開済み**です。GitHubのPR #91では、Python 3.12とWindows x64用TkDNDを使用した別の未署名評価ビルドを、公開ソースから生成しています。署名済みバイナリはまだありません。Windows上で下記を実行しても、生成されるEXEは未署名です。
 
 ```bat
 py -3 -m venv .buildvenv
@@ -48,7 +48,7 @@ build_windows.bat
 
 `dist/ResoArcSecretScout.exe`、`dist/ResoArcLogLantern.exe`、`dist/ResoArcFileInspector.exe` が生成対象です。
 
-`.github/workflows/windows-build.yml` はWindows CIでテスト・ビルドし、署名前のEXEをArtifactsに保存する設定です。ワークフローをリポジトリに置いただけでは実行・公開されません。
+GitHub Actionsの[未署名Windowsビルド](../../.github/workflows/security-trio-windows.yml)では、公開ソースのテスト、EXE 3本のビルド、未署名検査、SHA-256、第三者ライセンス・DLL同梱の検証を実施し、短期間の評価用Artifactを生成します。Artifactは**公式リリースではありません**。別途[署名用ワークフロー](../../.github/workflows/security-trio-signpath.yml)はSignPath承認前のテンプレートであり、承認環境と実際の証明書がなければ実行できません。
 
 ## CLIモード / 自動化
 
@@ -91,12 +91,13 @@ CLIの終了コード: `0` = 中・高の検出なし、`1` = 中・高の検出
 python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-現在の品質証跡（v0.3.0-rc1）:
+現在の品質証跡（2026-11-09時点の**未署名PR評価ビルド**）:
 
-- 104件の自動テスト（検出・非検出・匿名化・ZIP境界・CSV式対策・CLI・レポートの既存ファイル保護）。
-- Linux XvfbおよびWindows 11の双方で、3モードのGUI操作スモークテストを実施。
-- Windows 11実機で104件の自動テスト（失敗0、スキップ1）、3アプリの日本語パス・レポート保存、3つのEXEの生成・起動を確認。
-- ソースはPython標準ライブラリのみで動作。Tkドラッグ＆ドロップとEXE化は任意の追加パッケージ。
+- Windows GitHub CIで**163件の自動テストに合格**（検出精度・入力上限・ZIP安全性・ログ匿名化・Office関係定義・DLLライセンス漏れ・署名候補の安全な梱包テストを含む）。
+- Windowsの非GUI受入試験、3本のEXE生成、SHA-256照合と「未署名EXEが署名済みとして扱われない」検査に成功。
+- 実行ファイルのネイティブ構成部品61件と第三者ライセンス原文12件を対応付け、未知の部品やライセンス欠落をCIで拒否。
+- 別途、改善版の3本はメインPCでWindows GUIが起動することを確認済み。Explorerからのドラッグ＆ドロップ等の全操作試験は継続課題。
+- [SignPath申請準備資料](signpath/APPLICATION_EVIDENCE_20261109.md)に公開実績・申請未完了項目を記録。**SignPathの正式承認・実際の署名は未取得**。
 
 **未実施/公開前必須:** Explorerからの実ドラッグ＆ドロップ、UNC/OneDrive/長いパス、別環境でのクリーン実行、大容量入力のWindows実機負荷、マルチモニター、SmartScreenの評判警告、実データでの誤検知/見逃し評価、第三者コードレビュー、署名・再現可能なビルド検証。公開前の項目は `RELEASE_CHECKLIST.md` を参照。
 
