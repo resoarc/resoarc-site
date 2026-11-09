@@ -25,6 +25,9 @@ EXPECTED = {
     "OpenSSL-3-LICENSE.txt": ("Apache License", "Version 2.0"),
     "Zlib-1.3.1-LICENSE.txt": ("Jean-loup Gailly", "Permission is granted"),
     "CPython-Windows-CRT-terms.txt": ("Microsoft Distributable Code", "Windows"),
+    "CPython-3.12-incorporated-notices.rst": ("History and License", "libmpdec"),
+    "bzip2-1.0.8-LICENSE.txt": ("Julian R Seward", "Redistribution and use"),
+    "XZ-Utils-5.4.6-COPYING.txt": ("XZ Utils Licensing", "liblzma"),
 }
 
 
@@ -85,6 +88,10 @@ ResoArc's own application code is distributed under its MIT license (LICENSE.txt
 | OpenSSL 3.x (`libcrypto-3.dll`) | CPython hash backend | Apache-2.0; third_party_licenses/OpenSSL-3-LICENSE.txt |
 | zlib (`zlib1.dll`) | CPython compression backend | Zlib; third_party_licenses/Zlib-1.3.1-LICENSE.txt (upstream source license from zlib 1.3.1; actual compiled runtime version must be checked) |
 | Microsoft Visual C Runtime (`VCRUNTIME140*.dll`, `ucrtbase.dll`, API-set shims) | Python Windows binary system runtime | Microsoft Distributable Code redistribution conditions; third_party_licenses/CPython-Windows-CRT-terms.txt; Windows-only |
+| libbzip2 1.0.8 (`_bz2.pyd`) | Embedded CPython extension | bzip2/libbzip2 license; third_party_licenses/bzip2-1.0.8-LICENSE.txt |
+| liblzma (XZ Utils, `_lzma.pyd`) | Embedded CPython extension | Original XZ Utils 5.4.6 COPYING documents public-domain liblzma; third_party_licenses/XZ-Utils-5.4.6-COPYING.txt |
+| libmpdec (`_decimal.pyd`) and other incorporated CPython code | Embedded CPython extension | CPython incorporated-software notices (BSD-style among others); third_party_licenses/CPython-3.12-incorporated-notices.rst |
+
 
 
 Upstream references:
@@ -97,6 +104,9 @@ Upstream references:
 - https://openssl-library.org/source/license/index.html
 - https://www.zlib.net/zlib_license.html
 - https://github.com/python/cpython/blob/3.12/PC/crtlicense.txt
+- https://docs.python.org/3.12/license.html
+- https://sourceware.org/bzip2/
+- https://tukaani.org/xz/
 
 No bundled upstream software is claimed to be authored by ResoArc.
 All EXEs are read-only tools, not antivirus or formal security certification.
