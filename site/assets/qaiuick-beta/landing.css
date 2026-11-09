@@ -17,3 +17,17 @@
 @media(max-width:860px){.qai-cards,.qai-steps{grid-template-columns:1fr;gap:15px}.qai-split,.qai-limit-inner{grid-template-columns:1fr;gap:27px}.qai-download{flex-direction:column;align-items:flex-start}.qai-hero{padding-bottom:55px}.qai-cosmic{margin:0 auto -14px}.qai-hero-copy{margin:0 auto}.qai-code pre{padding:24px 15px}.qai-card{padding:25px}.qai-steps{margin-bottom:30px}}
 @media(max-width:520px){.qai-page .container{width:min(100% - 30px,1180px)}.qai-hero{padding-top:8px}.qai-headline{justify-content:center}.qai-subline{font-size:.6rem}.qai-cosmic{margin:4px -2vw -4px;width:104%;max-width:104%}.qai-hero h1{font-size:clamp(2rem,9vw,2.7rem)}.qai-actions{flex-direction:column}.qai-btn{width:100%}.qai-breadcrumb{gap:7px;font-size:.7rem;margin-bottom:22px}.qai-section{padding:56px 0}.qai-download{padding:22px}.qai-download-actions{width:100%}}
 @media(prefers-reduced-motion:reduce){.qai-btn{transition:none}}
+
+/* Live samples gallery: readable cards, no component bundle. */
+.qai-samples{background:linear-gradient(180deg,#eff6fa 0%,#f8fbfd 100%)}
+.qai-sample-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.qai-sample-card{background:white;border:1px solid #dbe7f0;border-radius:20px;padding:27px;display:flex;flex-direction:column;min-height:218px;box-shadow:0 16px 36px #071c3210;transition:transform .18s}
+.qai-sample-card:hover{transform:translateY(-3px)}
+.qai-sample-no{font-size:.74rem;font-weight:800;letter-spacing:.13em;color:#178c98}
+.qai-sample-card h3{font-size:1.25rem;margin:18px 0 10px;color:#162a47}
+.qai-sample-card p{color:#5e7488;font-size:.93rem;line-height:1.8;margin:0 0 19px;flex:1}
+.qai-sample-card a{font-size:.88rem;font-weight:750;color:#0a718d;text-decoration:none}
+.qai-sample-card a:focus-visible{outline:3px solid #3cd5c9;outline-offset:3px}
+.qai-page .qai-sample-note{color:#52687d;margin:18px 0 0;font-size:.85rem}
+@media(max-width:800px){.qai-sample-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.qai-sample-cards{grid-template-columns:1fr}}

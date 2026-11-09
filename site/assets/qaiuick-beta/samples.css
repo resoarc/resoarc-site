@@ -1,0 +1,46 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+ * SPDX-License-Identifier: MIT
+ * qAIUIck sample studio: shared presentation for five small real applications.
+ */
+.q-sample-switch{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 25px}
+.q-sample-switch a{color:var(--q-muted);background:var(--q-surface);border:1px solid var(--q-border);padding:8px 13px;border-radius:12px;text-decoration:none;font-size:.86rem;font-weight:600}
+.q-sample-switch a[aria-current="page"]{color:var(--q-primary);border-color:var(--q-primary);background:var(--q-tint)}
+.q-sample-toolbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.q-sample-toolbar p{color:var(--q-muted);font-size:.85rem;margin:0}
+.q-sample-toolbar button{font-size:.8rem}
+.q-sample-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.q-sample-metric{padding:18px;border-radius:14px;background:var(--q-surface-soft);border:1px solid var(--q-border)}
+.q-sample-metric b{display:block;font-size:1.5rem;letter-spacing:-.04em;color:var(--q-primary);font-variant-numeric:tabular-nums}
+.q-sample-metric small{color:var(--q-muted);font-size:.81rem}
+.q-sample-tablewrap{max-width:100%;overflow:auto}
+.q-sample-table{width:100%;border-collapse:collapse;min-width:550px}
+.q-sample-table th,.q-sample-table td{text-align:left;border-bottom:1px solid var(--q-border);padding:13px 9px;vertical-align:middle}
+.q-sample-table th{font-size:.78rem;color:var(--q-muted);font-weight:700}
+.q-sample-table td{font-size:.92rem}
+.q-sample-table button{white-space:nowrap}
+.q-sample-formgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end}
+.q-sample-formgrid label{min-width:0}
+.q-sample-formgrid .q-sample-wide{grid-column:span 2}
+.q-sample-formgrid .q-sample-formaction{display:flex;align-items:end}
+.q-sample-formgrid .q-sample-formaction button{width:100%}
+.q-sample-tag{border-radius:50px;background:var(--q-tint);padding:5px 9px;font-size:.77rem;color:var(--q-primary);display:inline-block;font-weight:650}
+.q-sample-note{color:var(--q-muted);font-size:.85rem;line-height:1.6}
+.q-sample-source{margin:38px 0 8px;border:1px solid var(--q-border);background:var(--q-surface);border-radius:18px;overflow:hidden;box-shadow:var(--q-shadow)}
+.q-sample-source h2{font-size:1.15rem;margin:0}
+.q-sample-source-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 22px 14px}
+.q-sample-source-head p{margin:6px 0 0;font-size:.84rem;color:var(--q-muted)}
+.q-source-tabs{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:0 20px 16px}
+.q-source-tabs button{border:1px solid var(--q-border);border-radius:9px;color:var(--q-muted);background:var(--q-surface-soft);font-size:.82rem;font-weight:650;padding:8px 16px;cursor:pointer}
+.q-source-tabs button[aria-selected="true"]{background:var(--q-tint);border-color:var(--q-primary);color:var(--q-primary)}
+.q-source-tabs button:focus-visible,.q-sample-switch a:focus-visible{outline:3px solid var(--q-ring);outline-offset:3px}
+.q-source-tabs .q-source-copy{margin-left:auto}
+.q-source-file{margin:0;padding:11px 22px;background:var(--q-surface-soft);border-top:1px solid var(--q-border);font-size:.76rem;color:var(--q-muted);overflow-wrap:anywhere}
+.q-source-code{background:#0e1829;color:#ddedff;max-height:580px;overflow:auto;margin:0;padding:22px;font:12.5px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2;white-space:pre}
+.q-source-code code{font:inherit;white-space:inherit}
+.q-sample-info{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.q-sample-help{font-size:.9rem;padding:16px 20px;border-left:3px solid var(--q-primary);background:var(--q-tint);border-radius:10px}
+.q-sample-help strong{color:var(--q-primary)}
+@media(max-width:700px){.q-sample-grid{grid-template-columns:1fr 1fr}.q-sample-formgrid{grid-template-columns:1fr 1fr}.q-source-code{max-height:460px;padding:16px}.q-sample-source-head{padding:18px}}
+@media(max-width:490px){.q-sample-grid,.q-sample-formgrid{grid-template-columns:1fr}.q-sample-formgrid .q-sample-wide{grid-column:auto}.q-source-tabs .q-source-copy{margin-left:0}.q-source-tabs button{flex:1}}
+
+.q-sample-caption{margin-top:16px}

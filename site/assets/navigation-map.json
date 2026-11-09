@@ -431,8 +431,28 @@
       "parent": "/products/",
       "visible": false
     },
+    "/tools/qaiuick-budget/": {
+      "title": "小さな家計簿",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/tools/qaiuick-customers/": {
+      "title": "顧客検索",
+      "parent": "/products/",
+      "visible": true
+    },
     "/tools/qaiuick-demo/": {
       "title": "今日のメモ。",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/tools/qaiuick-inventory/": {
+      "title": "在庫管理",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/tools/qaiuick-tickets/": {
+      "title": "問い合わせ管理",
       "parent": "/products/",
       "visible": true
     },

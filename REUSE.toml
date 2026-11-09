@@ -946,3 +946,25 @@ path = ['site/assets/qaiuick-beta/hero.webp']
 precedence = 'override'
 SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
 SPDX-License-Identifier = 'LicenseRef-ResoArc-Brand-Art'
+
+# qAIUIck sample gallery: author-owned static HTML, CSS, JavaScript and tests.
+[[annotations]]
+path = [
+  "site/assets/qaiuick-beta/catalog.css",
+  "site/assets/qaiuick-beta/samples.css",
+  "site/assets/qaiuick-beta/source-viewer.js",
+  "site/assets/qaiuick-beta/examples/sample-data.js",
+  "site/assets/qaiuick-beta/examples/inventory.js",
+  "site/assets/qaiuick-beta/examples/budget.js",
+  "site/assets/qaiuick-beta/examples/tickets.js",
+  "site/assets/qaiuick-beta/examples/customers.js",
+  "site/tools/qaiuick-inventory/index.html",
+  "site/tools/qaiuick-budget/index.html",
+  "site/tools/qaiuick-tickets/index.html",
+  "site/tools/qaiuick-customers/index.html",
+  "tests/test_qaiuick_samples.py",
+  "tests/test_qaiuick_browser.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
