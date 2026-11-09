@@ -67,6 +67,10 @@ jobs:
         shell: pwsh
         run: python package_unsigned_review.py
 
+      - name: Refuse unlicensed or unexpected native runtime components
+        shell: pwsh
+        run: python audit_license_coverage.py
+
       - name: Upload unsigned artifact to GitHub for provenance check
         id: unsigned
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
