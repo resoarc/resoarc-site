@@ -1,8 +1,8 @@
 # ResoArc OpenSSF Baseline Level 1: 100% self-assessed and badge awarded
 
-**Official issuer record:** [OpenSSF project #15597, Baseline Level 1](https://www.bestpractices.dev/projects/15597/baseline-1).  
-**Recorded achievement:** `2026-11-06T15:59:05.301Z` (2026-11-07 00:59:05 JST).  
-**Official issuer API after submission:** `badge_percentage_baseline_1 = 100`, `OSPS-LE-02.02_status = Met`, `OSPS-LE-03.02_status = Met`, and non-empty `achieved_baseline_1_at`.  
+**Official issuer record:** [OpenSSF project #15597, Baseline Level 1](https://www.bestpractices.dev/projects/15597/baseline-1).
+**Recorded achievement:** `2026-11-06T15:59:05.301Z` (2026-11-07 00:59:05 JST).
+**Official issuer API after submission:** `badge_percentage_baseline_1 = 100`, `OSPS-LE-02.02_status = Met`, `OSPS-LE-03.02_status = Met`, and non-empty `achieved_baseline_1_at`.
 **Result:** 24 of 24 Level 1 controls assessed Met.
 
 **Important meaning:** this is a **voluntary, evidence-backed self-assessment badge** for the requirements of the [OSPS Baseline current v2026.08.28](https://baseline.openssf.org/versions/2026-08-28). It is not an externally performed security audit, a legal opinion, an OpenSSF corporate partnership or a guarantee that every component is vulnerability-free.

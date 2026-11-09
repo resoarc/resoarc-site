@@ -1,0 +1,9 @@
+ResoArc documentation screenshots and interface captures.
+Copyright (c) 2026 ResoArc Open Technology Project, only to the extent that
+ResoArc owns copyright in its original composition and annotations.
+The screenshots may show third-party services, user interfaces, product names
+or trademarks, for which ResoArc cannot grant any rights.
+No license to independently redistribute or reuse third-party interface elements
+is granted. The screenshots are supplied for factual documentation only,
+with rights in third-party material reserved to their respective holders.
+This notice is not an assertion that the third-party UI is MIT-licensed.

@@ -1,0 +1,30 @@
+/* Trust & accountability | editorial visual system, 2026-10-18 */
+.trust-wrap{max-width:1120px}
+.trust-hero .inside-hero-inner{max-width:900px}
+.trust-hero h1{line-height:1.4}
+.trust-wrap>h2{font-size:clamp(23px,2.5vw,33px);line-height:1.45;margin:19px 0}
+.trust-lead{max-width:860px;line-height:2;color:#405d68;font-size:15px}
+.trust-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin:24px 0}
+.trust-grid.trust-two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.trust-card{background:#fff;border:1px solid #d1e0e5;border-radius:13px;min-width:0;padding:24px;display:flex;flex-direction:column;gap:9px}
+.trust-card .trust-count{font:600 12px ui-monospace,monospace;letter-spacing:.07em;color:#64848e}
+.trust-card h3{color:#203e50;font-size:19px;line-height:1.5;margin:7px 0}
+.trust-card p{color:#4c6673;font-size:13px;line-height:1.9;margin:0}
+.trust-card a{color:#366778;text-decoration:underline;text-underline-offset:4px;font-size:12px;margin-top:auto;padding-top:10px}
+.trust-thesis{background:#eaf2f4;border:1px solid #c5d8de;border-left:4px solid #4d7480;border-radius:12px;padding:27px 30px;margin:26px 0}
+.trust-thesis strong{font-family:serif;font-size:clamp(19px,2.4vw,26px);line-height:1.7;color:#294859}
+.trust-thesis p{margin:15px 0 0;font-size:13px;line-height:2;color:#45606e}
+.trust-chain{display:flex;align-items:stretch;gap:9px;flex-wrap:wrap;margin:27px 0}
+.trust-chain div{background:#fff;border:1px solid #cadbe0;border-radius:10px;flex:1 1 160px;padding:18px;min-width:0}
+.trust-chain div strong{display:block;color:#234652;font-size:14px;line-height:1.5}
+.trust-chain div small{display:block;color:#687e88;font-size:11px;line-height:1.8;margin-top:7px}
+.trust-chain>span{display:flex;align-items:center;color:#75909b}
+.trust-note{font-size:12px;line-height:2;color:#536c79;max-width:980px;margin:18px 0}
+.trust-email{margin:25px 0}
+.trust-email a{display:inline-flex;gap:12px;align-items:center;padding:15px 19px;border:1px solid #a8c5ce;border-radius:10px;background:#fff;color:#214e63;font:600 clamp(16px,2vw,24px) ui-monospace,monospace;text-decoration:none;overflow-wrap:anywhere;max-width:100%}
+.trust-email a:hover{border-color:#446d7c;background:#f1f8fa}
+.trust-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:24px 0}
+.trust-links a{padding:14px 17px;border:1px solid #cfdee5;background:#fff;border-radius:9px;color:#335f6d;text-decoration:none;font-size:13px}
+.trust-links a:hover{background:#f1f8fa;text-decoration:underline}
+@media(max-width:800px){.trust-grid,.trust-grid.trust-two{grid-template-columns:1fr}.trust-chain>span{display:none}}
+@media(max-width:600px){.trust-wrap>h2{font-size:23px}.trust-card{padding:17px}.trust-thesis{padding:19px}.trust-links{grid-template-columns:1fr}.trust-email a{font-size:15px}}

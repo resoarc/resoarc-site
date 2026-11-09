@@ -18,6 +18,11 @@ def http_error(status):
 
 
 class ReleaseMirrorRetryTests(unittest.TestCase):
+    def test_historic_mirror_must_never_overwrite_public_site_downloads(self):
+        self.assertNotEqual(mirror.DOWNLOADS.resolve(), mirror.ACTIVE_SITE_DOWNLOADS.resolve())
+        self.assertFalse(mirror.ACTIVE_SITE_DOWNLOADS.is_relative_to(mirror.DOWNLOADS))
+        self.assertFalse(mirror.DOWNLOADS.is_relative_to(mirror.ACTIVE_SITE_DOWNLOADS))
+
     def test_transient_504_retries_and_returns_json(self):
         response = io.BytesIO(b'{"draft": false, "assets": []}')
         with mock.patch.object(mirror.urllib.request, "urlopen", side_effect=[http_error(504), response]) as opener, \

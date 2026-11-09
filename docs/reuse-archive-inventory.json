@@ -1,0 +1,425 @@
+{
+  "note": "Automated technical inventory, not a grant of redistribution rights",
+  "archives": [
+    {
+      "path": "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "size": 6783,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-signed-qa.zip",
+      "size": 9902,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-v1.0.0.zip",
+      "size": 9043,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-v1.1.0-beta.zip",
+      "size": 9916,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-backup-migration-v1.0.0-source.zip",
+      "size": 222382,
+      "archives_accessible": true,
+      "entries": 71,
+      "license_files": [
+        "LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "plugins/backup-migration/package.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-backup-migration-v1.0.0.zip",
+      "size": 54278,
+      "archives_accessible": true,
+      "entries": 10,
+      "license_files": [
+        "LICENSE",
+        "NOTICE.md"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "MANIFEST.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-format-signed-qa.zip",
+      "size": 9432,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-format-v0.1.0-alpha-source.zip",
+      "size": 15584,
+      "archives_accessible": true,
+      "entries": 14,
+      "license_files": [
+        "conditional-format-v0.1.0-alpha/LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "conditional-format-v0.1.0-alpha/package.json",
+        "conditional-format-v0.1.0-alpha/src/manifest.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-signed-qa.zip",
+      "size": 7697,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "size": 6900,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-date-calculator-signed-qa.zip",
+      "size": 9882,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-date-calculator-v0.1.0-alpha-source.zip",
+      "size": 17029,
+      "archives_accessible": true,
+      "entries": 14,
+      "license_files": [
+        "date-calculator-v0.1.0-alpha/LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "date-calculator-v0.1.0-alpha/package.json",
+        "date-calculator-v0.1.0-alpha/src/manifest.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "size": 6179,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-grid-editor-signed-qa.zip",
+      "size": 11921,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-grid-editor-v0.1.0-alpha-source.zip",
+      "size": 22050,
+      "archives_accessible": true,
+      "entries": 14,
+      "license_files": [
+        "grid-editor-v0.1.0-alpha/LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "grid-editor-v0.1.0-alpha/package.json",
+        "grid-editor-v0.1.0-alpha/src/manifest.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-kanban-signed-qa.zip",
+      "size": 8590,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-kanban-v0.1.0-alpha-source.zip",
+      "size": 14095,
+      "archives_accessible": true,
+      "entries": 14,
+      "license_files": [
+        "kanban-v0.1.0-alpha/LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "kanban-v0.1.0-alpha/package.json",
+        "kanban-v0.1.0-alpha/src/manifest.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "size": 6813,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-list-search-signed-qa.zip",
+      "size": 11503,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-list-search-v0.1.0-alpha-source.zip",
+      "size": 21028,
+      "archives_accessible": true,
+      "entries": 14,
+      "license_files": [
+        "list-search-v0.1.0-alpha/LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "list-search-v0.1.0-alpha/package.json",
+        "list-search-v0.1.0-alpha/src/manifest.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "size": 8851,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "size": 18679,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "size": 6033,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "size": 6047,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "size": 5840,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-site-20261017-recovered-source.zip",
+      "size": 4132099,
+      "archives_accessible": true,
+      "entries": 467,
+      "license_files": [
+        "LICENSE",
+        "plugins/auto-number/LICENSE",
+        "plugins/auto-number/v1.1.0-beta/LICENSE",
+        "plugins/conditional-format/v0.1.0-alpha/LICENSE",
+        "plugins/conditional/v0.1.0-alpha/LICENSE",
+        "plugins/date-calculator/v0.1.0-alpha/LICENSE",
+        "plugins/grid-editor/v0.1.0-alpha/LICENSE",
+        "plugins/kanban/v0.1.0-alpha/LICENSE",
+        "plugins/list-search/v0.1.0-alpha/LICENSE",
+        "plugins/tabs/v0.1.0-beta/LICENSE"
+      ],
+      "third_party_indicators": [
+        "site/assets/fonts/",
+        "site/assets/fonts/noto-serif-jp-v10.woff2",
+        "site/assets/fonts/noto-serif-jp-v5.woff2",
+        "site/assets/fonts/noto-serif-jp-v6.woff2",
+        "site/assets/fonts/noto-serif-jp-v7.woff2",
+        "site/assets/fonts/noto-serif-jp-v8.woff2",
+        "site/assets/fonts/noto-serif-jp-v9.woff2"
+      ],
+      "package_names": [
+        "plugins/auto-number/package.json",
+        "plugins/auto-number/src/manifest.json",
+        "plugins/auto-number/v1.1.0-beta/package.json",
+        "plugins/auto-number/v1.1.0-beta/src/manifest.json",
+        "plugins/conditional-format/v0.1.0-alpha/package.json",
+        "plugins/conditional-format/v0.1.0-alpha/src/manifest.json",
+        "plugins/conditional/v0.1.0-alpha/package.json",
+        "plugins/conditional/v0.1.0-alpha/src/manifest.json",
+        "plugins/date-calculator/v0.1.0-alpha/package.json",
+        "plugins/date-calculator/v0.1.0-alpha/src/manifest.json",
+        "plugins/grid-editor/v0.1.0-alpha/package.json",
+        "plugins/grid-editor/v0.1.0-alpha/src/manifest.json",
+        "plugins/kanban/v0.1.0-alpha/package.json",
+        "plugins/kanban/v0.1.0-alpha/src/manifest.json",
+        "plugins/list-search/v0.1.0-alpha/package.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-signed-qa.zip",
+      "size": 7998,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v0.1.0-beta.zip",
+      "size": 8002,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v1.0.0-20261021.zip",
+      "size": 8049,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v1.0.0-signed-package-source.zip",
+      "size": 11703,
+      "archives_accessible": true,
+      "entries": 11,
+      "license_files": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [
+        "manifest.json"
+      ],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "size": 5936,
+      "archives_accessible": true,
+      "entries": 3,
+      "license_files": [],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarc-web8-v1.0.0-source.zip",
+      "size": 41439,
+      "archives_accessible": true,
+      "entries": 16,
+      "license_files": [
+        "LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarcos-pc-v0.1.0-dev-source.zip",
+      "size": 46159,
+      "archives_accessible": true,
+      "entries": 60,
+      "license_files": [
+        "LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    },
+    {
+      "path": "site/downloads/resoarcos-pi-firstboot-v0.2.1-alpha-source.zip",
+      "size": 76059,
+      "archives_accessible": true,
+      "entries": 78,
+      "license_files": [
+        "LICENSE"
+      ],
+      "third_party_indicators": [],
+      "package_names": [],
+      "archive_license_review": "VERIFY_PER_ARCHIVE"
+    }
+  ]
+}

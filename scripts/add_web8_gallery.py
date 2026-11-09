@@ -49,19 +49,40 @@ for slug,title in NAMES.items():
         f'<p><a class="inline-link" href="/tools/{slug}/">ツールを使ってみる ↗</a></p></article>'
     )
 parts.append('</div></div></section></main>')
-GALLERY.write_text(prefix+''.join(parts)+suffix,encoding="utf-8")
-# Supplement each card with a link to its specific visual explanation.
+GALLERY.write_bytes((prefix+''.join(parts)+suffix).encode("utf-8"))
+# Link a screenshot only from its own product card.
+# IMPORTANT: Match one entire <article> at a time. A regex starting from the
+# first <article> and searching for a later tool href can silently match several
+# cards, causing triangular repeated links (52 rather than the required 8).
 text=WEB_CATALOG.read_text(encoding="utf-8")
-for slug in NAMES:
-    pattern=rf'(<article class="product-card"[^>]*>.*?href="/tools/{slug}/".*?</article>)'
-    m=re.search(pattern,text,re.S)
-    if not m:
-        raise RuntimeError("tool card not found: "+slug)
-    card=m.group(1)
-    if f'/products/web/screens/#{slug}' not in card:
-        card=card.replace('</article>',f'<a class="tool-gallery-link" href="/products/web/screens/#{slug}">画面キャプチャを見る ↗</a></article>')
-        text=text[:m.start()]+card+text[m.end():]
-WEB_CATALOG.write_text(text,encoding="utf-8")
+card_pattern=re.compile(r'<article class="product-card"[^>]*>.*?</article>',re.S)
+screen_link_pattern=re.compile(r'<a\b[^>]*class="tool-gallery-link"[^>]*>.*?</a>',re.S)
+parts=[]
+cursor=0
+matched_slugs=[]
+for match in card_pattern.finditer(text):
+    parts.append(text[cursor:match.start()])
+    card=match.group(0)
+    tool_links=re.findall(r'href="/tools/([a-z0-9-]+)/"',card)
+    if len(tool_links)!=1:
+        raise RuntimeError("expected exactly one primary tool per card: "+repr(tool_links))
+    slug=tool_links[0]
+    # Remove only gallery links, leaving the tool CTA and all other markup intact.
+    card=screen_link_pattern.sub('',card)
+    if slug in NAMES:
+        href=f'/products/web/screens/#{slug}'
+        card=card.replace('</article>',
+            f'<a class="tool-gallery-link" href="{href}">画面キャプチャを見る ↗</a></article>',1)
+        matched_slugs.append(slug)
+    parts.append(card)
+    cursor=match.end()
+parts.append(text[cursor:])
+if set(matched_slugs)!=set(NAMES) or len(matched_slugs)!=len(NAMES):
+    raise RuntimeError("gallery links do not cover the expected 8 unique tools: "+str(matched_slugs))
+text=''.join(parts)
+if len(screen_link_pattern.findall(text))!=len(NAMES):
+    raise RuntimeError("must have exactly one screenshot link per supported tool")
+WEB_CATALOG.write_bytes(text.encode("utf-8"))
 cssfile=SITE/"assets/site-20261015-v10.css"
 css=cssfile.read_text(encoding="utf-8")
 if "/* Web8 GA screenshot gallery */" not in css:

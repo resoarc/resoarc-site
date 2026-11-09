@@ -1,6 +1,6 @@
 # OSPS-LE-02.02: released software licenses, evidence for 35 ZIP assets
 
-**Date:** 2026-11-06 (JST).  
+**Date:** 2026-11-06 (JST).
 **Scope:** The 35 public ZIP releases listed at [https://resoarc.com/downloads/](https://resoarc.com/downloads/) and pinned in [the release manifest](OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json).
 
 ## Exact requirement

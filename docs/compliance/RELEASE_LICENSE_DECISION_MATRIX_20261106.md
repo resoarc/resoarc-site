@@ -1,6 +1,6 @@
 # ResoArc released-software license decision matrix
 
-**Draft evidence for OSPS-LE-02.02 and OSPS-LE-03.02**  
+**Draft evidence for OSPS-LE-02.02 and OSPS-LE-03.02**
 **Created:** 2026-11-06. **Formal status:** NOT CLEARED, no final conformity claim.
 
 ## Observed evidence

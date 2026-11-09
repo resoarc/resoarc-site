@@ -1,27 +1,924 @@
-# License coverage for ResoArc-managed public materials.
-# Per-file notices take priority; third-party assets are exceptions.
+# REUSE 3.3 file-level copyright and license mapping.
+# Each tracked file has an explicit entry from an inspected category.
+# Third-party marks, documentation screenshots, and Unsplash imagery are not MIT.
+# Regenerate after modifying files using coordination/rebuild_reuse_20261018.py.
 version = 1
 
 [[annotations]]
-path = "**"
-precedence = "closest"
+path = [
+  "site/assets/tool-screens/csv.webp",
+  "site/assets/tool-screens/hash.webp",
+  "site/assets/tool-screens/kintone-app-diff.webp",
+  "site/assets/tool-screens/kintone-auto-number.webp",
+  "site/assets/tool-screens/kintone-bulk-preview.webp",
+  "site/assets/tool-screens/kintone-conditional-format.webp",
+  "site/assets/tool-screens/kintone-conditional.webp",
+  "site/assets/tool-screens/kintone-cross-aggregate.webp",
+  "site/assets/tool-screens/kintone-date-calculator.webp",
+  "site/assets/tool-screens/kintone-duplicates.webp",
+  "site/assets/tool-screens/kintone-grid-editor.webp",
+  "site/assets/tool-screens/kintone-import-check.webp",
+  "site/assets/tool-screens/kintone-kanban.webp",
+  "site/assets/tool-screens/kintone-list-search.webp",
+  "site/assets/tool-screens/kintone-lookup-audit.webp",
+  "site/assets/tool-screens/kintone-permission-audit.webp",
+  "site/assets/tool-screens/kintone-print-report.webp",
+  "site/assets/tool-screens/kintone-tabs.webp",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Screenshots"
+
+[[annotations]]
+path = [
+  "site/assets/recognition/badge-reuse-20261017.svg",
+  "site/assets/recognition/green-web-verified-20261017.png",
+  "site/assets/recognition/icon-mdn.svg",
+  "site/assets/recognition/icon-securityheaders.png",
+  "site/assets/recognition/icon-w3c.png",
+  "site/assets/recognition/internetnl-favicon-20261017.png",
+  "site/assets/recognition/logo-openssf.png",
+  "site/assets/recognition/ssllabs-favicon-20261017.ico",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "LicenseRef-Service-Marks"
+
+[[annotations]]
+path = [
+  "site/assets/hero-architecture-1600.webp",
+  "site/assets/hero-architecture-800.webp",
+  "site/assets/hero-architecture.jpg",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = [
+  ".gitattributes",
+  ".github/workflows/resoarcos-preview-release.yml",
+  ".github/workflows/site-integrity.yml",
+  ".github/workflows/verify.yml",
+  ".gitignore",
+  "AI_USAGE.md",
+  "CONTRIBUTING.md",
+  "DEPLOYMENT.md",
+  "LICENSE",
+  "README.md",
+  "SECURITY.md",
+  "THIRD_PARTY_NOTICES.md",
+  "docs/HSTS_ROLLOUT_20261018.md",
+  "docs/LIGHTHOUSE_AUDIT_20261018.md",
+  "docs/OPENSSF_BASELINE_READINESS_20261018.md",
+  "docs/PUBLISHING.md",
+  "docs/RESOARCOS_CI_RELEASE.md",
+  "docs/SITE_QUALITY_20261018.md",
+  "docs/SUITE16_ACCEPTANCE.md",
+  "docs/SUITE16_PROGRESS.md",
+  "docs/VERIFICATION.md",
+  "docs/WEB8_V1_RELEASE.md",
+  "docs/compliance/ASSET_RIGHTS_AND_RESPONSE.md",
+  "docs/compliance/BEST_PRACTICES_15597.md",
+  "docs/compliance/GITHUB_RECOVERY_CHECKLIST.md",
+  "docs/compliance/SITE_QUALITY_REVIEW_20261018.md",
+  "docs/recognition-audit-20261017.md",
+  "plugins/auto-number/LICENSE",
+  "plugins/auto-number/README.md",
+  "plugins/auto-number/package.json",
+  "plugins/auto-number/scripts/build.cjs",
+  "plugins/auto-number/src/css/config.css",
+  "plugins/auto-number/src/css/runtime.css",
+  "plugins/auto-number/src/html/config.html",
+  "plugins/auto-number/src/image/icon.png",
+  "plugins/auto-number/src/js/config.js",
+  "plugins/auto-number/src/js/core.js",
+  "plugins/auto-number/src/js/desktop.js",
+  "plugins/auto-number/src/js/mobile.js",
+  "plugins/auto-number/src/js/runtime.js",
+  "plugins/auto-number/src/manifest.json",
+  "plugins/auto-number/tests/core.test.cjs",
+  "plugins/auto-number/tests/integration.test.cjs",
+  "plugins/auto-number/v1.1.0-beta/LICENSE",
+  "plugins/auto-number/v1.1.0-beta/README.md",
+  "plugins/auto-number/v1.1.0-beta/package.json",
+  "plugins/auto-number/v1.1.0-beta/scripts/build.cjs",
+  "plugins/auto-number/v1.1.0-beta/src/css/config.css",
+  "plugins/auto-number/v1.1.0-beta/src/css/runtime.css",
+  "plugins/auto-number/v1.1.0-beta/src/html/config.html",
+  "plugins/auto-number/v1.1.0-beta/src/image/icon.png",
+  "plugins/auto-number/v1.1.0-beta/src/js/config.js",
+  "plugins/auto-number/v1.1.0-beta/src/js/core.js",
+  "plugins/auto-number/v1.1.0-beta/src/js/desktop.js",
+  "plugins/auto-number/v1.1.0-beta/src/js/mobile.js",
+  "plugins/auto-number/v1.1.0-beta/src/js/runtime.js",
+  "plugins/auto-number/v1.1.0-beta/src/manifest.json",
+  "plugins/auto-number/v1.1.0-beta/tests/core.test.cjs",
+  "plugins/auto-number/v1.1.0-beta/tests/integration.test.cjs",
+  "plugins/auto-number/v1.1.0-beta/tests/table-runtime.test.cjs",
+  "plugins/auto-number/v1.1.0-beta/tests/table.test.cjs",
+  "plugins/conditional-format/v0.1.0-alpha/LICENSE",
+  "plugins/conditional-format/v0.1.0-alpha/README.md",
+  "plugins/conditional-format/v0.1.0-alpha/package.json",
+  "plugins/conditional-format/v0.1.0-alpha/scripts/build.cjs",
+  "plugins/conditional-format/v0.1.0-alpha/src/css/config.css",
+  "plugins/conditional-format/v0.1.0-alpha/src/html/config.html",
+  "plugins/conditional-format/v0.1.0-alpha/src/image/icon.png",
+  "plugins/conditional-format/v0.1.0-alpha/src/js/config.js",
+  "plugins/conditional-format/v0.1.0-alpha/src/js/core.js",
+  "plugins/conditional-format/v0.1.0-alpha/src/js/desktop.js",
+  "plugins/conditional-format/v0.1.0-alpha/src/js/mobile.js",
+  "plugins/conditional-format/v0.1.0-alpha/src/js/runtime.js",
+  "plugins/conditional-format/v0.1.0-alpha/src/manifest.json",
+  "plugins/conditional-format/v0.1.0-alpha/tests/core.test.cjs",
+  "plugins/conditional/v0.1.0-alpha/.gitignore",
+  "plugins/conditional/v0.1.0-alpha/LICENSE",
+  "plugins/conditional/v0.1.0-alpha/README.md",
+  "plugins/conditional/v0.1.0-alpha/package.json",
+  "plugins/conditional/v0.1.0-alpha/scripts/build.cjs",
+  "plugins/conditional/v0.1.0-alpha/src/css/config.css",
+  "plugins/conditional/v0.1.0-alpha/src/html/config.html",
+  "plugins/conditional/v0.1.0-alpha/src/image/icon.png",
+  "plugins/conditional/v0.1.0-alpha/src/js/config.js",
+  "plugins/conditional/v0.1.0-alpha/src/js/core.js",
+  "plugins/conditional/v0.1.0-alpha/src/js/desktop.js",
+  "plugins/conditional/v0.1.0-alpha/src/js/mobile.js",
+  "plugins/conditional/v0.1.0-alpha/src/js/runtime.js",
+  "plugins/conditional/v0.1.0-alpha/src/manifest.json",
+  "plugins/conditional/v0.1.0-alpha/tests/core.test.cjs",
+  "plugins/conditional/v0.1.0-alpha/tests/runtime.test.cjs",
+  "plugins/conditional/v0.1.0-alpha/tests/safety.test.cjs",
+  "plugins/date-calculator/v0.1.0-alpha/LICENSE",
+  "plugins/date-calculator/v0.1.0-alpha/README.md",
+  "plugins/date-calculator/v0.1.0-alpha/package.json",
+  "plugins/date-calculator/v0.1.0-alpha/scripts/build.cjs",
+  "plugins/date-calculator/v0.1.0-alpha/src/css/config.css",
+  "plugins/date-calculator/v0.1.0-alpha/src/html/config.html",
+  "plugins/date-calculator/v0.1.0-alpha/src/image/icon.png",
+  "plugins/date-calculator/v0.1.0-alpha/src/js/config.js",
+  "plugins/date-calculator/v0.1.0-alpha/src/js/core.js",
+  "plugins/date-calculator/v0.1.0-alpha/src/js/desktop.js",
+  "plugins/date-calculator/v0.1.0-alpha/src/js/mobile.js",
+  "plugins/date-calculator/v0.1.0-alpha/src/js/runtime.js",
+  "plugins/date-calculator/v0.1.0-alpha/src/manifest.json",
+  "plugins/date-calculator/v0.1.0-alpha/tests/core.test.cjs",
+  "plugins/grid-editor/v0.1.0-alpha/LICENSE",
+  "plugins/grid-editor/v0.1.0-alpha/README.md",
+  "plugins/grid-editor/v0.1.0-alpha/package.json",
+  "plugins/grid-editor/v0.1.0-alpha/scripts/build.cjs",
+  "plugins/grid-editor/v0.1.0-alpha/src/css/config.css",
+  "plugins/grid-editor/v0.1.0-alpha/src/html/config.html",
+  "plugins/grid-editor/v0.1.0-alpha/src/image/icon.png",
+  "plugins/grid-editor/v0.1.0-alpha/src/js/config.js",
+  "plugins/grid-editor/v0.1.0-alpha/src/js/core.js",
+  "plugins/grid-editor/v0.1.0-alpha/src/js/desktop.js",
+  "plugins/grid-editor/v0.1.0-alpha/src/js/mobile.js",
+  "plugins/grid-editor/v0.1.0-alpha/src/js/runtime.js",
+  "plugins/grid-editor/v0.1.0-alpha/src/manifest.json",
+  "plugins/grid-editor/v0.1.0-alpha/tests/core.test.cjs",
+  "plugins/kanban/v0.1.0-alpha/LICENSE",
+  "plugins/kanban/v0.1.0-alpha/README.md",
+  "plugins/kanban/v0.1.0-alpha/package.json",
+  "plugins/kanban/v0.1.0-alpha/scripts/build.cjs",
+  "plugins/kanban/v0.1.0-alpha/src/css/config.css",
+  "plugins/kanban/v0.1.0-alpha/src/html/config.html",
+  "plugins/kanban/v0.1.0-alpha/src/image/icon.png",
+  "plugins/kanban/v0.1.0-alpha/src/js/config.js",
+  "plugins/kanban/v0.1.0-alpha/src/js/core.js",
+  "plugins/kanban/v0.1.0-alpha/src/js/desktop.js",
+  "plugins/kanban/v0.1.0-alpha/src/js/mobile.js",
+  "plugins/kanban/v0.1.0-alpha/src/js/runtime.js",
+  "plugins/kanban/v0.1.0-alpha/src/manifest.json",
+  "plugins/kanban/v0.1.0-alpha/tests/core.test.cjs",
+  "plugins/list-search/v0.1.0-alpha/LICENSE",
+  "plugins/list-search/v0.1.0-alpha/README.md",
+  "plugins/list-search/v0.1.0-alpha/package.json",
+  "plugins/list-search/v0.1.0-alpha/scripts/build.cjs",
+  "plugins/list-search/v0.1.0-alpha/src/css/config.css",
+  "plugins/list-search/v0.1.0-alpha/src/html/config.html",
+  "plugins/list-search/v0.1.0-alpha/src/image/icon.png",
+  "plugins/list-search/v0.1.0-alpha/src/js/config.js",
+  "plugins/list-search/v0.1.0-alpha/src/js/core.js",
+  "plugins/list-search/v0.1.0-alpha/src/js/desktop.js",
+  "plugins/list-search/v0.1.0-alpha/src/js/mobile.js",
+  "plugins/list-search/v0.1.0-alpha/src/js/runtime.js",
+  "plugins/list-search/v0.1.0-alpha/src/manifest.json",
+  "plugins/list-search/v0.1.0-alpha/tests/core.test.cjs",
+  "plugins/tabs/v0.1.0-beta/.gitignore",
+  "plugins/tabs/v0.1.0-beta/LICENSE",
+  "plugins/tabs/v0.1.0-beta/README.md",
+  "plugins/tabs/v0.1.0-beta/package.json",
+  "plugins/tabs/v0.1.0-beta/scripts/build.cjs",
+  "plugins/tabs/v0.1.0-beta/src/css/config.css",
+  "plugins/tabs/v0.1.0-beta/src/css/runtime.css",
+  "plugins/tabs/v0.1.0-beta/src/html/config.html",
+  "plugins/tabs/v0.1.0-beta/src/image/icon.png",
+  "plugins/tabs/v0.1.0-beta/src/js/config.js",
+  "plugins/tabs/v0.1.0-beta/src/js/core.js",
+  "plugins/tabs/v0.1.0-beta/src/js/desktop.js",
+  "plugins/tabs/v0.1.0-beta/src/js/mobile.js",
+  "plugins/tabs/v0.1.0-beta/src/js/runtime.js",
+  "plugins/tabs/v0.1.0-beta/src/manifest.json",
+  "plugins/tabs/v0.1.0-beta/tests/core.test.cjs",
+  "plugins/tabs/v0.1.0-beta/tests/runtime.test.cjs",
+  "scripts/activate_resoarcos_iso.py",
+  "scripts/add_greenweb_evidence_20261017.py",
+  "scripts/add_internetnl_check_20261017.py",
+  "scripts/add_ssllabs_evidence_20261017.py",
+  "scripts/add_web8_gallery.py",
+  "scripts/build_compliance_evidence.py",
+  "scripts/capture_tool_ui.py",
+  "scripts/dedupe_recognition_20261017.py",
+  "scripts/deploy_canonical.ps1",
+  "scripts/enhance_tool_media.py",
+  "scripts/finish_site_visual_20261017.py",
+  "scripts/fix_site_visual_20261017.py",
+  "scripts/generate_suite16.py",
+  "scripts/improve_alpha_configs.py",
+  "scripts/improve_readability_20261018.py",
+  "scripts/integrate_resoarcos_site.py",
+  "scripts/internetnl_live_check_20261017.py",
+  "scripts/link_public_repo.py",
+  "scripts/normalize_alpha_line_endings.py",
+  "scripts/normalize_cloudflare_obfuscated_mail_20261018.py",
+  "scripts/optimize_hero_20261018.py",
+  "scripts/publish_alpha_sources.py",
+  "scripts/publish_hsts_releasenote_20261018.py",
+  "scripts/publish_lighthouse_update_20261018.py",
+  "scripts/publish_pi_preview.py",
+  "scripts/publish_signed_qa.py",
+  "scripts/reconcile_live_web8_20261018.py",
+  "scripts/release_web8.py",
+  "scripts/scaffold_alpha.py",
+  "scripts/sync_live_snapshot_20261017.py",
+  "scripts/update_manifest.py",
+  "scripts/verify_alpha_archives.py",
+  "scripts/verify_greenweb_release_20261017.py",
+  "scripts/verify_perf_preview_20261018.py",
+  "scripts/verify_pi_preview.py",
+  "scripts/verify_recognition_responsive_20261017.py",
+  "scripts/verify_resoarcos_snapshot.py",
+  "scripts/verify_site.py",
+  "scripts/verify_suite16_readiness.py",
+  "scripts/verify_web8_v1.py",
+  "site-manifest.sha256",
+  "site/.well-known/security.txt",
+  "site/404.html",
+  "site/8919b09e4b9c091b419a6ef817c9dfde.txt",
+  "site/_headers",
+  "site/_worker.js",
+  "site/assets/icons/community-link.svg",
+  "site/assets/icons/community-outreach.svg",
+  "site/assets/icons/community-security.svg",
+  "site/assets/latest-releases.js",
+  "site/assets/mini-qa-20261017.css",
+  "site/assets/recognition-20261017.css",
+  "site/assets/recognition/ASSET_SOURCES.md",
+  "site/assets/resoarc-icon.svg",
+  "site/assets/resoarc-plugin-progress-20261018.css",
+  "site/assets/resoarc-plugin-progress-20261018.json",
+  "site/assets/resoarcos-20261016.css",
+  "site/assets/scorecard-live-20261017.js",
+  "site/assets/site-20261015-v10.css",
+  "site/assets/site-20261015-v5.css",
+  "site/assets/site-20261015-v6.css",
+  "site/assets/site-20261015-v7.css",
+  "site/assets/site-20261015-v8.css",
+  "site/assets/site-20261015-v9.css",
+  "site/assets/tool-icons/csv.svg",
+  "site/assets/tool-icons/hash.svg",
+  "site/assets/tool-icons/kintone-app-diff.svg",
+  "site/assets/tool-icons/kintone-auto-number.svg",
+  "site/assets/tool-icons/kintone-bulk-preview.svg",
+  "site/assets/tool-icons/kintone-conditional-format.svg",
+  "site/assets/tool-icons/kintone-conditional.svg",
+  "site/assets/tool-icons/kintone-cross-aggregate.svg",
+  "site/assets/tool-icons/kintone-date-calculator.svg",
+  "site/assets/tool-icons/kintone-duplicates.svg",
+  "site/assets/tool-icons/kintone-grid-editor.svg",
+  "site/assets/tool-icons/kintone-import-check.svg",
+  "site/assets/tool-icons/kintone-kanban.svg",
+  "site/assets/tool-icons/kintone-list-search.svg",
+  "site/assets/tool-icons/kintone-lookup-audit.svg",
+  "site/assets/tool-icons/kintone-permission-audit.svg",
+  "site/assets/tool-icons/kintone-print-report.svg",
+  "site/assets/tool-icons/kintone-tabs.svg",
+  "site/assets/tools/app-diff.js",
+  "site/assets/tools/csv.js",
+  "site/assets/tools/hash.js",
+  "site/assets/tools/import-diagnose-core.js",
+  "site/assets/tools/import-diagnose-ui.js",
+  "site/assets/tools/suite-core.js",
+  "site/assets/tools/suite-ui.js",
+  "site/assets/tools/suite.css",
+  "site/assets/trust-20261018.css",
+  "site/downloads/resoarc-auto-number-signed-qa.zip",
+  "site/downloads/resoarc-auto-number-v1.0.0.zip",
+  "site/downloads/resoarc-auto-number-v1.1.0-beta.zip",
+  "site/downloads/resoarc-conditional-format-signed-qa.zip",
+  "site/downloads/resoarc-conditional-format-v0.1.0-alpha-source.zip",
+  "site/downloads/resoarc-conditional-signed-qa.zip",
+  "site/downloads/resoarc-date-calculator-signed-qa.zip",
+  "site/downloads/resoarc-date-calculator-v0.1.0-alpha-source.zip",
+  "site/downloads/resoarc-grid-editor-signed-qa.zip",
+  "site/downloads/resoarc-grid-editor-v0.1.0-alpha-source.zip",
+  "site/downloads/resoarc-kanban-signed-qa.zip",
+  "site/downloads/resoarc-kanban-v0.1.0-alpha-source.zip",
+  "site/downloads/resoarc-list-search-signed-qa.zip",
+  "site/downloads/resoarc-list-search-v0.1.0-alpha-source.zip",
+  "site/downloads/resoarc-signed-qa-manifest.json",
+  "site/downloads/resoarc-tabs-signed-qa.zip",
+  "site/downloads/resoarc-tabs-v0.1.0-beta.zip",
+  "site/downloads/resoarc-web8-v1.0.0-manifest.json",
+  "site/downloads/resoarc-web8-v1.0.0-source.zip",
+  "site/downloads/resoarc-web8-v1.0.0-source.zip.sha256",
+  "site/downloads/resoarcos-pc-v0.1.0-dev-iso-SHA256.txt",
+  "site/downloads/resoarcos-pc-v0.1.0-dev-source.zip",
+  "site/downloads/resoarcos-pc-v0.1.0-dev-source.zip.sha256",
+  "site/downloads/resoarcos-pi-firstboot-v0.2.1-alpha-source.zip",
+  "site/downloads/resoarcos-pi-firstboot-v0.2.1-alpha-source.zip.sha256",
+  "site/guide/index.html",
+  "site/index.html",
+  "site/license/index.html",
+  "site/licenses/RESOARC-MIT.txt",
+  "site/llms.txt",
+  "site/os/index.html",
+  "site/os/pi/index.html",
+  "site/principles/index.html",
+  "site/privacy/index.html",
+  "site/products/index.html",
+  "site/products/kintone/index.html",
+  "site/products/kintone/progress/index.html",
+  "site/products/kintone/qa/index.html",
+  "site/products/kintone/verified/index.html",
+  "site/products/roadmap/index.html",
+  "site/products/web/index.html",
+  "site/products/web/screens/index.html",
+  "site/project/index.html",
+  "site/recognition/index.html",
+  "site/releases/index.html",
+  "site/robots.txt",
+  "site/sitemap.xml",
+  "site/source/index.html",
+  "site/terms/index.html",
+  "site/tools/csv/index.html",
+  "site/tools/hash/index.html",
+  "site/tools/kintone-app-diff/index.html",
+  "site/tools/kintone-auto-number/index.html",
+  "site/tools/kintone-bulk-preview/index.html",
+  "site/tools/kintone-conditional-format/index.html",
+  "site/tools/kintone-conditional/index.html",
+  "site/tools/kintone-cross-aggregate/index.html",
+  "site/tools/kintone-date-calculator/index.html",
+  "site/tools/kintone-duplicates/index.html",
+  "site/tools/kintone-grid-editor/index.html",
+  "site/tools/kintone-import-check/index.html",
+  "site/tools/kintone-kanban/index.html",
+  "site/tools/kintone-list-search/index.html",
+  "site/tools/kintone-lookup-audit/index.html",
+  "site/tools/kintone-permission-audit/index.html",
+  "site/tools/kintone-print-report/index.html",
+  "site/tools/kintone-tabs/index.html",
+  "site/trust/index.html",
+  "tests/activate_resoarcos_iso_test.py",
+  "tests/alpha_configs_smoke.py",
+  "tests/browser_suite_smoke.py",
+  "tests/catalog_media_smoke.py",
+  "tests/import-diagnose.test.cjs",
+  "tests/pi_site_smoke.py",
+  "tests/search_grid_browser_smoke.py",
+  "tests/site_ux_source_smoke.py",
+  "tests/suite.test.cjs",
+  "tests/suite16_release_smoke.py",
+  "tests/test_resoarcos_snapshot.py",
+  "tests/top_news_sync_smoke.py",
+  "tests/web8_acceptance_smoke.py",
+]
+precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = "site/assets/fonts/*.woff2"
-precedence = "override"
-SPDX-FileCopyrightText = "Copyright 2012 Google Inc. All Rights Reserved."
-SPDX-License-Identifier = "OFL-1.1"
-
-[[annotations]]
-path = "site/licenses/NOTOSERIFJP-OFL.txt"
-precedence = "override"
-SPDX-FileCopyrightText = "Copyright 2012 Google Inc. All Rights Reserved."
-SPDX-License-Identifier = "OFL-1.1"
-
-[[annotations]]
-path = "site/assets/hero-architecture.jpg"
+path = [
+  "site/downloads/resoarc-site-20261017-recovered-source.zip",
+]
 precedence = "override"
 SPDX-FileCopyrightText = "NOASSERTION"
-SPDX-License-Identifier = "LicenseRef-Unsplash"
+SPDX-License-Identifier = "MIT AND OFL-1.1 AND LicenseRef-Unsplash AND LicenseRef-Service-Marks AND LicenseRef-ResoArc-Screenshots"
+
+[[annotations]]
+path = [
+  "site/assets/fonts/noto-serif-jp-v10.woff2",
+  "site/assets/fonts/noto-serif-jp-v5.woff2",
+  "site/assets/fonts/noto-serif-jp-v6.woff2",
+  "site/assets/fonts/noto-serif-jp-v7.woff2",
+  "site/assets/fonts/noto-serif-jp-v8.woff2",
+  "site/assets/fonts/noto-serif-jp-v9.woff2",
+  "site/licenses/NOTOSERIFJP-OFL.txt",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "Copyright 2012 Google Inc. All Rights Reserved."
+SPDX-License-Identifier = "OFL-1.1"
+
+# New files audited for 2026-10-23; exact paths, no fallback globbing.
+[[annotations]]
+path = [
+  "site/assets/resoarc-cinematic-orbits-20261023.svg",
+  "site/assets/resoarc-cinematic-planet-20261023.webp",
+  "site/assets/resoarc-cosmos-20261022.svg",
+  "site/assets/resoarc-glitter-planet-20261023.webp",
+  "site/assets/resoarc-og-card-20261023.png",
+  "site/assets/resoarc-touch-180.png",
+  "site/assets/resoarc-wordmark-official.svg",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Brand-Art"
+
+[[annotations]]
+path = [
+  "site/assets/development/live-captions-settings-20261022.webp",
+  "site/assets/kintone-settings-captures/attachment-count.webp",
+  "site/assets/kintone-settings-captures/auto-number.webp",
+  "site/assets/kintone-settings-captures/csv-export.webp",
+  "site/assets/kintone-settings-captures/field-help.webp",
+  "site/assets/kintone-settings-captures/list-aggregate.webp",
+  "site/assets/kintone-settings-captures/lookup-suggest.webp",
+  "site/assets/kintone-settings-captures/qr-code.webp",
+  "site/assets/kintone-settings-captures/record-toc.webp",
+  "site/assets/kintone-settings-captures/related-links.webp",
+  "site/assets/kintone-settings-captures/save-navigation.webp",
+  "site/assets/kintone-settings-captures/tabs.webp",
+  "site/assets/kintone-settings-captures/text-normalizer.webp",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Screenshots"
+
+[[annotations]]
+path = [
+  ".forgejo/workflows/reuse-compliance.yml",
+  ".github/workflows/navigation.yml",
+  ".github/workflows/reuse-compliance.yml",
+  "docs/CODEBERG_REUSE_ACTIONS_SETUP.md",
+  "docs/REUSE_COMPLIANCE.md",
+  "docs/REUSE_LEGAL_REVIEW.json",
+  "docs/SWWW_SECURITY_WEATHER_RELEASE_20261022.md",
+  "docs/SWWW_SITE_HASH_GATE_20261022.json",
+  "docs/reuse-archive-inventory.json",
+  "docs/reuse-signed-archive-register.json",
+  "scripts/audit_release_archives.py",
+  "scripts/build_navigation.py",
+  "scripts/check_navigation.py",
+  "scripts/check_signed_archive_notice.py",
+  "scripts/prepare_reuse.py",
+  "scripts/reuse_release_gate.py",
+  "scripts/security-watch/README_SWWW_REVIEWS.md",
+  "scripts/security-watch/generate_public_api.py",
+  "scripts/security-watch/swww_assessments.py",
+  "scripts/security-watch/swww_public.py",
+  "scripts/security-watch/swww_tags.py",
+  "scripts/security-watch/test_public_api.mjs",
+  "scripts/security-watch/test_public_api.py",
+  "scripts/security-watch/test_swww_private_review.py",
+  "scripts/security-watch/weather_report.py",
+  "scripts/security-watch/weather_sources.py",
+  "scripts/security-watch/weather_template.html",
+  "site/_redirects",
+  "site/api/v1/swww/advisories.xml",
+  "site/api/v1/swww/atom.xml",
+  "site/api/v1/swww/catalog.json",
+  "site/api/v1/swww/feed.json",
+  "site/api/v1/swww/index.html",
+  "site/api/v1/swww/openapi.json",
+  "site/api/v1/swww/rss.xml",
+  "site/api/v1/swww/tags.json",
+  "site/assets/brand-cosmic-20261022.css",
+  "site/assets/cinematic-mockup-20261023.css",
+  "site/assets/development-status.css",
+  "site/assets/education-20261020.css",
+  "site/assets/education-circuit-20261020.js",
+  "site/assets/education-robot-20261020.css",
+  "site/assets/education-robot-20261020.js",
+  "site/assets/glitter-planet-20261023.css",
+  "site/assets/kintone-icons/attachment-count.svg",
+  "site/assets/kintone-icons/auto-number.svg",
+  "site/assets/kintone-icons/csv-export.svg",
+  "site/assets/kintone-icons/field-help.svg",
+  "site/assets/kintone-icons/list-aggregate.svg",
+  "site/assets/kintone-icons/lookup-suggest.svg",
+  "site/assets/kintone-icons/qr-code.svg",
+  "site/assets/kintone-icons/record-toc.svg",
+  "site/assets/kintone-icons/related-links.svg",
+  "site/assets/kintone-icons/save-navigation.svg",
+  "site/assets/kintone-icons/tabs.svg",
+  "site/assets/kintone-icons/text-normalizer.svg",
+  "site/assets/kintone-official-catalog-20261019.css",
+  "site/assets/kintone-official-catalog-20261019.js",
+  "site/assets/navigation-map.json",
+  "site/assets/navigation.css",
+  "site/assets/navigation.js",
+  "site/assets/resoarc-two-plugin-release-20261019.css",
+  "site/assets/resoarc-ux-trust-20261020.css",
+  "site/assets/reuse-status.css",
+  "site/assets/reuse-status.js",
+  "site/assets/security-weather.css",
+  "site/assets/security-weather.js",
+  "site/assets/team-collaborators.css",
+  "site/downloads/RESOARC_SIGNED_PLUGIN_LICENSE_NOTICE_20261023.md",
+  "site/downloads/resoarc-2plugins-LICENSE",
+  "site/downloads/resoarc-2plugins-NOTICE",
+  "site/downloads/resoarc-2plugins-RELEASE_GUIDE_2PLUGINS_20261019.md",
+  "site/downloads/resoarc-2plugins-RELEASE_NOTES_2PLUGINS_20261019.md",
+  "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+  "site/downloads/resoarc-backup-migration-v1.0.0-source.zip",
+  "site/downloads/resoarc-backup-migration-v1.0.0.zip",
+  "site/downloads/resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+  "site/downloads/resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+  "site/downloads/resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+  "site/downloads/resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+  "site/downloads/resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+  "site/downloads/resoarc-readonly4-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-readonly4-LICENSE",
+  "site/downloads/resoarc-readonly4-NOTICE",
+  "site/downloads/resoarc-readonly4-RELEASE_NOTES.md",
+  "site/downloads/resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+  "site/downloads/resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+  "site/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+  "site/downloads/resoarc-tabs-v1.0.0-20261021.zip",
+  "site/downloads/resoarc-tabs-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-tabs-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-tabs-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-tabs-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-tabs-v1.0.0-signed-package-source.zip",
+  "site/downloads/resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+  "site/downloads/resoarc-wave2-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-wave2-LICENSE",
+  "site/downloads/resoarc-wave2-NOTICE",
+  "site/downloads/resoarc-wave2-RELEASE_NOTES.md",
+  "site/education/circuit/index.html",
+  "site/education/index.html",
+  "site/education/programming/index.html",
+  "site/guide/backup-migration/index.html",
+  "site/products/backup-migration/index.html",
+  "site/products/development-status/index.html",
+  "site/products/kintone/attachment-count/index.html",
+  "site/products/kintone/csv-export/index.html",
+  "site/products/kintone/field-help/index.html",
+  "site/products/kintone/list-aggregate/index.html",
+  "site/products/kintone/lookup-suggest/index.html",
+  "site/products/kintone/qr-code/index.html",
+  "site/products/kintone/readonly4-release-evidence-20261019.json",
+  "site/products/kintone/record-toc/index.html",
+  "site/products/kintone/related-links/index.html",
+  "site/products/kintone/release-evidence-20261019.json",
+  "site/products/kintone/release-integrity/index.html",
+  "site/products/kintone/save-navigation/index.html",
+  "site/products/kintone/tabs/index.html",
+  "site/products/kintone/text-normalizer/index.html",
+  "site/products/kintone/wave2-release-evidence-20261019.json",
+  "site/recognition/reuse-signed-archives.json",
+  "site/recognition/reuse-status.json",
+  "site/security/advisories/php-20261021/index.html",
+  "site/security/index.html",
+  "site/security/weather/index.html",
+  "site/security/weather/today.json",
+  "tests/education_smoke.py",
+  "tests/official_plugins_transparency_smoke.py",
+  "tests/test_team_collaborators.py",
+  "tests/web_gallery_link_smoke.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "scripts/merge_three_release_20261107.py",
+  "scripts/register_three_release_20261107.py",
+  "site/downloads/resoarc-input-template-v1.0.0-20261022.zip",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-20261022.zip",
+  "site/downloads/resoarc-mail-compose-v1.0.0-20261022.zip",
+  "site/downloads/resoarc-input-template-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-input-template-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-input-template-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-input-template-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-input-template-v1.0.0-signed-source.zip",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-reuse-reset-v1.0.0-signed-source.zip",
+  "site/downloads/resoarc-mail-compose-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-mail-compose-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-mail-compose-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-mail-compose-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-mail-compose-v1.0.0-signed-source.zip",
+  "site/products/kintone/input-template/index.html",
+  "site/products/kintone/reuse-reset/index.html",
+  "site/products/kintone/mail-compose/index.html",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "site/assets/kintone-icons/input-template.png",
+  "site/assets/kintone-icons/reuse-reset.png",
+  "site/assets/kintone-icons/mail-compose.png",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Brand-Art"
+
+[[annotations]]
+path = [
+  "site/assets/kintone-settings-captures/input-template.webp",
+  "site/assets/kintone-settings-captures/reuse-reset.webp",
+  "site/assets/kintone-settings-captures/mail-compose.webp",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Screenshots"
+
+[[annotations]]
+path = [
+  "scripts/release_three_archive_audit_20261107.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "tests/kintone_three_browser_release_20261107.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "site/downloads/resoarc-sticky-list-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-sticky-list-v1.0.0-source.zip",
+  "site/products/kintone/sticky-list/index.html",
+  "site/downloads/resoarc-sticky-list-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-sticky-list-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-sticky-list-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-sticky-list-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-conditional-format-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-conditional-format-v1.0.0-source.zip",
+  "site/products/kintone/conditional-format/index.html",
+  "site/downloads/resoarc-conditional-format-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-conditional-format-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-conditional-format-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-conditional-format-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-date-calculator-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-date-calculator-v1.0.0-source.zip",
+  "site/products/kintone/date-calculator/index.html",
+  "site/downloads/resoarc-date-calculator-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-date-calculator-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-date-calculator-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-date-calculator-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-conditional-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-conditional-v1.0.0-source.zip",
+  "site/products/kintone/conditional/index.html",
+  "site/downloads/resoarc-conditional-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-conditional-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-conditional-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-conditional-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-list-search-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-list-search-v1.0.0-source.zip",
+  "site/products/kintone/list-search/index.html",
+  "site/downloads/resoarc-list-search-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-list-search-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-list-search-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-list-search-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-grid-editor-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-grid-editor-v1.0.0-source.zip",
+  "site/products/kintone/grid-editor/index.html",
+  "site/downloads/resoarc-grid-editor-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-grid-editor-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-grid-editor-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-grid-editor-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-kanban-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-kanban-v1.0.0-source.zip",
+  "site/products/kintone/kanban/index.html",
+  "site/downloads/resoarc-kanban-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-kanban-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-kanban-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-kanban-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-table-row-tools-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-table-row-tools-v1.0.0-source.zip",
+  "site/products/kintone/table-row-tools/index.html",
+  "site/downloads/resoarc-table-row-tools-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-table-row-tools-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-table-row-tools-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-table-row-tools-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-file-preview-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-file-preview-v1.0.0-source.zip",
+  "site/products/kintone/file-preview/index.html",
+  "site/downloads/resoarc-file-preview-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-file-preview-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-file-preview-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-file-preview-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-postal-address-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-postal-address-v1.0.0-source.zip",
+  "site/products/kintone/postal-address/index.html",
+  "site/downloads/resoarc-postal-address-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-postal-address-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-postal-address-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-postal-address-v1.0.0-RELEASE_NOTES.md",
+  "site/downloads/resoarc-barcode-scan-v1.0.0-20261108.zip",
+  "site/downloads/resoarc-barcode-scan-v1.0.0-source.zip",
+  "site/products/kintone/barcode-scan/index.html",
+  "site/downloads/resoarc-barcode-scan-v1.0.0-LICENSE.txt",
+  "site/downloads/resoarc-barcode-scan-v1.0.0-NOTICE.txt",
+  "site/downloads/resoarc-barcode-scan-v1.0.0-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-barcode-scan-v1.0.0-RELEASE_NOTES.md",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+[[annotations]]
+path = [
+  "site/assets/kintone-icons/sticky-list.png",
+  "site/assets/kintone-icons/conditional-format.png",
+  "site/assets/kintone-icons/date-calculator.png",
+  "site/assets/kintone-icons/conditional.png",
+  "site/assets/kintone-icons/list-search.png",
+  "site/assets/kintone-icons/grid-editor.png",
+  "site/assets/kintone-icons/kanban.png",
+  "site/assets/kintone-icons/table-row-tools.png",
+  "site/assets/kintone-icons/file-preview.png",
+  "site/assets/kintone-icons/postal-address.png",
+  "site/assets/kintone-icons/barcode-scan.png",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Brand-Art"
+
+[[annotations]]
+path = [
+  "site/assets/kintone-settings-captures/sticky-list.webp",
+  "site/assets/kintone-settings-captures/conditional-format.webp",
+  "site/assets/kintone-settings-captures/date-calculator.webp",
+  "site/assets/kintone-settings-captures/conditional.webp",
+  "site/assets/kintone-settings-captures/list-search.webp",
+  "site/assets/kintone-settings-captures/grid-editor.webp",
+  "site/assets/kintone-settings-captures/kanban.webp",
+  "site/assets/kintone-settings-captures/table-row-tools.webp",
+  "site/assets/kintone-settings-captures/file-preview.webp",
+  "site/assets/kintone-settings-captures/postal-address.webp",
+  "site/assets/kintone-settings-captures/barcode-scan.webp",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Screenshots"
+
+# 2026-11-08 GitHub/Codeberg reconciliation: independently authored
+# operational/security/docs source files. Existing site and asset license
+# overrides remain untouched.
+[[annotations]]
+path = [
+  ".bestpractices.json",
+  ".github/workflows/codeql.yml",
+  ".github/workflows/kintone-progress.yml",
+  ".github/workflows/openssf-scorecard.yml",
+  ".github/workflows/resoarcos-pc-v0.1.1-dev.yml",
+  "docs/DIRECT_DEPENDENCIES.md",
+  "docs/EXTERNAL_APPLICATION_PROFILE.md",
+  "docs/OPENSSF_BEST_PRACTICES.md",
+  "docs/OSPS_BASELINE1_15597_ASSESSMENT.md",
+  "docs/OSPS_WORKFLOW_SECURITY_EVIDENCE.md",
+  "docs/RELEASED_PRODUCT_GUIDES.md",
+  "docs/REPOSITORY_INVENTORY.md",
+  "docs/compliance/BINARY_ASSET_REVIEW_20261106.json",
+  "docs/compliance/BINARY_ASSET_REVIEW_20261106.md",
+  "docs/compliance/LIVE_PAGES_LICENSE_VERIFICATION_20261106.md",
+  "docs/compliance/OPENCHAIN_BROWSER_TOOLS_20261106.cdx.json",
+  "docs/compliance/OPENCHAIN_BROWSER_TOOLS_COMPONENTS.md",
+  "docs/compliance/OPENCHAIN_ISO5230_EVIDENCE_REGISTER.md",
+  "docs/compliance/OPENCHAIN_ISO5230_PROGRAM.md",
+  "docs/compliance/OPENCHAIN_RELEASE_REVIEW_TEMPLATE.md",
+  "docs/compliance/OSPS_13_SOURCE_ZIPS_TO_22_SIGNED_MATCH_20261106.json",
+  "docs/compliance/OSPS_BASELINE1_ACHIEVED_20261107.md",
+  "docs/compliance/OSPS_LE02_35_SOFTWARE_LICENSE_EVIDENCE_20261106.json",
+  "docs/compliance/OSPS_LE02_LICENSE_CLEARANCE_REPORT_20261106.md",
+  "docs/compliance/OSPS_LE02_OWNER_DECLARATION_AND_REVIEW_20261107.md",
+  "docs/compliance/OSPS_LE02_OWNER_RIGHTS_APPROVAL_TEMPLATE.md",
+  "docs/compliance/OSPS_LE02_RELEASE_SOFTWARE_LICENSE_VERIFICATION_20261106.md",
+  "docs/compliance/OSPS_LE02_SIGNED22_PROVENANCE_REVIEW_20261106.json",
+  "docs/compliance/OSPS_RELEASE_35_LICENSE_EVIDENCE_20261106.md",
+  "docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json",
+  "docs/compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.json",
+  "docs/compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.md",
+  "docs/compliance/OSPS_SIGNED_22_SOURCE_CORRESPONDENCE_20261106.json",
+  "docs/compliance/RELEASE_LICENSE_DECISION_MATRIX_20261106.md",
+  "docs/kintone-progress/README.md",
+  "docs/kintone-progress/evidence/auto-number-tenant-smoke-20261017.json",
+  "docs/kintone-progress/evidence/manifest-preflight-20261017.json",
+  "docs/kintone-progress/evidence/signed-zip-audit-20261017.json",
+  "docs/kintone-progress/evidence/unit-tests-20261017.json",
+  "docs/kintone-progress/tracker.json",
+  "docs/release-provenance.md",
+  "docs/trapnet/CODEQL_JS17_REMEDIATION_V068.md",
+  "scripts/audit_osps_35_release_license_content.py",
+  "scripts/audit_release_license_evidence.py",
+  "scripts/check_binary_repo_assets.py",
+  "scripts/check_direct_dependencies.py",
+  "scripts/check_osps_le02_35_osi_licenses.py",
+  "scripts/check_osps_le02_signed_provenance.py",
+  "scripts/check_release_guides.py",
+  "scripts/check_repository_secrets.py",
+  "scripts/check_workflow_security.py",
+  "scripts/kintone-evidence.mjs",
+  "scripts/kintone-progress.mjs",
+  "scripts/kintone-verify-zip-signatures.py",
+  "scripts/kintone_tenant_preflight.py",
+  "scripts/test_scorecard_live.mjs",
+  "scripts/verify_external_archive_mirror.py",
+  "scripts/verify_openchain_scoped_sbom.py",
+  "scripts/verify_osps_35_license_delivery.py",
+  "tests/kanban_runtime_browser.py",
+  "tests/kintone-evidence.test.mjs",
+  "tests/kintone-progress.test.mjs",
+  "tests/test_kintone_tenant_preflight.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+# GH Nov 8 policy + community: first-party source and docs
+[[annotations]]
+path = [
+  ".github/ISSUE_TEMPLATE/bug_report.md",
+  ".github/ISSUE_TEMPLATE/config.yml",
+  ".github/ISSUE_TEMPLATE/feature_request.md",
+  "docs/COMMUNITY_ROADMAP_20261108.md",
+  "docs/LIVE_SITE_RECONCILIATION_20261108.md",
+  "docs/MAINTENANCE_AND_COMMUNITY_20261108.md",
+  "docs/MEASUREMENT.md",
+  "docs/OSC_2027_OSAKA_OUTREACH_DRAFT.md",
+  "docs/OSPS_LEVEL2_PLAN_20261108.md",
+  "docs/RESEARCH_PUBLICATION_RULES_20261108.md",
+  "scripts/verify_live_route_preservation.py",
+  "site/assets/community-20261108.css",
+  "site/community/index.html",
+  "site/en/index.html",
+  "tests/test_community_site.py",
+  "tests/test_live_route_preservation.py",
+  "tests/worker_activity.test.mjs",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+# GitHub Nov 8 historical Release mirror retry test (first-party)
+[[annotations]]
+path = [ "tests/test_release_mirror_retry.py" ]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+# postal-address v1.0.1 release: distribution and rights documentation
+[[annotations]]
+path = [
+  "site/downloads/resoarc-postal-address-v1.0.1-20261109.zip",
+  "site/downloads/resoarc-postal-address-v1.0.1-source.zip",
+  "site/downloads/resoarc-postal-address-v1.0.1-LICENSE.txt",
+  "site/downloads/resoarc-postal-address-v1.0.1-NOTICE.txt",
+  "site/downloads/resoarc-postal-address-v1.0.1-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-postal-address-v1.0.1-RELEASE_NOTES.md",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+# GitHub release notices retained byte-exactly from public main
+[[annotations]]
+path = ["site/downloads/NOTICE.md", "site/downloads/THIRD_PARTY_LICENSES.md"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+# Current immutable distribution inventory and frozen-source provenance check
+[[annotations]]
+path = [
+  'docs/compliance/ACTIVE_PAGES_BINARY_INVENTORY_20261109.json',
+  'scripts/verify_historical_release_snapshots.py',
+]
+precedence = 'override'
+SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
+SPDX-License-Identifier = 'MIT'
+
+# Current-site and immutable historic browser acceptance smoke scripts
+[[annotations]]
+path = [
+  'scripts/verify_historical_browser_snapshots.py',
+  'tests/current_postal_release_browser_smoke.py',
+]
+precedence = 'override'
+SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
+SPDX-License-Identifier = 'MIT'

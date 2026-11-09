@@ -19,7 +19,8 @@ import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DOWNLOADS = ROOT / "site/downloads"
+DOWNLOADS = ROOT / ".historical-release-cache"
+ACTIVE_SITE_DOWNLOADS = ROOT / "site/downloads"
 AUDIT = ROOT / "docs/compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.json"
 TAG = "resoarc-osps-distribution-mirror-20261106"
 REPO = "resoarc/resoarc-site"
@@ -81,7 +82,7 @@ def check_remote(assets: dict, expected: list[dict]) -> None:
             raise ValueError(f"Release digest mismatch: {row['filename']}")
     for name in ("LICENSE", "NOTICE.md"):
         asset = assets[name]
-        path = DOWNLOADS / name
+        path = ACTIVE_SITE_DOWNLOADS / name
         digest = asset.get("digest")
         if not path.is_file() or asset.get("size") != path.stat().st_size:
             raise ValueError(f"Missing/mismatched notice sidecar: {name}")
@@ -172,7 +173,7 @@ def check_direct_release(expected: list[dict], hydrate: bool) -> None:
     for row in expected:
         check_public_download_without_api(row, hydrate)
     for name in ("LICENSE", "NOTICE.md"):
-        local = DOWNLOADS / name
+        local = ACTIVE_SITE_DOWNLOADS / name
         if not local.is_file():
             raise ValueError(f"Missing required license companion: {name}")
         check_public_download_without_api(
@@ -184,6 +185,8 @@ def check_direct_release(expected: list[dict], hydrate: bool) -> None:
 def main(hydrate: bool) -> None:
     data = json.loads(AUDIT.read_text(encoding="utf-8"))
     expected = data["assets"]
+    if hydrate:
+        DOWNLOADS.mkdir(parents=True, exist_ok=True)
     if len(expected) != 20 or len({row["filename"] for row in expected}) != 20:
         raise ValueError("Historical distribution inventory has changed unexpectedly")
     try:

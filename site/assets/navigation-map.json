@@ -1,0 +1,435 @@
+{
+  "version": 2,
+  "pages": {
+    "/api/v1/swww/": {
+      "title": "SWWW 公開API・XML/RSSフィード",
+      "parent": "/",
+      "visible": false
+    },
+    "/community/": {
+      "title": "参加・活動",
+      "parent": "/",
+      "visible": true
+    },
+    "/education/circuit/": {
+      "title": "電子回路",
+      "parent": "/education/",
+      "visible": true
+    },
+    "/education/": {
+      "title": "無料の学習教材",
+      "parent": "/",
+      "visible": true
+    },
+    "/education/programming/": {
+      "title": "ロボットプログラミング",
+      "parent": "/education/",
+      "visible": true
+    },
+    "/en/": {
+      "title": "ResoArc",
+      "parent": "/",
+      "visible": true
+    },
+    "/guide/backup-migration/": {
+      "title": "バックアップ・移行の導入と復元手順（正式配布前）",
+      "parent": "/guide/",
+      "visible": true
+    },
+    "/guide/": {
+      "title": "利用ガイド",
+      "parent": "/",
+      "visible": true
+    },
+    "/": {
+      "title": "ホーム",
+      "parent": null,
+      "visible": true
+    },
+    "/license/": {
+      "title": "ライセンス",
+      "parent": "/",
+      "visible": true
+    },
+    "/metrics/downloads/": {
+      "title": "ダウンロード統計",
+      "parent": "/",
+      "visible": false
+    },
+    "/os/": {
+      "title": "ResoArcOS",
+      "parent": "/",
+      "visible": true
+    },
+    "/os/pi/": {
+      "title": "Raspberry Pi版",
+      "parent": "/os/",
+      "visible": true
+    },
+    "/principles/": {
+      "title": "品質方針",
+      "parent": "/",
+      "visible": true
+    },
+    "/privacy/": {
+      "title": "プライバシー",
+      "parent": "/",
+      "visible": true
+    },
+    "/products/backup-migration/": {
+      "title": "バックアップ・移行",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/development-status/": {
+      "title": "開発中ツールの検証状況",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/": {
+      "title": "無料ツール",
+      "parent": "/",
+      "visible": true
+    },
+    "/products/kintone/attachment-count/": {
+      "title": "添付ファイル有無表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/csv-export/": {
+      "title": "CSVワンクリック出力",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/field-help/": {
+      "title": "フィールド説明表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/": {
+      "title": "kintoneプラグイン",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/kintone/input-template/": {
+      "title": "入力テンプレート",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/list-aggregate/": {
+      "title": "一覧合計バー",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/lookup-suggest/": {
+      "title": "ルックアップ候補表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/mail-compose/": {
+      "title": "メール作成ボタン",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/postal-address/": {
+      "title": "郵便番号住所入力",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/progress/": {
+      "title": "26の機能、ひとつの進捗表へ。",
+      "parent": "/products/kintone/",
+      "visible": false
+    },
+    "/products/kintone/qa/": {
+      "title": "8機能の導入検証パッケージ",
+      "parent": "/products/kintone/",
+      "visible": false
+    },
+    "/products/kintone/qr-code/": {
+      "title": "QRコード生成",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/record-toc/": {
+      "title": "レコード目次",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/related-links/": {
+      "title": "関連アプリリンク",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/release-integrity/": {
+      "title": "配布物の検証方法",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/reuse-reset/": {
+      "title": "レコード再利用制御",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/save-navigation/": {
+      "title": "保存後画面遷移",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/tabs/": {
+      "title": "タブ表示",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/text-normalizer/": {
+      "title": "入力文字自動整形",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/products/kintone/verified/": {
+      "title": "検証できたこと、まだ配布できないこと。",
+      "parent": "/products/kintone/",
+      "visible": false
+    },
+    "/products/roadmap/": {
+      "title": "開発ロードマップ",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/web/": {
+      "title": "Webツール",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/products/web/screens/": {
+      "title": "画面キャプチャ",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/project/": {
+      "title": "ResoArcについて",
+      "parent": "/",
+      "visible": true
+    },
+    "/recognition/": {
+      "title": "実績・協賛",
+      "parent": "/",
+      "visible": true
+    },
+    "/releases/": {
+      "title": "更新履歴",
+      "parent": "/",
+      "visible": true
+    },
+    "/security/advisories/php-20261021/": {
+      "title": "PHPセキュリティ更新対応のお知らせ（2026年10月22日）",
+      "parent": "/security/",
+      "visible": true
+    },
+    "/security/": {
+      "title": "セキュリティ情報",
+      "parent": "/",
+      "visible": true
+    },
+    "/security/weather/": {
+      "title": "SWWW",
+      "parent": "/security/",
+      "visible": true
+    },
+    "/security/weather/newspaper/action/": {
+      "title": "今日の対策",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/security/weather/newspaper/all/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-10-23/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-10-25/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-10-26/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-10-27/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-10-28/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-10-29/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-10-31/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-11-01/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-11-02/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-11-03/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/2026-11-04/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/newspaper/archive/",
+      "visible": false
+    },
+    "/security/weather/newspaper/archive/": {
+      "title": "SWWW 脆弱性朝刊 過去号",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/security/weather/newspaper/": {
+      "title": "本日のトップ",
+      "parent": "/security/weather/",
+      "visible": false
+    },
+    "/security/weather/newspaper/ranking/": {
+      "title": "注目ランキング",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/security/weather/newspaper/technologies/": {
+      "title": "技術別の動向",
+      "parent": "/security/weather/newspaper/",
+      "visible": false
+    },
+    "/source/": {
+      "title": "公開ソース",
+      "parent": "/",
+      "visible": true
+    },
+    "/status/": {
+      "title": "Webサービス障害速報",
+      "parent": "/",
+      "visible": true
+    },
+    "/terms/": {
+      "title": "利用条件",
+      "parent": "/",
+      "visible": true
+    },
+    "/tools/csv/": {
+      "title": "CSV / TSV構造検査",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/hash/": {
+      "title": "ファイルSHA-256確認",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-app-diff/": {
+      "title": "設定JSON差分比較",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-auto-number/": {
+      "title": "自動採番",
+      "parent": "/products/kintone/",
+      "visible": true
+    },
+    "/tools/kintone-bulk-preview/": {
+      "title": "一括更新・変更前プレビュー",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-conditional/": {
+      "title": "条件に応じて、必要な入力だけを。",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-conditional-format/": {
+      "title": "条件付き書式",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-cross-aggregate/": {
+      "title": "アプリ横断集計",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-date-calculator/": {
+      "title": "日付・期間計算",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-duplicates/": {
+      "title": "重複レコード候補の検出",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-grid-editor/": {
+      "title": "Excel風一覧編集",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-import-check/": {
+      "title": "CSV取込前診断",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-kanban/": {
+      "title": "カード・カンバン表示",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-list-search/": {
+      "title": "高機能検索・絞り込み",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/tools/kintone-lookup-audit/": {
+      "title": "ルックアップ不整合診断",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-permission-audit/": {
+      "title": "kintone権限定義の可視化",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-print-report/": {
+      "title": "ブラウザー帳票・PDF保存",
+      "parent": "/products/web/",
+      "visible": true
+    },
+    "/tools/kintone-tabs/": {
+      "title": "入力画面を、タブで整理する。",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/trust/": {
+      "title": "信頼性と説明責任",
+      "parent": "/",
+      "visible": true
+    }
+  }
+}

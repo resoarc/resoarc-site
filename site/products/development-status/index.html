@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="バックアップ・移行、Test Ledger、Live Japanese Captions、Clock / Batch Flowの開発・検証状況。公開済み製品との違い、既知制限、残る受入条件を説明します。" name="description"/><meta content="#071529" name="theme-color"/><meta content="light" name="color-scheme"/><meta content="strict-origin-when-cross-origin" name="referrer"/><link href="https://resoarc.com/products/development-status/" rel="canonical"/><meta content="website" property="og:type"/><meta content="ResoArc" property="og:site_name"/><meta content="開発中4ツールの検証状況 | ResoArc" property="og:title"/><meta content="バックアップ・移行、Test Ledger、Live Japanese Captions、Clock / Batch Flowの開発・検証状況。公開済み製品との違い、既知制限、残る受入条件を説明します。" property="og:description"/><meta content="ja_JP" property="og:locale"/><meta content="https://resoarc.com/assets/resoarc-og-card-20261023.png" property="og:image"/><link href="/assets/resoarc-icon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/site-20261015-v10.css?v=20261018-design-v1" rel="stylesheet"/><title>開発中の4ツール：検証状況と公開前の条件 | ResoArc</title><link href="/assets/recognition-20261017.css" rel="stylesheet"/><link href="/assets/development-status.css" rel="stylesheet"/><link rel="stylesheet" href="/assets/navigation.css"><link rel="stylesheet" href="/assets/brand-cosmic-20261022.css"><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://resoarc.com/assets/resoarc-og-card-20261023.png"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/resoarc-touch-180.png"/><link rel="stylesheet" href="/assets/cinematic-mockup-20261023.css"></head><body><a class="skip-link" href="#main">本文へ移動</a>
+<header class="site-header"><div class="container header-inner"><a aria-label="ResoArc トップページ" class="brand" href="/"><img class="arc-brand-symbol" src="/assets/resoarc-icon.svg" width="42" height="42" alt="" aria-hidden="true"/><span class="wordmark"><img class="arc-wordmark-image" src="/assets/resoarc-wordmark-official.svg" width="158" height="31" alt="ResoArc"/><small>OPEN TOOLS / CREATIVE ENGINEERING</small></span></a>
+<nav aria-label="主要メニュー" class="desktop-nav"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a class="rec-nav-link" href="/recognition/"><span>実績・協賛</span><small>Recognition</small></a><a href="/os/"><span>ResoArcOS</span><small>OS</small></a></nav>
+<a class="nav-action" href="/products/"><span>ツールを探す</span><b aria-hidden="true">↗</b></a>
+<details class="mobile-menu"><summary><span>メニュー</span><span aria-hidden="true" class="menu-bars"><i></i><i></i></span></summary><nav aria-label="モバイルメニュー" class="mobile-panel"><a href="/"><span>ホーム</span><small>Home</small></a><a href="/project/"><span>プロジェクト</span><small>About</small></a><a href="/products/"><span>無料ツール</span><small>Tools</small></a><a href="/principles/"><span>品質方針</span><small>Quality</small></a><a href="/privacy/">プライバシー <span>↗</span></a><a href="/recognition/"><span>実績・協賛</span><small>Recognition</small></a><a href="/os/"><span>ResoArcOS</span><small>PC版</small></a></nav></details></div></header><main id="main">
+<section class="inside-hero"><div class="container inside-hero-inner">
+<div class="kicker"><span class="kicker-no">03</span><span class="kicker-en">DEVELOPMENT STATUS</span><span class="kicker-jp">開発中のツール</span></div>
+<h1>できたことと、<br/>まだできないこと。</h1>
+<p>開発中の4ツールについて、検証済みの範囲・利用時の注意・正式公開までの残件を開示します。</p>
+</div><span aria-hidden="true" class="inside-watermark">ResoArc.</span></section>
+<section class="section inner-section"><div class="container">
+<p class="ds-date">情報更新日：<time datetime="2026-10-22">2026年10月22日</time></p>
+<div class="ds-boundary" role="note"><strong>バックアップ・移行は正式配布中です。その他3ツールは現在一般配布していません。</strong>
+<p>ソース/ビルド・開発環境での検証結果の開示であり、公開サービスの提供開始や正式版のダウンロード開始を意味しません。結果は記載条件での試験であり、すべての環境での動作保証ではありません。</p>
+<p>すぐ利用できるソフトウェアは<a href="/products/kintone/">正式公開プラグイン一覧</a>、<a href="/products/web/">Webツール一覧</a>をご確認ください。</p></div>
+<div class="ds-overview">
+<a href="#backup"><strong>バックアップ・移行</strong><span>v1.0.0配布中 / 導入・復元手順を公開</span></a>
+<a href="#ledger"><strong>Test Ledger</strong><span>証跡とExcel出力の検証 / Excel本体確認待ち</span></a>
+<a href="#captions"><strong>Live Japanese Captions</strong><span>実設定画面確認 / ストア申請準備中</span></a>
+<a href="#clock"><strong>Clock / Batch Flow</strong><span>模擬障害試験済み / 実環境試験待ち</span></a>
+</div>
+<section class="ds-feature" id="backup"><div class="ds-number">01 / LOCAL-FIRST BACKUP</div>
+<h2>バックアップ・移行</h2><p class="ds-stage"><a href="/products/backup-migration/">正式版v1.0.0配布ファイル・ソース・SHA-256 ↗</a></p>
+<p class="ds-stage">v1.0.0正式配布中　／　カスタマイズJavaScript＋オフラインビューア</p>
+<p>kintoneの取得可能なレコードや添付ファイルを利用者自身のPCへ保存し、ローカルビューアで確認。別のアプリへの追記復元を支援する仕組みです。<strong>署名済みkintoneプラグインZIPではなく、カスタマイズJavaScriptとオフラインビューアの組み合わせ</strong>です。</p>
+<div class="ds-columns"><div><h3>確認したこと</h3><p>自動試験116件、隔離した実ブラウザーで合成501件の復元フロー、配布候補ZIPの展開・オフライン閲覧検証22項目を合格。別の隔離環境でも合成3,001件の中断・手動再開・再実行時の重複防止を検証しました。</p></div>
+<div><h3>正式提供までに</h3><p>配布形式・利用条件・導入/復元手順・既知の制限を整理し、公開版の最終判断を行います。正式版の配布物・ソース・SHA-256は製品ページに掲載しています。</p></div></div>
+<p class="ds-warning"><strong>注意点：</strong>未暗号化のバックアップは機密情報を含む平文です。暗号化時も索引の一部メタ情報が平文で残る場合があります。すべてのkintone設定・権限・監査履歴を完全再現する機能ではありません。</p></section>
+<p class="ds-date"><a href="/guide/backup-migration/">バックアップの導入・オフライン閲覧・追記復元手順（正式配布前のガイド） ↗</a></p>
+<section class="ds-feature" id="ledger"><div class="ds-number">02 / TEST &amp; EVIDENCE</div>
+<h2>Test Ledger</h2>
+<p class="ds-stage">開発テスト完了　／　Excelデスクトップ実機の最終受入待ち</p>
+<p>テスト観点のマトリクスからテストケースを作成し、結果・実施者・実施日・証跡画像をまとめるWebツールです。Excelおよび証跡一式ZIPを書き出せます。</p>
+<div class="ds-columns"><div><h3>確認したこと</h3><p>実ブラウザーから出力したExcelと証跡ZIPを15項目検証。4シート構成、添付画像、相対リンク、数式として扱わせない文字列出力を確認しました。容量不足を模擬した場合の保存ロールバックも確認済みです。</p></div>
+<div><h3>正式提供までに</h3><p><strong>Microsoft Excelデスクトップ版で実際に開き、証跡リンクが動作するか</strong>の確認が未完了です。この実機検証を通過するまで正式提供しません。</p></div></div>
+<p class="ds-warning"><strong>データの扱い：</strong>台帳や証跡はブラウザーのローカル領域に保存する方式です。サーバーへの証跡アップロード機能はありませんが、ブラウザーのサイトデータ削除で失われる可能性があり、出力ZIPは既定では暗号化されません。</p></section>
+<section class="ds-feature" id="captions"><div class="ds-number">03 / ACCESSIBILITY</div>
+<h2>Live Japanese Captions</h2>
+<p class="ds-stage">拡張機能の開発テスト完了　／　ストア掲載審査前</p>
+<p>PCブラウザーで再生する動画への日本語字幕表示を支援する拡張機能を開発中です。端末内で処理するローカルモードと、利用者が選択する外部音声認識モードを検討しています。</p>
+<figure class="ds-shot"><img alt="Live Japanese Captions拡張機能の実際の設定画面。ローカル認識と外部サービス利用時の説明を表示" decoding="async" height="800" loading="lazy" src="/assets/development/live-captions-settings-20261022.webp" width="1280"/><figcaption>開発版v0.5.2の実際のブラウザー拡張設定画面（2026年10月22日撮影）。実字幕表示の動作結果ではありません。APIキー未設定の状態です。</figcaption></figure>
+<div class="ds-columns"><div><h3>確認したこと</h3><p>20項目の機能テスト合格、実際のブラウザー拡張機能としての設定画面起動・撮影。第三者ライブラリのライセンス表示を見直し、配布候補へ通知文書を収録しています。</p></div>
+<div><h3>正式提供までに</h3><p>実際の動画での連続字幕表示と操作検証、残る第三者素材の権利確認、プライバシー情報の公開、ストア申請審査が必要です。</p></div></div>
+<p class="ds-warning"><strong>通信・費用：</strong>ローカルモードでも初回のモデル取得には通信が必要です。外部サービスを選択した場合は音声の外部送信と従量課金が発生することがあります。事前同意と費用説明を確認するまで配布しません。</p></section>
+<section class="ds-feature" id="clock"><div class="ds-number">04 / SCHEDULED WORKFLOW</div>
+<h2>Clock / Batch Flow</h2>
+<p class="ds-stage">安全停止・模擬障害試験済み　／　実定期実行の受入待ち</p>
+<p>設定した時刻・条件でワークフローを動かし、障害発生時の確認・手動復旧を支援する機能を開発中です。</p>
+<div class="ds-columns"><div><h3>確認したこと</h3><p>権限外操作を拒否する安全ガード9項目と、処理完了後に通信応答が失われるケースを模擬した停止・確認・復旧のフローを検証しました。</p></div>
+<div><h3>正式提供までに</h3><p>隔離した実環境でのスケジュール起動、障害後の二重実行防止、手動復旧、実行停止・試験データ撤収までを検証します。現在は自動実行を有効化していません。</p></div></div>
+<p class="ds-warning"><strong>注意：</strong>模擬試験の合格は、実際の定期実行の成功を示すものではありません。実データへの自動書込みは正式検証完了まで提供しません。</p></section>
+<div class="ds-outro"><h2>公開の判断は、試験結果と分けて行います。</h2><p>技術試験の合格、ライセンスと利用者向け説明の確認、正式な配布開始の判断はそれぞれ独立した工程です。進捗は更新される可能性があります。正式提供が決定した製品のみダウンロードページで案内します。</p>
+<p><a class="inline-link" href="/products/roadmap/">開発ロードマップへ戻る ↗</a>　<a class="inline-link" href="/principles/">検証・品質方針 ↗</a></p></div>
+</div></section></main><footer class="footer"><div class="container footer-top"><div class="footer-brand"><img class="arc-brand-symbol" src="/assets/resoarc-icon.svg" width="48" height="48" alt="" aria-hidden="true"/><div><img class="arc-footer-wordmark" src="/assets/resoarc-wordmark-official.svg" width="196" height="38" alt="ResoArc"/><small>OPEN TOOLS / CREATIVE ENGINEERING</small><p>自由で、開かれた技術を。</p></div></div><nav aria-label="フッターのサイト案内" class="footer-nav"><div class="footer-group"><h3>EXPLORE</h3><a href="/">ホーム</a><a href="/project/">プロジェクト</a><a href="/releases/">更新履歴</a></div><div class="footer-group"><h3>PRODUCTS</h3><a href="/products/">無料ツール</a><a href="/os/">ResoArcOS</a><a href="/guide/">利用ガイド</a></div><div class="footer-group"><h3>TRUST &amp; QUALITY</h3><a href="/principles/">品質方針</a><a href="/trust/">信頼性と説明責任</a><a href="/recognition/">実績・協賛</a><a href="/license/">ライセンス</a></div><div class="footer-group"><h3>INFORMATION</h3><a href="/privacy/">プライバシー</a><a href="/terms/">利用条件・免責</a><a href="/sitemap.xml">サイトマップ</a><a href="/source/">公開ソース・Codeberg <span aria-hidden="true">↗</span></a></div></nav></div><div class="container footer-bottom"><span>© 2026 ResoArc Open Technology Project</span><span>ResoArcは独立した技術プロジェクトです。法人・財団・公的機関ではありません。</span></div></footer>
+<script defer src="/assets/navigation.js"></script></body></html>

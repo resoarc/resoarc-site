@@ -46,6 +46,6 @@ class ReleaseWorkflowSecurityTests(unittest.TestCase):
                 for line in data.splitlines():
                     if re.match(r"\s*uses:\s*", line):
                         self.assertRegex(line, r"uses:\s+[^@\s]+@[a-f0-9]{40}(?:\s|$)")
-    
+
 if __name__ == "__main__":
     unittest.main()
