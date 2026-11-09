@@ -46,8 +46,18 @@ try {
   if ($LASTEXITCODE -ne 0) { throw "Live route preservation failed; refusing full-site overwrite" }
   & python -X utf8 (Join-Path $root "scripts/verify_live_data_preservation.py")
   if ($LASTEXITCODE -ne 0) { throw "Live SWWW snapshot mismatch; refusing full-site overwrite" }
+  # Main PC uses an authenticated local npx Wrangler installation.
+  # Never install or update a CLI as a side effect of a production deploy.
+  $wranglerArgs = @()
+  if (!(Get-Command $WranglerPath -ErrorAction SilentlyContinue)) {
+    if ($WranglerPath -ne "wrangler") { throw "Specified Wrangler executable is unavailable" }
+    if (!(Get-Command npx -ErrorAction SilentlyContinue)) { throw "Neither wrangler nor npx is available" }
+    $WranglerPath = "npx"
+    $wranglerArgs = @("--no-install", "wrangler")
+    Write-Output "Wrangler CLI unavailable, falling back to preinstalled npx"
+  }
   Write-Output ("Deploying verified Git commit " + $head)
-  & $WranglerPath pages deploy $site --project-name resoarc --branch main --commit-hash $head --commit-dirty=true
+  & $WranglerPath @wranglerArgs pages deploy $site --project-name resoarc --branch main --commit-hash $head --commit-dirty=true
   if ($LASTEXITCODE -ne 0) { throw "Cloudflare Pages deployment failed" }
   $stamp = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
   foreach ($hostName in @("resoarc.com", "www.resoarc.com", "resoarc.pages.dev")) {

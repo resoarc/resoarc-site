@@ -18,6 +18,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOWNLOADS = ROOT / "site" / "downloads"
 EVIDENCE = ROOT / "docs" / "compliance" / "OSPS_RELEASE_LICENSE_AUDIT_20261106.json"
+CURRENT_35 = ROOT / "docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261109.json"
+CURRENT_SIX = ROOT / "docs/compliance/PRODUCTION_BINARY_RELEASE_EXTRAS_20261109.json"
 
 
 def run(strict: bool = False) -> int:
@@ -25,9 +27,24 @@ def run(strict: bool = False) -> int:
     evidence = json.loads(EVIDENCE.read_text(encoding="utf-8"))
     recorded = evidence["assets"]
     expected = {row["filename"] for row in recorded}
+    other_35 = json.loads(CURRENT_35.read_text(encoding="utf-8"))["packages"]
+    extra_six = json.loads(CURRENT_SIX.read_text(encoding="utf-8"))["assets"]
+    current = other_35 + extra_six
+    all_pins = {row["asset"]: row for row in current}
+    if len(recorded) != 20 or len(other_35) != 35 or len(extra_six) != 6 or len(all_pins) != 41:
+        problems.append("unexpected archive inventory cardinality; expected 20 historical and 41 active ZIPs")
     existing = {path.name for path in DOWNLOADS.glob("*.zip")}
-    if existing != expected:
-        problems.append(f"release ZIP inventory differs: added={sorted(existing - expected)}, missing={sorted(expected - existing)}")
+    if existing != set(all_pins):
+        problems.append(f"release ZIP inventory differs: added={sorted(existing - set(all_pins))}, missing={sorted(set(all_pins) - existing)}")
+    if not expected.issubset(all_pins):
+        problems.append("historical release is absent from the active archive inventory")
+    for name, row in all_pins.items():
+        path = DOWNLOADS / name
+        if not path.is_file():
+            continue
+        data = path.read_bytes()
+        if len(data) != row["bytes"] or hashlib.sha256(data).hexdigest() != row["sha256"]:
+            problems.append("active release ZIP mismatches pinned bytes: " + name)
 
     license_file = DOWNLOADS / "LICENSE"
     root_license = ROOT / "LICENSE"

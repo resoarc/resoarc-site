@@ -129,3 +129,19 @@ names, exact SHA-256 and byte sizes; the distribution hydration guard now
 covers 41 ZIPs (20 immutable official Release assets, 21 SHA-pinned
 public-distribution assets). The latter are NOT independently mirrored yet.
 No claim of independent cryptographic signature or rights approval is made.
+
+
+## Updated provisional SBOM and Windows normalization
+
+The 2026-11-06 OpenChain browser-tools snapshot is retained as historical
+evidence. The 2026-11-09 provisional CycloneDX snapshot expands the audited
+scope from 15 to 24 site assets to include the current navigation, visual
+design files and referenced imagery. Every scoped file hash and directly
+referenced asset is checked in CI. This is explicitly NOT an independent
+legal review or formal OpenChain conformance certification.
+
+Windows was converting several extensionless static files and 23 CommonJS
+files to CRLF, causing checked-in hashes and archived alpha sources to
+disagree with CI/Linux. The .gitattributes policy now pins these file classes
+to LF in both checkouts, and the working tree was verified against the
+canonical Git object bytes.
