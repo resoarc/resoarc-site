@@ -1,0 +1,6 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+ * SPDX-License-Identifier: MIT
+ * qAIUIck catalogue logo tile.
+ */
+.qai-web-card .qai-catalog-logo{display:block;width:112px;height:64px;object-fit:cover;object-position:center;background:#080e1a;border-radius:9px;border:1px solid #223a55;box-shadow:0 8px 19px rgb(12 20 38 / 14%)}
+.qai-web-card .product-meta span:first-child{color:#187c8e}

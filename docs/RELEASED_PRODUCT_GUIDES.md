@@ -19,6 +19,10 @@ These tools have a direct page with inputs, a processing action, outputs and sta
 | SHA-256 file checker | Choose a file, calculate the hash and compare it against the distributor's trusted checksum | [hash](../site/tools/hash/index.html) |
 | CSV/TSV structure validator | Choose CSV/TSV, inspect encoding/structure and row or column diagnostics before import | [csv](../site/tools/csv/index.html) |
 | qAIUIck v0.2 beta demo | Open the demo, enter a memo and press Enter or Add; remove a memo with Delete. Records stay in that browser's localStorage, are not backed up, and may be cleared. Do not enter confidential data. See the product page for the downloadable source ZIP and localhost-only SQLite sample. | [qAIUIck demo](../site/tools/qaiuick-demo/index.html) |
+| qAIUIck inventory sample | Inspect five example stock items, add one, replenish by ten, delete and reset. Changes remain in this browser. | [inventory](../site/tools/qaiuick-inventory/index.html) |
+| qAIUIck budget sample | Inspect five example expenses, add and remove records, and see totals update automatically. Demo data only. | [budget](../site/tools/qaiuick-budget/index.html) |
+| qAIUIck support sample | Move tickets through 未対応, 対応中 and 完了. Sample entries are not customer records. | [support](../site/tools/qaiuick-tickets/index.html) |
+| qAIUIck customer search sample | Search fictitious people, companies and regions, add and remove records. Never enter real personal data. | [customers](../site/tools/qaiuick-customers/index.html) |
 | Bulk-change preflight | Input a change dataset, preview and inspect problems before making any bulk update elsewhere | [bulk-preview](../site/tools/kintone-bulk-preview/index.html) |
 | App configuration diff | Select two JSON configuration exports, inspect differences and mismatched fields | [app-diff](../site/tools/kintone-app-diff/index.html) |
 | Permission definition audit | Supply a permitted kintone permission export to inspect access rules | [permission-audit](../site/tools/kintone-permission-audit/index.html) |

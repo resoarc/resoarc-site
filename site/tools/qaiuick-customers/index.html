@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja" data-q-theme="teal">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>顧客検索 | qAIUIck Demo</title>
+  <meta name="description" content="名前・会社名・地域で絞り込み。AIが生成しやすい検索付き一覧画面です。">
+  <link rel="canonical" href="https://resoarc.com/tools/qaiuick-customers/">
+  <link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg">
+  <link rel="stylesheet" href="/assets/qaiuick/qaiuick.css">
+  <link rel="stylesheet" href="/assets/qaiuick-beta/samples.css">
+  <link rel="stylesheet" href="/assets/navigation.css">
+</head>
+<body class="q-app">
+<main class="q-page">
+  <nav class="q-topbar" aria-label="アプリ情報">
+    <div class="q-brand"><span class="q-brand-mark" aria-hidden="true">q</span> qAIUIck <small>Demo Lab</small></div>
+    <span class="q-topmeta"><a href="/products/web/qaiuick/">製品ページへ戻る ↗</a></span>
+  </nav>
+  <nav class="q-sample-switch" aria-label="サンプルアプリを切り替える">
+    <a href="/tools/qaiuick-demo/">今日のメモ</a>
+      <a href="/tools/qaiuick-inventory/">在庫管理</a>
+      <a href="/tools/qaiuick-budget/">家計簿</a>
+      <a href="/tools/qaiuick-tickets/">問い合わせ</a>
+      <a href="/tools/qaiuick-customers/" aria-current="page">顧客検索</a>
+  </nav>
+  <header class="q-hero">
+    <span class="q-eyebrow">SAMPLE 05 · READY TO EXPLORE</span>
+    <h1>顧客検索</h1>
+    <p class="q-lead">名前・会社名・地域で絞り込み。AIが生成しやすい検索付き一覧画面です。</p>
+  </header>
+  <div id="app">
+
+    <section class="q-panel q-stack" aria-labelledby="customers-title">
+      <div class="q-panel-heading"><h2 id="customers-title">顧客ディレクトリ</h2><span class="q-pill">検索 + 一覧</span></div>
+      <div class="q-sample-grid">
+        <div class="q-sample-metric"><b q-text="count"></b><small>登録顧客数</small></div>
+        <div class="q-sample-metric"><b q-text="visibleCount"></b><small>検索結果</small></div>
+        <div class="q-sample-metric"><b q-text="companyCount"></b><small>登録会社数</small></div>
+      </div>
+      <label>名前・会社名・地域で検索<input q-model="query" placeholder="例：東京 / 佐藤 / 商事" autocomplete="off"></label>
+      <form class="q-sample-formgrid" q-submit="add">
+        <label>名前<input q-model="draft.name" maxlength="60" placeholder="顧客名" required></label>
+        <label>会社<input q-model="draft.company" maxlength="60" placeholder="会社名" required></label>
+        <label>地域<input q-model="draft.region" maxlength="32" placeholder="例：東京" required></label>
+        <div class="q-sample-formaction"><button type="submit">顧客を追加</button></div>
+      </form>
+      <p class="q-error" role="alert" q-text="error"></p>
+      <div class="q-sample-tablewrap"><table class="q-sample-table">
+        <thead><tr><th>名前</th><th>会社</th><th>地域</th><th>操作</th></tr></thead>
+        <tbody><template q-each="filtered" q-as="item"><tr>
+          <td><strong q-text="item.name"></strong></td><td q-text="item.company"></td><td q-text="item.region"></td>
+          <td><button type="button" class="q-button--quiet q-button--small" q-action="remove" q-arg="item.id">削除</button></td>
+        </tr></template></tbody>
+      </table></div>
+      <p class="q-empty" q-show="empty">該当する顧客がいません。</p>
+      <div class="q-sample-toolbar"><p>検索は端末内だけで処理します。</p><button type="button" class="q-button--quiet q-button--small" q-action="reset">初期サンプルに戻す</button></div>
+    </section>
+  </div>
+  <section class="q-sample-source" data-q-source
+      data-source-html="/tools/qaiuick-customers/index.html"
+      data-source-css="/assets/qaiuick/qaiuick.css,/assets/qaiuick-beta/samples.css"
+      data-source-js="/assets/qaiuick-beta/examples/customers.js,/assets/qaiuick-beta/examples/sample-data.js">
+      <div class="q-sample-source-head">
+        <div><h2>このアプリのソースコード</h2><p>画面と同じHTML・CSS・JavaScriptを表示します。コピーしてAIに変更を頼めます。</p></div>
+      </div>
+      <div class="q-source-tabs" role="tablist" aria-label="ソースコードの言語">
+        <button type="button" role="tab" data-q-source-tab="html" aria-selected="true">HTML</button>
+        <button type="button" role="tab" data-q-source-tab="css" aria-selected="false">CSS</button>
+        <button type="button" role="tab" data-q-source-tab="js" aria-selected="false">JavaScript</button>
+        <button type="button" class="q-source-copy" data-q-source-copy>コードをコピー</button>
+      </div>
+      <p class="q-source-file" data-q-source-file>読み込み中…</p>
+      <pre class="q-source-code" tabindex="0"><code data-q-source-code>読み込み中…</code></pre>
+    </section>
+  <p class="q-sample-note q-sample-caption">初回だけサンプルデータを投入します。その後の編集結果はこのブラウザに保存されます。リセットはこのデモだけが対象です。実データ・機密情報は入力しないでください。</p>
+  <footer class="q-footer">Made with qAIUIck v0.2 Beta · <a href="/products/web/qaiuick/">製品情報</a> · <a href="/os/">ResoArcOS</a></footer>
+</main>
+<script type="module" src="/assets/qaiuick-beta/examples/customers.js"></script>
+<script type="module" src="/assets/qaiuick-beta/source-viewer.js"></script>
+<script defer src="/assets/navigation.js"></script>
+</body></html>
