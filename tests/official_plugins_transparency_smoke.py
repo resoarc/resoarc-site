@@ -43,7 +43,10 @@ for card in cards:
  assert sha256(z.read_bytes()).hexdigest() in rows[slug].get_text(' ',strip=True)
  assert zip_url.split('/')[-1] in rows[slug].get_text(' ',strip=True)
  assert 'ソース' in rows[slug].get_text(' ',strip=True) or 'Codeberg' in rows[slug].get_text(' ',strip=True)
-assert (SITE/'_redirects').read_text(encoding='utf8').strip()=='/tools/mini-plugins/ /products/kintone/ 301'
+assert set((SITE/'_redirects').read_text(encoding='utf8').splitlines()) == {
+ '/tools/mini-plugins/ /products/kintone/ 301',
+ '/downloads/resoarcos-pc-v0.1.1-dev-source.zip https://github.com/resoarc/resoarc-site/releases/download/resoarc-osps-distribution-mirror-20261106/resoarcos-pc-v0.1.1-dev-source.zip 301'
+}
 nav=json.loads((SITE/'assets/navigation-map.json').read_text(encoding='utf8'))
 assert nav['pages']['/products/kintone/release-integrity/']['visible']
 from xml.etree import ElementTree as ET
