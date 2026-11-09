@@ -58,6 +58,39 @@ try {
       Remove-Item $tempZip -Force -ErrorAction SilentlyContinue
     }
   }
+  # Newly released qAIUIck beta must be live, not merely committed or uploaded.
+  $qaZip = Join-Path $site "downloads/qaiuick-v0.2-beta-source.zip"
+  if (!(Test-Path $qaZip)) { throw "qAIUIck source ZIP missing" }
+  $qaDigest = (Get-FileHash $qaZip -Algorithm SHA256).Hash.ToLowerInvariant()
+  foreach ($hostName in @("resoarc.com", "www.resoarc.com", "resoarc.pages.dev")) {
+    foreach ($route in @("/products/web/qaiuick/", "/tools/qaiuick-demo/")) {
+      $url = "https://" + $hostName + $route + "?deploycheck=" + $stamp
+      $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
+      if ($response.StatusCode -ne 200 -or !$response.Content.Contains("qAIUIck") -or
+          !$response.Content.Contains('href="/os/"')) {
+        throw ("qAIUIck beta page not live: " + $url)
+      }
+      Write-Output ("QAIUICK_PAGE_OK " + $url)
+    }
+    $assetUrl = "https://" + $hostName + "/assets/qaiuick-beta/hero.webp?deploycheck=" + $stamp
+    $assetResponse = Invoke-WebRequest -Uri $assetUrl -UseBasicParsing -TimeoutSec 30
+    if ($assetResponse.StatusCode -ne 200 -or
+        $assetResponse.Headers["Content-Type"] -notmatch "image/webp") {
+      throw ("qAIUIck hero not live: " + $assetUrl)
+    }
+    $zipUrl = "https://" + $hostName + "/downloads/qaiuick-v0.2-beta-source.zip?deploycheck=" + $stamp
+    $tempZip = Join-Path ([IO.Path]::GetTempPath()) ("qaiuick-verify-" + [guid]::NewGuid().ToString("N") + ".zip")
+    try {
+      Invoke-WebRequest -Uri $zipUrl -OutFile $tempZip -TimeoutSec 45
+      if ((Get-FileHash $tempZip -Algorithm SHA256).Hash.ToLowerInvariant() -ne $qaDigest) {
+        throw ("qAIUIck source ZIP checksum mismatch: " + $zipUrl)
+      }
+      Write-Output ("QAIUICK_SOURCE_OK " + $zipUrl)
+    } finally {
+      Remove-Item $tempZip -Force -ErrorAction SilentlyContinue
+    }
+  }
+  Write-Output "QAIUICK_BETA_LIVE_VERIFIED"
   Write-Output "PRODUCTION_SITE_VERIFIED"
 } finally {
   Pop-Location
