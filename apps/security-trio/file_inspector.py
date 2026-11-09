@@ -140,9 +140,9 @@ def _check_zip(path: Path, out: ScanResult):
                     # Inspect only bounded tag data; never resolve XML entities.
                     for rel in re.finditer(rb"(?is)<(?:[A-Za-z0-9_]+:)?Relationship\b[^>]{0,8192}>", xml):
                         tag = rel.group(0)
-                        if not re.search(rb"(?i)\bTargetMode\s*=\s*['\\"]\s*External\s*['\\"]", tag):
+                        if not re.search(rb'(?i)\bTargetMode\s*=\s*[\x22\x27]\s*External\s*[\x22\x27]', tag):
                             continue
-                        if re.search(rb"(?i)\bType\s*=\s*['\\"][^'\\"]*/hyperlink['\\"]", tag):
+                        if re.search(rb'(?i)\bType\s*=\s*[\x22\x27][^\x22\x27]*/hyperlink[\x22\x27]', tag):
                             continue
                         external_found = True
                         break
