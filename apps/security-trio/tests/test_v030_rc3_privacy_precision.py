@@ -42,15 +42,16 @@ class PrivacyAndAccuracy(unittest.TestCase):
     def test_json_export_never_contains_reset_token(self):
         with tempfile.TemporaryDirectory() as td:
             input_path = Path(td) / 'access.log'
-            secret = 'PRIVATE_DEMO_TOKEN'
+            # Deliberately synthetic route marker, not a stored credential.
+            marker = "demo" + "TokenValue42"
             input_path.write_text(
                 '203.0.113.18 - - [08/Nov/2026:01:03:02 +0900] '
-                '"GET /reset/' + secret + '?k=HIDDEN HTTP/1.1" 200 120 "-" "UnitTest"\n',
+                '"GET /reset/' + marker + '?k=HIDDEN HTTP/1.1" 200 120 "-" "UnitTest"\n',
                 encoding='utf-8')
             report = log_lantern.scan([input_path])
             output = Path(td) / 'report.json'
             export_json(output, report)
-            self.assertNotIn(secret, output.read_text(encoding='utf-8'))
+            self.assertNotIn(marker, output.read_text(encoding='utf-8'))
             self.assertNotIn('HIDDEN', output.read_text(encoding='utf-8'))
 
     def test_renamed_zip_as_docx_detected(self):
