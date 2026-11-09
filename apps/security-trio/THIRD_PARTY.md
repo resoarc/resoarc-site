@@ -32,8 +32,24 @@ The CI now blocks a review package unless all required source license/notice fil
 - The actual installed PyInstaller/TkinterDnD2 files, versions, native components and license paths are recorded in `dist/SUPPLY_CHAIN_REVIEW.json`.
 - `dist/FROZEN_CONTENTS_REVIEW.json` lists PyInstaller CArchive names for each executable; Windows builds refuse non-win-x64 TkDND DLLs. `audit_frozen_archives.py` also enumerates the native `.dll` and `.pyd` files.
 - Windows CI performs a strict `package_unsigned_review.py` step and stores `ResoArc-Security-Trio-Windows-x64-UNSIGNED-review.zip`. The ZIP contains exactly three unsigned EXEs, their SHA-256 manifest, our MIT license, `THIRD_PARTY_NOTICES.md` and 12 original upstream license/notice files. Each ZIP entry is checked and the EXEs are hashed again after packaging.
-- This means users of the **review ZIP** receive the required copyright and license information with the downloaded binaries. Older stand-alone `v0.3.0-rc4` preview EXE links on the separate website are **not** automatically updated by GitHub CI.
+- This means users of the **review ZIP** receive the required copyright and license information with the downloaded binaries. Older stand-alone `v0.3.0-rc4` preview EXEs on the separate website are **not** automatically updated by GitHub CI; their distinct original-license notices have been separately published as described below.
 - The review bundle remains **unsigned and not a production release**. A signed release must be repackaged with hashes of **signed** binaries, the same notices, and an explicit approval record.
+
+## Legacy public preview: separate Python 3.10/ OpenSSL 1.1 license set
+
+The **already publicly downloadable** unsigned v0.3.0-rc4 executables at [Security Trio preview](https://resoarc-security-trio.pages.dev/) were built earlier on Windows, **not from the newer Python 3.12 GitHub Actions review pipeline**. Static inspection of all three original EXEs confirms `python310.dll` and `libcrypto-1_1.dll` (but not `python312.dll` / `libcrypto-3.dll`). The original Windows Python installation reports OpenSSL 1.1.1n and zlib 1.2.12. These individual patch versions are indicative, **not a full cryptographic embedded-library provenance attestation**.
+
+- The original CPython 3.10 license and CPython 3.10 incorporated-software notices are preserved under `third_party_licenses/legacy_win310/`.
+- The **OpenSSL 1.1.1 double license** (both OpenSSL and SSLeay terms) is preserved as `third_party_licenses/legacy_win310/OpenSSL-1.1.1-LICENSE.txt`; it is **not interchangeable** with the newer OpenSSL 3 Apache-2.0 license.
+- The corresponding zlib 1.2.12 upstream notice is preserved as `third_party_licenses/legacy_win310/Zlib-1.2.12-LICENSE.txt`.
+- The same shared Tcl/Tk, TkDND, TkinterDnD2, Windows CRT, bzip2, XZ and PyInstaller bootloader attribution rules apply where bundled.
+- **Published** [third-party copyright and license page](https://resoarc-security-trio.pages.dev/licenses/) includes original legacy licenses and a direct link from the preview landing page. All 11 linked license files and both web landing routes responded HTTP 200.
+- The three **publicly served old EXE SHA-256 values** were checked again after publishing the notices and are unchanged:
+  - Secret Scout: `7d73999d45de689fa5644fb835d0ee7fdb185119ca9e995a6bbc4b13022111e0`
+  - Log Lantern: `4a28200ef3482bb5b08d1845a673ae1118c845e1aefabfdc2d428968973129c5`
+  - File Inspector: `1d1ad0901ed157f0feee86c567ece0444da11477449930bbc29914fdec1f5e30`
+
+The legacy binaries have **not** been replaced or signed. The updated public licensing page supplies notices for the earlier downloadable preview, while the reviewed CI ZIP contains the distinct Python 3.12/OpenSSL 3 notices. Full binary provenance and security release review remain separate from this license notice audit.
 
 ## Remaining distinction: SignPath eligibility
 
