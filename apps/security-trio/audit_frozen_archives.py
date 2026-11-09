@@ -21,6 +21,7 @@ def main() -> None:
         archive = CArchiveReader(str(path))
         names = sorted(archive.toc.keys())
         tkdnd_entries = [n for n in names if "tkdnd" in n.lower()]
+        native_components = [n for n in names if n.lower().endswith((".dll", ".pyd", ".exe"))]
         foreign = [
             n for n in tkdnd_entries
             if any(marker in n.lower() for marker in (
@@ -40,6 +41,7 @@ def main() -> None:
             "binary": path.name,
             "carchive_member_count": len(names),
             "tkdnd_members": tkdnd_entries,
+            "native_runtime_members": native_components,
             "foreign_platform_tkdnd_members": foreign,
         })
         print(
@@ -48,6 +50,9 @@ def main() -> None:
         )
         for n in tkdnd_entries:
             print("  TKDND: " + n)
+        if stem == STEMS[0]:
+            for n in native_components:
+                print("  NATIVE_RUNTIME: " + n)
     output = DIST / "FROZEN_CONTENTS_REVIEW.json"
     output.write_text(
         json.dumps({
