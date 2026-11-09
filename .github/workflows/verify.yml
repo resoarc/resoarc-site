@@ -58,6 +58,7 @@ jobs:
         run: |
           node --check site/_worker.js
           node tests/worker_activity.test.mjs
+          node tests/test_site_worker_reconciled.mjs
           node --check site/assets/scorecard-live-20261017.js
           node scripts/test_scorecard_live.mjs
       - name: Check public site source, links and checksums
