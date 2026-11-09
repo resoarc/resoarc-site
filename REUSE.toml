@@ -902,3 +902,13 @@ path = ["site/downloads/NOTICE.md", "site/downloads/THIRD_PARTY_LICENSES.md"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# Current immutable distribution inventory and frozen-source provenance check
+[[annotations]]
+path = [
+  'docs/compliance/ACTIVE_PAGES_BINARY_INVENTORY_20261109.json',
+  'scripts/verify_historical_release_snapshots.py',
+]
+precedence = 'override'
+SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
+SPDX-License-Identifier = 'MIT'
