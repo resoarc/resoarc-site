@@ -895,3 +895,10 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# GitHub release notices retained byte-exactly from public main
+[[annotations]]
+path = ["site/downloads/NOTICE.md", "site/downloads/THIRD_PARTY_LICENSES.md"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
