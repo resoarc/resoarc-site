@@ -912,3 +912,13 @@ path = [
 precedence = 'override'
 SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
 SPDX-License-Identifier = 'MIT'
+
+# Current-site and immutable historic browser acceptance smoke scripts
+[[annotations]]
+path = [
+  'scripts/verify_historical_browser_snapshots.py',
+  'tests/current_postal_release_browser_smoke.py',
+]
+precedence = 'override'
+SPDX-FileCopyrightText = '2026 ResoArc Open Technology Project'
+SPDX-License-Identifier = 'MIT'

@@ -115,11 +115,8 @@ jobs:
           python tests/kanban_runtime_browser.py
           python tests/browser_suite_smoke.py
           python tests/web8_acceptance_smoke.py
-          python tests/pi_site_smoke.py
-          python tests/suite16_release_smoke.py
-          python tests/top_news_sync_smoke.py
-          python tests/catalog_media_smoke.py
-          python tests/site_ux_source_smoke.py
+          python tests/current_postal_release_browser_smoke.py
+          python scripts/verify_historical_browser_snapshots.py
       - name: Verify public source ZIP integrity
         run: python scripts/verify_historical_release_snapshots.py --check alpha
       - name: Verify reproducible plugin builds
