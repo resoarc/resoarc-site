@@ -17,3 +17,12 @@ site/_headers text eol=lf
 *.png binary
 *.jpg binary
 *.jpeg binary
+site/_redirects text eol=lf
+site/downloads/resoarc-2plugins-LICENSE text eol=lf
+site/downloads/resoarc-2plugins-NOTICE text eol=lf
+site/downloads/resoarc-readonly4-LICENSE text eol=lf
+site/downloads/resoarc-readonly4-NOTICE text eol=lf
+site/downloads/resoarc-wave2-LICENSE text eol=lf
+site/downloads/resoarc-wave2-NOTICE text eol=lf
+site/security/weather/newspaper/edition.json.license text eol=lf
+site/status/index.html.license text eol=lf

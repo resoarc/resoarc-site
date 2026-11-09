@@ -114,3 +114,18 @@ historical mirror first, then the additional exact-hash current assets.
 This is a continuity mechanism, not proof of independent long-term archive
 availability, cryptographic signing or human rights approval. Independent
 mirroring of the 15 remaining ZIPs is a follow-up requirement.
+
+
+## Six newer plugin distribution ZIPs
+
+In addition to the older 35-asset inventory, the three newer kintone plugin
+releases (input-template, mail-compose, reuse-reset) each link a plugin
+archive and a signed-source archive. Those six ignored ZIPs were absent from
+a clean CI checkout. Their live public download bytes were fetched and
+verified against the release-source worktree on 2026-11-09.
+
+`docs/compliance/PRODUCTION_BINARY_RELEASE_EXTRAS_20261109.json` pins their
+names, exact SHA-256 and byte sizes; the distribution hydration guard now
+covers 41 ZIPs (20 immutable official Release assets, 21 SHA-pinned
+public-distribution assets). The latter are NOT independently mirrored yet.
+No claim of independent cryptographic signature or rights approval is made.

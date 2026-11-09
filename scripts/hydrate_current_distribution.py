@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DOWNLOADS = ROOT / "site/downloads"
 CURRENT = ROOT / "docs/compliance/OSPS_RELEASE_35_LICENSE_INVENTORY_20261109.json"
 MIRROR = ROOT / "docs/compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.json"
+EXTRAS = ROOT / "docs/compliance/PRODUCTION_BINARY_RELEASE_EXTRAS_20261109.json"
 ALLOWED_HOSTS = {"resoarc.com", "www.resoarc.com", "resoarc.pages.dev"}
 MAX_BYTES = 8_000_000
 
@@ -69,16 +70,18 @@ def download_exact(row: dict) -> None:
 
 def hydrate() -> None:
     current = json.loads(CURRENT.read_text(encoding="utf-8"))["packages"]
+    extras = json.loads(EXTRAS.read_text(encoding="utf-8"))["assets"]
     historical = {
         x["filename"]: x
         for x in json.loads(MIRROR.read_text(encoding="utf-8"))["assets"]
     }
-    if len(current) != 35 or len(historical) != 20:
+    if len(current) != 35 or len(extras) != 6 or len(historical) != 20:
         raise ValueError("Unexpected archive inventory size")
-    if len({r["asset"] for r in current}) != 35:
+    all_rows = current + extras
+    if len({r["asset"] for r in all_rows}) != 41:
         raise ValueError("Repeated distribution filename")
     count = 0
-    for row in current:
+    for row in all_rows:
         name = row["asset"]
         if (
             not name.endswith(".zip") or "/" in name or "\\" in name
@@ -99,8 +102,8 @@ def hydrate() -> None:
         raw = target.read_bytes()
         if len(raw) != row["bytes"] or digest(raw) != row["sha256"]:
             raise ValueError("Local archive has unapproved bytes: " + name)
-    print(f"PASS: {len(current)} ZIPs pinned, {len(historical)} from official release mirror; {count} additional exact-hash downloads")
-    print("Non-mirrored 15 archives rely on public byte availability until independent archival; legal approval not implied")
+    print(f"PASS: {len(all_rows)} ZIPs pinned, {len(historical)} from official release mirror; {count} additional exact-hash downloads")
+    print("Non-mirrored 21 archives rely on public byte availability until independent archival; legal approval not implied")
 
 
 if __name__ == "__main__":
