@@ -138,11 +138,11 @@ def _check_zip(path: Path, out: ScanResult):
                     # Ordinary external hyperlinks are common in legitimate
                     # documents. Do not treat them as external templates.
                     # Inspect only bounded tag data; never resolve XML entities.
-                    for rel in re.finditer(rb"(?is)<(?:[A-Za-z0-9_]+:)?Relationship\\b[^>]{0,8192}>", xml):
+                    for rel in re.finditer(rb"(?is)<(?:[A-Za-z0-9_]+:)?Relationship\b[^>]{0,8192}>", xml):
                         tag = rel.group(0)
-                        if not re.search(rb"(?i)\\bTargetMode\\s*=\\s*['\\\"]\\s*External\\s*['\\\"]", tag):
+                        if not re.search(rb"(?i)\bTargetMode\s*=\s*['\\"]\s*External\s*['\\"]", tag):
                             continue
-                        if re.search(rb"(?i)\\bType\\s*=\\s*['\\\"][^'\\\"]*/hyperlink['\\\"]", tag):
+                        if re.search(rb"(?i)\bType\s*=\s*['\\"][^'\\"]*/hyperlink['\\"]", tag):
                             continue
                         external_found = True
                         break
