@@ -67,6 +67,10 @@ jobs:
         shell: pwsh
         run: python package_unsigned_review.py
 
+      - name: Refuse unlicensed or unexpected native runtime components
+        shell: pwsh
+        run: python audit_license_coverage.py
+
       - name: Assert build stays unsigned and the checksum manifest matches
         shell: pwsh
         run: |
@@ -126,6 +130,7 @@ jobs:
             apps/security-trio/dist/SUPPLY_CHAIN_REVIEW.json
             apps/security-trio/dist/FROZEN_CONTENTS_REVIEW.json
             apps/security-trio/dist/ResoArc-Security-Trio-Windows-x64-UNSIGNED-review.zip
+            apps/security-trio/dist/LICENSE_COVERAGE_REVIEW.json
             apps/security-trio/dist-build-dependencies.txt
           if-no-files-found: error
           retention-days: 14
