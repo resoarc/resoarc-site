@@ -65,7 +65,7 @@ class SignedCandidatePolicyTests(unittest.TestCase):
 
     def test_crlf_is_accepted_without_hash_changes(self):
         path = self.root / "SHA256SUMS.txt"
-        path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
+        path.write_bytes("".join(f"{self.hashes[name]}  {name}\r\n" for name in BINARIES).encode("ascii"))
         self.assertEqual(checked_signed_inputs(self.root), self.hashes)
 
     def test_real_signing_request_metadata_is_required(self):
