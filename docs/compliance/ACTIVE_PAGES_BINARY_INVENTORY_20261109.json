@@ -261,6 +261,17 @@
       "legalApprovalNotInferred": true
     },
     {
+      "path": "site/assets/qaiuick-beta/hero.webp",
+      "sha256": "84aa6a7ee61bbc679ecf4c2da4d615e2643297b243f14bfa864257213d6a2dab",
+      "size": 23364,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
       "path": "site/assets/recognition/green-web-verified-20261017.png",
       "sha256": "d70e09ee66288b3835b85466f389adcec6cd8b82c0cb66eb7020d212d14f7c41",
       "size": 12590,
@@ -369,6 +380,19 @@
       ],
       "reviewScope": "format-hash-distribution-technical-only",
       "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/downloads/qaiuick-v0.2-beta-source.zip",
+      "sha256": "7068dbeec401ec3cf6ed7b1b210486d7fbcb030736f32227695868e541ff7f04",
+      "size": 35688,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 26,
+      "containsSignedKintonePayload": false
     },
     {
       "path": "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",

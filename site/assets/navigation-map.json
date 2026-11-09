@@ -201,6 +201,11 @@
       "parent": "/products/",
       "visible": true
     },
+    "/products/web/qaiuick/": {
+      "title": "qAIUIck Beta",
+      "parent": "/products/web/",
+      "visible": true
+    },
     "/products/web/screens/": {
       "title": "画面キャプチャ",
       "parent": "/products/web/",
@@ -425,6 +430,11 @@
       "title": "入力画面を、タブで整理する。",
       "parent": "/products/",
       "visible": false
+    },
+    "/tools/qaiuick-demo/": {
+      "title": "今日のメモ。",
+      "parent": "/products/",
+      "visible": true
     },
     "/trust/": {
       "title": "信頼性と説明責任",
