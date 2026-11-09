@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-11-09",
+  "scope": "Six previously publicly distributed kintone plugin ZIPs, separate from the older 35-asset audit",
+  "evidence": "Each full public download was independently fetched from resoarc.com and SHA256-matched to the local verified release source on 2026-11-09.",
+  "independent_release_mirror": false,
+  "cryptographic_signature_verification": "not independently established",
+  "tenant_acceptance": "not independently established",
+  "human_copyright_approval": "pending",
+  "assets": [
+    {
+      "asset": "resoarc-input-template-v1.0.0-20261022.zip",
+      "bytes": 9360,
+      "sha256": "d466741e9d8ee554ecbdbe3d4d744fb804e8f5364f4bb213249db3fc8df80c65",
+      "product": "input-template",
+      "role": "plugin-package",
+      "canonical_download_url": "https://resoarc.com/downloads/resoarc-input-template-v1.0.0-20261022.zip"
+    },
+    {
+      "asset": "resoarc-input-template-v1.0.0-signed-source.zip",
+      "bytes": 10570,
+      "sha256": "ac994ae9a02056e2109ff2da6443dabba16dd86bc63881158369e6df325d28a9",
+      "product": "input-template",
+      "role": "source-bundle",
+      "canonical_download_url": "https://resoarc.com/downloads/resoarc-input-template-v1.0.0-signed-source.zip"
+    },
+    {
+      "asset": "resoarc-mail-compose-v1.0.0-20261022.zip",
+      "bytes": 6373,
+      "sha256": "1c68772578f2c12e1e98a77e983a0a91932880a7a01b1b4a6350cdaa98ac691e",
+      "product": "mail-compose",
+      "role": "plugin-package",
+      "canonical_download_url": "https://resoarc.com/downloads/resoarc-mail-compose-v1.0.0-20261022.zip"
+    },
+    {
+      "asset": "resoarc-mail-compose-v1.0.0-signed-source.zip",
+      "bytes": 7552,
+      "sha256": "d157d854ab88904f4f1103d82bc8608e505140af7de6b8cdcef53ec620ec8091",
+      "product": "mail-compose",
+      "role": "source-bundle",
+      "canonical_download_url": "https://resoarc.com/downloads/resoarc-mail-compose-v1.0.0-signed-source.zip"
+    },
+    {
+      "asset": "resoarc-reuse-reset-v1.0.0-20261022.zip",
+      "bytes": 5642,
+      "sha256": "4b7d1e19637cc69a0895b69ddceb533fcb39e56822c200c1730775261ceae4f9",
+      "product": "reuse-reset",
+      "role": "plugin-package",
+      "canonical_download_url": "https://resoarc.com/downloads/resoarc-reuse-reset-v1.0.0-20261022.zip"
+    },
+    {
+      "asset": "resoarc-reuse-reset-v1.0.0-signed-source.zip",
+      "bytes": 6830,
+      "sha256": "4b14709afcf086aed6b754e1cc65cce0dcd1d384ae7d703a9aeb64795e50ac9c",
+      "product": "reuse-reset",
+      "role": "source-bundle",
+      "canonical_download_url": "https://resoarc.com/downloads/resoarc-reuse-reset-v1.0.0-signed-source.zip"
+    }
+  ]
+}

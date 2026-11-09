@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "audited_commit": "59c03114e5088825fc0941dd26f8b717261c9bee",
+  "format": "Kintone signed ZIP nested archive inventory",
+  "signature_integrity": "SHA-256 pinned; cryptographic signature validity not evaluated",
+  "license_guidance": "/downloads/RESOARC_SIGNED_PLUGIN_LICENSE_NOTICE_20261023.md",
+  "summary": {
+    "signed_archives": 22,
+    "embedded_individual_license_docs": 0,
+    "archives_with_spdx_in_source": 18,
+    "review_needed": 22
+  },
+  "archives": [
+    {
+      "filename": "resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "6f359dbaff4f37d4b56d966d0cef9d9fe8ac6ca1d7c5f6acb5de2af0a7c4a84d",
+      "payload_sha256": "23437188f9a544d645eb8ecde87973c9ddfd378aceb3a0c25691a5e2c5021edb",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-auto-number-signed-qa.zip",
+      "sha256": "69868db78f8ff6305e175b8ec159e68cefb735a259b9ba85f77af3b8514615ff",
+      "payload_sha256": "9168acdeb6074f486ff16442d7099503494459aee845b7db3e5d8f0085644173",
+      "code_files_with_spdx": 2,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-auto-number-v1.0.0.zip",
+      "sha256": "fd7d0873f8ebf7551ebc2a08116952e8b60c91e396600e5b800e0eba752145d9",
+      "payload_sha256": "1f9238c954285ab93cfbb1d357ad01cd1112d494815843a5f75ce1b35115584e",
+      "code_files_with_spdx": 2,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-auto-number-v1.1.0-beta.zip",
+      "sha256": "c2de1c7735e8c32a364b6d6d4de340d593a55b3a8c38dd369cc2feac73016d9b",
+      "payload_sha256": "cc7cf290f73a3def781028abdd5f525cf15cae220ee0a85c8d8c37cb46543c9a",
+      "code_files_with_spdx": 2,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-conditional-format-signed-qa.zip",
+      "sha256": "283d7e2af5fdb0f9c308247b0c97fbd4db29627adf9128833b97f26b0152b473",
+      "payload_sha256": "bd2e211d6fc8bcb7e718dd0d4277975b2020f76dc0afc18c2e5e3532a9a09eb4",
+      "code_files_with_spdx": 3,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-conditional-signed-qa.zip",
+      "sha256": "3c50e7cdf92fcdecaa17edabd48d3cf3056ee6e352b2845d66edc07e8cf5a279",
+      "payload_sha256": "4c09738dec2dd74716b46147d5cd3e989f9c515371c098fa8791230dccc09ace",
+      "code_files_with_spdx": 2,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "sha256": "234ec6d8917c25bd793f19b5d38e64a5dab6c12281dea184de18a665d956a1f6",
+      "payload_sha256": "1d16fbc071458d34294ba649c70976d995c0546fe953b581e2746749bb4e0442",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-date-calculator-signed-qa.zip",
+      "sha256": "2053e8914dbb47d933f1a39092b2374e3e1a464bc09c0757b6251d24a91d0fdb",
+      "payload_sha256": "bbd451cf0db22fe4e724afc8dfb64345302ffbceefd0784706ca6fc9810c019b",
+      "code_files_with_spdx": 0,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "5c49a688ca878a47d30d1e37d8e3b8ea61bb728d85d16167a5458f3aae8b1db4",
+      "payload_sha256": "8e3e9b684c531651c04c5ad759354b0b093dcea0542e48f9958ae65859506c6e",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-grid-editor-signed-qa.zip",
+      "sha256": "9eca70f1f03944784eb3c9114511c4bd1c93dcaceee3e605007fdce6a8f1ec41",
+      "payload_sha256": "8c1f60aa77d012a328e06eaf7d5a86199914a23f146046dc785bc30a4eb9fc41",
+      "code_files_with_spdx": 0,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-kanban-signed-qa.zip",
+      "sha256": "6c37aa7a701cad45303426048ba9cde237e976325590ae1ac9288fbebf549051",
+      "payload_sha256": "907e9d41f0cbfe67066041c7cac248d9812645cce1ced6c00a46c9ed9b093fb7",
+      "code_files_with_spdx": 0,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "9a6ffe625769f51d29bac0be2b1cf007ec3cf51f09d33e45aa8eb2fe0128e643",
+      "payload_sha256": "f6e13ebf029b9d7d5823c81b376aaf38939cdf7ba979d8f787e244ffca5bf913",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-list-search-signed-qa.zip",
+      "sha256": "2bec234b936b6e3336f4444687302b8ec53e6f90c9b00262a21c17e4ad9c87d6",
+      "payload_sha256": "48a430fd227cca23ac669d1a264300aa1893b9a139ce309ccb38976bb058c1b2",
+      "code_files_with_spdx": 0,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "sha256": "d3b2c88810a2f5d04d64792b47fcdc0a5f94793a322d0a1a8f4d4c29db1c3276",
+      "payload_sha256": "70e5d4cb00f59af519068d778019ad96b4e5eabae8b00dd2a7d7306473595cc4",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "78299ed5ac81d134e483ba6db57ce35d2f1914c4fd2cb55cb25d70bd7cd12ecf",
+      "payload_sha256": "771260a22cc78b7c6ab84b8eb6509ddb458415a1915d76fadb486bf1207c8c01",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6ba55dbc1b500bc4968dacb2df7f6a5c1535722098be2e6bf48ce2ada5e25166",
+      "payload_sha256": "12c40fab80c0e64f2bab9e7ad4dc36f42287faaabc6c038b6e768c951452b2f4",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "3a66cb126a16715ec166bb25979b490bf2a0b1de243f3a3cffc32b17b158df21",
+      "payload_sha256": "90dd43d9ac122ddf3b9d2503b1f4f6d840d7502deebdb2a76ee5d02b1940512b",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6e281275e2eb276e7886d8dc562852e194b4002ce05625b75a10326b0e527fd8",
+      "payload_sha256": "6b29b6a89a41a3ae462041d4bb77b1c26bcbd623129c8bc3825829f286ce0023",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-tabs-signed-qa.zip",
+      "sha256": "1d91b317497366828082973e243d3a4568581f96fee75ec7b84300db93941908",
+      "payload_sha256": "6fee1daa9460aefe4ec5cdf9fa9c39d81625960eccb191ea97ab420e4f2fcba0",
+      "code_files_with_spdx": 2,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-tabs-v0.1.0-beta.zip",
+      "sha256": "5eba44271945185e777c7e55af816d4644223d9fe9e2925c8b05fd116bd58689",
+      "payload_sha256": "e723adbe457c33a64e69ea0505061be83f4a6cfa940f31a42145b78177f36f92",
+      "code_files_with_spdx": 2,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-tabs-v1.0.0-20261021.zip",
+      "sha256": "6be4e194acd495a27d1c1847b19b96d62703c57c9bbcb05acde4533586d4fa6e",
+      "payload_sha256": "a8e4ea39c4af1a9b36f5a4c2a9dfe48a3d3d5dbc153c3553b7d36437f4a4c3bd",
+      "code_files_with_spdx": 2,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    },
+    {
+      "filename": "resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "16d4e43df291d033c08634f5d64245167c6b6598835d091337b8c26e3e0b8c42",
+      "payload_sha256": "22cd80270023048ee016df4fb78bf48c74f5b6b8b3fcedf9a2f38b34f6e6974b",
+      "code_files_with_spdx": 1,
+      "embedded_license_docs": [],
+      "status": "pending_separate_license_evidence"
+    }
+  ],
+  "reconciliation_20261109": {
+    "scope": "Eight signed QA plugin archives",
+    "action": "Restored verified immutable GitHub Release mirror bytes without changing signatures",
+    "signature_cryptographic_verification": "not assessed",
+    "source_byte_comparison": "all eight verified",
+    "previous_unmatched_assets": "preserved in independent local evidence directory"
+  }
+}

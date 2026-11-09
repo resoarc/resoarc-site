@@ -22,7 +22,7 @@
         date: time.dateTime,
         label: label ? label.textContent.trim() : "UPDATE",
         title: heading.textContent.trim(),
-        href: link ? new URL(link.getAttribute("href"), location.origin).pathname : "/releases/",
+        href: link ? (() => { const u = new URL(link.getAttribute("href"), location.origin); return u.pathname + u.hash; })() : "/releases/",
         index,
       };
     }).filter(Boolean).sort((a, b) =>

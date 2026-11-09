@@ -1,0 +1,10 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+   SPDX-License-Identifier: MIT */
+.reuse-status-panel{max-width:1180px;margin:24px auto 35px;padding:20px 26px;border:1px solid #bed4e5;border-left:4px solid #2687c7;background:#f5faff;color:#153753}
+.reuse-status-panel h2{font-size:18px;margin:0 0 8px}
+.reuse-status-panel p{font-size:13px;line-height:1.8;margin:8px 0}
+.reuse-status-panel [data-reuse-state]{font-weight:800;color:#145980}
+.reuse-status-panel [data-result="pass"]{color:#176040}
+.reuse-status-panel [data-result="fail"]{color:#a63838}
+.reuse-status-panel [data-reuse-log]{color:#0566af;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:720px){.reuse-status-panel{margin:15px;padding:16px}.reuse-status-panel h2{font-size:16px}}

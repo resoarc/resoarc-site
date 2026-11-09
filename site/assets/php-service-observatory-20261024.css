@@ -1,0 +1,52 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project */
+/* SPDX-License-Identifier: MIT */
+.php-section{border:1px solid #d6e5ec;border-radius:15px;background:#f9fcfd;padding:23px;margin-bottom:23px;scroll-margin-top:95px}
+.php-section-top{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between}
+.php-section-top h2{font-size:1.42rem;line-height:1.38;margin:0 0 9px;color:#0c2b43}
+.php-section-top p{color:#526b7d;max-width:730px;line-height:1.65;font-size:.9rem;margin:0 0 6px}
+.php-update{color:#5b7283;font-size:.76rem;white-space:nowrap}
+.php-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 15px}
+.php-stat{background:#fff;border:1px solid #dce7ec;border-radius:10px;padding:14px 16px}
+.php-stat small{display:block;color:#5a6c7b;font-size:.8rem}.php-stat strong{display:block;font-size:1.85rem;margin-top:7px;font-variant-numeric:tabular-nums;color:#142f44}
+.php-stat:first-child strong{color:#ab3342}.php-stat:nth-child(2) strong{color:#ad711c}.php-stat:nth-child(3) strong{color:#138069}
+.php-feed-info{padding:12px 15px;border-radius:8px;background:#e9f3f8;color:#335469;font-size:.82rem;line-height:1.6}
+.php-info-warning{background:#fff1de;color:#854918}
+.php-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 12px}
+.php-controls button{border:1px solid #cbdde8;color:#143a56;border-radius:8px;background:#fff;padding:10px 12px;cursor:pointer;font-weight:650;font-size:.8rem}
+.php-controls button[aria-pressed=true]{background:#0b395d;color:#fff;border-color:#0b395d}
+.php-controls input{flex:1 1 180px;min-width:0;border:1px solid #c4d8e1;border-radius:8px;padding:10px 12px;background:#fff}
+.php-record-count{color:#5c7184;font-size:.8rem;text-align:right;margin:9px 0}
+.php-records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.php-observation{border:1px solid #d6e3e9;border-radius:11px;background:#fff;padding:16px;min-width:0}
+.php-observation-head{display:flex;gap:9px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:7px}
+.php-company{color:#092e46;font-size:.96rem}
+.php-status{padding:5px 8px;border-radius:6px;font-size:.72rem;font-weight:800}
+.php-stop{background:#ffe7e9;color:#9e3342}.php-partial{background:#fff0d9;color:#9a5a14}
+.php-restored{background:#e1f4e9;color:#187454}.php-unverified{background:#e9eef1;color:#53616b}
+.php-target{font-size:.88rem;color:#3d5468;line-height:1.6;min-height:27px;margin:4px 0 10px;overflow-wrap:anywhere}
+.php-check{font-size:.76rem;color:#506b7d;border-left:3px solid #8ab4c6;padding-left:8px;margin:8px 0}
+.php-description{font-size:.76rem;color:#536978;line-height:1.6;margin:8px 0}
+.php-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.73rem;color:#63798a;margin-top:14px}
+.php-meta a,.php-provider a,.php-source-note a{color:#096b94;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.php-provider-title{font-size:1.1rem;font-weight:800;margin:26px 0 10px}
+.php-providers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.php-provider{background:#fff;border:1px solid #dce7ec;border-radius:10px;padding:13px 15px}
+.php-provider-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}
+.php-provider-availability{font-size:.7rem;background:#eaf4f7;padding:5px 7px;border-radius:5px;color:#47667a}
+.php-provider p{font-size:.77rem;color:#425d70;line-height:1.55;margin:8px 0}
+.php-provider a{font-size:.77rem}
+.php-source-note{font-size:.81rem;color:#4f6879;line-height:1.7;margin:18px 0 0}
+@media(max-width:720px){.php-section{padding:16px 12px}.php-records,.php-providers{grid-template-columns:1fr}.php-stat-grid{gap:7px}.php-stat{padding:12px 9px}.php-stat strong{font-size:1.5rem}.php-controls button{flex-grow:1}.php-controls input{flex-basis:100%}}
+
+/* Auto-discovered candidate feed and official recheck evidence */
+.php-discovery-shell{margin-top:25px;padding-top:19px;border-top:1px solid #dce6ec}
+.php-discovery-shell h3{font-size:1.12rem;color:#123852}
+.php-discovery-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.php-discovery-card{background:#fff;border:1px dashed #b4cbda;border-radius:9px;padding:13px 15px;display:flex;flex-direction:column;gap:7px}
+.php-discovery-card strong{font-size:.85rem;line-height:1.5;color:#213d50}
+.php-discovery-card p{font-size:.75rem;color:#657e8f;margin:0}
+.php-discovery-card a{font-size:.76rem;color:#075b83;text-decoration:underline}
+.php-unverified-tag{align-self:flex-start;padding:4px 7px;font-weight:800;font-size:.7rem;border-radius:5px;color:#73531a;background:#fff2cc}
+.php-auto-update{font-size:.74rem;background:#e8f6e9;color:#2d6540;padding:8px 9px;border-radius:7px;margin-top:10px}
+.php-review{font-size:.72rem;color:#6b7787;line-height:1.5;margin-top:9px}
+@media(max-width:720px){.php-discovery-list{grid-template-columns:1fr}}

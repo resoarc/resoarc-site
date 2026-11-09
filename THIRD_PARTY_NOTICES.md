@@ -17,3 +17,18 @@ MIT Licenseの適用範囲を誤認しないための一覧です。
 ResoArcが権利を持つ公開物はMIT、Noto Serif JPのサブセットはOFL-1.1、Unsplash由来の写真は独自識別子 `LicenseRef-Unsplash` で区別します。
 写真については原著作者の権利を尊重し、ResoArcが著作権を主張するものではありません。
 **REUSE準拠はライセンス情報の明示に関する確認であり、すべての権利・安全性の第三者保証ではありません。**
+
+
+## 2026-11-08 production-source reconciliation
+
+* `site/assets/hero-architecture-800.webp` and
+  `site/assets/hero-architecture-1600.webp` are derived variants of the
+  previously identified Unsplash source photo. The same source license
+  restrictions apply to the derivatives.
+* `site/assets/recognition/*` contains identifiable third-party brands and
+  verification marks. Copyright and trademarks remain with their owners.
+  These marks are **not** offered under the ResoArc MIT license. See
+  `LICENSES/LicenseRef-ThirdPartyMarks.txt`. Brand usage and redistribution
+  rights require further independent review.
+* SHA-256 values and recovered-production evidence are recorded in
+  `docs/compliance/PRODUCTION_ASSET_RECOVERY_20261108.json`.

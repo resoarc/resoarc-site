@@ -1,0 +1,8 @@
+# NOTICE: ResoArc タブ表示 v1.0.0
+Copyright (c) 2026 ResoArc Open Technology Project. MIT License (see LICENSE).
+
+ResoArc is an independent open-source project, not affiliated with, certified by, or endorsed by Cybozu, Inc. kintone and Cybozu are trademarks of their respective owners.
+
+This notice pertains solely to the exact signed ResoArc Tabs v1.0.0 archive identified by SHA-256 in RELEASE_MANIFEST.json. It includes self-contained JavaScript, CSS, HTML, a manifest, and an internally generated PNG icon. The original v0.1.1 fixed package's independent rights review found no bundled third-party runtime library or externally loaded vendor JavaScript. Only the manifest version field was changed for v1.0.0. This does not constitute independent legal certification.
+
+The plugin ZIP contains no signing private key. Its packaging signature is based on kintone's legacy SHA-1/RSA signing format and is not a general guarantee of software security.

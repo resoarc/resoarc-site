@@ -155,8 +155,13 @@ def main() -> int:
     os_page = (SITE / "os/index.html").read_text(encoding="utf-8")
     os_release_url = "https://github.com/resoarc/resoarc-site/releases/download/resoarcos-pc-v0.1.0-dev-20261016/resoarcos-pc-v0.1.0-dev-amd64.iso"
     os_release_sha = "7706b665ef250be764cda9de43826edf9ad7c85baccbf7655f5ae43f0b5d61dd"
-    if os_release_url not in os_page or os_release_sha not in os_page:
-        fail("Missing pinned ResoArcOS ISO release link or checksum")
+    # Production doesn't advertise an ISO; never fabricate an unverified release link.
+    iso_url = os_release_url in os_page
+    iso_sha = os_release_sha in os_page
+    if iso_url and not iso_sha:
+        fail("ISO link and checksum must be published together")
+    if not iso_url and "公式サイトからのダウンロード配布を行っていません" not in os_page:
+        fail("ISO must be pinned or explicitly marked not distributed")
     if "本番用OSとしては未対応です" not in os_page:
         fail("Missing ResoArcOS non-production warning")
 

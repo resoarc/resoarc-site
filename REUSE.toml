@@ -25,3 +25,16 @@ path = "site/assets/hero-architecture.jpg"
 precedence = "override"
 SPDX-FileCopyrightText = "NOASSERTION"
 SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+
+[[annotations]]
+path = ["site/assets/hero-architecture-800.webp", "site/assets/hero-architecture-1600.webp"]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = "site/assets/recognition/*"
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "LicenseRef-ThirdPartyMarks"

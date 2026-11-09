@@ -15,7 +15,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-SBOM_PATH = ROOT / "docs/compliance/OPENCHAIN_BROWSER_TOOLS_20261106.cdx.json"
+SBOM_PATH = ROOT / "docs/compliance/OPENCHAIN_BROWSER_TOOLS_20261109.cdx.json"
 SCOPED_FILES = {
     "site/tools/hash/index.html",
     "site/tools/csv/index.html",
@@ -32,6 +32,15 @@ SCOPED_FILES = {
     "site/assets/hero-architecture.jpg",
     "site/licenses/RESOARC-MIT.txt",
     "site/licenses/NOTOSERIFJP-OFL.txt",
+    "site/assets/brand-cosmic-20261022.css",
+    "site/assets/cinematic-mockup-20261023.css",
+    "site/assets/navigation.css",
+    "site/assets/navigation.js",
+    "site/assets/resoarc-cinematic-orbits-20261023.svg",
+    "site/assets/resoarc-cinematic-planet-20261023.webp",
+    "site/assets/resoarc-og-card-20261023.png",
+    "site/assets/resoarc-touch-180.png",
+    "site/assets/resoarc-wordmark-official.svg",
 }
 THIRD_PARTY = {
     "site/assets/fonts/noto-serif-jp-v10.woff2": "OFL-1.1",
@@ -84,7 +93,7 @@ def check() -> None:
             url_path = urlsplit(raw).path
             if url_path.startswith("/assets/"):
                 asset_refs.add("site" + url_path)
-    for name in ("site/assets/site-20261015-v10.css", "site/assets/recognition-20261017.css"):
+    for name in sorted(x for x in SCOPED_FILES if x.endswith(".css")):
         css = (ROOT / name).read_text(encoding="utf-8")
         for raw in re.findall(r"""url\(\s*["']?([^) "']+)""", css):
             url_path = urlsplit(raw.strip()).path

@@ -1,0 +1,18 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project */
+/* SPDX-License-Identifier: MIT */
+.gmo-security-panel{background:#fff9f4;border:1px solid #e8ccb4;border-radius:14px;padding:20px 23px;margin:20px 0 24px;scroll-margin-top:88px}
+.gmo-security-panel h2{color:#623e21;font-size:1.36rem;margin:0 0 7px}
+.gmo-security-panel>p{font-size:.86rem;color:#695544;line-height:1.6}
+.gmo-panel-info{font-size:.76rem;color:#76604c;margin:10px 0}
+.gmo-incident{background:#fff;border:1px solid #ead8c6;padding:18px;border-radius:11px}
+.gmo-incident-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.gmo-incident-head strong{font-size:1.03rem;color:#483021}
+.gmo-incident-status{font-size:.73rem;font-weight:800;background:#fce4df;color:#9b3544;padding:6px 9px;border-radius:7px}
+.gmo-incident-status.restored{color:#156c4d;background:#e3f5eb}
+.gmo-incident-service{font-size:.92rem;font-weight:750;color:#3d3d41;margin:13px 0 6px}
+.gmo-incident-summary{font-size:.85rem;color:#435466;line-height:1.65;margin:8px 0}
+.gmo-incident-note{font-size:.77rem;color:#68606c;margin:9px 0}
+.gmo-incident-date{font-size:.75rem;color:#607081;margin:12px 0}
+.gmo-security-caution{font-size:.78rem;color:#925926;background:#fff1e4;padding:10px 12px;border-radius:6px}
+.gmo-source-link{font-size:.84rem;font-weight:750;color:#096c92;text-decoration:underline}
+@media(max-width:700px){.gmo-security-panel{padding:16px 12px}.gmo-incident{padding:14px}}

@@ -1,0 +1,217 @@
+/* ResoArc cinematic identity / 2026-10-23.
+   Design-only layer over verified static site. No product data or scripts. */
+:root{--cin-deep:#041023;--cin-dark:#06182f;--cin-blue:#148fe8;--cin-ice:#9adeff;}
+body.ra-nav-ready .ra-sidebar{
+ background:linear-gradient(165deg,#071931 2%,#051226 61%,#071528 100%)!important;
+ border-right:1px solid #1c3f68!important;box-shadow:inset -1px 0 #0c2440!important;
+ color:#d9eafa!important;
+}
+body.ra-nav-ready .ra-sidebar .ra-sidebar-title{color:#89a5c9!important;}
+body.ra-nav-ready .ra-sidebar .ra-node-row{border-radius:5px;}
+body.ra-nav-ready .ra-sidebar .ra-node-row:hover{background:#122d50!important;}
+body.ra-nav-ready .ra-sidebar .ra-node-row>.ra-link{color:#c0d6ed!important;font-weight:650;font-size:12px!important;}
+body.ra-nav-ready .ra-sidebar .ra-node-row>.ra-link.ra-current{
+ color:#46baff!important;background:linear-gradient(90deg,#102d53,#0b213d)!important;
+ box-shadow:inset 3px 0 #18b4ff,0 0 17px #0781eb12!important;
+}
+body.ra-nav-ready .ra-sidebar .ra-expand{color:#90bbda!important;}
+body.ra-nav-ready .ra-sidebar .ra-expand:hover{background:#123a5a!important;}
+body.ra-nav-ready .ra-sidebar .ra-children{border-left-color:#214368!important;}
+body.ra-nav-ready .ra-sidebar .ra-sidebar-close{background:#0d2a4c!important;color:#c7e3fa!important;border-color:#315c7d!important}
+body.ra-nav-ready .site-header .ra-breadcrumb{
+ background:#081b31!important;border-top:1px solid #1b3856!important;color:#a9c5df!important;
+ box-shadow:0 1px 0 #05172b!important;
+}
+body.ra-nav-ready .site-header .ra-breadcrumb a{color:#86cfff!important}
+body.ra-nav-ready .site-header .ra-crumb-current{color:#d2e9fc!important}
+body.ra-nav-ready .site-header .ra-nav-toggle{color:#cde9fb!important;background:#0e2946!important;border-color:#285778!important}
+body.ra-nav-ready .ra-sidebar .ra-node-row>.ra-link:focus-visible,
+body.ra-nav-ready .site-header a:focus-visible{outline:2px solid #73d3ff;outline-offset:2px}
+
+/* Full-bleed cinematic hero: remains real HTML and links. */
+body.cinematic-home .hero.arc-cosmic{
+ display:block!important;position:relative!important;isolation:isolate;overflow:hidden!important;
+ min-height:550px!important;background:#04101f!important;
+}
+body.cinematic-home .hero.arc-cosmic .hero-visual{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ min-height:0!important;overflow:hidden!important;z-index:0!important;opacity:1!important;
+}
+body.cinematic-home .hero.arc-cosmic .hero-visual>img{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ object-fit:cover!important;object-position:53% 52%!important;filter:none!important;
+}
+body.cinematic-home .hero.arc-cosmic .hero-visual:after{
+ content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+ background:linear-gradient(90deg,#031021 3%,#041324f6 22%,#051b3285 55%,transparent 84%),
+ linear-gradient(0deg,#031122bf,transparent 45%,#05132440);
+}
+body.cinematic-home .hero.arc-cosmic .hero-visual-shade{display:none!important}
+body.cinematic-home .hero.arc-cosmic>.arc-hero-orbit{display:none!important}
+body.cinematic-home .cin-orbits{
+ position:absolute;inset:-10% -3% 0 -7%;z-index:2;pointer-events:none;
+ background:url('/assets/resoarc-cinematic-orbits-20261023.svg') center/100% 100% no-repeat;opacity:.57;
+}
+body.cinematic-home .hero.arc-cosmic .hero-copy{
+ position:relative!important;z-index:4!important;min-height:550px!important;
+ width:63%!important;max-width:820px!important;display:flex!important;
+ align-items:center!important;justify-content:flex-start!important;
+ padding:54px 36px 53px clamp(36px,5vw,78px)!important;
+ background:transparent!important;
+}
+body.cinematic-home .hero.arc-cosmic .hero-copy:before{background:none!important}
+body.cinematic-home .hero.arc-cosmic .hero-copy-inner{max-width:640px!important}
+body.cinematic-home .hero.arc-cosmic .hero-topline{
+ color:#84d5fb!important;letter-spacing:.24em!important;font-size:10px!important;
+}
+body.cinematic-home .hero.arc-cosmic .hero-topline .little-square{width:19px;height:2px;background:#12bafd!important}
+body.cinematic-home .hero.arc-cosmic h1{
+ font-size:clamp(38px,4.1vw,65px)!important;line-height:1.36!important;color:#fff!important;
+ margin:24px 0 24px!important;letter-spacing:.08em!important;text-shadow:0 2px 12px #0009!important;
+}
+body.cinematic-home .hero.arc-cosmic h1 .arc-accent{color:#fff!important;text-shadow:0 2px 12px #0009!important}
+body.cinematic-home .hero.arc-cosmic .hero-sub{
+ color:#e3edf9!important;font-size:clamp(13px,1.16vw,16px)!important;
+ line-height:2.08!important;max-width:520px!important;
+}
+body.cinematic-home .hero.arc-cosmic .hero-footnote{color:#90b8d9!important;margin-top:30px!important;font-size:10px!important}
+body.cinematic-home .hero.arc-cosmic .hero-buttons{display:flex!important;flex-wrap:wrap!important;gap:12px!important;margin-top:28px!important}
+body.cinematic-home .hero.arc-cosmic .btn-primary{
+ background:linear-gradient(135deg,#19b1ff,#0865ba)!important;border:1px solid #36b3ff!important;
+ box-shadow:0 9px 30px #0079ec42!important;color:#fff!important;border-radius:3px!important;
+}
+body.cinematic-home .hero.arc-cosmic .btn-secondary{
+ background:#071629a8!important;border:1px solid #8daac5b0!important;color:#edf9ff!important;border-radius:3px!important;
+}
+body.cinematic-home .hero.arc-cosmic .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+body.cinematic-home .hero.arc-cosmic .visual-badge{display:none!important}
+body.cinematic-home .cin-side-statement{
+ position:absolute;z-index:3;top:43%;right:2.9%;color:#e6f5ff;
+ letter-spacing:.21em;font:700 10px/1.8 Arial,sans-serif;text-align:left;
+ text-shadow:0 2px 12px #001322;
+}
+body.cinematic-home .cin-side-statement small{font:600 9px/1.6 Arial,sans-serif;color:#83c8f8;letter-spacing:.25em;display:block;margin-bottom:7px;}
+body.cinematic-home .cin-side-statement::before{
+ content:"";position:absolute;width:1px;height:92px;left:-16px;top:-14px;background:linear-gradient(transparent,#a2e3ff,transparent)
+}
+
+/* Three pillars, editorial rhythm and restrained glows. */
+body.cinematic-home .arc-pillars{background:#f8fbff!important;border-bottom:1px solid #d9e5f2!important;}
+body.cinematic-home .arc-pillars-inner{max-width:1270px;margin:auto;gap:0;}
+body.cinematic-home .arc-pillar{position:relative;padding:23px 43px!important;min-height:117px;border-color:#d6e5f2!important;}
+body.cinematic-home .arc-pillar b{font-size:10px;color:#148eec!important}
+body.cinematic-home .arc-pillar strong{font-size:19px!important;color:#10223c!important}
+body.cinematic-home .arc-pillar span:not(.cin-pillar-icon){font-size:12px!important;color:#6b7b91!important}
+body.cinematic-home .arc-pillar .cin-pillar-icon{position:absolute;right:30px;top:39px;font:400 32px Arial;color:#118af6}
+
+/* Reposition already-existing philosophy ahead of product cards. */
+body.cinematic-home .vision-section{
+ position:relative;overflow:hidden;background:linear-gradient(118deg,#fff 15%,#f4f9ff 100%)!important;
+ padding:66px 0 72px!important;
+}
+body.cinematic-home .vision-section::before{
+ content:"";position:absolute;inset:-90px -160px -80px -160px;opacity:.21;pointer-events:none;
+ background:url('/assets/resoarc-cinematic-orbits-20261023.svg') center 43%/130% 110% no-repeat;
+ filter:saturate(.7);
+}
+body.cinematic-home .vision-section .container{position:relative;z-index:1}
+body.cinematic-home .vision-grid{grid-template-columns:36% minmax(0,1fr)!important;gap:6%!important;}
+body.cinematic-home .section-rail .rail-figure{display:none!important}
+body.cinematic-home .vision-content{max-width:830px}
+body.cinematic-home .vision-content h2{
+ color:#081d39!important;font-weight:850;line-height:1.5!important;font-size:clamp(30px,3.7vw,51px)!important;
+}
+body.cinematic-home .vision-content h2 em{color:#10365e!important}
+body.cinematic-home .vision-content p{color:#536a80!important;max-width:780px}
+body.cinematic-home .vision-content .section-lead{color:#183959!important;font-weight:700}
+body.cinematic-home .kicker-en{color:#057be1!important;letter-spacing:.13em}
+body.cinematic-home .kicker-no{color:#087dd9!important}
+
+/* Existing functional action cards are the reference's product cards. */
+body.cinematic-home .ra-start-here{
+ position:relative;background:linear-gradient(160deg,#edf6ff,#f8fbff 70%)!important;
+ padding:65px 0 75px!important;overflow:hidden;
+}
+body.cinematic-home .ra-start-here::before{
+ content:"";position:absolute;inset:0;opacity:.12;pointer-events:none;
+ background:url('/assets/resoarc-cinematic-orbits-20261023.svg') center/cover no-repeat;
+}
+body.cinematic-home .ra-start-here .container{position:relative;z-index:1}
+body.cinematic-home .ra-start-eyebrow{color:#138ae9;letter-spacing:.2em}
+body.cinematic-home .ra-start-here h2{font-size:clamp(30px,3.8vw,48px)!important;color:#071c37!important;margin:16px 0 33px}
+body.cinematic-home .ra-start-grid{gap:14px!important}
+body.cinematic-home .ra-start-card{
+ border:1px solid #d2e1f1!important;border-radius:3px!important;background:#fff!important;
+ box-shadow:0 2px 12px #13345a08;min-height:260px;padding:30px 25px!important;
+ transition:transform .16s,border-color .16s,box-shadow .16s;
+}
+body.cinematic-home .ra-start-card:hover{transform:translateY(-3px);border-color:#52b1ef!important;box-shadow:0 14px 36px #1043751c!important}
+body.cinematic-home .ra-start-card .ra-start-icon{color:#128bf1!important;font-size:29px!important}
+body.cinematic-home .ra-start-card strong{color:#172943!important;font-size:19px!important}
+body.cinematic-home .ra-start-card p{color:#586e86!important}
+body.cinematic-home .ra-start-card>span:last-child{color:#087ad9!important;font-weight:750}
+
+/* Technical content retains its structure but gains a coherent orbit palette. */
+body.cinematic-home .areas-section{background:#f8fbfe!important}
+body.cinematic-home .area-item{border-color:#dce7f3!important;border-radius:2px;background:white!important;}
+body.cinematic-home .area-item:hover{border-color:#55b2ff!important}
+body.cinematic-home .quality-section{
+ position:relative;isolation:isolate;overflow:hidden;
+ background:linear-gradient(98deg,#041024,#06234e 85%)!important;
+}
+body.cinematic-home .quality-section::before{
+ content:"";position:absolute;inset:-10% 0 0 35%;
+ background:url('/assets/resoarc-cinematic-planet-20261023.webp') right 45%/cover no-repeat;
+ opacity:.22;z-index:-1;pointer-events:none;
+}
+body.cinematic-home .quality-section::after{
+ content:"";position:absolute;inset:0;
+ background:url('/assets/resoarc-cinematic-orbits-20261023.svg') center/cover no-repeat;
+ opacity:.23;z-index:-1;pointer-events:none;
+}
+body.cinematic-home .updates-section{background:#fff!important}
+
+/* Responsive: planet stays visible but text and actionable controls win. */
+@media(max-width:1100px){
+ body.cinematic-home .cin-side-statement{display:none!important}
+ body.cinematic-home .hero.arc-cosmic .hero-copy{width:70%!important}
+ body.cinematic-home .hero.arc-cosmic .hero-visual>img{object-position:50% center!important}
+}
+@media(max-width:959px){
+ body.ra-nav-ready .ra-sidebar{background:linear-gradient(160deg,#06162d,#071d38)!important;}
+ body.cinematic-home .hero.arc-cosmic .hero-copy{width:70%!important}
+ body.cinematic-home .ra-start-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ body.cinematic-home .ra-start-grid .ra-start-card:last-child{grid-column:1/-1}
+}
+@media(max-width:720px){
+ body.cinematic-home .hero.arc-cosmic{min-height:640px!important}
+ body.cinematic-home .hero.arc-cosmic .hero-copy{
+  width:100%!important;max-width:none!important;min-height:640px!important;
+  align-items:center!important;padding:42px 23px 48px!important;
+ }
+ body.cinematic-home .hero.arc-cosmic .hero-copy:before{display:none!important}
+ body.cinematic-home .hero.arc-cosmic .hero-visual{position:absolute!important;opacity:1!important}
+ body.cinematic-home .hero.arc-cosmic .hero-visual>img{
+  position:absolute!important;object-position:46% 50%!important;
+ }
+ body.cinematic-home .hero.arc-cosmic .hero-visual:after{
+  background:linear-gradient(0deg,#031122 0%,#04172bf4 27%,#05182bb9 62%,#0411234d 100%)!important;
+ }
+ body.cinematic-home .hero.arc-cosmic h1{font-size:clamp(34px,9vw,52px)!important}
+ body.cinematic-home .hero.arc-cosmic .hero-sub{font-size:13px!important;line-height:1.85!important}
+ body.cinematic-home .hero.arc-cosmic .hero-buttons{gap:9px!important}
+ body.cinematic-home .hero.arc-cosmic .btn{font-size:12px!important}
+ body.cinematic-home .cin-orbits{opacity:.58;inset:-8% -56% 4% -30%}
+ body.cinematic-home .arc-pillar{padding:15px 35px 15px 16px!important;min-height:72px!important}
+ body.cinematic-home .arc-pillar .cin-pillar-icon{right:12px;top:18px;font-size:24px}
+ body.cinematic-home .vision-section{padding:40px 0!important}
+ body.cinematic-home .vision-grid{grid-template-columns:1fr!important;gap:12px!important}
+ body.cinematic-home .vision-content h2{font-size:clamp(26px,7vw,37px)!important}
+ body.cinematic-home .ra-start-grid{grid-template-columns:1fr!important}
+ body.cinematic-home .ra-start-grid .ra-start-card:last-child{grid-column:auto}
+ body.cinematic-home .ra-start-here{padding:45px 0 58px!important}
+ body.cinematic-home .ra-start-card{min-height:0!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body.cinematic-home .ra-start-card{transition:none!important}
+}

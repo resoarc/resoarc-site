@@ -1,0 +1,55 @@
+{
+  "approvedId": "CENTRAL-READONLY4-GO-20261019-03",
+  "releaseDate": "2026-10-19",
+  "status": "PUBLISHED",
+  "products": [
+    {
+      "slug": "field-help",
+      "version": "0.1.3",
+      "url": "/downloads/resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "5c49a688ca878a47d30d1e37d8e3b8ea61bb728d85d16167a5458f3aae8b1db4",
+      "pluginId": "bkkaopkphpckjpcngoecllcpndbpadff"
+    },
+    {
+      "slug": "qr-code",
+      "version": "0.1.3",
+      "url": "/downloads/resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "78299ed5ac81d134e483ba6db57ce35d2f1914c4fd2cb55cb25d70bd7cd12ecf",
+      "pluginId": "acfampplfmamcilpckldmpjbmomjhgfn"
+    },
+    {
+      "slug": "record-toc",
+      "version": "0.1.3",
+      "url": "/downloads/resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6ba55dbc1b500bc4968dacb2df7f6a5c1535722098be2e6bf48ce2ada5e25166",
+      "pluginId": "nkkfafghgjmapbebckkmndblibefambd"
+    },
+    {
+      "slug": "related-links",
+      "version": "0.1.3",
+      "url": "/downloads/resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "3a66cb126a16715ec166bb25979b490bf2a0b1de243f3a3cffc32b17b158df21",
+      "pluginId": "fefbmdkgbmlnhkncbhlcojhnmhfmkbbn"
+    }
+  ],
+  "companion": [
+    {
+      "url": "/downloads/resoarc-readonly4-LICENSE",
+      "sha256": "3f2dc75c15f49f16e6e0da319cf8274b04e9c350f5e5d909ce0680d67d014cc5"
+    },
+    {
+      "url": "/downloads/resoarc-readonly4-NOTICE",
+      "sha256": "550044af8affc7f95fa2127161f6541fb847f3dd4b04b749f28101e7373756fc"
+    },
+    {
+      "url": "/downloads/resoarc-readonly4-INSTALL_MIGRATION_GUIDE.md",
+      "sha256": "d1eb5493fa06e5b8c4d4f379f313054d76758f14c21fecfcf4a983a0cafe8f24"
+    },
+    {
+      "url": "/downloads/resoarc-readonly4-RELEASE_NOTES.md",
+      "sha256": "979539b1711302b11510cbab32858fa00067b805e3dd1a8c6ed1afa22224a39a"
+    }
+  ],
+  "qrLibraryNoticeRequired": true,
+  "signingSecretsBundled": false
+}

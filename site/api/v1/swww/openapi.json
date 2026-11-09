@@ -1,0 +1,166 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ResoArc SWWW Public Security Feed",
+    "version": "1.0.0",
+    "description": "Read-only, human-reviewed public information. Technology tags do not mean ResoArc exposure."
+  },
+  "servers": [
+    {
+      "url": "https://resoarc.com"
+    }
+  ],
+  "paths": {
+    "/api/v1/swww/advisories": {
+      "get": {
+        "summary": "Filtered public advisories (daily snapshot)",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 120
+            }
+          },
+          {
+            "name": "technology",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "severity",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CRITICAL",
+                "HIGH",
+                "MEDIUM",
+                "LOW",
+                "UNKNOWN"
+              ]
+            }
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "exploited",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public advisories and pagination metadata"
+          },
+          "400": {
+            "description": "Invalid query"
+          },
+          "503": {
+            "description": "Snapshot not available"
+          }
+        }
+      }
+    },
+    "/api/v1/swww/summary": {
+      "get": {
+        "summary": "Current report metadata and technology categories",
+        "responses": {
+          "200": {
+            "description": "Public daily summary"
+          }
+        }
+      }
+    },
+    "/api/v1/swww/technologies": {
+      "get": {
+        "summary": "Available technology tags",
+        "responses": {
+          "200": {
+            "description": "Tag taxonomy and counts"
+          }
+        }
+      }
+    },
+    "/api/v1/swww/advisories.xml": {
+      "get": {
+        "summary": "Complete published catalog in XML",
+        "responses": {
+          "200": {
+            "description": "Read-only public XML"
+          }
+        }
+      }
+    },
+    "/api/v1/swww/rss.xml": {
+      "get": {
+        "summary": "RSS 2.0 feed of recent public advisories",
+        "responses": {
+          "200": {
+            "description": "RSS XML"
+          }
+        }
+      }
+    },
+    "/api/v1/swww/atom.xml": {
+      "get": {
+        "summary": "Atom 1.0 feed",
+        "responses": {
+          "200": {
+            "description": "Atom XML"
+          }
+        }
+      }
+    },
+    "/api/v1/swww/feed.json": {
+      "get": {
+        "summary": "JSON Feed 1.1",
+        "responses": {
+          "200": {
+            "description": "JSON Feed"
+          }
+        }
+      }
+    }
+  }
+}

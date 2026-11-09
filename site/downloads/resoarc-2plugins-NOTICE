@@ -1,0 +1,27 @@
+# NOTICE: ResoArc Mini Plugins (text-normalizer and save-navigation)
+
+Copyright (c) 2026 ResoArc Open Technology Project / ResoArc.
+
+License: MIT. The full license text is in the accompanying LICENSE file.
+
+## Covered release candidates
+- 入力文字自動整形 (text-normalizer), version 0.1.4
+- 保存後画面遷移 (save-navigation), version 0.1.3
+
+The JavaScript runtime and configuration assets for these two candidates are
+generated or maintained in the ResoArc Mini Plugins project. Their 64x64 PNG
+icons are generated programmatically by the project's own scaffold.py.
+
+The exact signed packages inspected for this release set (text-normalizer
+0.1.4 RC10 and save-navigation 0.1.3 RC9) contain no bundled
+external JavaScript libraries; therefore no additional third-party library
+notice was identified for these two ZIPs during this scoped review. This is
+not an attestation about other ResoArc plugins, the kintone platform, or any
+upstream use of third-party code outside the inspected candidate packages.
+
+The signed plugin ZIP is the kintone installation artifact. The LICENSE,
+NOTICE and installation/migration guidance are distributed as its companion
+files and are not inserted into or allowed to alter the already signed ZIP.
+
+ResoArc is an independent project; mention of kintone and Cybozu identifies
+the platform the plugin works with and does not imply endorsement.

@@ -1,0 +1,28 @@
+{
+    "schema":  "https://resoarc.com/recognition/reuse-status.json",
+    "specification":  "REUSE-3.3",
+    "status":  "local_pass_current_ci_pending",
+    "last_proven_local":  {
+                              "checked_date":  "2026-10-18",
+                              "files_total":  363,
+                              "passed":  363
+                          },
+    "latest_status_source":  "https://github.com/resoarc/resoarc-site/actions/workflows/reuse-compliance.yml",
+    "latest_public_code":  "https://codeberg.org/ResoArc/resoarc-site",
+    "notice":  "This snapshot is not proof that the current HEAD passed. The CI run must be checked against its own commit SHA.",
+    "latest_local_review":  {
+                                "checked_at_utc":  "2026-10-23T08:35:52.172360+00:00",
+                                "based_on_code_commit":  "712f8d5e7aabdb89771bfdcb2b1796c3a39682be",
+                                "working_tree_included_pending_changes":  true,
+                                "files_with_license_info":  503,
+                                "files_with_copyright_info":  503,
+                                "result":  "PASS"
+                            },
+    "codeberg_actions_activation":  {
+                                        "enabled_as_observed_2026_10_23":  false,
+                                        "source":  "https://codeberg.org/api/v1/repos/ResoArc/resoarc-site",
+                                        "manual_activation":  "https://codeberg.org/ResoArc/resoarc-site/settings/units",
+                                        "runner_operational":  false
+                                    },
+    "signed_archive_audit":  "/recognition/reuse-signed-archives.json"
+}

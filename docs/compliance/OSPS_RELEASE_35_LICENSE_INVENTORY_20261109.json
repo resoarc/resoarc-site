@@ -1,0 +1,676 @@
+{
+  "technical_download_integrity_pass": null,
+  "signed_count": 22,
+  "packages": [
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "6f359dbaff4f37d4b56d966d0cef9d9fe8ac6ca1d7c5f6acb5de2af0a7c4a84d",
+      "asset": "resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "bytes": 6783,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "69868db78f8ff6305e175b8ec159e68cefb735a259b9ba85f77af3b8514615ff",
+      "asset": "resoarc-auto-number-signed-qa.zip",
+      "bytes": 9902,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 8,
+        "exact_git_blob": 8
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "fd7d0873f8ebf7551ebc2a08116952e8b60c91e396600e5b800e0eba752145d9",
+      "asset": "resoarc-auto-number-v1.0.0.zip",
+      "bytes": 9043,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 3,
+        "exact_git_blob": 3
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "c2de1c7735e8c32a364b6d6d4de340d593a55b3a8c38dd369cc2feac73016d9b",
+      "asset": "resoarc-auto-number-v1.1.0-beta.zip",
+      "bytes": 9916,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 6,
+        "exact_git_blob": 6
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [
+        {
+          "name": "fflate 0.8.3",
+          "mit_full_text_in_distribution": true,
+          "build_only": "esbuild 0.25.12 (MIT)"
+        }
+      ],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "06648e849bb38b9dc5614fbaa507a50492f2684f7015316228df3bfb0e8041fb",
+      "asset": "resoarc-backup-migration-v1.0.0-source.zip",
+      "bytes": 222382,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [
+        {
+          "name": "fflate 0.8.3",
+          "mit_full_text_in_distribution": true,
+          "build_only": "esbuild 0.25.12 (MIT)"
+        }
+      ],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE",
+        "NOTICE.md"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "ab858430620f1bd2ec8b240a2202153df25962a083cd048cdb415b7f4c172ad8",
+      "asset": "resoarc-backup-migration-v1.0.0.zip",
+      "bytes": 54278,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "283d7e2af5fdb0f9c308247b0c97fbd4db29627adf9128833b97f26b0152b473",
+      "asset": "resoarc-conditional-format-signed-qa.zip",
+      "bytes": 9432,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 8,
+        "exact_git_blob": 8
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "conditional-format-v0.1.0-alpha/LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "64ef943d7c302bd747042ea265723a94e16308ec46559238bcd1f38731c8d249",
+      "asset": "resoarc-conditional-format-v0.1.0-alpha-source.zip",
+      "bytes": 15584,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "3c50e7cdf92fcdecaa17edabd48d3cf3056ee6e352b2845d66edc07e8cf5a279",
+      "asset": "resoarc-conditional-signed-qa.zip",
+      "bytes": 7697,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 7,
+        "exact_git_blob": 7
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "234ec6d8917c25bd793f19b5d38e64a5dab6c12281dea184de18a665d956a1f6",
+      "asset": "resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "bytes": 6900,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "2053e8914dbb47d933f1a39092b2374e3e1a464bc09c0757b6251d24a91d0fdb",
+      "asset": "resoarc-date-calculator-signed-qa.zip",
+      "bytes": 9882,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 8,
+        "exact_git_blob": 8
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "date-calculator-v0.1.0-alpha/LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "251fcb2bdcb7a7d848a41ff705cc6f86b2c370a1c60fa3413e0468bd848a38d4",
+      "asset": "resoarc-date-calculator-v0.1.0-alpha-source.zip",
+      "bytes": 17029,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "5c49a688ca878a47d30d1e37d8e3b8ea61bb728d85d16167a5458f3aae8b1db4",
+      "asset": "resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "bytes": 6179,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "9eca70f1f03944784eb3c9114511c4bd1c93dcaceee3e605007fdce6a8f1ec41",
+      "asset": "resoarc-grid-editor-signed-qa.zip",
+      "bytes": 11921,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 8,
+        "exact_git_blob": 8
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "grid-editor-v0.1.0-alpha/LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "fb806021a2947dea7ef821a5d8751455445f80fcd9e0d49ce070e7d6d5f95604",
+      "asset": "resoarc-grid-editor-v0.1.0-alpha-source.zip",
+      "bytes": 22050,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "6c37aa7a701cad45303426048ba9cde237e976325590ae1ac9288fbebf549051",
+      "asset": "resoarc-kanban-signed-qa.zip",
+      "bytes": 8938,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 8,
+        "exact_git_blob": 8
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "kanban-v0.1.0-alpha/LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "b22336e832ac89a44f583be3a45da70e52a41d761d46da8d7b8dee047eb192bf",
+      "asset": "resoarc-kanban-v0.1.0-alpha-source.zip",
+      "bytes": 14988,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "9a6ffe625769f51d29bac0be2b1cf007ec3cf51f09d33e45aa8eb2fe0128e643",
+      "asset": "resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "bytes": 6813,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "2bec234b936b6e3336f4444687302b8ec53e6f90c9b00262a21c17e4ad9c87d6",
+      "asset": "resoarc-list-search-signed-qa.zip",
+      "bytes": 11504,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 8,
+        "exact_git_blob": 8
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "list-search-v0.1.0-alpha/LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "55967bf46daede50ffd38c76794164dedc7dc72b43eb463ba9fc1f9fa32f9572",
+      "asset": "resoarc-list-search-v0.1.0-alpha-source.zip",
+      "bytes": 21028,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "d3b2c88810a2f5d04d64792b47fcdc0a5f94793a322d0a1a8f4d4c29db1c3276",
+      "asset": "resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "bytes": 8851,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [
+        {
+          "name": "QRCode upstream implementation",
+          "notice_included": true,
+          "licenses": [
+            "MIT",
+            "Apache-2.0"
+          ]
+        }
+      ],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "78299ed5ac81d134e483ba6db57ce35d2f1914c4fd2cb55cb25d70bd7cd12ecf",
+      "asset": "resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "bytes": 18679,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "6ba55dbc1b500bc4968dacb2df7f6a5c1535722098be2e6bf48ce2ada5e25166",
+      "asset": "resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "bytes": 6033,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "3a66cb126a16715ec166bb25979b490bf2a0b1de243f3a3cffc32b17b158df21",
+      "asset": "resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "bytes": 6047,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "6e281275e2eb276e7886d8dc562852e194b4002ce05625b75a10326b0e527fd8",
+      "asset": "resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "bytes": 5840,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE",
+        "plugins/auto-number/LICENSE",
+        "plugins/auto-number/v1.1.0-beta/LICENSE",
+        "plugins/conditional-format/v0.1.0-alpha/LICENSE",
+        "plugins/conditional/v0.1.0-alpha/LICENSE",
+        "plugins/date-calculator/v0.1.0-alpha/LICENSE",
+        "plugins/grid-editor/v0.1.0-alpha/LICENSE",
+        "plugins/kanban/v0.1.0-alpha/LICENSE",
+        "plugins/list-search/v0.1.0-alpha/LICENSE",
+        "plugins/tabs/v0.1.0-beta/LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "dda9d520cf2df37fd2d1f79fd4e4c182bcda8b17de534010e4d30baaf6381a72",
+      "asset": "resoarc-site-20261017-recovered-source.zip",
+      "bytes": 4132099,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "1d91b317497366828082973e243d3a4568581f96fee75ec7b84300db93941908",
+      "asset": "resoarc-tabs-signed-qa.zip",
+      "bytes": 7998,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 8,
+        "exact_git_blob": 8
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "5eba44271945185e777c7e55af816d4644223d9fe9e2925c8b05fd116bd58689",
+      "asset": "resoarc-tabs-v0.1.0-beta.zip",
+      "bytes": 8002,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 7,
+        "exact_git_blob": 7
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "6be4e194acd495a27d1c1847b19b96d62703c57c9bbcb05acde4533586d4fa6e",
+      "asset": "resoarc-tabs-v1.0.0-20261021.zip",
+      "bytes": 8049,
+      "source_coverage": {
+        "total": 8,
+        "exact_current_source": 5,
+        "exact_git_blob": 5
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "a2a40a3042864d1df49622fac690f14d8f6446532da54da81151de0f8b7d24a6",
+      "asset": "resoarc-tabs-v1.0.0-signed-package-source.zip",
+      "bytes": 11703,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [],
+      "signed_installer": true,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "16d4e43df291d033c08634f5d64245167c6b6598835d091337b8c26e3e0b8c42",
+      "asset": "resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "bytes": 5936,
+      "source_coverage": {
+        "total": 7,
+        "exact_current_source": 0,
+        "exact_git_blob": 0
+      },
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "d9bee5d112c706b322037d4c2a595d24d39148b1d84e00856732f48114526374",
+      "asset": "resoarc-web8-v1.0.0-source.zip",
+      "bytes": 41439,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20",
+      "asset": "resoarcos-pc-v0.1.0-dev-source.zip",
+      "bytes": 46159,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://github.com/resoarc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "GitHub historical release at 2026-11-06",
+      "sha256": "ad60fd5629e91ae4c045d7411ff8a821eb4a442900127a6d89514b738e481ac4",
+      "asset": "resoarcos-pc-v0.1.1-dev-source.zip",
+      "bytes": 101001,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    },
+    {
+      "component_notes": [],
+      "source_repository": "https://codeberg.org/ResoArc/resoarc-site",
+      "declared_first_party_license": "MIT (ResoArc project declaration)",
+      "inner_license_documents": [
+        "LICENSE"
+      ],
+      "signed_installer": false,
+      "source_commit": "8e279c5ec277032724dfe9a611ad148ee6fcf035",
+      "sha256": "d8beeccf39f457b45fa469285af6b905b4d4dc11aa8dae36af7b1ac145dd47c1",
+      "asset": "resoarcos-pi-firstboot-v0.2.1-alpha-source.zip",
+      "bytes": 76059,
+      "source_coverage": null,
+      "copyright_chain_independently_verified": false
+    }
+  ],
+  "source_zip_count": 13,
+  "schema": "resoarc-osps-35-release-evidence-v1",
+  "technical_sidecar_integrity_pass": 6,
+  "legal_signoff": "PENDING: no independent ownership/permission audit or authorized maintainer approval is implied",
+  "scope": "35 publicly advertised ZIP assets and LICENSE/NOTICE on three distribution domains",
+  "technical_sidecar_integrity_total": 6,
+  "license_companions": {
+    "LICENSE": {
+      "resoarc.com": {
+        "http": 200,
+        "bytes": 1109,
+        "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+        "exact_bytes": true,
+        "redirected": true
+      },
+      "www.resoarc.com": {
+        "http": 200,
+        "bytes": 1109,
+        "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+        "exact_bytes": true,
+        "redirected": true
+      },
+      "resoarc.pages.dev": {
+        "http": 200,
+        "bytes": 1109,
+        "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca",
+        "exact_bytes": true,
+        "redirected": false
+      }
+    },
+    "NOTICE.md": {
+      "resoarc.com": {
+        "http": 200,
+        "bytes": 2419,
+        "sha256": "a8e2e44a391a3a365ec228d46e4ab5ec880325597aafc4d15d02f7f4f45f2737",
+        "exact_bytes": true,
+        "redirected": true
+      },
+      "www.resoarc.com": {
+        "http": 200,
+        "bytes": 2419,
+        "sha256": "a8e2e44a391a3a365ec228d46e4ab5ec880325597aafc4d15d02f7f4f45f2737",
+        "exact_bytes": true,
+        "redirected": true
+      },
+      "resoarc.pages.dev": {
+        "http": 200,
+        "bytes": 2419,
+        "sha256": "a8e2e44a391a3a365ec228d46e4ab5ec880325597aafc4d15d02f7f4f45f2737",
+        "exact_bytes": true,
+        "redirected": false
+      }
+    }
+  },
+  "hosts": [
+    "resoarc.com",
+    "www.resoarc.com",
+    "resoarc.pages.dev"
+  ],
+  "generated_utc": "2026-11-06T11:56:47.051636+00:00",
+  "technical_download_integrity_total": 105,
+  "live_distribution_recheck": "PENDING; do not infer 105/105 live checks from the historical inventory",
+  "reconciliation_20261109": {
+    "source": "resoarc-osps-distribution-mirror-20261106",
+    "scope": "Eight signed QA archives",
+    "preserve_historical_inventory": "OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json",
+    "signature_cryptographic_verification": "not assessed",
+    "human_rights_review": "pending"
+  }
+}

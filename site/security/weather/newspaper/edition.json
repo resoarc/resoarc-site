@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "edition_date": "2026-11-06",
+  "generated_at": "2026-11-06T09:10:14.820237+09:00",
+  "source_count": 13,
+  "quality": "OK",
+  "published_date_count": 3,
+  "same_day_count": 3,
+  "carryover_count": 0,
+  "carryover_total": 0,
+  "content_sha256": "65e8571c589648ccc94b927ec8518ee0856fbea53cd3e88806f16873ba369ba8",
+  "render_version": "newspaper-daily-2",
+  "model": "rules_and_verified_editorial",
+  "notice": "公開品質に合格した情報のみ使用。前日付の情報は新着と明確に区別。PARTIALは発行しません。"
+}

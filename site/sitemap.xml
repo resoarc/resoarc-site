@@ -1,15 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://resoarc.com/</loc></url><url><loc>https://resoarc.com/project/</loc></url><url><loc>https://resoarc.com/products/</loc></url><url><loc>https://resoarc.com/principles/</loc></url><url><loc>https://resoarc.com/tools/hash/</loc></url><url><loc>https://resoarc.com/tools/csv/</loc></url><url><loc>https://resoarc.com/guide/</loc></url><url><loc>https://resoarc.com/releases/</loc></url><url><loc>https://resoarc.com/license/</loc></url><url><loc>https://resoarc.com/privacy/</loc></url><url><loc>https://resoarc.com/terms/</loc></url><url><loc>https://resoarc.com/tools/kintone-auto-number/</loc></url><url><loc>https://resoarc.com/products/web/</loc></url><url><loc>https://resoarc.com/products/kintone/</loc></url><url><loc>https://resoarc.com/products/roadmap/</loc></url><url><loc>https://resoarc.com/tools/kintone-app-diff/</loc></url><url><loc>https://resoarc.com/tools/kintone-tabs/</loc></url><url><loc>https://resoarc.com/tools/kintone-conditional/</loc></url><url><loc>https://resoarc.com/tools/kintone-import-check/</loc></url><url><loc>https://resoarc.com/tools/kintone-bulk-preview/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-permission-audit/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-duplicates/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-lookup-audit/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-cross-aggregate/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-print-report/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-conditional-format/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-date-calculator/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-list-search/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-grid-editor/</loc></url>
-<url><loc>https://resoarc.com/tools/kintone-kanban/</loc></url>
-<url><loc>https://resoarc.com/os/</loc></url><url><loc>https://resoarc.com/os/pi/</loc></url>
-<url><loc>https://resoarc.com/products/kintone/qa/</loc></url>
-<url><loc>https://resoarc.com/products/web/screens/</loc></url><url><loc>https://resoarc.com/recognition/</loc></url><url><loc>https://resoarc.com/community/</loc></url><url><loc>https://resoarc.com/en/</loc></url></urlset>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://resoarc.com/</loc></url>
+  <url><loc>https://resoarc.com/community/</loc></url>
+  <url><loc>https://resoarc.com/education/</loc></url>
+  <url><loc>https://resoarc.com/education/circuit/</loc></url>
+  <url><loc>https://resoarc.com/education/programming/</loc></url>
+  <url><loc>https://resoarc.com/en/</loc></url>
+  <url><loc>https://resoarc.com/guide/</loc></url>
+  <url><loc>https://resoarc.com/guide/backup-migration/</loc></url>
+  <url><loc>https://resoarc.com/license/</loc></url>
+  <url><loc>https://resoarc.com/os/</loc></url>
+  <url><loc>https://resoarc.com/os/pi/</loc></url>
+  <url><loc>https://resoarc.com/principles/</loc></url>
+  <url><loc>https://resoarc.com/privacy/</loc></url>
+  <url><loc>https://resoarc.com/products/</loc></url>
+  <url><loc>https://resoarc.com/products/backup-migration/</loc></url>
+  <url><loc>https://resoarc.com/products/development-status/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/attachment-count/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/csv-export/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/field-help/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/input-template/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/list-aggregate/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/lookup-suggest/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/mail-compose/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/qa/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/qr-code/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/record-toc/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/related-links/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/release-integrity/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/reuse-reset/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/save-navigation/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/tabs/</loc></url>
+  <url><loc>https://resoarc.com/products/kintone/text-normalizer/</loc></url>
+  <url><loc>https://resoarc.com/products/roadmap/</loc></url>
+  <url><loc>https://resoarc.com/products/web/</loc></url>
+  <url><loc>https://resoarc.com/products/web/screens/</loc></url>
+  <url><loc>https://resoarc.com/project/</loc></url>
+  <url><loc>https://resoarc.com/recognition/</loc></url>
+  <url><loc>https://resoarc.com/releases/</loc></url>
+  <url><loc>https://resoarc.com/security/</loc></url>
+  <url><loc>https://resoarc.com/security/advisories/php-20261021/</loc></url>
+  <url><loc>https://resoarc.com/security/weather/</loc></url>
+  <url><loc>https://resoarc.com/source/</loc></url>
+  <url><loc>https://resoarc.com/status/</loc></url>
+  <url><loc>https://resoarc.com/terms/</loc></url>
+  <url><loc>https://resoarc.com/tools/csv/</loc></url>
+  <url><loc>https://resoarc.com/tools/hash/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-app-diff/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-auto-number/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-bulk-preview/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-conditional-format/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-conditional/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-cross-aggregate/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-date-calculator/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-duplicates/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-grid-editor/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-import-check/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-kanban/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-list-search/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-lookup-audit/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-permission-audit/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-print-report/</loc></url>
+  <url><loc>https://resoarc.com/tools/kintone-tabs/</loc></url>
+  <url><loc>https://resoarc.com/trust/</loc></url>
+</urlset>
