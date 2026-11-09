@@ -22,6 +22,9 @@ EXPECTED = {
     "Tk-license.terms": ("Regents of the University", "copyright"),
     "TkinterDnD2-LICENSE.txt": ("MIT License", "Philippe Gagn"),
     "TkDND-license.terms": ("Georgios Petasis", "permission"),
+    "OpenSSL-3-LICENSE.txt": ("Apache License", "Version 2.0"),
+    "Zlib-1.3.1-LICENSE.txt": ("Jean-loup Gailly", "Permission is granted"),
+    "CPython-Windows-CRT-terms.txt": ("Microsoft Distributable Code", "Windows"),
 }
 
 
@@ -79,6 +82,10 @@ ResoArc's own application code is distributed under its MIT license (LICENSE.txt
 | TkinterDnD2 0.4.3 (Philippe Gagné) | GUI DnD wrapper | MIT; third_party_licenses/TkinterDnD2-LICENSE.txt |
 | TkDND 2.9.4 (Georgios Petasis and contributors) | Native Windows x64 DnD extension | TkDND permissive terms; third_party_licenses/TkDND-license.terms |
 | PyInstaller 6.22.3 (build tool/bootloader) | PyInstaller bootloader embedded in EXE | GPL-2.0-or-later with Bootloader Exception; third_party_licenses/PyInstaller-COPYING.txt |
+| OpenSSL 3.x (`libcrypto-3.dll`) | CPython hash backend | Apache-2.0; third_party_licenses/OpenSSL-3-LICENSE.txt |
+| zlib (`zlib1.dll`) | CPython compression backend | Zlib; third_party_licenses/Zlib-1.3.1-LICENSE.txt (upstream source license from zlib 1.3.1; actual compiled runtime version must be checked) |
+| Microsoft Visual C Runtime (`VCRUNTIME140*.dll`, `ucrtbase.dll`, API-set shims) | Python Windows binary system runtime | Microsoft Distributable Code redistribution conditions; third_party_licenses/CPython-Windows-CRT-terms.txt; Windows-only |
+
 
 Upstream references:
 - https://github.com/python/cpython/tree/3.12
@@ -87,6 +94,9 @@ Upstream references:
 - https://pypi.org/project/tkinterdnd2/0.4.3/
 - https://github.com/petasis/tkdnd
 - https://pyinstaller.org/en/stable/license.html
+- https://openssl-library.org/source/license/index.html
+- https://www.zlib.net/zlib_license.html
+- https://github.com/python/cpython/blob/3.12/PC/crtlicense.txt
 
 No bundled upstream software is claimed to be authored by ResoArc.
 All EXEs are read-only tools, not antivirus or formal security certification.
@@ -118,6 +128,8 @@ Review these terms alongside the dependency and native archive inventories.
         for name in license_entries:
             if generated.read(name) != zip_entries[name]:
                 raise ValueError(f"BLOCK: license text not retained verbatim: {name}")
+    import zlib, ssl
+    print(f"RUNTIME_VERSIONS: zlib={zlib.ZLIB_VERSION}, OpenSSL={ssl.OPENSSL_VERSION}")
     print(f"PASS: review-only distribution package contains {len(expected)} exact files")
     print(f"PASS: {len(BINARIES)} EXE hashes and {len(license_entries)} third-party license originals included")
     print(f"REVIEW_PACKAGE: {package.name} bytes={package.stat().st_size}")
