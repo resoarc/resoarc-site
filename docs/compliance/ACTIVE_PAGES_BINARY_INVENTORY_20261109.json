@@ -1,6 +1,6 @@
 {
   "schema": "resoarc-active-pages-public-binary-inventory-v1",
-  "observedDate": "2026-11-09",
+  "observedDate": "2026-11-10",
   "status": "SHA256_FORMAT_TECHNICAL_EVIDENCE_ONLY_NOT_LEGAL_SIGNOFF",
   "historicalOSPS34Immutable": "docs/compliance/BINARY_ASSET_REVIEW_20261106.json",
   "distributionBoundary": "site/downloads/*.zip only; no ZIP allowed in application-source paths",
@@ -929,6 +929,36 @@
       "containsSignedKintonePayload": true,
       "publicKeySHA256": "4b27b5b21c36378548781a3f0fd080720b861fd242e56edf55ff32e18cba3cc8",
       "payloadSHA256": "6b29b6a89a41a3ae462041d4bb77b1c26bcbd623129c8bc3825829f286ce0023"
+    },
+    {
+      "path": "site/downloads/resoarc-sheet-v0.7.0-beta-source.zip",
+      "sha256": "69265de6b9b81911f6591585939c3abcadce6fa34e0f1acabe0e6cb44036eba2",
+      "size": 116683,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 53,
+      "containsSignedKintonePayload": false,
+      "evidence": "RELEASE_V070_BETA_MANIFEST.json, 26/26 unit, 3/3 Edge Chrome Firefox file XLSX E2E; original license texts included",
+      "originalArchiveSource": "ResoArc Sheet v0.7.0-beta local project build and source zip 2026-11-10"
+    },
+    {
+      "path": "site/downloads/resoarc-sheet-v0.7.0-beta.zip",
+      "sha256": "0e30d21d988a654f2506cc53f579a8ba8d7f085a2e52de3d076589d8390794e3",
+      "size": 1158515,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT AND ISC AND BSD-3-Clause AND Apache-2.0"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 100,
+      "containsSignedKintonePayload": false,
+      "evidence": "RELEASE_V070_BETA_MANIFEST.json, 26/26 unit, 3/3 Edge Chrome Firefox file XLSX E2E; original license texts included",
+      "originalArchiveSource": "ResoArc Sheet v0.7.0-beta local project build and source zip 2026-11-10"
     },
     {
       "path": "site/downloads/resoarc-site-20261017-recovered-source.zip",

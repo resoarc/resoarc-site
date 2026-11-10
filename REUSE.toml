@@ -1062,3 +1062,31 @@ path = ["site/assets/qaiuick-beta/logo-orbit-20261110.webp"]
 precedence = "override"
 SPDX-FileCopyrightText = "NOASSERTION"
 SPDX-License-Identifier = "LicenseRef-ResoArc-Brand-Art"
+
+# ResoArc-authored unpublished product-introduction pages, not application binaries
+[[annotations]]
+path = [
+ "site/assets/prelaunch-20261110.css",
+ "site/products/sheet/index.html",
+ "site/products/pdf-studio/index.html",
+ "site/products/security-trio/index.html",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "site/downloads/resoarc-sheet-v0.7.0-beta.zip",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "MIT AND ISC AND BSD-3-Clause AND Apache-2.0"
+
+[[annotations]]
+path = [
+  "site/downloads/resoarc-sheet-v0.7.0-beta-source.zip",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
