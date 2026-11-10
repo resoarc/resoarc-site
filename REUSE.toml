@@ -1202,3 +1202,14 @@ path = "apps/security-trio/third_party_licenses/legacy_win310/Zlib-1.2.12-LICENS
 precedence = "override"
 SPDX-FileCopyrightText = "NOASSERTION"
 SPDX-License-Identifier = "LicenseRef-ST-Zlib-1.2.12-LICENSE"
+
+# Original ResoArc-authored Security Trio workflows; no SignPath code signature implied.
+[[annotations]]
+path = [
+  ".github/workflows/security-trio-signpath.yml",
+  ".github/workflows/security-trio-unsigned-release.yml",
+  ".github/workflows/security-trio-windows.yml",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
