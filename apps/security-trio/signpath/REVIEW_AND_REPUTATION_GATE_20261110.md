@@ -43,7 +43,9 @@ The Foundation decides how much reputation is sufficient. Do not invent a minimu
 - **Post-sign**: require `verify_signed_release.ps1` success, pinned expected signer thumbprint, valid Authenticode/EKU/timestamp, fresh signed SHA-256, complete license notices, distinct human release acceptance, and a new versioned download path.
 - **No authorization by this document**: do not submit a signing request, trigger the manual signing workflow, create a signed release, merge PR #91, overwrite old binaries or deploy `site/`.
 
-## Open issues to ask SignPath (avoid premature assumptions)
+## Questions already sent to SignPath on 2026-11-10 (awaiting reply)
+
+The ResoArc project mailbox already sent a follow-up to `oss-support@signpath.org` on 2026-11-10 covering the existing unsigned release, product-specific reputation evidence and thresholds, and Tcl/Tk + Microsoft CRT system-library compatibility. **Do not send a duplicate or imply a reply has arrived.** The list below is the open decision register, not an unsent email draft.
 
 1. Is the currently public **unsigned developer preview**, with source in an unmerged public PR, enough for the "already released" and "public source" conditions, or must source be merged and a versioned GitHub Release published first?
 2. For the *reputation* criterion, what kinds of **Security Trio-specific independently verifiable evidence** would be useful? Would published reviews or third-party issue-based test reports be evaluated?
