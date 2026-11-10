@@ -106,6 +106,6 @@ if __name__=="__main__":
  except Exception as exc:
   issues=["auditor exception "+type(exc).__name__+": "+str(exc)]
  for issue in issues:print("FAIL:",issue,file=sys.stderr)
- print("Immutable binary verification: 34 historical reviewed assets + 75 active site distributions; issues",len(issues))
+ print("Immutable binary verification: 34 historical reviewed assets + 78 active site distributions; issues",len(issues))
  print("This is byte/format/signature/declared-license evidence, NOT legal rights conformance.")
  raise SystemExit(1 if issues else 0)

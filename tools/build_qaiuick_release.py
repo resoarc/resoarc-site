@@ -25,6 +25,12 @@ with ZipFile(old) as src:
             raise RuntimeError('Unexpected original package item: '+name)
         path=prefix1+name[len(prefix0):]
         raw=src.read(name)
+        if path.endswith('package.json'):
+            import json
+            package=json.loads(raw.decode('utf-8'))
+            package['version']='0.3.0'
+            package['scripts']['check'] += ' && node --check src/quick.js'
+            raw=(json.dumps(package,ensure_ascii=False,indent=2)+'\\n').encode('utf-8')
         if path.endswith('README.md'):
             raw=(raw.decode('utf-8').replace('v0.2','v0.3')+
                  '\n\n## Quick API v0.3 (recommended for tiny apps)\n\n'

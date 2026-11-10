@@ -28,6 +28,7 @@ class QAIUIckQuickAPITest(unittest.TestCase):
             )
             self.assertIn(b"quickApp", archive.read(PREFIX + "examples/quick-todo/main.js"))
             self.assertIn(b"Quick API", archive.read(PREFIX + "docs/QUICK_API.md"))
+            self.assertIn(b'"version": "0.3.0"', archive.read(PREFIX + "package.json"))
             self.assertIn(b"Permission", archive.read(PREFIX + "LICENSE"))
 
     def test_quick_api_avoids_dynamic_execution(self):
