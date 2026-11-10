@@ -982,3 +982,38 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+
+# qAIUIck spec-first: author-owned declarative framework and sample docs
+[[annotations]]
+path = [
+  "site/assets/qaiuick/spec.js",
+  "site/assets/qaiuick/define.js",
+  "site/assets/qaiuick/define.css",
+  "site/assets/qaiuick-spec/inventory.js",
+  "site/assets/qaiuick-spec/inventory.spec.js",
+  "site/assets/qaiuick-spec/tickets.js",
+  "site/assets/qaiuick-spec/tickets.spec.js",
+  "site/assets/qaiuick-spec/baseline-inventory.json",
+  "site/assets/qaiuick-spec/baseline-tickets.json",
+  "site/tools/qaiuick-spec-inventory/index.html",
+  "site/tools/qaiuick-spec-tickets/index.html",
+  "docs/QAIUICK_SPEC_FIRST.md",
+  "tools/qaiuick_spec.mjs",
+  "tests/test_qaiuick_spec_first.py",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+
+# qAIUIck v0.4 distribution (retains immutable v0.3)
+[[annotations]]
+path = [
+  "tools/build_qaiuick_v04.py",
+  "site/downloads/qaiuick-v0.4-beta-source.zip",
+  "site/downloads/qaiuick-v0.4-beta-source.zip.sha256",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"

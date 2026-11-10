@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja" data-q-theme="teal">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>問い合わせ管理・仕様駆動版 | qAIUIck Spec Lab</title>
+  <meta name="description" content="問い合わせ項目と状態遷移を宣言するだけで、入力フォームと一覧を自動生成します。">
+  <link rel="canonical" href="https://resoarc.com/tools/qaiuick-spec-tickets/">
+  <link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg">
+  <link rel="stylesheet" href="/assets/qaiuick/qaiuick.css">
+  <link rel="stylesheet" href="/assets/qaiuick/define.css">
+  <link rel="stylesheet" href="/assets/qaiuick-beta/samples.css">
+  <link rel="stylesheet" href="/assets/navigation.css">
+</head>
+<body class="q-app">
+<main class="q-page">
+  <nav class="q-topbar" aria-label="アプリ情報"><div class="q-brand"><span class="q-brand-mark" aria-hidden="true">q</span>qAIUIck <small>Spec Lab</small></div><a href="/products/web/qaiuick/">製品ページへ戻る ↗</a></nav>
+  <nav class="q-sample-switch" aria-label="仕様駆動サンプルを切り替える">
+    <a href="/tools/qaiuick-spec-inventory/">在庫管理</a>
+    <a href="/tools/qaiuick-spec-tickets/" aria-current="page">問い合わせ管理</a>
+    <a href="/tools/qaiuick-inventory/">従来版在庫管理を比較する</a>
+  </nav>
+  <div class="q-hero">
+    <span class="q-eyebrow">SPEC-FIRST SAMPLE 02 · ZERO BUILD</span>
+    <h1>問い合わせ管理・仕様駆動版</h1>
+    <p class="q-lead">問い合わせ項目と状態遷移を宣言するだけで、入力フォームと一覧を自動生成します。 この画面のフォームと一覧は、仕様の宣言から自動生成されています。</p>
+  </div>
+  <div id="app" aria-label="問い合わせ管理・仕様駆動版の操作画面"></div>
+  <section class="q-sample-source" data-q-source
+      data-source-html="/tools/qaiuick-spec-tickets/index.html"
+      data-source-css="/assets/qaiuick/qaiuick.css,/assets/qaiuick/define.css"
+      data-source-js="/assets/qaiuick-spec/tickets.spec.js,/assets/qaiuick-spec/tickets.js">
+    <div class="q-sample-source-head"><div><h2>短いコードと実装仕様を見る</h2>
+    <p>JavaScriptには画面の仕様がまとまっています。HTMLは土台だけで、フォーム・一覧・動作を手書きしていません。</p></div></div>
+    <div class="q-source-tabs" role="tablist" aria-label="コードの言語">
+      <button type="button" role="tab" data-q-source-tab="html" aria-selected="false">HTML</button>
+      <button type="button" role="tab" data-q-source-tab="css" aria-selected="false">CSS</button>
+      <button type="button" role="tab" data-q-source-tab="js" aria-selected="true">JavaScript</button>
+      <button type="button" data-q-source-copy>コードをコピー</button>
+    </div>
+    <p class="q-source-file" data-q-source-file>読み込み中…</p>
+    <pre class="q-source-code" tabindex="0"><code data-q-source-code>読み込み中…</code></pre>
+  </section>
+  <p class="q-sample-note q-sample-caption">デモデータはこのブラウザ内に保存されます。サンプルは初回のみ投入されます。実データや機密情報は入力しないでください。</p>
+  <footer class="q-footer"><a href="/products/web/qaiuick/">qAIUIckを知る</a> · <a href="/os/">ResoArcOS</a></footer>
+</main>
+<script type="module" src="/assets/qaiuick-spec/tickets.js"></script>
+<script type="module" src="/assets/qaiuick-beta/source-viewer.js"></script>
+<script defer src="/assets/navigation.js"></script>
+</body></html>
