@@ -36,3 +36,11 @@ The maintainer has instructed that **an AI-performed project security/release re
 **Project's AI review: ACCEPTED with explicit unsigned prerelease scope and disclosures.**
 **Actual public release: pending new CI success and GitHub Release URL verification.**
 **SignPath: HOLD, no certificate, no signature.**
+
+## Final CI remediation (2026-11-11)
+
+- Resolved the GitHub protected-branch merge conflicts without overriding unrelated root README or existing mirror retry test policies.
+- Removed the privileged `workflow_run` release trigger. Publication uses trusted `main` push, a preceding same-workflow Windows build job, a scoped writer job guarded by exact repository identity, and byte-for-byte post-download checks. The repository's own workflow trust-boundary checker passed locally.
+- Repaired REUSE 3.3 attribution, using MIT **only for ResoArc-owned source**. Fifteen copied third-party notices each receive a distinct `LicenseRef-ST-*` identifier whose license file is an **unchanged copy of the original upstream text**. This does not grant the source an MIT license or erase the original owner. Local REUSE 3.3 lint: **compliant**, 0 bad licenses, 0 missing license texts, 457/457 tracked files correctly annotated in the review checkout.
+- Local source unit suite: 177 tests completed (one skipped); all tests successful on Windows Python 3.13 after CI attribution remediation.
+- GitHub **branch-protection checks must still turn green** for the current PR tip before merge. No force merge, administrator bypass or direct protected-branch push is authorized.
