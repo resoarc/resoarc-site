@@ -1,0 +1,127 @@
+name: Security Trio - publish AI-reviewed UNSIGNED prerelease
+
+# Runs only after the existing verified Windows build succeeds on main.
+# This is a public unsigned prerelease; it never signs software or deploys a site.
+on:
+  workflow_run:
+    workflows:
+      - "Security Trio - Windows unsigned build and verification"
+    branches: [main]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: security-trio-unsigned-prerelease-v0.3.0-rc4
+  cancel-in-progress: false
+
+jobs:
+  publish-unsigned:
+    name: Verify CI artifacts and publish explicit UNSIGNED prerelease
+    if: >-
+      github.repository == 'resoarc/resoarc-site' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == 'resoarc/resoarc-site'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Checkout the same source commit as verified Windows CI
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Fail closed on unexpected branch, commit or existing release
+        env:
+          EVENT_HEAD: ${{ github.event.workflow_run.head_sha }}
+          EVENT_RUN_ID: ${{ github.event.workflow_run.id }}
+          GH_TOKEN: ${{ github.token }}
+          TAG: security-trio-v0.3.0-rc4-unsigned
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$EVENT_HEAD" =~ ^[0-9a-f]{40}$ ]] || exit 2
+          [[ "$EVENT_RUN_ID" =~ ^[0-9]+$ ]] || exit 2
+          [[ "$(git rev-parse HEAD)" == "$EVENT_HEAD" ]] || exit 2
+          # This is an immutable one-time prerelease; later CI runs must not overwrite it.
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "BLOCK: release tag already exists; do not overwrite or republish."
+            exit 2
+          fi
+          if git ls-remote --exit-code --tags "https://github.com/$GITHUB_REPOSITORY.git" "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "BLOCK: source tag already exists."
+            exit 2
+          fi
+
+      - name: Download artifact from the exact successful Windows CI run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_RUN_ID: ${{ github.event.workflow_run.id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/security-trio-release"
+          gh run download "$EVENT_RUN_ID" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name SecurityTrio-Windows-UNSIGNED-review-only \
+            --dir "$RUNNER_TEMP/security-trio-release"
+
+      - name: Verify exact binaries, SHA-256, license originals and native inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 apps/security-trio/verify_unsigned_release_payload.py \
+            --artifact-root "$RUNNER_TEMP/security-trio-release" \
+            > "$RUNNER_TEMP/security-trio-verification.json"
+          cat "$RUNNER_TEMP/security-trio-verification.json"
+          test -f "$RUNNER_TEMP/security-trio-release/dist/ResoArc-Security-Trio-Windows-x64-UNSIGNED-review.zip"
+
+      - name: Publish one immutable unsigned public prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_HEAD: ${{ github.event.workflow_run.head_sha }}
+          EVENT_RUN_ID: ${{ github.event.workflow_run.id }}
+          TAG: security-trio-v0.3.0-rc4-unsigned
+        shell: bash
+        run: |
+          set -euo pipefail
+          ZIP="$RUNNER_TEMP/security-trio-release/dist/ResoArc-Security-Trio-Windows-x64-UNSIGNED-review.zip"
+          cp "$ZIP" "$RUNNER_TEMP/ResoArc-Security-Trio-v0.3.0-rc4-Windows-x64-UNSIGNED.zip"
+          SHA="$(sha256sum "$RUNNER_TEMP/ResoArc-Security-Trio-v0.3.0-rc4-Windows-x64-UNSIGNED.zip" | awk '{print $1}')"
+          cat > "$RUNNER_TEMP/security-trio-release-notes.md" <<EOF
+          # Security Trio v0.3.0-rc4 (Windows x64, **UNSIGNED**)
+
+          **Public prerelease, accepted by ResoArc internal AI-based source/packaging review.** Not externally audited. All three executables are **NOT CODE SIGNED**. There is no SignPath approval, certificate, Microsoft/Defender endorsement or SmartScreen reputation.
+
+          Includes: Secret Scout (configuration/secrets pattern checks), Log Lantern (offline access log triage), File Inspector (file signature and static-document risk markers).
+
+          Download: `ResoArc-Security-Trio-v0.3.0-rc4-Windows-x64-UNSIGNED.zip` (three EXEs + MIT license + mandatory third-party notices and original upstream license texts + SHA256SUMS.txt).
+
+          **Security warnings:** Do not disable Defender, SmartScreen, or organization policies. Never open suspected malicious documents to test. Offline static heuristics cannot prove a file safe, and can miss serious threats. Handle exported reports as potentially sensitive. For production-security decisions, use approved security tools.
+
+          **Source and verification:** commit `$EVENT_HEAD`; successful Windows Actions run https://github.com/$GITHUB_REPOSITORY/actions/runs/$EVENT_RUN_ID ; source tests, PE metadata, negative Authenticode, native license coverage and exact-byte archive verification must all pass before publication.
+
+          **ZIP SHA-256:** `$SHA`.
+
+          Release reviewer policy: [AI review and limitations](https://github.com/$GITHUB_REPOSITORY/blob/$EVENT_HEAD/apps/security-trio/AI_UNSIGNED_RELEASE_REVIEW_20261111.md).
+
+          The separate legacy `resoarc-security-trio.pages.dev` RC4 downloads were built with older runtime dependencies and are **not automatically overwritten** by this GitHub release. SignPath's distinct human approval / independent reputation requirements remain in force for any future *signed* distribution.
+          EOF
+          gh release create "$TAG" \
+            "$RUNNER_TEMP/ResoArc-Security-Trio-v0.3.0-rc4-Windows-x64-UNSIGNED.zip" \
+            "$RUNNER_TEMP/security-trio-verification.json" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$EVENT_HEAD" \
+            --title "Security Trio v0.3.0-rc4 (Windows x64, UNSIGNED)" \
+            --notes-file "$RUNNER_TEMP/security-trio-release-notes.md" \
+            --prerelease
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --json url,isPrerelease,tagName,assets \
+            --jq '{url,isPrerelease,tagName,assets:[.assets[].name]}'
