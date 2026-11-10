@@ -72,7 +72,7 @@ try {
       }
       Write-Output ("QAIUICK_PAGE_OK " + $url)
     }
-    $assetUrl = "https://" + $hostName + "/assets/qaiuick-beta/hero.webp?deploycheck=" + $stamp
+    $assetUrl = "https://" + $hostName + "/assets/qaiuick-beta/logo-orbit-20261110.webp?deploycheck=" + $stamp
     $assetResponse = Invoke-WebRequest -Uri $assetUrl -UseBasicParsing -TimeoutSec 30
     if ($assetResponse.StatusCode -ne 200 -or
         $assetResponse.Headers["Content-Type"] -notmatch "image/webp") {
