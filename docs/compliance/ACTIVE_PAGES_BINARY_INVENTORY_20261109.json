@@ -272,6 +272,17 @@
       "legalApprovalNotInferred": true
     },
     {
+      "path": "site/assets/qaiuick-beta/logo-orbit-20261110.webp",
+      "sha256": "ebbe7cae1276fad66d56e7b9d60e48c8978465b7f605b76b7847e35b926352f1",
+      "size": 12110,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
       "path": "site/assets/recognition/green-web-verified-20261017.png",
       "sha256": "d70e09ee66288b3835b85466f389adcec6cd8b82c0cb66eb7020d212d14f7c41",
       "size": 12590,
