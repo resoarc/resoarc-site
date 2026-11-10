@@ -132,6 +132,32 @@ class SpecBrowserTest(unittest.TestCase):
             self.assertLessEqual(page.evaluate('document.documentElement.scrollWidth - window.innerWidth'),2)
         finally:page.close()
 
+    def test_extension_slots_follow_requested_section_order(self):
+        page=self.open('inventory')
+        try:
+            order=page.evaluate("""async () => {
+              const { defineApp } = await import('/assets/qaiuick/define.js');
+              const root=document.createElement('section');
+              root.id='slot-test';
+              document.body.append(root);
+              defineApp({
+                id:'slot-test-2026', version:1, title:'Slots',
+                root:'#slot-test', persist:'memory',
+                fields:{ title:'Item*' },
+                slots:{
+                  beforeForm:({node})=>node('div',{'data-slot':'before'},'Custom before form'),
+                  afterList:({node})=>node('div',{'data-slot':'after'},'Custom after list'),
+                },
+              });
+              return [...root.children].map(el => el.dataset.slot ||
+                (el.classList.contains('qs-inspector') ? 'inspector' :
+                 el.classList.contains('qs-panel') && el.querySelector('form') ? 'form' :
+                 el.classList.contains('qs-panel') ? 'list' : 'other'));
+            }""")
+            self.assertEqual(order,['other','other','before','form','list','after','inspector'])
+        finally:
+            page.close()
+
     def test_tickets_workflow_delete_reset(self):
         page=self.open('tickets')
         try:

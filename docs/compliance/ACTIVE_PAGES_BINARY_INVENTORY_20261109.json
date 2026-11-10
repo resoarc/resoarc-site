@@ -409,8 +409,8 @@
     },
     {
       "path": "site/downloads/qaiuick-v0.4-beta-source.zip",
-      "sha256": "bd7b6e25f901b7c5ff1fbc3948931d0b2c7a07fd9c25522a9266697d3b8dcd50",
-      "size": 58348,
+      "sha256": "86deda86bc3dc701712a13511898ee06d95d81dd4507a9f6b90d8a936fd4e0a0",
+      "size": 58407,
       "type": "zip",
       "reuseLicenseExpressions": [
         "MIT"

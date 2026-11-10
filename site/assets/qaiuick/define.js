@@ -158,7 +158,7 @@ function createUI(spec, config) {
     copyButton,
     node('h3', {}, '実装仕様'), specText,
     node('h3', {}, '基準仕様からの変更'), changes);
-  const panels = [header, metrics, formPanel, list, inspector];
+  // Position hooks are actual insertion points, not an append-only footer.
   const slot = (position, where) => {
     const hook = config.slots?.[position];
     if (!hook) return;
@@ -167,9 +167,10 @@ function createUI(spec, config) {
     if (result instanceof Node) where.push(result);
     else if (result != null) where.push(node('p', {}, String(result)));
   };
-  slot('beforeForm', panels);
-  slot('afterList', panels);
-  host.append(...panels);
+  const beforeForm = [], afterList = [];
+  slot('beforeForm', beforeForm);
+  slot('afterList', afterList);
+  host.append(header, metrics, ...beforeForm, formPanel, list, ...afterList, inspector);
   if (config.baseline) {
     const url = new URL(config.baseline, document.baseURI);
     if (url.origin !== location.origin) throw new Error('Baseline must be same-origin');
