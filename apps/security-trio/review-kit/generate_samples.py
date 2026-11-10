@@ -44,10 +44,14 @@ def create_samples(target: Path) -> dict:
     (target / "secret-placeholder.env").write_text(
         "database_password=YOUR_PASSWORD_HERE\n", encoding="utf-8"
     )
+    # Fixed timestamps make the fixture ZIP byte-identical across runs.
+    # Otherwise ZipFile.writestr(name, ...) incorporates the local clock.
     with zipfile.ZipFile(target / "archive-review.zip", "w") as zf:
-        zf.writestr("settings/sample.env", "api_key=" + fake_value)
+        zf.writestr(zipfile.ZipInfo("settings/sample.env", date_time=(2020, 1, 1, 0, 0, 0)),
+                    "api_key=" + fake_value)
         # A path traversal *name*, never extracted or executed.
-        zf.writestr("../escape.txt", "harmless synthetic archive member")
+        zf.writestr(zipfile.ZipInfo("../escape.txt", date_time=(2020, 1, 1, 0, 0, 0)),
+                    "harmless synthetic archive member")
     def line(ip: str, time: str, path: str, status: int) -> str:
         return (
             f'{ip} - - [{time} +0900] "GET {path} HTTP/1.1" '
