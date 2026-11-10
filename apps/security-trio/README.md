@@ -99,7 +99,7 @@ python -m unittest discover -s tests -p 'test_*.py' -v
 - 別途、改善版の3本はメインPCでWindows GUIが起動することを確認済み。Explorerからのドラッグ＆ドロップ等の全操作試験は継続課題。
 - [SignPath申請準備資料](signpath/APPLICATION_EVIDENCE_20261109.md)に公開実績・申請未完了項目を記録。**SignPathの正式承認・実際の署名は未取得**。
 
-**未実施/公開前必須:** Explorerからの実ドラッグ＆ドロップ、UNC/OneDrive/長いパス、別環境でのクリーン実行、大容量入力のWindows実機負荷、マルチモニター、SmartScreenの評判警告、実データでの誤検知/見逃し評価、第三者コードレビュー、署名・再現可能なビルド検証。公開前の項目は `RELEASE_CHECKLIST.md` を参照。
+**未実施/未署名RC4プレリリースにおける既知の制約:** Explorerからの実ドラッグ＆ドロップ、UNC/OneDrive/長いパス、別環境でのクリーン実行、大容量入力のWindows実機負荷、マルチモニター、SmartScreenの評判警告、実データでの誤検知/見逃し評価、第三者コードレビュー、署名・再現可能なビルド検証。公開前の項目は `RELEASE_CHECKLIST.md` を参照。
 
 ## プライバシー
 
@@ -113,7 +113,7 @@ python -m unittest discover -s tests -p 'test_*.py' -v
 
 Copyright © 2026 ResoArc. MIT License (`LICENSE`)。
 
-本パッケージはResoArc向け開発案の初期実装です。最終的な公式公開・署名・窓の杜への情報提供は、実機受け入れと権利・セキュリティ検証後に判断してください。
+ResoArcはAI内部レビューとWindows CIの検証結果を条件に、**未署名v0.3.0-rc4 Windows x64の公開プレリリース**を許可する方針に変更しました。これは外部セキュリティ監査、Microsoftの推奨、SignPathの承認を意味しません。署名済みリリースや外部掲載への情報提供は別途判断します。
 
 ## v0.3.0-rc1の主な改良
 
@@ -123,8 +123,16 @@ v0.2の機能に加え、暗号化ZIPの未検査扱い、ZIP内実行形式の�
 
 公開中の未署名プレビューを検証する際は、[第三者レビュアー向け合成サンプル9件・手順](review-kit/README.md) を利用できます。実際に確認した使い勝手、再現可能な不具合、ソースレビューは [Security Trio 独立レビュー募集 Issue #104](https://github.com/resoarc/resoarc-site/issues/104) へお願いします。**実際の秘密情報・顧客ログ・個人情報・不審な実ファイルは添付せず、合成データを利用**してください。レビュー募集や内部自動テストだけでは、SignPathが求める独立した製品実績を証明したことにはなりません。
 
-[申請向けの証拠・人手承認要件](signpath/REVIEW_AND_REPUTATION_GATE_20261110.md)も参照してください。署名・一般向けリリースは引き続き保留です。
+[AI内部レビューと未署名RC4プレリリースの限定承認](AI_UNSIGNED_RELEASE_REVIEW_20261111.md)を参照してください。未署名版のGitHub Release公開は**新しいWindows CIと配布ZIP再検証の合格が条件**です。[SignPath申請に必要な外部評判・本物の人による承認要件](signpath/REVIEW_AND_REPUTATION_GATE_20261110.md)は別件として引き続き保留します。
 
 ## Code signing policy（コード署名方針）
 
 [CODE_SIGNING_POLICY.md](CODE_SIGNING_POLICY.md) を参照してください。v0.3.0-rc4 のWindows EXEは **未署名** です。SignPath Foundationへの申請・審査・承認はまだ完了していません。署名付き版は承認済みの公開CIビルドからのみ作成し、署名・チェックサム・ビルド由来を確認してから別版として公開します。
+
+## v0.3.0-rc4 未署名プレリリースの公開方針（2026-11-11）
+
+- 配布対象は3本の**未署名**Windows x64実行ファイルと、MITライセンス、第三者ライセンスの原文12件、SHA-256一覧を含むZIPです。
+- 2026-11-11のAIレビュー記録では、177テスト実行（うち1スキップ）のWindowsソース検証を3種のPythonで確認しています。以前のWindows GitHub Actionsの163テスト・3本のEXEの検証結果とは区別しています。
+- GitHub Actionsの新規リリース用CIで、3本の未署名状態、製品版数、ハッシュ、ネイティブ依存関係、ライセンス同梱が合格した場合にのみ、**署名なしプレリリース**として別のGitHub Releaseを作成します。正式URLの存在は公開完了後に確認してください。
+- 旧プレビューサイトにあるPython 3.10/OpenSSL 1.1系EXEを黙って差し替えません。新しいCI配布版はPython 3.12/OpenSSL 3系で、添付ライセンスも異なります。
+- **SignPath Foundationの署名は未取得**です。AIレビューは外部実利用実績やSignPathが要求する人間の承認を代替しません。
