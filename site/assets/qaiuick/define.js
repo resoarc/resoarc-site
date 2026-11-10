@@ -5,6 +5,7 @@
  *  are framework responsibilities. The author writes just one app specification.
  */
 import { quickApp } from './quick.js';
+import { sqliteStore } from './remote.js';
 import { normalizeSpec, specSnapshot, diffSpecs, impactReport, validateRecord } from './spec.js';
 
 const own = (value, name) => Object.prototype.hasOwnProperty.call(value, name);
@@ -118,7 +119,8 @@ function createUI(spec, config) {
   const list = node('section', { class: 'q-panel qs-panel' },
     node('div', { class: 'q-panel-heading' },
       node('h2', {}, '一覧'),
-      node('span', { class: 'q-pill' }, 'データはこの端末内だけ')),
+      node('span', { class: 'q-pill' },
+        spec.storage === 'sqlite' ? 'このPCのSQLiteに保存' : 'データはこの端末内だけ')),
     search,
     table,
     node('p', { class: 'q-empty', 'q-show': 'filteredEmpty' }, '該当するデータがありません。'),
@@ -218,7 +220,8 @@ export function defineApp(config) {
   const app = quickApp({
     root: host,
     key: spec.id,
-    persist: spec.persist ?? 'local',
+    persist: spec.storage === 'sqlite' ? 'remote' : (spec.storage ?? spec.persist ?? 'local'),
+    ...(spec.storage === 'sqlite' ? { storage: sqliteStore(), schema } : {}),
     sample: spec.sample,
     data: { draft, query: '', editingId: '', selectedId: '' },
     computed: {

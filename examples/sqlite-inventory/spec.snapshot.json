@@ -1,0 +1,77 @@
+{
+  "format": "qaiuick-spec-v1",
+  "id": "inventory-local-sqlite",
+  "version": 1,
+  "title": "在庫管理（ローカルSQLite）",
+  "description": "ブラウザを閉じても、SQLiteファイルにデータが残ります。",
+  "persist": "local",
+  "storage": "sqlite",
+  "theme": "teal",
+  "fields": {
+    "name": {
+      "label": "品目名",
+      "type": "text",
+      "required": true,
+      "minLength": 2,
+      "unique": true,
+      "default": ""
+    },
+    "category": {
+      "label": "category",
+      "type": "select",
+      "required": false,
+      "options": [
+        "部品",
+        "工具",
+        "消耗品"
+      ],
+      "default": "部品"
+    },
+    "qty": {
+      "label": "在庫数",
+      "type": "number",
+      "required": false,
+      "min": 0,
+      "integer": true,
+      "default": 0
+    }
+  },
+  "ui": {
+    "columns": [
+      "name",
+      "category",
+      "qty"
+    ],
+    "search": [
+      "name",
+      "category"
+    ],
+    "detail": [
+      "name",
+      "category",
+      "qty"
+    ]
+  },
+  "sample": [
+    {
+      "id": "item-1",
+      "name": "M3ボルト",
+      "category": "部品",
+      "qty": 48
+    },
+    {
+      "id": "item-2",
+      "name": "USB-Cケーブル",
+      "category": "部品",
+      "qty": 8
+    },
+    {
+      "id": "item-3",
+      "name": "養生テープ",
+      "category": "消耗品",
+      "qty": 6
+    }
+  ],
+  "metrics": {},
+  "actions": {}
+}

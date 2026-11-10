@@ -148,6 +148,10 @@ export function normalizeSpec(spec) {
   }
   if (spec.persist != null && !['local', 'memory'].includes(spec.persist))
     fail('persist must be local or memory');
+  if (spec.storage != null && !['local', 'memory', 'sqlite'].includes(spec.storage))
+    fail('storage must be local, memory or sqlite');
+  if (spec.storage && spec.persist && spec.storage !== spec.persist)
+    fail('Use either storage or persist, not conflicting values');
   if (spec.theme != null && !['teal', 'rose', 'violet'].includes(spec.theme))
     fail('Unknown theme');
   return { ...spec, fields, columns, search, sections: groups, detail, sample, metrics, actions };
@@ -167,7 +171,9 @@ export function specSnapshot(rawSpec) {
   }));
   return {
     format: 'qaiuick-spec-v1', id: s.id, version: s.version, title: s.title,
-    description: s.description ?? '', persist: s.persist ?? 'local', theme: s.theme ?? 'teal',
+    description: s.description ?? '', persist: s.persist ?? 'local',
+    ...(s.storage ? { storage: s.storage } : {}),
+    theme: s.theme ?? 'teal',
     fields: Object.fromEntries(s.fields.map(({ name, ...rest }) => [name, rest])),
     ui: {
       columns: s.columns, search: s.search,
@@ -279,7 +285,7 @@ export function impactReport(before, after) {
       add('業務操作', '対象操作と保存結果を確認', '要確認');
     } else if (path.startsWith('metrics.')) {
       add('集計', '基準データで集計値を確認', '要確認');
-    } else if (path === 'persist') {
+    } else if (path === 'persist' || path === 'storage') {
       add('保存方式', 'データ保持・復元・消失を確認', '要確認');
     } else if (path === 'sample') {
       add('初期データ', '新規ブラウザと既存ブラウザを区別して確認', '低');

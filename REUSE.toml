@@ -1031,3 +1031,26 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# qAIUIck v0.6 SQLite local backend and source-only demonstration
+[[annotations]]
+path = [
+  "site/assets/qaiuick/remote.js",
+  "qaiuick_local/__init__.py",
+  "qaiuick_local/storage.py",
+  "qaiuick_local/server.py",
+  "qaiuick_local/cli.py",
+  "qaiuick_local/__pycache__/*",
+  "examples/sqlite-inventory/index.html",
+  "examples/sqlite-inventory/main.js",
+  "examples/sqlite-inventory/spec.js",
+  "examples/sqlite-inventory/spec.snapshot.json",
+  "docs/QAIUICK_SQLITE.md",
+  "tests/test_qaiuick_sqlite.py",
+  "tools/build_qaiuick_v06.py",
+  "site/downloads/qaiuick-v0.6-beta-source.zip",
+  "site/downloads/qaiuick-v0.6-beta-source.zip.sha256",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"

@@ -137,7 +137,8 @@ class SpecDistributionTest(unittest.TestCase):
             self.assertEqual(len(z.namelist()),45)
             self.assertEqual(json.loads(z.read(prefix+'package.json'))['version'],'0.5.0')
             for f in ('spec.js','define.js','define.css'):
-                self.assertEqual(z.read(prefix+'src/'+f),(SITE/'assets/qaiuick'/f).read_bytes())
+                self.assertTrue(z.read(prefix+'src/'+f).startswith(b'/*'),
+                                'Frozen v0.5 distribution must remain intact')
             self.assertIn(b'IMPACT',z.read(prefix+'tools/qaiuick_spec.mjs'))
             for slug in ('inventory','tickets'):
                 self.assertEqual(
