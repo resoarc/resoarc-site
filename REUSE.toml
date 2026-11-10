@@ -1017,3 +1017,17 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+
+# qAIUIck v0.5: reviewed snapshot files and reproducible source ZIP
+[[annotations]]
+path = [
+  "tools/build_qaiuick_v05.py",
+  "site/assets/qaiuick-spec/current-inventory.json",
+  "site/assets/qaiuick-spec/current-tickets.json",
+  "site/downloads/qaiuick-v0.5-beta-source.zip",
+  "site/downloads/qaiuick-v0.5-beta-source.zip.sha256",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"

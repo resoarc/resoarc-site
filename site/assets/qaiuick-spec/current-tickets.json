@@ -1,0 +1,101 @@
+{
+  "format": "qaiuick-spec-v1",
+  "id": "resoarc-qaiuick-spec-tickets",
+  "version": 2,
+  "title": "問い合わせ管理・仕様駆動版",
+  "description": "受付、対応中、完了の流れを小さな仕様で定義します。",
+  "persist": "local",
+  "theme": "teal",
+  "fields": {
+    "title": {
+      "label": "問い合わせ内容",
+      "type": "text",
+      "required": true,
+      "maxLength": 100,
+      "minLength": 3,
+      "hint": "何についての問い合わせか簡潔に入力してください",
+      "default": ""
+    },
+    "owner": {
+      "label": "担当者",
+      "type": "text",
+      "required": true,
+      "default": ""
+    },
+    "status": {
+      "label": "対応状況",
+      "type": "select",
+      "required": false,
+      "options": [
+        "未対応",
+        "対応中",
+        "完了"
+      ],
+      "default": "未対応"
+    }
+  },
+  "ui": {
+    "columns": [
+      "title",
+      "owner",
+      "status"
+    ],
+    "search": [
+      "title",
+      "owner"
+    ],
+    "sections": [
+      {
+        "title": "受付情報",
+        "fields": [
+          "title",
+          "owner"
+        ]
+      },
+      {
+        "title": "進捗",
+        "fields": [
+          "status"
+        ]
+      }
+    ],
+    "detail": [
+      "title",
+      "owner",
+      "status"
+    ]
+  },
+  "sample": [
+    {
+      "id": "t1",
+      "title": "ログイン方法の確認",
+      "owner": "田中",
+      "status": "未対応"
+    },
+    {
+      "id": "t2",
+      "title": "集計表示について",
+      "owner": "山本",
+      "status": "対応中"
+    },
+    {
+      "id": "t3",
+      "title": "ファイル保存方法",
+      "owner": "佐々木",
+      "status": "完了"
+    }
+  ],
+  "metrics": {
+    "open": {
+      "label": "未完了",
+      "logic": "rows => rows.filter(r => r.status !== '完了').length"
+    }
+  },
+  "actions": {
+    "advance": {
+      "label": "次へ",
+      "description": "未対応 → 対応中 → 完了",
+      "logic": "({ record, update }) => {\n        const stages = ['未対応', '対応中', '完了'];\n        update(record.id, { status: stages[(stages.indexOf(record.status) + 1) % 3] });\n      }"
+    }
+  }
+}

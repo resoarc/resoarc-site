@@ -41,8 +41,20 @@ function field(name, value) {
     fail('min must be <= max: ' + name);
   if (input.type === 'number' && input.step != null && (!Number.isFinite(input.step) || input.step <= 0))
     fail('Invalid number step: ' + name);
-  if (input.maxLength != null && (!Number.isInteger(input.maxLength) || input.maxLength < 1 || input.maxLength > 10000))
+  if (input.minLength != null && (typeof input.minLength !== 'number' ||
+      !Number.isInteger(input.minLength) || input.minLength < 0 || input.minLength > 10000 ||
+      !['text', 'textarea'].includes(input.type))) fail('Invalid minLength: ' + name);
+  if (input.integer != null && (typeof input.integer !== 'boolean' || input.type !== 'number'))
+    fail('integer requires number: ' + name);
+  if (input.unique != null && (typeof input.unique !== 'boolean' || !['text','number','select'].includes(input.type)))
+    fail('unique requires text, number or select: ' + name);
+  if (input.hint != null && (typeof input.hint !== 'string' || input.hint.length > 300))
+    fail('Invalid hint: ' + name);
+  if (input.maxLength != null && (!['text','textarea'].includes(input.type) ||
+      !Number.isInteger(input.maxLength) || input.maxLength < 1 || input.maxLength > 10000))
     fail('Invalid maxLength: ' + name);
+  if (input.minLength != null && input.maxLength != null && input.minLength > input.maxLength)
+    fail('minLength must be <= maxLength: ' + name);
   if (input.default !== undefined) {
     const v = input.default;
     if (input.type === 'checkbox' && typeof v !== 'boolean') fail('Checkbox default must be boolean: ' + name);
@@ -57,6 +69,10 @@ function field(name, value) {
     ...(input.max != null ? { max: input.max } : {}),
     ...(input.step != null ? { step: input.step } : {}),
     ...(input.maxLength != null ? { maxLength: input.maxLength } : {}),
+    ...(input.minLength != null ? { minLength: input.minLength } : {}),
+    ...(input.integer != null ? { integer: input.integer } : {}),
+    ...(input.unique != null ? { unique: input.unique } : {}),
+    ...(input.hint ? { hint: input.hint } : {}),
     ...(input.placeholder ? { placeholder: String(input.placeholder) } : {}),
     default: input.default ?? (input.type === 'checkbox' ? false : input.type === 'number' ? 0 : input.type === 'select' ? input.options[0] : ''),
   };
@@ -82,6 +98,25 @@ export function normalizeSpec(spec) {
   const columns = names(ui.columns ?? ids, ids, 'ui.columns');
   const search = names(ui.search ?? [], ids, 'ui.search');
   if (!columns.length) fail('ui.columns cannot be empty');
+  // Sections explicitly control the form. Every field must be shown exactly once.
+  const sections = ui.sections == null
+    ? [{ title: '入力項目', fields: ids }]
+    : ui.sections;
+  if (!Array.isArray(sections) || sections.length < 1 || sections.length > 10)
+    fail('ui.sections must contain 1-10 groups');
+  const listed = [];
+  const groups = sections.map((section, i) => {
+    if (!record(section) || typeof section.title !== 'string' ||
+        !section.title.trim() || section.title.length > 100)
+      fail('ui.sections[' + i + '] needs a title');
+    const fields = names(section.fields, ids, 'ui.sections[' + i + '].fields');
+    if (!fields.length) fail('A form section must contain fields');
+    listed.push(...fields);
+    return { title: section.title, fields };
+  });
+  if (listed.length !== ids.length || new Set(listed).size !== ids.length)
+    fail('ui.sections must contain every field exactly once');
+  const detail = names(ui.detail ?? [], ids, 'ui.detail');
   const sample = spec.sample ?? [];
   if (!Array.isArray(sample) || sample.length > 200 || sample.some(x => !record(x)))
     fail('sample must be a list of <=200 records');
@@ -100,14 +135,14 @@ export function normalizeSpec(spec) {
     fail('metrics/actions must be small objects');
   for (const [key, value] of Object.entries(metrics)) {
     if (!NAME.test(key) || FORBIDDEN.has(key) || key.startsWith('$') ||
-        ['items', 'count', 'empty', 'filtered', 'draft', 'query', 'editingId', 'error'].includes(key) ||
+        ['items', 'count', 'empty', 'filtered', 'draft', 'query', 'editingId', 'selectedId', 'selectedRecord', 'showDetails', 'error'].includes(key) ||
         ids.includes(key) || !record(value) ||
         typeof value.label !== 'string' || typeof value.calc !== 'function')
       fail('Invalid metric: ' + key);
   }
   for (const [key, value] of Object.entries(actions)) {
     if (!NAME.test(key) || FORBIDDEN.has(key) || key.startsWith('$') ||
-        ['save', 'edit', 'remove', 'reset', 'cancel'].includes(key) ||
+        ['save', 'edit', 'view', 'closeDetail', 'remove', 'reset', 'cancel'].includes(key) ||
         !record(value) || typeof value.label !== 'string' || typeof value.run !== 'function')
       fail('Invalid action: ' + key);
   }
@@ -115,7 +150,7 @@ export function normalizeSpec(spec) {
     fail('persist must be local or memory');
   if (spec.theme != null && !['teal', 'rose', 'violet'].includes(spec.theme))
     fail('Unknown theme');
-  return { ...spec, fields, columns, search, sample, metrics, actions };
+  return { ...spec, fields, columns, search, sections: groups, detail, sample, metrics, actions };
 }
 
 /** Stable, serializable single-source design contract; changes include JS logic. */
@@ -134,7 +169,11 @@ export function specSnapshot(rawSpec) {
     format: 'qaiuick-spec-v1', id: s.id, version: s.version, title: s.title,
     description: s.description ?? '', persist: s.persist ?? 'local', theme: s.theme ?? 'teal',
     fields: Object.fromEntries(s.fields.map(({ name, ...rest }) => [name, rest])),
-    ui: { columns: s.columns, search: s.search },
+    ui: {
+      columns: s.columns, search: s.search,
+      ...(s.ui?.sections ? { sections: s.sections } : {}),
+      ...(s.ui?.detail ? { detail: s.detail } : {}),
+    },
     sample: s.sample, metrics, actions,
   };
 }
@@ -163,4 +202,91 @@ export function diffSpecs(before, after) {
     }];
     return [];
   });
+}
+
+/** Validate and normalize a form record using only its checked-in specification.
+ *  This also works under Node; it never trusts browser input attributes alone.
+ */
+export function validateRecord(rawSpec, draft, existing = [], editingId = '') {
+  const spec = Array.isArray(rawSpec.fields) ? rawSpec : normalizeSpec(rawSpec);
+  if (!record(draft) || !Array.isArray(existing)) fail('Invalid record or existing rows');
+  const result = {};
+  for (const field of spec.fields) {
+    let value = draft[field.name];
+    if (field.type === 'checkbox') {
+      value = Boolean(value);
+    } else if (field.type === 'number') {
+      if (value === '' || value == null) {
+        if (field.required) throw new Error(field.label + 'は必須です');
+        value = 0;
+      } else {
+        value = Number(value);
+        if (!Number.isFinite(value)) throw new Error(field.label + 'は数値を入力してください');
+      }
+      if (field.integer && !Number.isSafeInteger(value))
+        throw new Error(field.label + 'は整数で入力してください');
+      if (field.min != null && value < field.min) throw new Error(field.label + 'は' + field.min + '以上にしてください');
+      if (field.max != null && value > field.max) throw new Error(field.label + 'は' + field.max + '以下にしてください');
+    } else {
+      value = String(value ?? '').trim();
+      if (field.required && !value) throw new Error(field.label + 'は必須です');
+      if (field.minLength != null && value && [...value].length < field.minLength)
+        throw new Error(field.label + 'は' + field.minLength + '文字以上にしてください');
+      if (field.maxLength != null && [...value].length > field.maxLength)
+        throw new Error(field.label + 'は' + field.maxLength + '文字以内です');
+      if (field.type === 'select' && !field.options.includes(value))
+        throw new Error(field.label + 'の選択肢が不正です');
+    }
+    if (field.unique && value !== '') {
+      const duplicate = existing.some(row => {
+        if (String(row.id) === String(editingId)) return false;
+        const other = row[field.name];
+        return field.type === 'number'
+          ? Number(other) === value
+          : String(other ?? '').trim().toLocaleLowerCase('ja-JP') ===
+            String(value).toLocaleLowerCase('ja-JP');
+      });
+      if (duplicate) throw new Error(field.label + 'は既に登録されています');
+    }
+    result[field.name] = value;
+  }
+  return result;
+}
+
+/** Map each AI/spec change to observable UI areas and suggested regression tests. */
+export function impactReport(before, after) {
+  const changes = diffSpecs(before, after);
+  const impacts = new Map();
+  const add = (area, test, risk) => {
+    const previous = impacts.get(area);
+    impacts.set(area, { area, test,
+      risk: previous?.risk === '要確認' || risk === '要確認' ? '要確認' : '低' });
+  };
+  for (const change of changes) {
+    const path = change.path;
+    if (path === 'version' || path.startsWith('fields.')) {
+      add('入力フォーム・検証', '追加・編集で必須・範囲・重複を確認', '要確認');
+      add('保存済みレコード', '既存データの読み込みと移行要否を確認', '要確認');
+    } else if (path.startsWith('ui.sections')) {
+      add('フォーム配置', 'スマホ・PCの項目順と表示を確認', '低');
+    } else if (path.startsWith('ui.detail')) {
+      add('詳細画面', '詳細・閉じる・検索後の選択を確認', '低');
+    } else if (path.startsWith('ui.columns')) {
+      add('一覧画面', '列の順序とモバイル横スクロールを確認', '低');
+    } else if (path.startsWith('ui.search')) {
+      add('検索', '複数の検索語と0件表示を確認', '低');
+    } else if (path.startsWith('actions.')) {
+      add('業務操作', '対象操作と保存結果を確認', '要確認');
+    } else if (path.startsWith('metrics.')) {
+      add('集計', '基準データで集計値を確認', '要確認');
+    } else if (path === 'persist') {
+      add('保存方式', 'データ保持・復元・消失を確認', '要確認');
+    } else if (path === 'sample') {
+      add('初期データ', '新規ブラウザと既存ブラウザを区別して確認', '低');
+    } else {
+      add('表示・案内文', '文言・視認性を確認', '低');
+    }
+  }
+  return { changes, impacts: [...impacts.values()],
+    needsDataReview: [...impacts.values()].some(x => x.area === '保存済みレコード' || x.area === '保存方式') };
 }

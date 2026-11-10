@@ -59,7 +59,7 @@ try {
     }
   }
   # Newly released qAIUIck beta must be live, not merely committed or uploaded.
-  $qaZip = Join-Path $site "downloads/qaiuick-v0.4-beta-source.zip"
+  $qaZip = Join-Path $site "downloads/qaiuick-v0.5-beta-source.zip"
   if (!(Test-Path $qaZip)) { throw "qAIUIck source ZIP missing" }
   $qaDigest = (Get-FileHash $qaZip -Algorithm SHA256).Hash.ToLowerInvariant()
   foreach ($hostName in @("resoarc.com", "www.resoarc.com", "resoarc.pages.dev")) {
@@ -86,6 +86,8 @@ try {
       "/assets/qaiuick-spec/tickets.spec.js",
       "/assets/qaiuick-spec/baseline-inventory.json",
       "/assets/qaiuick-spec/baseline-tickets.json",
+      "/assets/qaiuick-spec/current-inventory.json",
+      "/assets/qaiuick-spec/current-tickets.json",
       "/assets/qaiuick/quick.js",
       "/assets/qaiuick-beta/source-viewer.js",
       "/assets/qaiuick-beta/samples.css",
@@ -102,7 +104,7 @@ try {
       }
       Write-Output ("QAIUICK_ASSET_OK " + $assetUrl)
     }
-    $zipUrl = "https://" + $hostName + "/downloads/qaiuick-v0.4-beta-source.zip?deploycheck=" + $stamp
+    $zipUrl = "https://" + $hostName + "/downloads/qaiuick-v0.5-beta-source.zip?deploycheck=" + $stamp
     $tempZip = Join-Path ([IO.Path]::GetTempPath()) ("qaiuick-verify-" + [guid]::NewGuid().ToString("N") + ".zip")
     try {
       Invoke-WebRequest -Uri $zipUrl -OutFile $tempZip -TimeoutSec 45

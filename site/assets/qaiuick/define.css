@@ -39,3 +39,17 @@
  .qs-table{min-width:540px}
  .qs-row-actions button{min-height:32px;font-size:.76rem}
 }
+
+/* Spec v0.5: grouped forms, record details, human-readable AI impact map */
+.qs-form-sections{display:grid;gap:16px}
+.qs-form-section{margin:0;padding:18px 18px 20px;min-width:0;border:1px solid var(--q-border);border-radius:14px;background:color-mix(in srgb,var(--q-surface) 90%,var(--q-primary) 10%)}
+.qs-form-section legend{padding:0 9px;font-size:.91rem;font-weight:750;color:var(--q-ink)}
+.qs-form-section .qs-form-grid{margin-top:3px}
+.qs-hint{display:block;font-size:.76rem;line-height:1.5;color:var(--q-muted);font-weight:400}
+.qs-details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0 4px}
+.qs-details-grid>div{padding:13px 15px;border:1px solid var(--q-border);border-radius:11px;min-width:0}
+.qs-details-grid dt{color:var(--q-muted);font-size:.78rem;font-weight:650}
+.qs-details-grid dd{margin:8px 0 0;overflow-wrap:anywhere;font-size:1rem;font-weight:650}
+.qs-impact{display:grid;gap:8px;margin-top:8px}
+.qs-impact p{margin:0;padding:11px 13px;border-radius:10px;border:1px solid var(--q-border);line-height:1.6;overflow-wrap:anywhere}
+@media(max-width:600px){.qs-form-section{padding:13px}.qs-details-grid{grid-template-columns:1fr}}
