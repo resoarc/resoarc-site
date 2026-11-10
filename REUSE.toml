@@ -1054,3 +1054,11 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# qAIUIck user-provided replacement wordmark and orbit artwork.
+# Brand artwork is not licensed as an unrestricted logo/trademark grant.
+[[annotations]]
+path = ["site/assets/qaiuick-beta/logo-orbit-20261110.webp"]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "LicenseRef-ResoArc-Brand-Art"

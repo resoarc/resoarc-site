@@ -61,7 +61,7 @@ def audit()->list[str]:
  older={x["path"]:x for x in historical["assets"]}
  newer={x["path"]:x for x in active["assets"]}
  if len(older)!=34:problems.append("historical 34 reviewed assets changed")
- if len(newer)!=81:problems.append("active distribution inventory count drifted")
+ if len(newer)!=82:problems.append("active distribution inventory count drifted")
  if len(set(older)&set(newer)):problems.append("overlapping immutable inventories")
  tracked=subprocess.check_output(["git","ls-files"],cwd=ROOT,text=True).splitlines()
  for rel in tracked:
@@ -106,6 +106,6 @@ if __name__=="__main__":
  except Exception as exc:
   issues=["auditor exception "+type(exc).__name__+": "+str(exc)]
  for issue in issues:print("FAIL:",issue,file=sys.stderr)
- print("Immutable binary verification: 34 historical reviewed assets + 81 active site distributions; issues",len(issues))
+ print("Immutable binary verification: 34 historical reviewed assets + 82 active site distributions; issues",len(issues))
  print("This is byte/format/signature/declared-license evidence, NOT legal rights conformance.")
  raise SystemExit(1 if issues else 0)
