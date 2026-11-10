@@ -118,11 +118,11 @@ class SampleGalleryTest(unittest.TestCase):
         for f in files:
             with self.subTest(file=f.name):
                 content = f.read_text("utf-8")
-                self.assertIn("seedOnce", content)
-                self.assertIn("resetSamples", content)
+                self.assertIn("quickApp", content)
+                self.assertIn("sample:", content)
                 self.assertNotIn("fetch(", content)
-                self.assertIn("onError", content)
-                self.assertIn("examples", content)
+                self.assertIn("quickApp({", content)
+                self.assertIn("sample:", content)
 
     @unittest.skipUnless(shutil.which("node"), "Node.js not present")
     def test_seed_once_does_not_repopulate_deleted_items(self):

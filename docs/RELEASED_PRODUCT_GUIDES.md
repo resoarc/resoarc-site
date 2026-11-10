@@ -18,7 +18,7 @@ These tools have a direct page with inputs, a processing action, outputs and sta
 | --- | --- | --- |
 | SHA-256 file checker | Choose a file, calculate the hash and compare it against the distributor's trusted checksum | [hash](../site/tools/hash/index.html) |
 | CSV/TSV structure validator | Choose CSV/TSV, inspect encoding/structure and row or column diagnostics before import | [csv](../site/tools/csv/index.html) |
-| qAIUIck v0.2 beta demo | Open the demo, enter a memo and press Enter or Add; remove a memo with Delete. Records stay in that browser's localStorage, are not backed up, and may be cleared. Do not enter confidential data. See the product page for the downloadable source ZIP and localhost-only SQLite sample. | [qAIUIck demo](../site/tools/qaiuick-demo/index.html) |
+| qAIUIck v0.3 beta demo | Open the demo, enter a memo and press Enter or Add; remove a memo with Delete. Records stay in that browser's localStorage, are not backed up, and may be cleared. Do not enter confidential data. See the product page for the downloadable source ZIP and localhost-only SQLite sample. | [qAIUIck demo](../site/tools/qaiuick-demo/index.html) |
 | qAIUIck inventory sample | Inspect five example stock items, add one, replenish by ten, delete and reset. Changes remain in this browser. | [inventory](../site/tools/qaiuick-inventory/index.html) |
 | qAIUIck budget sample | Inspect five example expenses, add and remove records, and see totals update automatically. Demo data only. | [budget](../site/tools/qaiuick-budget/index.html) |
 | qAIUIck support sample | Move tickets through 未対応, 対応中 and 完了. Sample entries are not customer records. | [support](../site/tools/qaiuick-tickets/index.html) |

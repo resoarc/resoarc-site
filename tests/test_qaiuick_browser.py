@@ -69,6 +69,7 @@ class QaiuickBrowserTest(unittest.TestCase):
                     page.locator(selector).first.wait_for()
                     self.assertEqual(page.locator(selector).count(), expected)
                     page.locator('[data-q-source-code]').wait_for()
+                    page.locator('[data-q-source-tab="html"]').click()
                     page.wait_for_function(
                         "() => document.querySelector('[data-q-source-code]').textContent.includes('<!doctype html>')"
                     )
@@ -78,7 +79,7 @@ class QaiuickBrowserTest(unittest.TestCase):
                     )
                     page.locator('[data-q-source-tab="js"]').click()
                     page.wait_for_function(
-                        "() => document.querySelector('[data-q-source-code]').textContent.includes('seedOnce')"
+                        "() => document.querySelector('[data-q-source-code]').textContent.includes('quickApp')"
                     )
                     width = page.evaluate("document.documentElement.scrollWidth - window.innerWidth")
                     self.assertLessEqual(width, 2, "horizontal overflow on " + slug)
