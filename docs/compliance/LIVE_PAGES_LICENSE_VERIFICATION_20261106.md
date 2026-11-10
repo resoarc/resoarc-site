@@ -1,6 +1,6 @@
 # ResoArc Cloudflare Pages licensing and live distribution verification
 
-**Observed:** 2026-11-06 JST. **Official license criteria:** OpenSSF Baseline Level 1 OSPS-LE-02.02 and OSPS-LE-03.02.  
+**Observed:** 2026-11-06 JST. **Official license criteria:** OpenSSF Baseline Level 1 OSPS-LE-02.02 and OSPS-LE-03.02.
 **Decision:** Both still **Unmet**, pending full delivery and software-rights evidence. This document does not assert certification.
 
 ## Actual Cloudflare change

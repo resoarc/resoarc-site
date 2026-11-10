@@ -58,6 +58,66 @@ try {
       Remove-Item $tempZip -Force -ErrorAction SilentlyContinue
     }
   }
+  # Newly released qAIUIck beta must be live, not merely committed or uploaded.
+  $qaZip = Join-Path $site "downloads/qaiuick-v0.6-beta-source.zip"
+  if (!(Test-Path $qaZip)) { throw "qAIUIck source ZIP missing" }
+  $qaDigest = (Get-FileHash $qaZip -Algorithm SHA256).Hash.ToLowerInvariant()
+  foreach ($hostName in @("resoarc.com", "www.resoarc.com", "resoarc.pages.dev")) {
+    foreach ($route in @("/products/web/qaiuick/", "/tools/qaiuick-demo/", "/tools/qaiuick-inventory/", "/tools/qaiuick-budget/", "/tools/qaiuick-tickets/", "/tools/qaiuick-customers/", "/tools/qaiuick-spec-inventory/", "/tools/qaiuick-spec-tickets/")) {
+      $url = "https://" + $hostName + $route + "?deploycheck=" + $stamp
+      $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
+      if ($response.StatusCode -ne 200 -or !$response.Content.Contains("qAIUIck") -or
+          !$response.Content.Contains('href="/os/"')) {
+        throw ("qAIUIck beta page not live: " + $url)
+      }
+      Write-Output ("QAIUICK_PAGE_OK " + $url)
+    }
+    $assetUrl = "https://" + $hostName + "/assets/qaiuick-beta/logo-orbit-20261110.webp?deploycheck=" + $stamp
+    $assetResponse = Invoke-WebRequest -Uri $assetUrl -UseBasicParsing -TimeoutSec 30
+    if ($assetResponse.StatusCode -ne 200 -or
+        $assetResponse.Headers["Content-Type"] -notmatch "image/webp") {
+      throw ("qAIUIck hero not live: " + $assetUrl)
+    }
+    foreach ($asset in @(
+      "/assets/qaiuick/spec.js",
+      "/assets/qaiuick/define.js",
+      "/assets/qaiuick/define.css",
+      "/assets/qaiuick-spec/inventory.spec.js",
+      "/assets/qaiuick-spec/tickets.spec.js",
+      "/assets/qaiuick-spec/baseline-inventory.json",
+      "/assets/qaiuick-spec/baseline-tickets.json",
+      "/assets/qaiuick-spec/current-inventory.json",
+      "/assets/qaiuick-spec/current-tickets.json",
+      "/assets/qaiuick/quick.js",
+      "/assets/qaiuick/remote.js",
+      "/assets/qaiuick-beta/source-viewer.js",
+      "/assets/qaiuick-beta/samples.css",
+      "/assets/qaiuick-beta/examples/sample-data.js",
+      "/assets/qaiuick-beta/examples/inventory.js",
+      "/assets/qaiuick-beta/examples/budget.js",
+      "/assets/qaiuick-beta/examples/tickets.js",
+      "/assets/qaiuick-beta/examples/customers.js"
+    )) {
+      $assetUrl = "https://" + $hostName + $asset + "?deploycheck=" + $stamp
+      $assetResponse = Invoke-WebRequest -Uri $assetUrl -UseBasicParsing -TimeoutSec 30
+      if ($assetResponse.StatusCode -ne 200 -or $assetResponse.Content.Length -lt 100) {
+        throw ("qAIUIck sample source not live: " + $assetUrl)
+      }
+      Write-Output ("QAIUICK_ASSET_OK " + $assetUrl)
+    }
+    $zipUrl = "https://" + $hostName + "/downloads/qaiuick-v0.6-beta-source.zip?deploycheck=" + $stamp
+    $tempZip = Join-Path ([IO.Path]::GetTempPath()) ("qaiuick-verify-" + [guid]::NewGuid().ToString("N") + ".zip")
+    try {
+      Invoke-WebRequest -Uri $zipUrl -OutFile $tempZip -TimeoutSec 45
+      if ((Get-FileHash $tempZip -Algorithm SHA256).Hash.ToLowerInvariant() -ne $qaDigest) {
+        throw ("qAIUIck source ZIP checksum mismatch: " + $zipUrl)
+      }
+      Write-Output ("QAIUICK_SOURCE_OK " + $zipUrl)
+    } finally {
+      Remove-Item $tempZip -Force -ErrorAction SilentlyContinue
+    }
+  }
+  Write-Output "QAIUICK_BETA_LIVE_VERIFIED"
   Write-Output "PRODUCTION_SITE_VERIFIED"
 } finally {
   Pop-Location

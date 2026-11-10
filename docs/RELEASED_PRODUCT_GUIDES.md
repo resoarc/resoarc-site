@@ -18,6 +18,13 @@ These tools have a direct page with inputs, a processing action, outputs and sta
 | --- | --- | --- |
 | SHA-256 file checker | Choose a file, calculate the hash and compare it against the distributor's trusted checksum | [hash](../site/tools/hash/index.html) |
 | CSV/TSV structure validator | Choose CSV/TSV, inspect encoding/structure and row or column diagnostics before import | [csv](../site/tools/csv/index.html) |
+| qAIUIck v0.6 beta demo | Open the demo, enter a memo and press Enter or Add; remove a memo with Delete. Records stay in that browser's localStorage, are not backed up, and may be cleared. Do not enter confidential data. See the product page for the downloadable source ZIP and localhost-only SQLite sample. | [qAIUIck demo](../site/tools/qaiuick-demo/index.html) |
+| qAIUIck inventory sample | Inspect five example stock items, add one, replenish by ten, delete and reset. Changes remain in this browser. | [inventory](../site/tools/qaiuick-inventory/index.html) |
+| qAIUIck budget sample | Inspect five example expenses, add and remove records, and see totals update automatically. Demo data only. | [budget](../site/tools/qaiuick-budget/index.html) |
+| qAIUIck support sample | Move tickets through 未対応, 対応中 and 完了. Sample entries are not customer records. | [support](../site/tools/qaiuick-tickets/index.html) |
+| qAIUIck customer search sample | Search fictitious people, companies and regions, add and remove records. Never enter real personal data. | [customers](../site/tools/qaiuick-customers/index.html) |
+| qAIUIck Spec-first inventory | Schema-driven UI, local CRUD, custom restock operation and a JSON snapshot inspector. | [Spec inventory](../site/tools/qaiuick-spec-inventory/index.html) |
+| qAIUIck Spec-first support | Schema-driven workflow sample, searchable records and specification diff display. | [Spec support](../site/tools/qaiuick-spec-tickets/index.html) |
 | Bulk-change preflight | Input a change dataset, preview and inspect problems before making any bulk update elsewhere | [bulk-preview](../site/tools/kintone-bulk-preview/index.html) |
 | App configuration diff | Select two JSON configuration exports, inspect differences and mismatched fields | [app-diff](../site/tools/kintone-app-diff/index.html) |
 | Permission definition audit | Supply a permitted kintone permission export to inspect access rules | [permission-audit](../site/tools/kintone-permission-audit/index.html) |
@@ -71,3 +78,5 @@ These links are listed to ensure no source/QA release loses its corresponding pr
 **Integrity and mirror:** [immutable SHA-256 audit](compliance/OSPS_RELEASE_LICENSE_AUDIT_20261106.json), and [GitHub historical archive release](https://github.com/resoarc/resoarc-site/releases/tag/resoarc-osps-distribution-mirror-20261106). The archive release contains the same historical ZIP bytes plus the first-party LICENSE and NOTICE, but not a blanket security certification.
 
 **Limitations:** Publication of this map does not prove every individual user's receipt of notices, nor that every experimental capability is supported. This is a source/release documentation index; review actual product-specific pages before release.
+
+qAIUIck SQLite local backend is included ONLY in the v0.6 source ZIP; see [local data guide](QAIUICK_SQLITE.md). It does not run on public static pages.

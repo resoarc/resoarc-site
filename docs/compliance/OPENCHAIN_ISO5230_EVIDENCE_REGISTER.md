@@ -3,8 +3,8 @@
 **Formal conformity status: NOT READY. No self-declaration submitted.**
 This tracker describes the narrowly scoped program in [OPENCHAIN_ISO5230_PROGRAM.md](OPENCHAIN_ISO5230_PROGRAM.md) for the two browser utilities only. It does not cover other ResoArc products.
 
-Official checklist: https://openchainproject.org/licensecompliancespecification  
-Independent clause-level implementation guide: https://openchain-project.github.io/OpenChain-KWG/en/guide/iso5230_guide/  
+Official checklist: https://openchainproject.org/licensecompliancespecification
+Independent clause-level implementation guide: https://openchain-project.github.io/OpenChain-KWG/en/guide/iso5230_guide/
 Local release record form: [OPENCHAIN_RELEASE_REVIEW_TEMPLATE.md](OPENCHAIN_RELEASE_REVIEW_TEMPLATE.md)
 
 A documented policy is **not evidence of execution**. Only mark **VERIFIED** after a dated real release case, qualified reviewer and associated records exist.

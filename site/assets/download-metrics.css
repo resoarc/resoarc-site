@@ -1,0 +1,18 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc
+ * SPDX-License-Identifier: MIT */
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;background:#081321;color:#edf4fb}
+*{box-sizing:border-box}body{margin:0;line-height:1.65;background:radial-gradient(ellipse at 85% -20%,#28405e 0%,transparent 50%),#081321}
+a{color:#9cdbf4}header{border-bottom:1px solid #31465c;background:#0b1728cc}nav,main,footer{max-width:1080px;margin:auto;padding:16px 22px}
+nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}nav strong{margin-right:auto;font-size:1.2rem;letter-spacing:.1em}
+main{padding-top:36px;padding-bottom:64px}h1{font-size:clamp(1.55rem,4vw,2.6rem);margin:0 0 10px}h2{font-size:1.3rem;margin:36px 0 12px}
+.lead{max-width:790px;color:#bfcede}.notice{background:#13263c;border:1px solid #35506a;padding:14px 16px;border-radius:12px;margin:18px 0 30px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.kpi{background:#122339;border:1px solid #29445d;border-radius:12px;padding:20px}
+.kpi .num{font-size:2rem;font-weight:750;font-variant-numeric:tabular-nums;display:block;line-height:1.3}.kpi .lbl{color:#b5c8d8;font-size:.88rem}
+small,.muted{color:#a8bdd0}.tablewrap{overflow-x:auto;border:1px solid #2e4860;border-radius:10px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:630px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #243b50}td.num,th.num{text-align:right}thead{background:#142a3e}tbody tr:last-child td{border-bottom:0}
+details{margin-top:26px}summary{cursor:pointer;font-weight:700;padding:12px 0}#chart{display:flex;align-items:end;min-height:170px;gap:5px;border-bottom:1px solid #53687d;padding:12px 5px 0;overflow-x:auto}
+.bar-item{flex:1;min-width:19px;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:5px;min-height:155px}
+.bar{width:min(80%,32px);border-radius:5px 5px 0 0;background:linear-gradient(#8dd7f5,#367da8);min-height:2px}
+.bar-label{font-size:.67rem;color:#a6bed0;white-space:nowrap}.bar-number{font-size:.75rem}button{background:#204965;color:white;border:1px solid #6396b2;padding:8px 14px;border-radius:8px;cursor:pointer}
+footer{border-top:1px solid #294057;font-size:.85rem;color:#a8bdcf}
+@media(max-width:600px){main,nav,footer{padding-left:14px;padding-right:14px}.kpi{padding:14px}}

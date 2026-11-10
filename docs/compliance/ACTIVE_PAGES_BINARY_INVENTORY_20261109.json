@@ -1,0 +1,1089 @@
+{
+  "schema": "resoarc-active-pages-public-binary-inventory-v1",
+  "observedDate": "2026-11-10",
+  "status": "SHA256_FORMAT_TECHNICAL_EVIDENCE_ONLY_NOT_LEGAL_SIGNOFF",
+  "historicalOSPS34Immutable": "docs/compliance/BINARY_ASSET_REVIEW_20261106.json",
+  "distributionBoundary": "site/downloads/*.zip only; no ZIP allowed in application-source paths",
+  "thirdPartyRights": "Declared REUSE expressions recorded; verify licenses separately before any new product release",
+  "noExistingArchiveRewritten": true,
+  "assets": [
+    {
+      "path": "site/assets/development/live-captions-settings-20261022.webp",
+      "sha256": "14f467a8cf1af47d056f3d8a15bcfe81e9bb40ca7e85da8fbc2120785ff3207e",
+      "size": 55436,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/hero-architecture-1600.webp",
+      "sha256": "a7993ea47576cbde3efabf39a339704ff7410de983b9ce0ba2dbc8614ee872fd",
+      "size": 175310,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Unsplash"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/hero-architecture-800.webp",
+      "sha256": "98d9cde74e0bbdf324a00e50078efea618b98f0a18d05ef109347cb3c1a45d73",
+      "size": 62184,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Unsplash"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-icons/input-template.png",
+      "sha256": "20d6e27c84994aed26635066f43a4f851d011ccb2d4d508e41041dfd286ac37e",
+      "size": 215,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-icons/mail-compose.png",
+      "sha256": "46dc6012eb4cb98be00fce5cec725fe3d2ce2bbc6ed283dc0d56c78af90615b2",
+      "size": 214,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-icons/postal-address.png",
+      "sha256": "cfb155c42f2c6a069931bc092e5e06894ac456ff65b4724f5d3af75f1226ad76",
+      "size": 213,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-icons/reuse-reset.png",
+      "sha256": "98643f3f41485e45f9e4726c0b5fb697e1f3a93b6eeea9e6d6d9f3f7ebb299c2",
+      "size": 214,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/attachment-count.webp",
+      "sha256": "bc1110cc3ba9e01a3545242ef9650ce07c8eefe113af4012c259c6d5b79b5996",
+      "size": 13202,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/auto-number.webp",
+      "sha256": "4e8b273c262baede7863142bd0a64455500c4ecd89166de9f0e529ef7e4f37af",
+      "size": 32450,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/csv-export.webp",
+      "sha256": "9f846eef8d1a579b36b8db585304444ebe7b1cc83c8a1616764477400eb7cc87",
+      "size": 14560,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/field-help.webp",
+      "sha256": "f9a4c9eff11448d59b16d6796a5c1dd457c07cb2b6df7f4cddfab2d95d93c5ee",
+      "size": 14952,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/input-template.webp",
+      "sha256": "a94dfbe3cfc66382063420a6172f3cbfa9f53a9b368fc09a75622dff8cec320a",
+      "size": 11294,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/list-aggregate.webp",
+      "sha256": "dc095fe6db68b8e91074d8b6832dc1e5b7ce762fee7bc241b4ea0a6e8ca8733f",
+      "size": 11534,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/lookup-suggest.webp",
+      "sha256": "aeb76efd9b8aaf9ea5f72658e688bc462eca95dfda59e5b3ad2cb48abec0f3f2",
+      "size": 17498,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/mail-compose.webp",
+      "sha256": "9ae1311d4e59cbe69b270be94ed6c2c6b33dafca89cdf901cbeec14862ab1772",
+      "size": 11698,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/postal-address.webp",
+      "sha256": "41d4c23d6e9e1c626419bebef8ccfed33f5105bd25c42fdae2b1c2bb51b5a589",
+      "size": 23190,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/qr-code.webp",
+      "sha256": "05fa96cddb4290e552f63f40fc83a4c5619caec5edbae1a7946e5693b3004466",
+      "size": 12220,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/record-toc.webp",
+      "sha256": "f48a0f76a6dce11e73ead67c386416a676ec509a1add82fd4fd86eed3673d270",
+      "size": 10944,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/related-links.webp",
+      "sha256": "42b8d9d601951f944a4d9621f013d5c0107617037479fcd846877e12df598a60",
+      "size": 15430,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/reuse-reset.webp",
+      "sha256": "e70c9e7d5ab8854087d2c8b51c80180ada1392be1095737a87adf13b74b2aeac",
+      "size": 12178,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/save-navigation.webp",
+      "sha256": "90373d91b4eafdddeb7b04061df7169dfc4156734fd2401c60a5f248de99ddc4",
+      "size": 12972,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/tabs.webp",
+      "sha256": "a2ffcfa9c451b81a7b7ad3a8414431d5e5ecaf52fcadf4e035b3d27e23074ef1",
+      "size": 43396,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/kintone-settings-captures/text-normalizer.webp",
+      "sha256": "0922615e8b1fce3f3396427e34babada91dcb5f1b26ec3d4f4d39c39bc779ed5",
+      "size": 14444,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/qaiuick-beta/hero.webp",
+      "sha256": "84aa6a7ee61bbc679ecf4c2da4d615e2643297b243f14bfa864257213d6a2dab",
+      "size": 23364,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/qaiuick-beta/logo-orbit-20261110.webp",
+      "sha256": "ebbe7cae1276fad66d56e7b9d60e48c8978465b7f605b76b7847e35b926352f1",
+      "size": 12110,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/recognition/green-web-verified-20261017.png",
+      "sha256": "d70e09ee66288b3835b85466f389adcec6cd8b82c0cb66eb7020d212d14f7c41",
+      "size": 12590,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/recognition/icon-securityheaders.png",
+      "sha256": "35f946318138a79bcc88c2649b7e1449538c18e4beb24e8942c8efe78b07795d",
+      "size": 8621,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/recognition/icon-w3c.png",
+      "sha256": "03f17b6c4bf63b3bc5065895dbdbf562eac3b460d5045a6bd0ce8f514d94ce09",
+      "size": 1309,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/recognition/internetnl-favicon-20261017.png",
+      "sha256": "1c435099abcdc7cba3f4103e58775d20454a4fe58ef2e01dfad7751452a22aa7",
+      "size": 4389,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/recognition/logo-openssf.png",
+      "sha256": "de0398440bc201f38af701994868a6869e351b033d9053c8100923a8f557ee7f",
+      "size": 8289,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/recognition/ssllabs-favicon-20261017.ico",
+      "sha256": "83722b421901451fc1be6019e9f005a07472128b37783b8d9328bbe621a3818d",
+      "size": 5430,
+      "type": "ico",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/resoarc-cinematic-planet-20261023.webp",
+      "sha256": "f5c355cd07add500210ebc9d5b8fcfba02a37494fcc44e197481bca034e9df8a",
+      "size": 65786,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/resoarc-glitter-planet-20261023.webp",
+      "sha256": "b65ca4601932882dd1f9c1e242cecec47807d817540d70af88421624db24682b",
+      "size": 90460,
+      "type": "webp",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/resoarc-og-card-20261023.png",
+      "sha256": "d3674b08ef9695c1fe6ae2d7fe22d89c066c0a4df53ccda2c9dc502956413e8b",
+      "size": 438870,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/resoarc-touch-180.png",
+      "sha256": "2f218d942b3e8a5755bf713bea72c09b26f0163b5803021d818a608ea88f47de",
+      "size": 13859,
+      "type": "png",
+      "reuseLicenseExpressions": [
+        "LicenseRef-ResoArc-Brand-Art"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/downloads/qaiuick-v0.2-beta-source.zip",
+      "sha256": "7068dbeec401ec3cf6ed7b1b210486d7fbcb030736f32227695868e541ff7f04",
+      "size": 35688,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 26,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/qaiuick-v0.3-beta-source.zip",
+      "sha256": "36501347c9e2f2531a24e645ab704064dc1948fc48b5b7da2ce514e4895b68ed",
+      "size": 41017,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 30,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/qaiuick-v0.4-beta-source.zip",
+      "sha256": "86deda86bc3dc701712a13511898ee06d95d81dd4507a9f6b90d8a936fd4e0a0",
+      "size": 58407,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 43,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/qaiuick-v0.5-beta-source.zip",
+      "sha256": "c3657d37e25998bc054769dbfd642e681052f2c629b411602a16b6b71c1d0cac",
+      "size": 63666,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 45,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/qaiuick-v0.6-beta-source.zip",
+      "sha256": "edcf9c47dd7bc43f9c87b2127c6aa5090b5c05fd105e0ea0c7a9be5b296f3902",
+      "size": 81001,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 55,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "6f359dbaff4f37d4b56d966d0cef9d9fe8ac6ca1d7c5f6acb5de2af0a7c4a84d",
+      "size": 6783,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "4c4e5eb09bdd52b3c46208d94bc85d3f5c09c3a6e2bc1146fb7305f54e94a9aa",
+      "payloadSHA256": "23437188f9a544d645eb8ecde87973c9ddfd378aceb3a0c25691a5e2c5021edb"
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-signed-qa.zip",
+      "sha256": "761224ac70ddd01159cef0ae6dbef657cb3432d72322b2fb13ba2a37580c5ac8",
+      "size": 9902,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "dd7096616b25dcbfef5d5a48d752af6189a6de0bfa4d64d3e2d9ea0a19873dd9",
+      "payloadSHA256": "981041c200d1bdae0871660c97743b4b4d970bb27ee49ab10f44f7e020c035c1"
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-v1.0.0.zip",
+      "sha256": "fd7d0873f8ebf7551ebc2a08116952e8b60c91e396600e5b800e0eba752145d9",
+      "size": 9043,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "35441f03ba9b3b60e1e1c244fc9970de4bcf9bb5897f80e72e9bae37fcf4cfa9",
+      "payloadSHA256": "1f9238c954285ab93cfbb1d357ad01cd1112d494815843a5f75ce1b35115584e"
+    },
+    {
+      "path": "site/downloads/resoarc-auto-number-v1.1.0-beta.zip",
+      "sha256": "c2de1c7735e8c32a364b6d6d4de340d593a55b3a8c38dd369cc2feac73016d9b",
+      "size": 9916,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "35441f03ba9b3b60e1e1c244fc9970de4bcf9bb5897f80e72e9bae37fcf4cfa9",
+      "payloadSHA256": "cc7cf290f73a3def781028abdd5f525cf15cae220ee0a85c8d8c37cb46543c9a"
+    },
+    {
+      "path": "site/downloads/resoarc-backup-migration-v1.0.0-source.zip",
+      "sha256": "06648e849bb38b9dc5614fbaa507a50492f2684f7015316228df3bfb0e8041fb",
+      "size": 222382,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 71,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-backup-migration-v1.0.0.zip",
+      "sha256": "ab858430620f1bd2ec8b240a2202153df25962a083cd048cdb415b7f4c172ad8",
+      "size": 54278,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 10,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-format-signed-qa.zip",
+      "sha256": "b9a0d7db277e8efba835c7fb8914b22d6ee13274fc41db0d5c9e52fbd2c03401",
+      "size": 9432,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "a16e0e8d560cc3d6774eb2977d1599410ed0645fc305ae46fcd6193bee158c37",
+      "payloadSHA256": "662bcb5ee0a689e8330ce7a3606aee81f8828cf9fead1aa004666327ec03ff8f"
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-format-v0.1.0-alpha-source.zip",
+      "sha256": "64ef943d7c302bd747042ea265723a94e16308ec46559238bcd1f38731c8d249",
+      "size": 15584,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 14,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-conditional-signed-qa.zip",
+      "sha256": "1f706267511884ff9771a5c1ebb0a126e065d382869c67e769e001b675ff9bbc",
+      "size": 7697,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "a1b4cdd7500998c17ab10ed11ff569f77f467d6d24ee87852ec87144d3dcee92",
+      "payloadSHA256": "7d23b2df1143ff15c5c4e5caece8a6d0b0ccf2d7f52e16a0e930935be5d1a1ee"
+    },
+    {
+      "path": "site/downloads/resoarc-csv-export-mobile-v0.1.5-rc10-20261019.zip",
+      "sha256": "234ec6d8917c25bd793f19b5d38e64a5dab6c12281dea184de18a665d956a1f6",
+      "size": 6900,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "04b290c5a63591f427ad1321c8b70af53e45f9301666b97bc22335d656160584",
+      "payloadSHA256": "1d16fbc071458d34294ba649c70976d995c0546fe953b581e2746749bb4e0442"
+    },
+    {
+      "path": "site/downloads/resoarc-date-calculator-signed-qa.zip",
+      "sha256": "b2d74dcb6467d44015ba3364eb8f904916d44449ce8a21cba164c5318bbd2e87",
+      "size": 9882,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "63478279996c5f73fcdc4239a7bf63a2be20f94beb492a3f9fd6d0155c32d318",
+      "payloadSHA256": "c84ca425809309c8d2306443bdd95bf92cf2ac171105729c488f9b562245470f"
+    },
+    {
+      "path": "site/downloads/resoarc-date-calculator-v0.1.0-alpha-source.zip",
+      "sha256": "251fcb2bdcb7a7d848a41ff705cc6f86b2c370a1c60fa3413e0468bd848a38d4",
+      "size": 17029,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 14,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-field-help-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "5c49a688ca878a47d30d1e37d8e3b8ea61bb728d85d16167a5458f3aae8b1db4",
+      "size": 6179,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "1aa0efaf7f2a9f2d6e42bb2fd31f0355e5e41a1c678086f54b733cf48552e9d4",
+      "payloadSHA256": "8e3e9b684c531651c04c5ad759354b0b093dcea0542e48f9958ae65859506c6e"
+    },
+    {
+      "path": "site/downloads/resoarc-grid-editor-signed-qa.zip",
+      "sha256": "391568b0381fb99ce07a34f30d68505688fdf7684a2db8196dc59d4201ac5baf",
+      "size": 11921,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "9a2633d7c68e08a0a401d2c1f527cbf7731bd9375d7540d81493cc35640fe47b",
+      "payloadSHA256": "1072dc0cbca57924a49029a7345205736ae9ff722a1500ea6dfd9f32966ddba2"
+    },
+    {
+      "path": "site/downloads/resoarc-grid-editor-v0.1.0-alpha-source.zip",
+      "sha256": "fb806021a2947dea7ef821a5d8751455445f80fcd9e0d49ce070e7d6d5f95604",
+      "size": 22050,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 14,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-input-template-v1.0.0-20261022.zip",
+      "sha256": "d466741e9d8ee554ecbdbe3d4d744fb804e8f5364f4bb213249db3fc8df80c65",
+      "size": 9360,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "fbdd317b56a7e0e8ba23b55b44753c1bd7237a6cc80aa002d9a1ce07329602b6",
+      "payloadSHA256": "6c2427db8f16b60e7c32a221f4f57d62115b6afc557849e2a879cfad3a3d9065"
+    },
+    {
+      "path": "site/downloads/resoarc-input-template-v1.0.0-signed-source.zip",
+      "sha256": "ac994ae9a02056e2109ff2da6443dabba16dd86bc63881158369e6df325d28a9",
+      "size": 10570,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 9,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-kanban-signed-qa.zip",
+      "sha256": "4d16cd3a8145d54376a107fb9a3fbfe0126505c1929bc704f957f502c200a59a",
+      "size": 8590,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "34e9c90d372439d08893001bb242103d18797d693bdd7a4ec53bd45942ef489a",
+      "payloadSHA256": "d243f6f679bd0203dfb9d6f2f1ae47dbc0bfe48eef652946bd364912136e7a15"
+    },
+    {
+      "path": "site/downloads/resoarc-kanban-v0.1.0-alpha-source.zip",
+      "sha256": "41216d6bd4bdc091152ee3d25f72bad96a1f813066f0140adedf391b19bd972b",
+      "size": 14095,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 14,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-list-aggregate-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "9a6ffe625769f51d29bac0be2b1cf007ec3cf51f09d33e45aa8eb2fe0128e643",
+      "size": 6813,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "5f96cb3bdfd06c1c4e5a99640487f4cc1a101872f2291c13f40df0390fd47bfd",
+      "payloadSHA256": "f6e13ebf029b9d7d5823c81b376aaf38939cdf7ba979d8f787e244ffca5bf913"
+    },
+    {
+      "path": "site/downloads/resoarc-list-search-signed-qa.zip",
+      "sha256": "f4aa2680f68b6c0a50941a42a4968bd0618993ba201b9b691ae067fd42dafd01",
+      "size": 11503,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "1d1377ce400bd4834b674247e1675edab5febf4290540d5e0e6051226f70ad49",
+      "payloadSHA256": "81b43e936b9a0183107b2be9910afc8a8dab85553e34b67758764fb4ec78f1f0"
+    },
+    {
+      "path": "site/downloads/resoarc-list-search-v0.1.0-alpha-source.zip",
+      "sha256": "55967bf46daede50ffd38c76794164dedc7dc72b43eb463ba9fc1f9fa32f9572",
+      "size": 21028,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 14,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-lookup-suggest-mobile-v0.1.5-qa-20261018.zip",
+      "sha256": "d3b2c88810a2f5d04d64792b47fcdc0a5f94793a322d0a1a8f4d4c29db1c3276",
+      "size": 8851,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "5728c63d09b9cc04ad845877173d725efc09b1f0293531268c143092db29abad",
+      "payloadSHA256": "70e5d4cb00f59af519068d778019ad96b4e5eabae8b00dd2a7d7306473595cc4"
+    },
+    {
+      "path": "site/downloads/resoarc-mail-compose-v1.0.0-20261022.zip",
+      "sha256": "1c68772578f2c12e1e98a77e983a0a91932880a7a01b1b4a6350cdaa98ac691e",
+      "size": 6373,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "88015be01e4da7a56a65bd7a4e460333d3346669783d96c61abf55158caaec48",
+      "payloadSHA256": "a404af445ecf4dc03d4f9e47d3e16807c1abf0efb99287f934077a678b562ca5"
+    },
+    {
+      "path": "site/downloads/resoarc-mail-compose-v1.0.0-signed-source.zip",
+      "sha256": "d157d854ab88904f4f1103d82bc8608e505140af7de6b8cdcef53ec620ec8091",
+      "size": 7552,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 9,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-postal-address-v1.0.1-20261109.zip",
+      "sha256": "08a48b005749bf6a38583bfb2823a7b83c930c34140a133cf041b1d48b5ae148",
+      "size": 1016081,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "53ebc03ec516fa46dccc1256ce8ddc4d87b6b248e4694b4bcf643b18d2aec339",
+      "payloadSHA256": "b357e717672af0bd26714b5a2317d00521f03c3135559b2dafaa437046c3e7c4"
+    },
+    {
+      "path": "site/downloads/resoarc-postal-address-v1.0.1-source.zip",
+      "sha256": "612e2d2bd2033730e468ffb792588c9be72f1fe97b19d30f6ec4681b41ded665",
+      "size": 5191556,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 19,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-qr-code-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "78299ed5ac81d134e483ba6db57ce35d2f1914c4fd2cb55cb25d70bd7cd12ecf",
+      "size": 18679,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "0250cffb5c0c28bf2ab3cf91cec9765d7e44dbd159ae88d4923776e5aa8ba633",
+      "payloadSHA256": "771260a22cc78b7c6ab84b8eb6509ddb458415a1915d76fadb486bf1207c8c01"
+    },
+    {
+      "path": "site/downloads/resoarc-record-toc-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6ba55dbc1b500bc4968dacb2df7f6a5c1535722098be2e6bf48ce2ada5e25166",
+      "size": 6033,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "daa5056769c0f1412aacd31b81450c13d31e00ecec77a0fe7e53ff044e0d7771",
+      "payloadSHA256": "12c40fab80c0e64f2bab9e7ad4dc36f42287faaabc6c038b6e768c951452b2f4"
+    },
+    {
+      "path": "site/downloads/resoarc-related-links-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "3a66cb126a16715ec166bb25979b490bf2a0b1de243f3a3cffc32b17b158df21",
+      "size": 6047,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "5451c3a61cbd7ad217b2e97dc75ca11dbccd91d4e0a38855f8ccf632cb80eac9",
+      "payloadSHA256": "90dd43d9ac122ddf3b9d2503b1f4f6d840d7502deebdb2a76ee5d02b1940512b"
+    },
+    {
+      "path": "site/downloads/resoarc-reuse-reset-v1.0.0-20261022.zip",
+      "sha256": "4b7d1e19637cc69a0895b69ddceb533fcb39e56822c200c1730775261ceae4f9",
+      "size": 5642,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "898ffd0de3afb4a4f7bdd651418efb997a52c79c3ac5414e708f2014135ff3c9",
+      "payloadSHA256": "a6a2d500122a9b25ad098d25da2d998520f9d93dfb0e04445baed7bc138839a9"
+    },
+    {
+      "path": "site/downloads/resoarc-reuse-reset-v1.0.0-signed-source.zip",
+      "sha256": "4b14709afcf086aed6b754e1cc65cce0dcd1d384ae7d703a9aeb64795e50ac9c",
+      "size": 6830,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 9,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip",
+      "sha256": "6e281275e2eb276e7886d8dc562852e194b4002ce05625b75a10326b0e527fd8",
+      "size": 5840,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "4b27b5b21c36378548781a3f0fd080720b861fd242e56edf55ff32e18cba3cc8",
+      "payloadSHA256": "6b29b6a89a41a3ae462041d4bb77b1c26bcbd623129c8bc3825829f286ce0023"
+    },
+    {
+      "path": "site/downloads/resoarc-sheet-v0.7.0-beta-source.zip",
+      "sha256": "69265de6b9b81911f6591585939c3abcadce6fa34e0f1acabe0e6cb44036eba2",
+      "size": 116683,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 53,
+      "containsSignedKintonePayload": false,
+      "evidence": "RELEASE_V070_BETA_MANIFEST.json, 26/26 unit, 3/3 Edge Chrome Firefox file XLSX E2E; original license texts included",
+      "originalArchiveSource": "ResoArc Sheet v0.7.0-beta local project build and source zip 2026-11-10"
+    },
+    {
+      "path": "site/downloads/resoarc-sheet-v0.7.0-beta.zip",
+      "sha256": "0e30d21d988a654f2506cc53f579a8ba8d7f085a2e52de3d076589d8390794e3",
+      "size": 1158515,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT AND ISC AND BSD-3-Clause AND Apache-2.0"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 100,
+      "containsSignedKintonePayload": false,
+      "evidence": "RELEASE_V070_BETA_MANIFEST.json, 26/26 unit, 3/3 Edge Chrome Firefox file XLSX E2E; original license texts included",
+      "originalArchiveSource": "ResoArc Sheet v0.7.0-beta local project build and source zip 2026-11-10"
+    },
+    {
+      "path": "site/downloads/resoarc-site-20261017-recovered-source.zip",
+      "sha256": "dda9d520cf2df37fd2d1f79fd4e4c182bcda8b17de534010e4d30baaf6381a72",
+      "size": 4132099,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT AND OFL-1.1 AND LicenseRef-Unsplash AND LicenseRef-Service-Marks AND LicenseRef-ResoArc-Screenshots"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 467,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-signed-qa.zip",
+      "sha256": "5a9847558a71af67bfbbbec5d8a299172e88b039495da20030a13958afc72ad9",
+      "size": 7998,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "f997c38ab8402272cb687faa39ff454115360d6b4d7a0c1f6ad51446a01376f5",
+      "payloadSHA256": "1487d5df4ab92968fd74eee3455f13cede5c70fc01b629c2c3286ef99a6c70d5"
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v0.1.0-beta.zip",
+      "sha256": "5eba44271945185e777c7e55af816d4644223d9fe9e2925c8b05fd116bd58689",
+      "size": 8002,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "488e36c9376c4424709ec55530418cb7e74ac6b6a4ad1f5852bfc2a2df35c321",
+      "payloadSHA256": "e723adbe457c33a64e69ea0505061be83f4a6cfa940f31a42145b78177f36f92"
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v1.0.0-20261021.zip",
+      "sha256": "6be4e194acd495a27d1c1847b19b96d62703c57c9bbcb05acde4533586d4fa6e",
+      "size": 8049,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "488e36c9376c4424709ec55530418cb7e74ac6b6a4ad1f5852bfc2a2df35c321",
+      "payloadSHA256": "a8e4ea39c4af1a9b36f5a4c2a9dfe48a3d3d5dbc153c3553b7d36437f4a4c3bd"
+    },
+    {
+      "path": "site/downloads/resoarc-tabs-v1.0.0-signed-package-source.zip",
+      "sha256": "a2a40a3042864d1df49622fac690f14d8f6446532da54da81151de0f8b7d24a6",
+      "size": 11703,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 11,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-text-normalizer-mobile-v0.1.4-rc10-20261019.zip",
+      "sha256": "16d4e43df291d033c08634f5d64245167c6b6598835d091337b8c26e3e0b8c42",
+      "size": 5936,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "c01e585401216071effa8f5a2c5aece718d2c5de42d47350d02397cafe4fa319",
+      "payloadSHA256": "22cd80270023048ee016df4fb78bf48c74f5b6b8b3fcedf9a2f38b34f6e6974b"
+    },
+    {
+      "path": "site/downloads/resoarc-web8-v1.0.0-source.zip",
+      "sha256": "d9bee5d112c706b322037d4c2a595d24d39148b1d84e00856732f48114526374",
+      "size": 41439,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 16,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarcos-pc-v0.1.0-dev-source.zip",
+      "sha256": "72b427a8ef08ab388dc70ad2f1b14bcb2a7517b8f5edd0ebe67c8d934a93bb20",
+      "size": 46159,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 60,
+      "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarcos-pi-firstboot-v0.2.1-alpha-source.zip",
+      "sha256": "d8beeccf39f457b45fa469285af6b905b4d4dc11aa8dae36af7b1ac145dd47c1",
+      "size": 76059,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 78,
+      "containsSignedKintonePayload": false
+    }
+  ]
+}

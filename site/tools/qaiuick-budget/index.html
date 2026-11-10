@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja" data-q-theme="rose">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>小さな家計簿 | qAIUIck Demo</title>
+  <meta name="description" content="費目別の支出を記録。合計と食費を自動集計し、自由に追加・削除できます。">
+  <link rel="canonical" href="https://resoarc.com/tools/qaiuick-budget/">
+  <link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg">
+  <link rel="stylesheet" href="/assets/qaiuick/qaiuick.css">
+  <link rel="stylesheet" href="/assets/qaiuick-beta/samples.css">
+  <link rel="stylesheet" href="/assets/navigation.css">
+</head>
+<body class="q-app">
+<main class="q-page">
+  <nav class="q-topbar" aria-label="アプリ情報">
+    <div class="q-brand"><span class="q-brand-mark" aria-hidden="true">q</span> qAIUIck <small>Demo Lab</small></div>
+    <span class="q-topmeta"><a href="/products/web/qaiuick/">製品ページへ戻る ↗</a></span>
+  </nav>
+  <nav class="q-sample-switch" aria-label="サンプルアプリを切り替える">
+    <a href="/tools/qaiuick-demo/">今日のメモ</a>
+      <a href="/tools/qaiuick-inventory/">在庫管理</a>
+      <a href="/tools/qaiuick-budget/" aria-current="page">家計簿</a>
+      <a href="/tools/qaiuick-tickets/">問い合わせ</a>
+      <a href="/tools/qaiuick-customers/">顧客検索</a>
+  </nav>
+  <header class="q-hero">
+    <span class="q-eyebrow">SAMPLE 03 · READY TO EXPLORE</span>
+    <h1>小さな家計簿</h1>
+    <p class="q-lead">費目別の支出を記録。合計と食費を自動集計し、自由に追加・削除できます。</p>
+  </header>
+  <div id="app">
+
+    <section class="q-panel q-stack" aria-labelledby="budget-title">
+      <div class="q-panel-heading"><h2 id="budget-title">支出一覧</h2><span class="q-pill">自動集計</span></div>
+      <div class="q-sample-grid">
+        <div class="q-sample-metric"><b q-text="total"></b><small>支出の合計</small></div>
+        <div class="q-sample-metric"><b q-text="count"></b><small>入力件数</small></div>
+        <div class="q-sample-metric"><b q-text="foodTotal"></b><small>食費の合計</small></div>
+      </div>
+      <form q-submit="add" class="q-sample-formgrid">
+        <label>カテゴリ<select q-model="draft.category"><option>食費</option><option>交通</option><option>日用品</option><option>趣味</option><option>その他</option></select></label>
+        <label>金額（円）<input type="number" q-model="draft.amount" min="1" max="10000000" required></label>
+        <label>用途<input q-model="draft.note" maxlength="80" placeholder="例：お昼ご飯" required></label>
+        <div class="q-sample-formaction"><button type="submit">支出を記録</button></div>
+      </form>
+      <p class="q-error" role="alert" q-text="error"></p>
+      <ul class="q-list" aria-label="支出記録"><template q-each="items" q-as="item"><li>
+        <div><span class="q-sample-tag" q-text="item.category"></span> <strong q-text="item.note"></strong><p class="q-sample-note"><span q-text="item.amount"></span> 円</p></div>
+        <button type="button" class="q-button--quiet q-button--small" q-action="remove" q-arg="item.id">削除</button>
+      </li></template></ul>
+      <p class="q-empty" q-show="empty">支出記録がありません。</p>
+      <div class="q-sample-toolbar"><p>金額は例示データです。同期や口座接続は行いません。</p><button type="button" class="q-button--quiet q-button--small" q-action="reset">初期サンプルに戻す</button></div>
+    </section>
+  </div>
+  <section class="q-sample-source" data-q-source
+      data-source-html="/tools/qaiuick-budget/index.html"
+      data-source-css="/assets/qaiuick/qaiuick.css,/assets/qaiuick-beta/samples.css"
+      data-source-js="/assets/qaiuick-beta/examples/budget.js">
+      <div class="q-sample-source-head">
+        <div><h2>このアプリのソースコード</h2><p>実際のアプリコードを閲覧できます。共通の画面更新や保存処理はqAIUIckが担当します。</p></div>
+      </div>
+      <div class="q-source-tabs" role="tablist" aria-label="ソースコードの言語">
+        <button type="button" role="tab" data-q-source-tab="html" aria-selected="false">HTML</button>
+        <button type="button" role="tab" data-q-source-tab="css" aria-selected="false">CSS</button>
+        <button type="button" role="tab" data-q-source-tab="js" aria-selected="true">JavaScript</button>
+        <button type="button" class="q-source-copy" data-q-source-copy>コードをコピー</button>
+      </div>
+      <p class="q-source-file" data-q-source-file>読み込み中…</p>
+      <pre class="q-source-code" tabindex="0"><code data-q-source-code>読み込み中…</code></pre>
+    </section>
+  <p class="q-sample-note q-sample-caption">初回だけサンプルデータを投入します。その後の編集結果はこのブラウザに保存されます。リセットはこのデモだけが対象です。実データ・機密情報は入力しないでください。</p>
+  <footer class="q-footer">Made with qAIUIck v0.6 Beta · <a href="/products/web/qaiuick/">製品情報</a> · <a href="/os/">ResoArcOS</a></footer>
+</main>
+<script type="module" src="/assets/qaiuick-beta/examples/budget.js"></script>
+<script type="module" src="/assets/qaiuick-beta/source-viewer.js"></script>
+<script defer src="/assets/navigation.js"></script>
+</body></html>

@@ -6,8 +6,8 @@
 
  Do not complete this form using an AI, inference from package names, or historical release hashes. It is a decision record for the real copyright-authorized ResoArc operator.
 
-**Project:** ResoArc  
-**Review scope:** All 35 currently released ZIP assets under [the published inventory](OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json).  
+**Project:** ResoArc
+**Review scope:** All 35 currently released ZIP assets under [the published inventory](OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json).
 **Copyright/rights basis:** To be completed by the responsible maintainer; authorship alone should not be assumed from a signed ZIP or a matching historical QA package.
 
 ## Required review for each of the 35 assets

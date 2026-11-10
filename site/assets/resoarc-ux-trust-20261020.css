@@ -1,0 +1,44 @@
+
+/* Trust, discoverability and signed-configuration screenshot cards (2026-10-20) */
+.kc-product .kc-card-media{margin:0 0 10px;order:0;background:#eff5f7;border:1px solid #dce8ed;border-radius:12px;overflow:hidden}
+.kc-product .kc-card-media a{display:block;line-height:0;aspect-ratio:16/9}
+.kc-product .kc-card-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+.kc-card-media figcaption{font-size:10px;line-height:1.5;color:#577385;background:#f7fafb;padding:5px 9px}
+.kc-detail-media{padding:26px 0 10px;background:#f8fbfc}
+.kc-detail-media figure{margin:0;max-width:800px;border:1px solid #d5e4ea;border-radius:12px;overflow:hidden;background:white}
+.kc-detail-media img{display:block;width:100%;height:auto}
+.kc-detail-media figcaption{padding:12px 16px;background:#edf5f7;font-size:12px;line-height:1.8;color:#567183}
+.kc-detail-media p{font-size:13px;padding-top:10px}
+.ra-integrity-body{padding:45px 0 75px}
+.ra-integrity-body h2{font-size:clamp(20px,2.2vw,29px);margin:32px 0 15px;line-height:1.5}
+.ra-integrity-body p,.ra-integrity-body li{font-size:14px;line-height:1.95;color:#4c6879}
+.ra-integrity-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.ra-integrity-steps>div{padding:19px;background:#eef7fa;border-radius:10px;border:1px solid #d3e7ee}
+.ra-integrity-steps strong{font-size:15px;color:#1c5265}
+.ra-integrity-steps p{font-size:12px;margin:8px 0 0}
+.ra-table-scroll{width:100%;overflow-x:auto;border:1px solid #d5e4e9;border-radius:9px}
+.ra-table-scroll table{border-collapse:collapse;min-width:850px;width:100%}
+.ra-table-scroll th,.ra-table-scroll td{padding:12px;border-bottom:1px solid #dfebef;text-align:left;font-size:12px;line-height:1.6;vertical-align:top}
+.ra-table-scroll th{background:#f2f8fa;color:#30566b}
+.ra-table-scroll td code{font-size:10px;display:block;word-break:break-all;white-space:normal}
+.ra-integrity-filename{display:block;overflow-wrap:anywhere;font-size:10px;color:#597789;margin-top:6px;max-width:200px}
+.ra-start-here{background:#f3f9fa;padding:53px 0 60px}
+.ra-start-eyebrow{font-size:11px;letter-spacing:.13em;font-weight:800;color:#327e8c}
+.ra-start-here h2{font-size:clamp(23px,2.8vw,36px);line-height:1.5;margin:12px 0 24px;color:#183e54}
+.ra-start-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ra-start-card{display:flex;flex-direction:column;gap:10px;padding:25px 22px;background:white;border:1px solid #d3e4e9;border-radius:12px;text-decoration:none!important;color:#1c4558!important}
+.ra-start-card:hover{border-color:#78a9ba;box-shadow:0 10px 25px #17445713}
+.ra-start-card strong{font-size:18px;line-height:1.55}
+.ra-start-card p{flex:1;font-size:12px;line-height:1.9;color:#587489}
+.ra-start-card>span:last-child{font-size:13px;font-weight:800;color:#19738b}
+.ra-start-icon{font-size:30px;color:#2a7c87}
+.ra-start-privacy{display:flex;align-items:center;gap:22px;margin-top:20px;padding:17px 20px;border:1px solid #cfe2e8;background:#e7f2f5;border-radius:9px}
+.ra-start-privacy strong{font-size:14px;min-width:195px}
+.ra-start-privacy p{margin:0;font-size:12px;line-height:1.9;color:#46687c}
+.ra-public-assurance{padding:40px 0;background:#eef6f9}
+.ra-public-assurance h2{font-size:23px}
+.ra-public-assurance p{font-size:14px;color:#507084;line-height:1.9}
+@media(max-width:950px){.ra-start-grid{grid-template-columns:1fr}.ra-integrity-steps{grid-template-columns:1fr}.ra-start-privacy{display:block}.ra-start-privacy p{margin-top:8px}}
+@media(max-width:650px){.ra-start-here{padding:36px 0}.ra-start-card{padding:20px}.kc-product .kc-card-media a{aspect-ratio:16/9}}
+
+.ra-start-feedback{font-size:12px;line-height:1.8;color:#52748a;margin-top:18px}

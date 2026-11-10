@@ -2,6 +2,7 @@
 """Browser check: homepage Information follows changes in /releases/ automatically."""
 from __future__ import annotations
 
+from datetime import date, timedelta
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -46,14 +47,19 @@ def main() -> None:
                     )
                     assert page.locator(".updates-items .update-row").count() == 3
                     assert page.locator(".updates-items a[href='/releases/']").count() == 1
+                    assert page.locator(".updates-items a[href='/source/#codeberg']").count() == 1
                     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
                     assert page.locator(".update-row a").first.get_attribute("href").startswith("/")
                     page.close()
 
                 # A new release note must become the TOP lead without editing the homepage.
+                # The synthetic entry must be newer than every actual release date.
+                new_date = (max(date.fromisoformat(d) for d in re.findall(
+                    r'<time datetime="(\d{4}-\d{2}-\d{2})"', RELEASES
+                )) + timedelta(days=1)).isoformat()
                 new_entry = (
                     '<div class="release-entry"><div>'
-                    '<time datetime="2026-10-17">2026.10.17</time>'
+                    f'<time datetime="{new_date}">{new_date.replace("-", ".")}</time>'
                     '<span>TEST</span></div><div>'
                     '<h2>回帰検証用の最新ニュース</h2>'
                     '<p><a href="/products/web/">Webツールへ</a></p></div></div>'

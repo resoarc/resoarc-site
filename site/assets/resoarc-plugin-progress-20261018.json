@@ -1,0 +1,529 @@
+{
+  "date": "2026-10-18T04:15+09:00",
+  "kind": "新しい正式版に向けた証跡ベース準備度（公開可否ではない）",
+  "weights": {
+    "source": 15,
+    "unit": 15,
+    "desktop": 20,
+    "mobile": 10,
+    "identity": 15,
+    "safety": 10,
+    "publish": 15
+  },
+  "scoring": "ソース15、単体15、kintone PC実機20、モバイル実機10、旧版との同一署名ID15、異常・安全10、正式配布/文書15。部分合格は部分点。エミュレーションは実機扱いしない。署名ZIPの数学的妥当性だけで旧ID継続を承認しない。",
+  "features": [
+    {
+      "category": "既存8",
+      "slug": "auto-number",
+      "name": "自動採番",
+      "readiness": 55,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 15,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "現行v1.0公開／次版審査中",
+      "blockers": "テーブル内採番v1.1、旧版との更新ID一致、重複採番。kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認 旧配布版と保管済み秘密鍵の公開鍵が一致。QA専用ZIPの鍵は別。"
+    },
+    {
+      "category": "既存8",
+      "slug": "tabs",
+      "name": "タブ表示",
+      "readiness": 55,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 15,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "次期正式版保留",
+      "blockers": "フォーム崩れ、切替の実機QAとモバイル。kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認 旧配布版と保管済み秘密鍵の公開鍵が一致。QA専用ZIPの鍵は別。"
+    },
+    {
+      "category": "既存8",
+      "slug": "conditional",
+      "name": "条件付き表示・必須制御",
+      "readiness": 45,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 5,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "次期正式版保留",
+      "blockers": "必須・非表示とサブテーブルの安全性。正式版の署名ID継続、kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認"
+    },
+    {
+      "category": "既存8",
+      "slug": "conditional-format",
+      "name": "条件付き書式",
+      "readiness": 45,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 5,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "次期正式版保留",
+      "blockers": "表示条件、視認性と一覧／詳細。正式版の署名ID継続、kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認"
+    },
+    {
+      "category": "既存8",
+      "slug": "date-calculator",
+      "name": "日付・期間計算",
+      "readiness": 45,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 5,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "次期正式版保留",
+      "blockers": "休日・タイムゾーン・日付境界。正式版の署名ID継続、kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認"
+    },
+    {
+      "category": "既存8",
+      "slug": "list-search",
+      "name": "高機能検索・絞り込み",
+      "readiness": 45,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 5,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "次期正式版保留",
+      "blockers": "件数・権限・API上限と絞込。正式版の署名ID継続、kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認"
+    },
+    {
+      "category": "既存8",
+      "slug": "grid-editor",
+      "name": "Excel風一覧編集",
+      "readiness": 45,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 5,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "次期正式版保留",
+      "blockers": "更新権限・競合保存・復旧。正式版の署名ID継続、kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認"
+    },
+    {
+      "category": "既存8",
+      "slug": "kanban",
+      "name": "カード・カンバン表示",
+      "readiness": 45,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 5,
+        "safety": 2,
+        "publish": 8
+      },
+      "status": "次期正式版保留",
+      "blockers": "権限・カード一覧・ゲストスペース。正式版の署名ID継続、kintone実機・異常系・共存テスト",
+      "evidence": "8件のQA用署名ZIPハッシュと数学的署名は確認済み。更新用署名鍵との一致・製品別実テナント合格は未確認"
+    },
+    {
+      "category": "追加18",
+      "slug": "input-template",
+      "name": "入力テンプレート",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "複数値の上書き保護・権限。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "reuse-reset",
+      "name": "レコード再利用制御",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "再利用のみ初期化・更新互換性。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "text-normalizer",
+      "name": "入力文字自動整形",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "IME・Unicode・全半角の境界。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "field-help",
+      "name": "フィールド説明表示",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "表示位置とアクセス権。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "save-navigation",
+      "name": "保存後画面遷移",
+      "readiness": 52,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 0,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "保存失敗時の遷移禁止・モバイル未対応。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。モバイル未対応",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=not_supported。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "mail-compose",
+      "name": "メール作成ボタン",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "メール起動・宛先安全性。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "list-aggregate",
+      "name": "一覧合計バー",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "集計対象・大量件数・権限。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "csv-export",
+      "name": "CSVワンクリック出力",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "日本語CSVと機密列除外。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "attachment-count",
+      "name": "添付ファイル有無表示",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "添付の権限・大量件数。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "table-row-tools",
+      "name": "サブテーブル行コピー",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "行編集とサブテーブル保存。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "qr-code",
+      "name": "QRコード生成",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "QR表示・改修版実機試験。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "record-toc",
+      "name": "レコード目次",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "スクロール・動的フォーム。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "related-links",
+      "name": "関連アプリリンク",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "URL文字列の安全性。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "sticky-list",
+      "name": "一覧表示固定",
+      "readiness": 40,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 0,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "横幅崩れ・モバイル未対応。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル未対応",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=not_supported。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "file-preview",
+      "name": "添付ファイルプレビュー",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "画像/PDF・大容量・権限。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "lookup-suggest",
+      "name": "ルックアップ候補表示",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "候補の参照権限・API上限。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "postal-address",
+      "name": "郵便番号住所入力",
+      "readiness": 57,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 20,
+        "mobile": 5,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC主要動作確認・公開保留",
+      "blockers": "郵便番号データの更新・補正。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA",
+      "evidence": "隔離kintone QA 2026-10-17 PC=primary_path_passed / モバイル画面エミュレーション=primary_path_passed。旧β鍵一致0/18"
+    },
+    {
+      "category": "追加18",
+      "slug": "barcode-scan",
+      "name": "バーコード読取",
+      "readiness": 42,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 10,
+        "desktop": 8,
+        "mobile": 2,
+        "identity": 0,
+        "safety": 2,
+        "publish": 5
+      },
+      "status": "PC一部確認・公開保留",
+      "blockers": "実機カメラ権限・読取失敗。旧β署名ID/鍵の継続不可判定、正式署名ZIP、異常系・共存QA。PC試験は一部確認。モバイル画面は一部確認",
+      "evidence": "隔離kintone QA 2026-10-17 PC=limited / モバイル画面エミュレーション=limited。旧β鍵一致0/18"
+    }
+  ],
+  "related": [
+    {
+      "category": "関連開発",
+      "slug": "clock-batch-flow",
+      "name": "Clock / Batch Flow",
+      "readiness": 65,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 15,
+        "mobile": 0,
+        "identity": 5,
+        "safety": 5,
+        "publish": 10
+      },
+      "status": "検証中・公開保留",
+      "blockers": "Center署名版のID継続、Cron多重処理・API上限・復旧テスト・正式稼働承認",
+      "evidence": "v0.3.10 105/105テスト合格、隔離テナント限定書込。Center ZIPは別v0.2.1"
+    },
+    {
+      "category": "関連開発",
+      "slug": "backup-migration",
+      "name": "バックアップ・移行",
+      "readiness": 38,
+      "score_breakdown": {
+        "source": 15,
+        "unit": 15,
+        "desktop": 0,
+        "mobile": 0,
+        "identity": 0,
+        "safety": 3,
+        "publish": 5
+      },
+      "status": "統合中・公開保留",
+      "blockers": "二系統の差分選別、復元時の停止/ロールバック、隔離テナント実機と署名",
+      "evidence": "元Git版59/59、別版9/9の自動テスト合格。二系統未統合"
+    }
+  ],
+  "totals": {
+    "features": 26,
+    "related": 2,
+    "average": 48.6,
+    "newly_approved": 0,
+    "existing_v1_public": "自動採番v1.0のみ現行公開と確認"
+  }
+}

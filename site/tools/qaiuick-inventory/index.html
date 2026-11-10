@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja" data-q-theme="teal">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>在庫管理 | qAIUIck Demo</title>
+  <meta name="description" content="部品の数を管理し、補充が必要な品目を自動集計。追加・補充・削除を試せます。">
+  <link rel="canonical" href="https://resoarc.com/tools/qaiuick-inventory/">
+  <link rel="icon" type="image/svg+xml" href="/assets/resoarc-icon.svg">
+  <link rel="stylesheet" href="/assets/qaiuick/qaiuick.css">
+  <link rel="stylesheet" href="/assets/qaiuick-beta/samples.css">
+  <link rel="stylesheet" href="/assets/navigation.css">
+</head>
+<body class="q-app">
+<main class="q-page">
+  <nav class="q-topbar" aria-label="アプリ情報">
+    <div class="q-brand"><span class="q-brand-mark" aria-hidden="true">q</span> qAIUIck <small>Demo Lab</small></div>
+    <span class="q-topmeta"><a href="/products/web/qaiuick/">製品ページへ戻る ↗</a></span>
+  </nav>
+  <nav class="q-sample-switch" aria-label="サンプルアプリを切り替える">
+    <a href="/tools/qaiuick-demo/">今日のメモ</a>
+      <a href="/tools/qaiuick-inventory/" aria-current="page">在庫管理</a>
+      <a href="/tools/qaiuick-budget/">家計簿</a>
+      <a href="/tools/qaiuick-tickets/">問い合わせ</a>
+      <a href="/tools/qaiuick-customers/">顧客検索</a>
+  </nav>
+  <header class="q-hero">
+    <span class="q-eyebrow">SAMPLE 02 · READY TO EXPLORE</span>
+    <h1>在庫管理</h1>
+    <p class="q-lead">部品の数を管理し、補充が必要な品目を自動集計。追加・補充・削除を試せます。</p>
+  </header>
+  <div id="app">
+
+    <section class="q-panel q-stack" aria-labelledby="inventory-title">
+      <div class="q-panel-heading"><h2 id="inventory-title">在庫の概要</h2><span class="q-pill">ローカル保存</span></div>
+      <div class="q-sample-grid">
+        <div class="q-sample-metric"><b q-text="count"></b><small>登録品目</small></div>
+        <div class="q-sample-metric"><b q-text="totalUnits"></b><small>在庫合計</small></div>
+        <div class="q-sample-metric"><b q-text="lowStock"></b><small>補充が必要な品目</small></div>
+      </div>
+      <form class="q-sample-formgrid" q-submit="add">
+        <label>品目名<input q-model="draft.name" maxlength="60" placeholder="例：アルミケース" required></label>
+        <label>在庫数<input q-model="draft.qty" type="number" min="0" max="99999" required></label>
+        <label>補充ライン<input q-model="draft.min" type="number" min="0" max="99999" required></label>
+        <label>分類<select q-model="draft.category"><option>部品</option><option>工具</option><option>消耗品</option></select></label>
+        <div class="q-sample-formaction"><button type="submit">品目を追加</button></div>
+      </form>
+      <p class="q-error" role="alert" q-text="error"></p>
+      <div class="q-sample-tablewrap"><table class="q-sample-table">
+        <thead><tr><th>品目</th><th>分類</th><th>在庫</th><th>補充ライン</th><th>操作</th></tr></thead>
+        <tbody><template q-each="items" q-as="item"><tr>
+          <td><strong q-text="item.name"></strong></td><td q-text="item.category"></td>
+          <td q-text="item.qty"></td><td q-text="item.min"></td>
+          <td><button type="button" class="q-button--quiet q-button--small" q-action="restock" q-arg="item.id" aria-label="在庫を10追加">+10</button>
+          <button type="button" class="q-button--quiet q-button--small" q-action="remove" q-arg="item.id" aria-label="品目を削除">削除</button></td>
+        </tr></template></tbody>
+      </table></div>
+      <p class="q-empty" q-show="empty">在庫がありません。品目を追加してください。</p>
+      <div class="q-sample-toolbar"><p>「+10」は該当品目の数量を10増やします。</p><button type="button" class="q-button--quiet q-button--small" q-action="reset">初期サンプルに戻す</button></div>
+    </section>
+  </div>
+  <section class="q-sample-source" data-q-source
+      data-source-html="/tools/qaiuick-inventory/index.html"
+      data-source-css="/assets/qaiuick/qaiuick.css,/assets/qaiuick-beta/samples.css"
+      data-source-js="/assets/qaiuick-beta/examples/inventory.js">
+      <div class="q-sample-source-head">
+        <div><h2>このアプリのソースコード</h2><p>実際のアプリコードを閲覧できます。共通の画面更新や保存処理はqAIUIckが担当します。</p></div>
+      </div>
+      <div class="q-source-tabs" role="tablist" aria-label="ソースコードの言語">
+        <button type="button" role="tab" data-q-source-tab="html" aria-selected="false">HTML</button>
+        <button type="button" role="tab" data-q-source-tab="css" aria-selected="false">CSS</button>
+        <button type="button" role="tab" data-q-source-tab="js" aria-selected="true">JavaScript</button>
+        <button type="button" class="q-source-copy" data-q-source-copy>コードをコピー</button>
+      </div>
+      <p class="q-source-file" data-q-source-file>読み込み中…</p>
+      <pre class="q-source-code" tabindex="0"><code data-q-source-code>読み込み中…</code></pre>
+    </section>
+  <p class="q-sample-note q-sample-caption">初回だけサンプルデータを投入します。その後の編集結果はこのブラウザに保存されます。リセットはこのデモだけが対象です。実データ・機密情報は入力しないでください。</p>
+  <footer class="q-footer">Made with qAIUIck v0.6 Beta · <a href="/products/web/qaiuick/">製品情報</a> · <a href="/os/">ResoArcOS</a></footer>
+</main>
+<script type="module" src="/assets/qaiuick-beta/examples/inventory.js"></script>
+<script type="module" src="/assets/qaiuick-beta/source-viewer.js"></script>
+<script defer src="/assets/navigation.js"></script>
+</body></html>

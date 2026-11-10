@@ -16,6 +16,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+          fetch-depth: 0 # pinned historical release commits
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.11"
@@ -32,16 +33,18 @@ jobs:
         run: python scripts/check_repository_secrets.py
       - name: Check all released products have a basic user guide (OSPS-DO-01.01)
         run: python scripts/check_release_guides.py
-      - name: Reject generated executables and unreviewable binary blobs (OSPS-QA-05)
+      - name: Install pinned integrity and license verification dependencies
+        run: python -m pip install --disable-pip-version-check cryptography==46.0.3 reuse==6.2.0 beautifulsoup4==4.13.4
+      - name: Audit historical and active signed site binaries (OSPS-QA-05)
         run: python scripts/check_binary_repo_assets.py
       - name: Check direct dependency inventory (OSPS-QA-02.01)
         run: python scripts/check_direct_dependencies.py
       - name: Verify all 35 release assets are listed with their licenses
-        run: python scripts/verify_osps_35_license_delivery.py
+        run: python scripts/verify_historical_release_snapshots.py --check licenses-35
       - name: Audit signed release provenance and human approval boundaries (OSPS-LE-02.02)
         run: python scripts/check_osps_le02_signed_provenance.py
       - name: Verify approved release software license identifiers (OSPS-LE-02.02)
-        run: python scripts/check_osps_le02_35_osi_licenses.py
+        run: python scripts/verify_historical_release_snapshots.py --check license-ids-35
       - name: Check immutable ResoArcOS source ZIP
         run: |
           python scripts/verify_resoarcos_snapshot.py
@@ -51,9 +54,9 @@ jobs:
       - name: Verify Pi first-boot alpha source ZIP
         run: python scripts/verify_pi_preview.py
       - name: Verify frozen Web8 GA v1.0.0 release
-        run: python scripts/verify_web8_v1.py
+        run: python scripts/verify_historical_release_snapshots.py --check web8-frozen
       - name: Verify signed kintone QA packages and all 16 feature routes
-        run: python scripts/verify_suite16_readiness.py
+        run: python scripts/verify_historical_release_snapshots.py --check suite16-frozen
       - name: Test live Scorecard proxy and client fallback
         run: |
           node --check site/_worker.js
@@ -66,9 +69,9 @@ jobs:
           python -m unittest discover -s tests -p test_community_site.py -v
           python -m unittest discover -s tests -p test_live_route_preservation.py -v
       - name: Verify tracked release ZIP integrity and interim license notices
-        run: python scripts/audit_release_license_evidence.py
+        run: python scripts/verify_historical_release_snapshots.py --check signed-release-license
       - name: Verify scoped OpenChain component inventory and file hashes
-        run: python scripts/verify_openchain_scoped_sbom.py
+        run: python scripts/verify_historical_release_snapshots.py --check openchain-frozen
       - name: Validate browser tool JavaScript
         run: |
           node --check site/assets/tools/hash.js
@@ -112,12 +115,10 @@ jobs:
           python tests/kanban_runtime_browser.py
           python tests/browser_suite_smoke.py
           python tests/web8_acceptance_smoke.py
-          python tests/pi_site_smoke.py
-          python tests/suite16_release_smoke.py
-          python tests/top_news_sync_smoke.py
-          python tests/catalog_media_smoke.py
+          python tests/current_postal_release_browser_smoke.py
+          python scripts/verify_historical_browser_snapshots.py
       - name: Verify public source ZIP integrity
-        run: python scripts/verify_alpha_archives.py
+        run: python scripts/verify_historical_release_snapshots.py --check alpha
       - name: Verify reproducible plugin builds
         run: |
           git diff --exit-code -- plugins/auto-number/v1.1.0-beta/src/js/desktop.js plugins/auto-number/v1.1.0-beta/src/js/mobile.js

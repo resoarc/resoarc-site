@@ -1,8 +1,8 @@
 # ResoArc Open Source License Compliance Program (ISO/IEC 5230:2020 preparation)
 
-**Status:** OPERATING PROCEDURE PROPOSED / NOT YET CONFORMANT  
-**Created:** 2026-11-06 JST  
-**Document owner:** ResoArc public maintainer account; the accountable human must acknowledge this procedure before first audited release.  
+**Status:** OPERATING PROCEDURE PROPOSED / NOT YET CONFORMANT
+**Created:** 2026-11-06 JST
+**Document owner:** ResoArc public maintainer account; the accountable human must acknowledge this procedure before first audited release.
 **Normative references:** [OpenChain official checklist](https://openchainproject.org/licensecompliancespecification), [OpenChain reference material](https://github.com/OpenChain-Project/Reference-Material), [ISO/IEC 5230 conformance guide](https://openchain-project.github.io/OpenChain-KWG/en/guide/iso5230_guide/).
 
 ## 1. Purpose and strict scope

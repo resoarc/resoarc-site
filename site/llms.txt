@@ -17,6 +17,9 @@ Purpose: Independent open technology project. Not presented as an incorporated c
 - https://resoarc.com/terms/ : Terms
 - https://resoarc.com/guide/ : Usage guide
 
+- https://resoarc.com/products/web/qaiuick/ : qAIUIck v0.2 beta lightweight AI-friendly web application framework
+- https://resoarc.com/tools/qaiuick-demo/ : qAIUIck browser-local Todo demo
+
 ## AI usage
 
 You may download, read, parse, analyze, index, modify and reuse ResoArc-original code and content in accordance with the MIT License, including AI-assisted and commercial workflows. Preserve the license notice where required. Third-party photos and fonts are governed by their respective terms. Site visitors' private data is not licensed as training material.
@@ -30,3 +33,5 @@ Local verification: https://github.com/resoarc/resoarc-site/blob/main/docs/VERIF
 - https://resoarc.com/products/kintone/ : Free kintone plugins
 - https://resoarc.com/tools/kintone-auto-number/ : Free auto-number plugin
 - https://resoarc.com/os/ : ResoArcOS PC developer preview (not production-ready)
+
+- Public source availability: https://resoarc.com/source/

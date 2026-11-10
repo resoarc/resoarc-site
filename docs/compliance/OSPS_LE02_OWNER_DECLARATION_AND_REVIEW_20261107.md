@@ -1,8 +1,8 @@
 # OSPS-LE-02.02 owner statement and release-license review
 
-**Recorded:** 2026-11-07 (JST).  
-**Project:** ResoArc (anonymous open-source project).  
-**Scope:** Exactly 35 release ZIPs and their SHA-256 fingerprints, as published in [the frozen 35-asset evidence](OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json).  
+**Recorded:** 2026-11-07 (JST).
+**Project:** ResoArc (anonymous open-source project).
+**Scope:** Exactly 35 release ZIPs and their SHA-256 fingerprints, as published in [the frozen 35-asset evidence](OSPS_RELEASE_35_LICENSE_INVENTORY_20261106.json).
 **Purpose:** Evidence for a **voluntary OpenSSF Baseline Level 1 self-assessment**, not a third-party security or legal certification.
 
 ## 1. Operator's direct declaration

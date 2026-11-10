@@ -7,7 +7,7 @@ import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
@@ -137,6 +137,16 @@ def main() -> int:
             parsed = urlsplit(ref.strip())
             if parsed.scheme or parsed.netloc or ref.startswith("//"):
                 continue
+            # Dynamic download delivery is a Worker route, not a filesystem file.
+            # Resolve only the validated asset against immutable published ZIPs.
+            if parsed.path == "/api/v1/downloads/file":
+                params = parse_qs(parsed.query, keep_blank_values=True)
+                names = params.get("asset", [])
+                if (set(params) != {"asset"} or len(names) != 1 or
+                    not re.fullmatch(r"resoarc[a-zA-Z0-9._-]{1,190}\.(?:zip|iso)", names[0], re.I) or
+                    not (SITE / "downloads" / names[0]).is_file()):
+                    fail(f"{relative}: invalid tracked download reference {ref}")
+                continue
             # site links are root-relative; also support document-relative links
             target = to_target(ref) if ref.startswith("/") else to_target(
                 "/" + page.relative_to(SITE).parent.as_posix() + "/" + ref
@@ -153,10 +163,11 @@ def main() -> int:
                     fail(f"{relative}: missing local reference {ref}")
 
     os_page = (SITE / "os/index.html").read_text(encoding="utf-8")
-    os_release_url = "https://github.com/resoarc/resoarc-site/releases/download/resoarcos-pc-v0.1.0-dev-20261016/resoarcos-pc-v0.1.0-dev-amd64.iso"
     os_release_sha = "7706b665ef250be764cda9de43826edf9ad7c85baccbf7655f5ae43f0b5d61dd"
-    if os_release_url not in os_page or os_release_sha not in os_page:
-        fail("Missing pinned ResoArcOS ISO release link or checksum")
+    # The old repository's binary URL is no longer the official distribution channel.
+    # Preserve historical artifact identification without linking to a nonfunctional download.
+    if os_release_sha not in os_page or "ISOイメージは現在公式サイトで配布していません" not in os_page:
+        fail("Missing historical ResoArcOS ISO checksum or current no-download notice")
     if "本番用OSとしては未対応です" not in os_page:
         fail("Missing ResoArcOS non-production warning")
 
@@ -203,6 +214,46 @@ def main() -> int:
     else:
         fail("missing site-manifest.sha256")
 
+    # Navigation consistency is a release gate even when optional hosted CI is unavailable.
+    nav_checker = ROOT / "scripts/check_navigation.py"
+    if nav_checker.is_file():
+        import subprocess
+        result = subprocess.run([sys.executable, str(nav_checker)], cwd=ROOT,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if result.returncode:
+            fail("navigation regression: " + (result.stdout + result.stderr)[-1100:])
+        else:
+            print(result.stdout.strip())
+
+    plugin_transparency = ROOT / "tests/official_plugins_transparency_smoke.py"
+    if plugin_transparency.is_file():
+        import subprocess
+        result = subprocess.run([sys.executable, str(plugin_transparency)], cwd=ROOT,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if result.returncode:
+            fail("signed-plugin transparency regression: " + (result.stdout + result.stderr)[-1400:])
+        else:
+            print(result.stdout.strip())
+
+    # Fail closed before publishing any site or release assets.
+    reuse_gate = ROOT / "scripts/reuse_release_gate.py"
+    if reuse_gate.is_file():
+        gate = subprocess.run([sys.executable, str(reuse_gate)], cwd=ROOT,
+                              capture_output=True, text=True)
+        if gate.returncode:
+            fail("REUSE 3.3 release gate: " + (gate.stdout + gate.stderr)[-2200:])
+        else:
+            print(gate.stdout.strip())
+    # SHA-256 lock and notice inventory for published signed kintone packages.
+    signed_gate = ROOT / "scripts/check_signed_archive_notice.py"
+    if signed_gate.is_file():
+        import subprocess
+        check = subprocess.run([sys.executable, str(signed_gate)], cwd=ROOT,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if check.returncode:
+            fail("signed archive license inventory: " + (check.stdout + check.stderr)[-2000:])
+        else:
+            print(check.stdout.strip())
     total = sum(p.stat().st_size for p in files)
     print(f"Files: {len(files)} | HTML pages: {len(pages)} | Bytes: {total:,}")
     print("Reference hashes (first 12 hex):")

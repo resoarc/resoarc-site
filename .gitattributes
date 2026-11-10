@@ -17,3 +17,14 @@ site/_headers text eol=lf
 *.png binary
 *.jpg binary
 *.jpeg binary
+# Published release companion files must retain exact bytes matching release SHA.
+site/downloads/resoarc-2plugins-* binary
+
+# Keep the exact checked bytes of wave2 release companion documents.
+site/downloads/resoarc-wave2-* binary
+
+# Fixed rights documents: exact SHA-256 published bytes.
+site/downloads/resoarc-readonly4-* binary
+
+# Preserve release ZIP and companion documentation exactly.
+site/downloads/resoarc-tabs-v1.0.0-* binary

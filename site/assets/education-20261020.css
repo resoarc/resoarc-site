@@ -1,0 +1,44 @@
+/* ResoArc Education public pages 2026-10-20 */
+.education-pages{--edu-navy:#163c57;--edu-blue:#166b82;--edu-border:#d5e5ee;--edu-muted:#58758b;color:var(--edu-navy)}
+.education-pages main{min-height:60vh}
+.edu-hero{padding:85px 0 78px;background:radial-gradient(circle at 81% 33%,#cde5ec 0,transparent 35%),linear-gradient(135deg,#f0f8fa,#fff)}
+.edu-hero-layout{display:flex;align-items:center;justify-content:space-between;gap:44px}
+.edu-eyebrow{display:block;font:700 11px/1.7 system-ui;letter-spacing:.16em;color:#27788b}
+.edu-hero h1{font-size:clamp(30px,4.7vw,64px);line-height:1.46;letter-spacing:.02em;margin:15px 0 20px;color:#17384e}
+.edu-hero p{font-size:clamp(14px,1.4vw,17px);line-height:2;color:#496679;max-width:730px}
+.edu-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:23px}.edu-badges span{font-size:12px;font-weight:700;color:#287a7e;border:1px solid #bedbe0;border-radius:25px;background:white;padding:7px 12px}
+.edu-hero-art{min-width:248px;height:242px;border-radius:34px;background:linear-gradient(150deg,#d6eef0,#eaf3fe);border:1px solid #c2dfe3;position:relative;box-shadow:0 25px 60px rgba(23,79,100,.08)}
+.edu-hero-art span:not(.edu-art-line){position:absolute;font-size:62px}.edu-art-battery{top:23px;left:26px}.edu-art-robot{bottom:32px;right:25px}.edu-art-light{top:22px;right:29px}
+.edu-art-line{position:absolute;display:block;height:7px;background:#72b2bc;width:150px;transform:rotate(-22deg);left:51px;top:130px;border-radius:20px}
+.edu-section{padding:65px 0 75px}.edu-section.edu-soft{background:#f0f7fa}
+.edu-section-heading{margin-bottom:26px}.edu-section h2{font-size:clamp(22px,2.6vw,34px);line-height:1.5;color:#17384e;margin:10px 0}.edu-section-heading p{color:#557286;line-height:1.9}
+.edu-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.edu-card{display:flex;flex-direction:column;border:1px solid var(--edu-border);border-radius:16px;overflow:hidden;background:white}
+.edu-card-art{min-height:190px;display:flex;align-items:center;justify-content:center;gap:20px;font-size:48px;letter-spacing:.01em}
+.edu-card-art-circuit{background:#e3f6f2}.edu-card-art-robot{background:#e7effc}
+.edu-card-art span:nth-child(2){font-size:30px;color:#3b8795}
+.edu-card-body{padding:29px;display:flex;flex-direction:column;flex:1}.edu-overline{font-size:12px;font-weight:700;color:#387d80;letter-spacing:.05em}.edu-card h3{font-size:23px;line-height:1.6;margin:11px 0}.edu-card p{font-size:14px;color:#59758a;line-height:1.95;flex:1}
+.edu-button{display:inline-flex;gap:24px;align-items:center;justify-content:center;background:#205f72;color:#fff!important;text-decoration:none;font-size:14px;font-weight:700;padding:14px 17px;border-radius:7px;align-self:flex-start;margin-top:14px}.edu-button:hover{background:#287e91}
+.edu-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.edu-steps article{background:#fff;border:1px solid #dbe8ed;border-radius:13px;padding:22px}.edu-steps strong{display:block;font-size:18px;margin-bottom:10px}.edu-steps p,.edu-prose{line-height:1.9;color:#506c7f;font-size:14px}
+.edu-disclaimer{margin-top:25px;padding:21px 24px;border:1px solid #c5dae4;background:#e6f1f6;border-radius:10px}.edu-disclaimer p{line-height:1.8;margin-bottom:0;font-size:13px;color:#536c7d}
+.edu-inline{font-size:14px;font-weight:700;color:#176d85;text-decoration:underline;text-underline-offset:3px}
+.edu-tool-header{background:linear-gradient(110deg,#ecf6f8,#f6fbfd);padding:37px 0 48px}
+.edu-breadcrumb{display:flex;gap:10px;font-size:12px;color:#57718b;margin-bottom:27px}.edu-breadcrumb a{color:#216e85}.edu-tool-header h1{font-size:clamp(27px,3.5vw,47px);line-height:1.5;margin:10px 0}.edu-tool-header p{line-height:1.85;max-width:700px;color:#557083}
+.edu-lab-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:23px}.edu-lab-panel{padding:26px;border:1px solid #d5e4ec;border-radius:14px;background:#fff;min-width:0}.edu-lab-panel h2{font-size:22px;margin:0 0 19px}
+.edu-circuit-board svg{display:block;width:100%;height:auto;border-radius:12px}
+.edu-svg-label{font-size:17px;font-weight:700;fill:#2b5269}.edu-svg-current{font-size:25px;font-weight:750;fill:#247b77}
+.edu-svg-hint{font-size:13px;line-height:1.8;color:#5c7587}
+.edu-observation{background:#eaf5f6;padding:17px 18px;border-radius:12px}.edu-observation h3{margin:0 0 11px;font-size:17px}.edu-observation>p{font-size:13px;line-height:1.8}.edu-meters{display:flex;flex-wrap:wrap;gap:17px}.edu-meters>div{padding:12px;background:white;border-radius:8px;flex:1}.edu-meters span{display:block;font-size:12px;color:#516b7c}.edu-meters output{display:block;font-size:19px;font-weight:800;color:#1e677b;margin-top:4px}
+.edu-hint{font-size:12px}.edu-control{margin:21px 0}.edu-control>label{display:flex;justify-content:space-between;gap:8px;font-weight:700;font-size:15px}.edu-control output{color:#1b6d80;font-weight:800}.edu-control input{width:100%;accent-color:#1d7788;margin-top:11px}.edu-range-label{display:flex;justify-content:space-between;color:#667b8a;font-size:11px}
+.edu-check{padding:11px 0;border-top:1px solid #e0eaf0}.edu-check label{display:flex;gap:12px;align-items:center;line-height:1.8}.edu-check input{width:20px;height:20px;accent-color:#207d7a}
+.edu-preset-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.edu-preset-list button{cursor:pointer;font:700 13px system-ui;color:#25576a;background:#f2fafb;border:1px solid #c8e1e8;padding:13px 7px;border-radius:7px}.edu-preset-list button:hover{background:#dceff2}
+.edu-smallprint{font-size:12px;line-height:1.95;color:#597488;margin:18px 0 28px}
+#edu-robot{max-width:1110px;margin:0 auto 24px}#edu-robot-title{background:#eaf4fa;padding:18px 22px;border-radius:11px;margin:24px auto;color:#3c687f}#edu-robot-title p{margin:0;line-height:1.8}
+.edu-robot-page .container>.edu-inline{margin-bottom:25px}
+.education-pages :focus-visible{outline:3px solid #e58e3b;outline-offset:2px}
+@media(max-width:800px){.edu-hero-layout{display:block}.edu-hero-art{width:min(90%,280px);height:175px;margin-top:25px}.edu-hero-art span:not(.edu-art-line){font-size:49px}.edu-hero-art .edu-art-line{top:94px}.edu-steps{grid-template-columns:1fr}.edu-lab-grid{grid-template-columns:1fr}}
+@media(max-width:630px){.edu-hero{padding:52px 0}.edu-section{padding:40px 0}.edu-cards{grid-template-columns:1fr}.edu-card-art{min-height:135px}.edu-card-body{padding:22px}.edu-tool-header{padding:24px 0}.edu-lab-panel{padding:17px}.edu-lab-grid{gap:15px}.edu-meters{display:block}.edu-meters>div{margin:8px 0}}
+
+.edu-home-banner{background:#e4f2f5;border-bottom:1px solid #c6e0e7}.edu-home-inner,.edu-product-inner{display:flex;align-items:center;justify-content:space-between;gap:35px;padding-top:24px;padding-bottom:24px}
+.edu-home-inner h2,.edu-product-inner h2{font-size:clamp(19px,2.3vw,27px);margin:9px 0;line-height:1.5}.edu-home-inner p,.edu-product-inner p{font-size:13px;color:#4a6a80;line-height:1.8;margin:0}
+.edu-home-inner .edu-button,.edu-product-inner .edu-button{flex-shrink:0}.edu-product-banner{background:#f1f8fa}
+@media(max-width:650px){.edu-home-inner,.edu-product-inner{display:block;padding-top:25px;padding-bottom:26px}.edu-home-inner .edu-button,.edu-product-inner .edu-button{margin-top:15px}}

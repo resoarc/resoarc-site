@@ -8,6 +8,7 @@ GitHub secret scanning/push protection and key rotation after an incident.
 from __future__ import annotations
 import io
 import re
+import hashlib
 import subprocess
 import sys
 import zipfile
@@ -33,6 +34,29 @@ PATTERNS = (
 )
 MAX_TEXT_BYTES = 4_000_000
 
+# One previously published, byte-pinned backup source ZIP includes two
+# intentionally synthetic Basic Auth URL fixtures in test code. These have
+# no corresponding service credentials. Never exempt other ZIPs, test files
+# or lines, and reject this exception if any byte of that ZIP changes.
+KNOWN_ARCHIVE = "site/downloads/resoarc-backup-migration-v1.0.0-source.zip"
+KNOWN_ARCHIVE_SHA256 = "06648e849bb38b9dc5614fbaa507a50492f2684f7015316228df3bfb0e8041fb"
+KNOWN_SYNTHETIC_CREDENTIAL_TEST_LINES = {
+    (KNOWN_ARCHIVE + "/plugins/backup-migration/tests/qa-guards.test.js", 42):
+        "580c1b3ae53ad926a842949d900adcde0dfd0d89dc02e27e595a8fbee0040e96",
+    (KNOWN_ARCHIVE + "/plugins/backup-migration/tests/tenant-probe.test.js", 17):
+        "cb00a01deb94c40075ac5bae3864f7130c7b349e652f94c6fac26467350ff828",
+}
+
+
+def pinned_synthetic_fixture(label: str, index: int, name: str, line: str) -> bool:
+    if name != "credential-url" or (label, index) not in KNOWN_SYNTHETIC_CREDENTIAL_TEST_LINES:
+        return False
+    expected = KNOWN_SYNTHETIC_CREDENTIAL_TEST_LINES[(label, index)]
+    if hashlib.sha256(line.encode("utf-8")).hexdigest() != expected:
+        return False
+    archive = ROOT / KNOWN_ARCHIVE
+    return archive.is_file() and hashlib.sha256(archive.read_bytes()).hexdigest() == KNOWN_ARCHIVE_SHA256
+
 
 def findings(label: str, data: bytes) -> list[str]:
     if len(data) > MAX_TEXT_BYTES:
@@ -42,7 +66,8 @@ def findings(label: str, data: bytes) -> list[str]:
     lines = data.decode("utf-8", errors="replace").splitlines()
     return [f"{label}:{index}: {name}"
             for index, line in enumerate(lines, 1)
-            for name, regex in PATTERNS if regex.search(line)]
+            for name, regex in PATTERNS if regex.search(line)
+            and not pinned_synthetic_fixture(label, index, name, line)]
 
 
 def tracked_files() -> list[str]:

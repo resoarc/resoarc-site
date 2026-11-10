@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- SPDX-FileCopyrightText: 2026 ResoArc -->
+<!-- SPDX-License-Identifier: MIT -->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ResoArcソフトウェアのダウンロード応答数を配布経路・製品別・日別に表示します。">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://resoarc.com/metrics/downloads/">
+<link rel="icon" href="/assets/resoarc-icon.svg" type="image/svg+xml">
+<title>ダウンロード統計 | ResoArc</title>
+<link rel="stylesheet" href="/assets/download-metrics.css">
+<link rel="stylesheet" href="/assets/navigation.css"></head>
+<body>
+<header><nav aria-label="主要ナビゲーション"><strong>RESOARC / METRICS</strong><a href="/">ホーム</a><a href="/products/kintone/">kintone</a><a href="/os/">ResoArcOS</a><a href="/privacy/">プライバシー</a></nav></header>
+<main>
+<h1>ダウンロード統計</h1>
+<p class="lead">公式サイトとGitHub Releasesから取得できる実測値を、製品ごとにまとめています。取得人数やインストール数を推定したものではありません。</p>
+<div class="notice"><strong>数値の定義</strong><br>「GitHub」はGitHub Releasesのファイル別累計DL、「サイト直接」は配布ZIPへのHTTP 200 GET応答数です。途中切断・自動取得・同一人の複数回取得は区別できません。サイト直接の計測は導入日以降のみで、過去には遡れません。HEAD・Range・404は直接DLカウントに含めません。</div>
+<p id="state" role="status">最新の公開集計を取得しています…</p>
+<section aria-label="集計概要" class="kpis">
+<div class="kpi"><span class="num" id="gh-all">…</span><span class="lbl">GitHub全配布ファイル累計</span></div>
+<div class="kpi"><span class="num" id="gh-packages">…</span><span class="lbl">GitHub ZIP / ISO累計</span></div>
+<div class="kpi"><span class="num" id="site-all">…</span><span class="lbl">サイト直接ZIP累計（導入後）</span></div>
+<div class="kpi"><span class="num" id="site-7days">…</span><span class="lbl">サイト直接・直近7日</span></div>
+</section>
+<section><h2>製品別の取得件数</h2><p class="muted">配布ファイル名から製品単位に分類した参考値です。ソースZIPや開発版も含まれるため、製品の利用者数とは一致しません。</p>
+<div class="tablewrap"><table><thead><tr><th>製品・カテゴリ</th><th class="num">GitHub ZIP/ISO</th><th class="num">サイト直接</th><th class="num">合計</th></tr></thead><tbody id="products"><tr><td colspan="4">取得中…</td></tr></tbody></table></div></section>
+<section><h2>サイト直接ダウンロードの日別推移（UTC）</h2><p class="muted">計測開始後の値のみ。GitHubの日別増分は、このグラフには含まれません。</p><div id="chart" aria-label="直近14日の日別件数"></div></section>
+<details><summary>ファイル別の明細を表示</summary><p class="muted">同名ファイルが両経路に存在する場合、各配布元の数を別々に集計しています。</p>
+<div class="tablewrap"><table><thead><tr><th>ファイル</th><th class="num">GitHub</th><th class="num">サイト直接</th></tr></thead><tbody id="files"><tr><td colspan="3">取得中…</td></tr></tbody></table></div></details>
+<p class="muted" id="updated"></p>
+</main>
+<footer>ResoArc / 個人情報を保存しない集計。収集対象はファイル名・UTC日付・応答件数のみです。<a href="/privacy/">プライバシーポリシー</a></footer>
+<script defer src="/assets/download-metrics.js"></script>
+<script defer src="/assets/navigation.js"></script></body>
+</html>

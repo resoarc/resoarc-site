@@ -22,3 +22,5 @@ qa-*.png
 qa-*.json
 .DS_Store
 Thumbs.db
+# byte-verified historical GitHub Release mirror; not an active Pages asset
+.historical-release-cache/

@@ -1,0 +1,98 @@
+
+/* ResoArc cosmic brand layer, 2026-10-22. Cosmetic only; releases, routes and product states are unchanged. */
+:root{--arc-navy:#071324;--arc-deep:#030914;--arc-blue:#168be8;--arc-cyan:#74caff}
+.site-header{background:#071322!important;border-bottom:1px solid #274765!important;box-shadow:0 5px 25px #020a1550!important}
+.site-header .brand .wordmark strong,.footer-brand strong{background:linear-gradient(105deg,#ffffff 20%,#cddfee 60%,#66bbfb 83%,#2e8cd5);-webkit-background-clip:text;background-clip:text;color:transparent!important;font-style:italic;letter-spacing:.005em}
+.site-header .brand .wordmark small{color:#8eaecb!important;letter-spacing:.13em}
+.site-header .brand svg{border:1px solid #315a80;box-shadow:0 0 0 2px #0a1829;flex-shrink:0}
+.site-header .brand svg rect{fill:#081a32}
+.site-header .brand svg path{stroke:#90d4ff}
+.site-header .desktop-nav a{color:#edf5ff!important}
+.site-header .desktop-nav a small{color:#8ca8c1!important}
+.site-header .desktop-nav a:hover,.site-header .desktop-nav a.is-active{color:#88d5ff!important}
+.site-header .nav-action{background:linear-gradient(130deg,#118cd5,#07548f)!important;color:#fff!important;border-color:#2b89b7!important}
+.site-header .mobile-menu summary{color:#edf7ff!important}
+.site-header .mobile-menu .mobile-panel{background:#071527!important}
+.site-header .mobile-panel a{color:#e4f2ff!important;border-color:#29435f!important}
+.hero.arc-cosmic{background:radial-gradient(circle at 80% 45%,#0a3159,#061528 57%,#030a16);color:#fff;overflow:hidden;min-height:660px}
+.hero.arc-cosmic .hero-copy{background:transparent!important;position:relative;z-index:2}
+.hero.arc-cosmic .hero-copy-inner{position:relative;z-index:3}
+.hero.arc-cosmic .hero-copy:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#041020 10%,#041020d9 55%,#04102000 100%);z-index:0;pointer-events:none}
+.hero.arc-cosmic .hero-visual{background:#03101d}
+.hero.arc-cosmic .hero-visual img{width:100%;height:100%;object-fit:cover;object-position:40% 45%;filter:saturate(1.1)}
+.hero.arc-cosmic .hero-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#041020 0%,#04102000 45%),linear-gradient(0deg,#031020aa,transparent 48%);pointer-events:none}
+.hero.arc-cosmic .hero-topline{color:#9fcdf4!important;letter-spacing:.13em}
+.hero.arc-cosmic .little-square{background:#58c6ff;box-shadow:0 0 16px #278ce8}
+.hero.arc-cosmic h1{color:#fff!important;text-shadow:0 3px 23px #000a;font-size:clamp(40px,3.9vw,67px)}
+.hero.arc-cosmic .arc-accent{color:#a6d8ff;text-shadow:0 1px 23px #1e72bb73}
+.hero.arc-cosmic .hero-sub{color:#d9e5f2!important}
+.hero.arc-cosmic .hero-footnote{color:#a0b8d0!important}
+.hero.arc-cosmic .btn-primary{background:linear-gradient(140deg,#29a4ed,#0063a9)!important;color:#fff!important;border:1px solid #30a9eb!important;box-shadow:0 10px 35px #0067a337}
+.hero.arc-cosmic .btn-secondary{background:#102c48b8!important;border:1px solid #729cba!important;color:#eff9ff!important}
+.hero.arc-cosmic .visual-badge{background:#07182999!important;border:1px solid #397bb2!important;color:#e7f7ff!important;backdrop-filter:blur(8px)}
+.hero.arc-cosmic .visual-mark{color:#b8ddfa!important}
+.arc-hero-orbit{position:absolute;width:950px;height:285px;border:1px solid #77c9ff45;border-radius:50%;transform:rotate(-24deg);z-index:1;right:-100px;bottom:160px;pointer-events:none}
+.arc-hero-orbit:after{content:"";display:block;width:5px;height:5px;border-radius:50%;background:#c4efff;box-shadow:0 0 24px 8px #3c9fea;position:absolute;top:45px;right:155px}
+.arc-pillars{background:#f8fbfd;border-bottom:1px solid #dce7f0}
+.arc-pillars-inner{max-width:1180px;margin:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.arc-pillar{padding:24px 30px;border-right:1px solid #d7e5ef;display:flex;flex-direction:column;gap:7px}.arc-pillar:last-child{border-right:0}
+.arc-pillar b{font:700 10px Arial,sans-serif;letter-spacing:.13em;color:#198cd3}
+.arc-pillar strong{font-size:17px;color:#162940}.arc-pillar span{font-size:12px;color:#647991}
+.vision-section h2 em{color:#187fc3!important}
+.areas-section{background:#f5f8fb}
+.area-item{background:#fff;border-color:#dbe5ee!important;transition:transform .18s,box-shadow .18s,border-color .18s}
+.area-item:hover{border-color:#67b2ea!important;box-shadow:0 15px 32px #163d5d17;transform:translateY(-2px)}
+.kicker-no,.kicker-en{color:#197fc5}
+.quality-section{background:radial-gradient(circle at 10% 95%,#193d62,#08172d 66%,#040d1e)!important;color:#fff}
+.quality-section h2,.quality-section strong,.quality-section .quality-summary p{color:#fff!important}
+.quality-section .principles-list p{color:#d2e1ee!important}
+.quality-section .principles-list>div{border-color:#386087!important}
+.quality-section .btn-light{background:#f0f9ff;color:#0c3560}
+.footer{background:#050e1b!important;color:#eaf5ff!important}
+.footer a{color:#d2e6f6}
+@media(max-width:960px){.arc-pillars-inner{padding:0 20px}.arc-pillar{padding:19px 17px}.hero.arc-cosmic .hero-copy:before{background:linear-gradient(90deg,#041020 0%,#041020ca 75%,transparent)}}
+@media(max-width:720px){.arc-pillars-inner{grid-template-columns:1fr;padding:0 20px}.arc-pillar{padding:15px 0;border-right:0;border-bottom:1px solid #dce7f0;display:grid;grid-template-columns:130px 1fr}.arc-pillar:last-child{border-bottom:0}.arc-pillar b{grid-row:span 2;align-self:center;font-size:9px}.arc-pillar strong{font-size:14px}.arc-pillar span{font-size:11px}.hero.arc-cosmic{min-height:0}.hero.arc-cosmic .hero-visual{opacity:.75}.hero.arc-cosmic .hero-visual:after{background:linear-gradient(0deg,#041020 0%,#04102077 65%,transparent)}.hero.arc-cosmic .hero-copy:before{background:linear-gradient(0deg,#041020eb 0%,#04102080 76%,#04102033 100%)}.hero.arc-cosmic h1{font-size:clamp(36px,9vw,48px)}.arc-hero-orbit{display:none}}
+@media(prefers-reduced-motion:reduce){.area-item{transition:none}}
+
+/* Fine adjustment: stronger illuminated planet and unified hero on narrow screens. */
+.site-header .brand .wordmark strong{font-family:"Segoe UI",Arial,sans-serif!important;font-size:25px!important;font-weight:850!important;font-style:italic!important;letter-spacing:-.055em!important}
+.hero.arc-cosmic .hero-visual img{filter:brightness(1.32) saturate(1.26)!important}
+.hero.arc-cosmic .hero-visual-shade{background:transparent!important;opacity:0!important}
+.hero.arc-cosmic .hero-visual:after{background:linear-gradient(90deg,#041020 0%,#04102010 33%),linear-gradient(0deg,#03102066,transparent 42%)}
+.arc-hero-orbit{right:6%;width:min(820px,78vw);overflow:hidden}
+@media(max-width:720px){
+.hero.arc-cosmic{position:relative;min-height:620px!important;overflow:hidden!important}
+.hero.arc-cosmic .hero-copy{position:relative;z-index:2;min-height:620px!important;width:100%!important;background:transparent!important}
+.hero.arc-cosmic .hero-copy:before{background:linear-gradient(0deg,#041020 0%,#041020e8 53%,#04102066 100%)!important}
+.hero.arc-cosmic .hero-visual{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:0!important;opacity:.9!important}
+.hero.arc-cosmic .hero-visual img{object-position:58% 7%!important;height:100%!important;filter:brightness(1.25) saturate(1.2)!important}
+.hero.arc-cosmic .hero-visual:after{background:linear-gradient(0deg,#041020 0%,#041020a8 53%,transparent 100%)!important}
+.hero.arc-cosmic .hero-visual .visual-badge,.hero.arc-cosmic .hero-visual .visual-mark{display:none!important}
+.hero.arc-cosmic .hero-copy-inner{padding-top:30px!important}
+.hero.arc-cosmic .hero-topline{font-size:10px!important}
+.hero.arc-cosmic .hero-footnote{padding-bottom:25px!important}
+}
+
+/* Official namecard glyph vectors: from FRONT_VECTOR_ONLY.svg, 2026-10-22. */
+.site-header .brand{gap:11px!important}
+.site-header .brand .arc-brand-symbol{width:42px;height:42px;display:block;flex-shrink:0;box-shadow:0 0 0 1px #224b72;border-radius:9px}
+.site-header .brand .arc-wordmark-image{width:158px;max-width:158px;height:auto;display:block;filter:drop-shadow(0 2px 5px #0004)}
+.site-header .brand .wordmark{display:flex;flex-direction:column;gap:0;justify-content:center}
+.site-header .brand .wordmark small{font-size:6.8px!important;font-weight:750;white-space:nowrap;letter-spacing:.07em!important;line-height:1.5;margin-top:-1px!important;color:#9db8d2!important}
+.footer-brand .arc-brand-symbol{width:48px;height:48px;flex-shrink:0;border:1px solid #315f86;border-radius:10px}
+.footer-brand .arc-footer-wordmark{width:196px;max-width:100%;height:auto;display:block;margin:-4px 0 2px}
+.footer-brand small{color:#9abfdb!important;font-size:9px!important;letter-spacing:.06em!important;margin:3px 0 19px!important}
+@media(max-width:960px){
+.site-header .brand .arc-wordmark-image{width:145px;max-width:145px}
+}
+@media(max-width:420px){
+.site-header .brand .arc-wordmark-image{width:124px;max-width:124px}
+.site-header .brand .wordmark small{font-size:5.8px!important}
+.site-header .brand .arc-brand-symbol{width:37px;height:37px}
+}
+
+/* Keep the editorial badge legible above the planet gradient. */
+.hero.arc-cosmic .hero-visual .visual-badge,
+.hero.arc-cosmic .hero-visual .visual-mark{z-index:3}
+.hero.arc-cosmic .hero-visual .visual-badge strong{color:#e6f6ff!important;text-shadow:0 4px 19px #010a1cc4}
+.hero.arc-cosmic .hero-visual .visual-badge .index-label{color:#aad7f4!important}
