@@ -207,9 +207,9 @@
       "visible": false
     },
     "/products/sheet/": {
-      "title": "ResoArc Sheet",
+      "title": "ResoArc Sheet v0.7.0 beta",
       "parent": "/products/",
-      "visible": false
+      "visible": true
     },
     "/products/web/": {
       "title": "Webツール",

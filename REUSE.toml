@@ -1074,3 +1074,19 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "site/downloads/resoarc-sheet-v0.7.0-beta.zip",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "MIT AND ISC AND BSD-3-Clause AND Apache-2.0"
+
+[[annotations]]
+path = [
+  "site/downloads/resoarc-sheet-v0.7.0-beta-source.zip",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
