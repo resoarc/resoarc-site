@@ -14,7 +14,7 @@ if (view) {
   const buttons = [...view.querySelectorAll('[data-q-source-tab]')];
   const copy = view.querySelector('[data-q-source-copy]');
   const cache = new Map();
-  let active = 'html';
+  let active = 'js';
   let shown = '';
   const decode = (value) => value.split(',').map(x => x.trim()).filter(Boolean);
 
@@ -82,5 +82,5 @@ if (view) {
     }
     setTimeout(() => { copy.textContent = 'コードをコピー'; }, 2600);
   });
-  void select('html');
+  void select('js');
 }

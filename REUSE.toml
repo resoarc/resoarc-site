@@ -968,3 +968,17 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# qAIUIck Quick API v0.3: application facade, documentation and immutable source artifact.
+[[annotations]]
+path = [
+  "site/assets/qaiuick/quick.js",
+  "docs/QAIUICK_QUICK_API.md",
+  "tools/build_qaiuick_release.py",
+  "tests/test_qaiuick_quick_api.py",
+  "site/downloads/qaiuick-v0.3-beta-source.zip",
+  "site/downloads/qaiuick-v0.3-beta-source.zip.sha256",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"

@@ -61,7 +61,7 @@ def audit()->list[str]:
  older={x["path"]:x for x in historical["assets"]}
  newer={x["path"]:x for x in active["assets"]}
  if len(older)!=34:problems.append("historical 34 reviewed assets changed")
- if len(newer)!=77:problems.append("active distribution inventory count drifted")
+ if len(newer)!=78:problems.append("active distribution inventory count drifted")
  if len(set(older)&set(newer)):problems.append("overlapping immutable inventories")
  tracked=subprocess.check_output(["git","ls-files"],cwd=ROOT,text=True).splitlines()
  for rel in tracked:
@@ -98,7 +98,7 @@ def audit()->list[str]:
    problems.append("unreviewed binary source file "+rel)
  missing=(set(older)|set(newer))-set(tracked)
  if missing:problems.append("missing pinned reviewed files "+", ".join(sorted(missing)[:10]))
- if sum(x["type"]=="zip" for x in newer.values())!=43:
+ if sum(x["type"]=="zip" for x in newer.values())!=44:
   problems.append("active published ZIP list changed without provenance")
  return problems
 if __name__=="__main__":
