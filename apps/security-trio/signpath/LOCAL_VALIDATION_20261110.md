@@ -6,7 +6,7 @@
 
 - Public source branch: `feat/security-trio-signpath-readiness-20261108`
 - Exact source commit tested: `e9ca8443a1f8d14de9783e16b46ca88d5cbef08d`
-- Dedicated isolated main-PC checkout: `C:\Users\zin\Documents\ResoArc\security-trio-review-kit-20261110`
+- Dedicated isolated Windows checkout: separate from other development trees; local absolute paths are intentionally omitted from public records
 - Other ResoArc checkout / production site / existing unsigned RC4 binaries: **not modified**. This test execution did not sign or publish anything.
 
 ## Executed, observed results
