@@ -191,10 +191,25 @@
       "parent": "/products/kintone/",
       "visible": false
     },
+    "/products/pdf-studio/": {
+      "title": "ResoArc PDF Studio",
+      "parent": "/products/",
+      "visible": false
+    },
     "/products/roadmap/": {
       "title": "開発ロードマップ",
       "parent": "/products/",
       "visible": true
+    },
+    "/products/security-trio/": {
+      "title": "ResoArc Security Trio",
+      "parent": "/products/",
+      "visible": false
+    },
+    "/products/sheet/": {
+      "title": "ResoArc Sheet",
+      "parent": "/products/",
+      "visible": false
     },
     "/products/web/": {
       "title": "Webツール",
