@@ -2,6 +2,30 @@
 
 This kit helps **independent people** reproduce concrete behavior for [PR #91](https://github.com/resoarc/resoarc-site/pull/91) and [external review Issue #104](https://github.com/resoarc/resoarc-site/issues/104). It is **not a signed release**, an external assessment, or proof of SignPath approval. Existing RC4 Windows EXEs are unsigned.
 
+## 日本語クイックスタート
+
+3アプリを**実データを使わず**試すための合成サンプル9件と、ソース版の自動セルフチェックです。実在の秘密情報、顧客ログ、マルウェアは含みません。未署名EXEを実行するためにWindowsや組織の保護機能を解除しないでください。ソースレビューのみでも歓迎です。
+
+Python 3.10以降を用意し、公開ソースの `apps/security-trio` で以下を実行します。
+
+```powershell
+py -3 review-kit/generate_samples.py --output "$env:TEMP\SecurityTrioReviewSamples"
+py -3 review-kit/verify_samples.py --samples "$env:TEMP\SecurityTrioReviewSamples"
+```
+
+結果を新規のJSONファイルに保存する場合（既存ファイルは上書き不可）：
+
+```powershell
+py -3 review-kit/verify_samples.py --samples "$env:TEMP\SecurityTrioReviewSamples" --report "$env:TEMP\SecurityTrioReviewResult-01.json"
+```
+
+- 9件のファイル名・容量・内容・SHA-256が、生成器の正本と一致するか確認します。改ざんを検出すると処理を中止します。
+- ソース版3アプリの基本検出と模擬秘密・IPの出力抑制を確認します。**EXEやGUIは起動しません**。レポートには固定のテストIDと件数のみを記録し、ローカルのパスやサンプル内容は含めません。
+- セルフチェックのPASSは、**合成データに対するソースエンジンの検証成功**です。EXEの安全性、独立レビュー、SignPath承認を意味しません。
+- 実際にGUIを使った感想・改善案・外部ソースレビューは [Issue #104](https://github.com/resoarc/resoarc-site/issues/104) にお寄せください。提出前に個人情報が含まれないか再確認してください。
+
+拡張子が `.exe` のサンプルは実行できない**文字列データ**です。実行しないでください。PDF用サンプルも実文書互換性の保証には使えません。
+
 ## Quick start
 
 1. Review the [unsigned preview and limitations](https://resoarc-security-trio.pages.dev/). Do **not** disable Windows Defender, SmartScreen, or your organization's security controls. You may instead review the source without running a binary.
@@ -33,7 +57,7 @@ From `apps/security-trio`:
 py -3 -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-The included `tests/test_external_review_kit.py` checks generator non-overwrite, SHA-256, detection and JSON redaction. Automated tests and maintainer checks are **internal evidence only**, not external user reputation or a full review of GUI/EXE runtime behavior.
+The included `tests/test_external_review_kit.py` and `tests/test_external_review_verifier.py` check generator non-overwrite, SHA-256, deterministic fixtures, expected detections, JSON redaction, and fail-closed rejection of altered kits and existing reports. Automated tests and maintainer checks are **internal evidence only**, not external user reputation or a full review of GUI/EXE runtime behavior.
 
 ## Report back
 
