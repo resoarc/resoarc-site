@@ -59,11 +59,11 @@ try {
     }
   }
   # Newly released qAIUIck beta must be live, not merely committed or uploaded.
-  $qaZip = Join-Path $site "downloads/qaiuick-v0.3-beta-source.zip"
+  $qaZip = Join-Path $site "downloads/qaiuick-v0.4-beta-source.zip"
   if (!(Test-Path $qaZip)) { throw "qAIUIck source ZIP missing" }
   $qaDigest = (Get-FileHash $qaZip -Algorithm SHA256).Hash.ToLowerInvariant()
   foreach ($hostName in @("resoarc.com", "www.resoarc.com", "resoarc.pages.dev")) {
-    foreach ($route in @("/products/web/qaiuick/", "/tools/qaiuick-demo/", "/tools/qaiuick-inventory/", "/tools/qaiuick-budget/", "/tools/qaiuick-tickets/", "/tools/qaiuick-customers/")) {
+    foreach ($route in @("/products/web/qaiuick/", "/tools/qaiuick-demo/", "/tools/qaiuick-inventory/", "/tools/qaiuick-budget/", "/tools/qaiuick-tickets/", "/tools/qaiuick-customers/", "/tools/qaiuick-spec-inventory/", "/tools/qaiuick-spec-tickets/")) {
       $url = "https://" + $hostName + $route + "?deploycheck=" + $stamp
       $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
       if ($response.StatusCode -ne 200 -or !$response.Content.Contains("qAIUIck") -or
@@ -79,6 +79,13 @@ try {
       throw ("qAIUIck hero not live: " + $assetUrl)
     }
     foreach ($asset in @(
+      "/assets/qaiuick/spec.js",
+      "/assets/qaiuick/define.js",
+      "/assets/qaiuick/define.css",
+      "/assets/qaiuick-spec/inventory.spec.js",
+      "/assets/qaiuick-spec/tickets.spec.js",
+      "/assets/qaiuick-spec/baseline-inventory.json",
+      "/assets/qaiuick-spec/baseline-tickets.json",
       "/assets/qaiuick/quick.js",
       "/assets/qaiuick-beta/source-viewer.js",
       "/assets/qaiuick-beta/samples.css",
@@ -95,7 +102,7 @@ try {
       }
       Write-Output ("QAIUICK_ASSET_OK " + $assetUrl)
     }
-    $zipUrl = "https://" + $hostName + "/downloads/qaiuick-v0.3-beta-source.zip?deploycheck=" + $stamp
+    $zipUrl = "https://" + $hostName + "/downloads/qaiuick-v0.4-beta-source.zip?deploycheck=" + $stamp
     $tempZip = Join-Path ([IO.Path]::GetTempPath()) ("qaiuick-verify-" + [guid]::NewGuid().ToString("N") + ".zip")
     try {
       Invoke-WebRequest -Uri $zipUrl -OutFile $tempZip -TimeoutSec 45

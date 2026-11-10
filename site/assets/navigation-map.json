@@ -451,6 +451,16 @@
       "parent": "/products/",
       "visible": true
     },
+    "/tools/qaiuick-spec-inventory/": {
+      "title": "在庫管理・仕様駆動版",
+      "parent": "/products/",
+      "visible": true
+    },
+    "/tools/qaiuick-spec-tickets/": {
+      "title": "問い合わせ管理・仕様駆動版",
+      "parent": "/products/",
+      "visible": true
+    },
     "/tools/qaiuick-tickets/": {
       "title": "問い合わせ管理",
       "parent": "/products/",

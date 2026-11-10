@@ -1,0 +1,41 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+ * SPDX-License-Identifier: MIT
+ * qAIUIck Spec-first generated UI: responsive, no build system.
+ */
+.qs-app{display:block;color:var(--q-ink)}
+.qs-app>*+*{margin-top:20px}
+.qs-app .qs-header{margin:0 0 16px}
+.qs-header h2{font-size:clamp(1.6rem,3vw,2.3rem);margin:10px 0}
+.qs-header p{margin:0;line-height:1.7}
+.qs-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px}
+.qs-metric{background:var(--q-surface);border:1px solid var(--q-border);padding:18px 21px;border-radius:var(--q-radius);box-shadow:var(--q-shadow)}
+.qs-metric strong{display:block;font-size:1.7rem;font-variant-numeric:tabular-nums;color:var(--q-primary);line-height:1.2}
+.qs-metric small{display:block;margin-top:8px;color:var(--q-muted);font-weight:650;font-size:.8rem}
+.qs-panel>h2{margin:0 0 20px}
+.qs-form{margin-top:17px}
+.qs-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.qs-field{display:grid;gap:6px;font-size:.86rem;color:var(--q-muted);font-weight:670}
+.qs-field>span{line-height:1.4}
+.qs-field input[type="checkbox"]{display:inline-block;width:24px;min-height:24px}
+.qs-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.qs-panel .q-error{margin-top:12px}
+.qs-search{display:grid;gap:8px;max-width:480px;margin-bottom:18px;color:var(--q-muted);font-size:.88rem;font-weight:650}
+.qs-tablewrap{overflow:auto}
+.qs-table{min-width:570px}
+.qs-table td{overflow-wrap:anywhere}
+.qs-row-actions{white-space:nowrap}
+.qs-row-actions button{margin:3px}
+.qs-bottom{display:flex;justify-content:flex-end;margin-top:20px}
+.qs-inspector{font-size:.92rem}
+.qs-inspector>summary{font-weight:750;cursor:pointer;font-size:1rem}
+.qs-inspector>.q-muted{margin:12px 0}
+.qs-inspector h3{font-size:1rem;margin:21px 0 8px}
+.qs-inspector button{margin-top:12px}
+.qs-code{white-space:pre;overflow:auto;max-height:360px;margin:6px 0 0;border-radius:12px;background:#111e30;color:#e0efff;padding:17px;font:12px/1.7 ui-monospace,Consolas,monospace;tab-size:2}
+.qs-diff{max-height:200px;color:#9af4d8}
+@media(max-width:600px){
+ .qs-form-grid{grid-template-columns:1fr}
+ .qs-metric{padding:15px}
+ .qs-table{min-width:540px}
+ .qs-row-actions button{min-height:32px;font-size:.76rem}
+}
