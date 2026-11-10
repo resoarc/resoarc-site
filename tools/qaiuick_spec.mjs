@@ -5,7 +5,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { specSnapshot, diffSpecs } from '../site/assets/qaiuick/spec.js';
+import { specSnapshot, diffSpecs, impactReport } from '../site/assets/qaiuick/spec.js';
 
 function usage() {
   console.error('Usage: node tools/qaiuick_spec.mjs snapshot app.js output.json');
@@ -37,7 +37,14 @@ async function main() {
         change.after === undefined ? '' : JSON.stringify(change.after),
       ].join(' '));
     }
-    if (changes.length) console.log('SPEC_CHANGED_FIELDS', changes.length);
+    if (changes.length) {
+      console.log('SPEC_CHANGED_FIELDS', changes.length);
+      const report = impactReport(before, after);
+      console.log('SPEC_IMPACT_AREAS', report.impacts.length);
+      for (const impact of report.impacts)
+        console.log('IMPACT', impact.area, '|', impact.test, '|', impact.risk);
+      if (report.needsDataReview) console.log('DATA_REVIEW_REQUIRED');
+    }
   } else usage();
 }
 main().catch(error => { console.error('SPEC_ERROR', error.message); process.exitCode = 1; });

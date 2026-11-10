@@ -421,6 +421,19 @@
       "containsSignedKintonePayload": false
     },
     {
+      "path": "site/downloads/qaiuick-v0.5-beta-source.zip",
+      "sha256": "c3657d37e25998bc054769dbfd642e681052f2c629b411602a16b6b71c1d0cac",
+      "size": 63666,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 45,
+      "containsSignedKintonePayload": false
+    },
+    {
       "path": "site/downloads/resoarc-attachment-count-mobile-v0.1.4-rc10-20261019.zip",
       "sha256": "6f359dbaff4f37d4b56d966d0cef9d9fe8ac6ca1d7c5f6acb5de2af0a7c4a84d",
       "size": 6783,

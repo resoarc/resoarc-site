@@ -4,15 +4,23 @@
  */
 export const spec = {
   id: 'resoarc-qaiuick-spec-tickets',
-  version: 1,
+  version: 2,
   title: '問い合わせ管理・仕様駆動版',
   description: '受付、対応中、完了の流れを小さな仕様で定義します。',
   fields: {
-    title: '問い合わせ内容*',
+    title: { label: '問い合わせ内容', required: true, minLength: 3, maxLength: 100, hint: '何についての問い合わせか簡潔に入力してください' },
     owner: '担当者*',
     status: { label: '対応状況', options: ['未対応', '対応中', '完了'] },
   },
-  ui: { columns: ['title', 'owner', 'status'], search: ['title', 'owner'] },
+  ui: {
+    columns: ['title', 'owner', 'status'],
+    search: ['title', 'owner'],
+    sections: [
+      { title: '受付情報', fields: ['title', 'owner'] },
+      { title: '進捗', fields: ['status'] },
+    ],
+    detail: ['title', 'owner', 'status'],
+  },
   metrics: {
     open: { label: '未完了', calc: rows => rows.filter(r => r.status !== '完了').length },
   },

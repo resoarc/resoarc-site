@@ -5,7 +5,7 @@
  *  are framework responsibilities. The author writes just one app specification.
  */
 import { quickApp } from './quick.js';
-import { normalizeSpec, specSnapshot, diffSpecs } from './spec.js';
+import { normalizeSpec, specSnapshot, diffSpecs, impactReport, validateRecord } from './spec.js';
 
 const own = (value, name) => Object.prototype.hasOwnProperty.call(value, name);
 const copy = value => JSON.parse(JSON.stringify(value));
@@ -42,36 +42,13 @@ function fieldControl(field) {
   if (field.min != null) input.setAttribute('min', field.min);
   if (field.max != null) input.setAttribute('max', field.max);
   if (field.maxLength != null) input.setAttribute('maxlength', field.maxLength);
+  if (field.minLength != null) input.setAttribute('minlength', field.minLength);
+  if (field.integer) input.setAttribute('step', '1');
   return node('label', { class: 'qs-field' },
-    node('span', {}, field.label, field.required ? ' *' : ''), input);
+    node('span', {}, field.label, field.required ? ' *' : ''), input,
+    field.hint ? node('small', { class: 'qs-hint' }, field.hint) : null);
 }
 
-function parseDraft(spec, draft) {
-  const value = {};
-  for (const field of spec.fields) {
-    let raw = draft[field.name];
-    if (field.type === 'checkbox') raw = Boolean(raw);
-    else if (field.type === 'number') {
-      if (raw === '' || raw == null) {
-        if (field.required) throw new Error(field.label + 'は必須です');
-        raw = 0;
-      } else {
-        raw = Number(raw);
-        if (!Number.isFinite(raw)) throw new Error(field.label + 'は数値を入力してください');
-      }
-      if (field.min != null && raw < field.min) throw new Error(field.label + 'は' + field.min + '以上にしてください');
-      if (field.max != null && raw > field.max) throw new Error(field.label + 'は' + field.max + '以下にしてください');
-    } else {
-      raw = String(raw ?? '').trim();
-      if (field.required && !raw) throw new Error(field.label + 'は必須です');
-      if (field.maxLength != null && raw.length > field.maxLength)
-        throw new Error(field.label + 'は' + field.maxLength + '文字以内です');
-      if (field.type === 'select' && !field.options.includes(raw)) throw new Error(field.label + 'の選択肢が不正です');
-    }
-    value[field.name] = raw;
-  }
-  return value;
-}
 
 function formatChanges(changes) {
   if (!changes.length) return '基準仕様からの変更はありません。';
@@ -91,7 +68,11 @@ function createUI(spec, config) {
   host.classList.add('q-app', 'qs-app');
   host.dataset.qTheme = spec.theme ?? 'teal';
   const form = node('form', { 'q-submit': 'save', class: 'qs-form' },
-    node('div', { class: 'qs-form-grid' }, spec.fields.map(fieldControl)),
+    node('div', { class: 'qs-form-sections' }, spec.sections.map(section =>
+      node('fieldset', { class: 'qs-form-section' },
+        node('legend', {}, section.title),
+        node('div', { class: 'qs-form-grid' },
+          section.fields.map(name => fieldControl(spec.fields.find(f => f.name === name))))))),
     node('div', { class: 'qs-actions' },
       node('button', { type: 'submit', 'q-text': 'saveLabel' }, '追加する'),
       node('button', { type: 'button', 'q-action': 'cancel',
@@ -116,6 +97,10 @@ function createUI(spec, config) {
   const row = node('tr', {},
     spec.columns.map(name => node('td', { 'q-text': 'item.' + name })),
     node('td', { class: 'qs-row-actions' },
+      ...(spec.detail.length ? [node('button', {
+        type: 'button', class: 'q-button--small q-button--quiet',
+        'q-action': 'view', 'q-arg': 'item.id',
+      }, '詳細')] : []),
       node('button', { type: 'button', class: 'q-button--small q-button--quiet', 'q-action': 'edit', 'q-arg': 'item.id' }, '編集'),
       ...Object.entries(spec.actions).map(([name, action]) =>
         node('button', {
@@ -143,10 +128,22 @@ function createUI(spec, config) {
     node('h2', {}, 'データを登録・編集'),
     form,
     node('p', { class: 'q-error', role: 'alert', 'q-text': 'error' }));
+  const detailPanel = spec.detail.length
+    ? node('section', { class: 'q-panel qs-panel qs-detail', 'q-show': 'showDetails' },
+      node('div', { class: 'q-panel-heading' },
+        node('h2', {}, 'レコード詳細'),
+        node('button', { type: 'button', class: 'q-button--quiet q-button--small',
+          'q-action': 'closeDetail' }, '閉じる')),
+      node('dl', { class: 'qs-details-grid' },
+        spec.detail.map(name => node('div', {},
+          node('dt', {}, spec.fields.find(f => f.name === name).label),
+          node('dd', { 'q-text': 'selectedRecord.' + name })))))
+    : null;
   const schema = specSnapshot(config);
   const json = JSON.stringify(schema, null, 2);
   const specText = node('pre', { class: 'qs-code', tabindex: '0' }, json);
   const changes = node('pre', { class: 'qs-code qs-diff', tabindex: '0' }, '基準仕様を確認中…');
+  const impacts = node('div', { class: 'qs-impact' }, '影響範囲を確認中…');
   const copyButton = node('button', { type: 'button', class: 'q-button--quiet q-button--small' }, '仕様JSONをコピー');
   copyButton.addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(json); copyButton.textContent = 'コピーしました'; }
@@ -157,7 +154,8 @@ function createUI(spec, config) {
     node('p', { class: 'q-muted' }, '画面・項目・操作・実装ロジックをJSONで説明できます。保存済みの基準仕様との差分も表示します。'),
     copyButton,
     node('h3', {}, '実装仕様'), specText,
-    node('h3', {}, '基準仕様からの変更'), changes);
+    node('h3', {}, '基準仕様からの変更'), changes,
+    node('h3', {}, '変更の影響と推奨試験'), impacts);
   // Position hooks are actual insertion points, not an append-only footer.
   const slot = (position, where) => {
     const hook = config.slots?.[position];
@@ -170,16 +168,30 @@ function createUI(spec, config) {
   const beforeForm = [], afterList = [];
   slot('beforeForm', beforeForm);
   slot('afterList', afterList);
-  host.append(header, metrics, ...beforeForm, formPanel, list, ...afterList, inspector);
+  host.append(header, metrics, ...beforeForm, formPanel, list, detailPanel, ...afterList, inspector);
   if (config.baseline) {
     const url = new URL(config.baseline, document.baseURI);
     if (url.origin !== location.origin) throw new Error('Baseline must be same-origin');
     void fetch(url, { credentials: 'omit' }).then(async response => {
       if (!response.ok) throw new Error('HTTP ' + response.status);
       const before = await response.json();
-      changes.textContent = formatChanges(diffSpecs(before, schema));
-    }).catch(error => { changes.textContent = '基準仕様を取得できません: ' + error.message; });
-  } else changes.textContent = '比較対象がありません。CLIで保存した基準仕様を指定できます。';
+      const report = impactReport(before, schema);
+      changes.textContent = formatChanges(report.changes);
+      impacts.replaceChildren(...(
+        report.impacts.length ? report.impacts.map(item =>
+          node('p', {},
+            node('strong', {}, item.area + '：'),
+            item.test, item.risk === '要確認' ? '（要確認）' : ''))
+          : [node('p', {}, '基準仕様からの変更はありません。')]
+      ));
+    }).catch(error => {
+      changes.textContent = '基準仕様を取得できません: ' + error.message;
+      impacts.textContent = '比較不能のため、影響範囲を確定できません。';
+    });
+  } else {
+    changes.textContent = '比較対象がありません。CLIで保存した基準仕様を指定できます。';
+    impacts.textContent = '基準仕様が指定されていないため、影響分析は未実施です。';
+  }
   return { host, schema };
 }
 
@@ -208,7 +220,7 @@ export function defineApp(config) {
     key: spec.id,
     persist: spec.persist ?? 'local',
     sample: spec.sample,
-    data: { draft, query: '', editingId: '' },
+    data: { draft, query: '', editingId: '', selectedId: '' },
     computed: {
       ...Object.fromEntries(Object.entries(spec.metrics).map(([name, metric]) =>
         [name, state => metric.calc(state.items)])),
@@ -223,11 +235,14 @@ export function defineApp(config) {
           spec.search.some(name => String(row[name] ?? '').toLocaleLowerCase('ja-JP').includes(query)));
       },
       saveLabel: state => state.editingId ? '更新する' : '追加する',
+      selectedRecord: state => state.items.find(item => String(item.id) === String(state.selectedId)) ?? {},
+      showDetails: state => Boolean(state.selectedId) &&
+        state.items.some(item => String(item.id) === String(state.selectedId)),
     },
     actions: {
       save() {
         let record;
-        try { record = parseDraft(spec, this.draft); }
+        try { record = validateRecord(spec, this.draft, this.items, this.editingId); }
         catch (error) { return this.$error(error.message); }
         if (this.editingId) {
           this.$update(this.editingId, record);
@@ -245,6 +260,8 @@ export function defineApp(config) {
         this.error = '';
       },
       cancel() { this.editingId = ''; this.$clear('draft'); this.error = ''; },
+      view(id) { this.selectedId = String(id); },
+      closeDetail() { this.selectedId = ''; },
       ...custom,
     },
   });

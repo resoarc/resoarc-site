@@ -27,13 +27,15 @@ class SpecCLITest(unittest.TestCase):
     def test_snapshots_match_source_and_diff_tracks_field_and_behavior(self):
         cli=ROOT/'tools/qaiuick_spec.mjs'
         for slug in ('inventory','tickets'):
-            existing=SITE/'assets/qaiuick-spec'/f'baseline-{slug}.json'
+            existing=SITE/'assets/qaiuick-spec'/f'current-{slug}.json'
+            baseline=SITE/'assets/qaiuick-spec'/f'baseline-{slug}.json'
             with tempfile.TemporaryDirectory() as td:
                 fresh=pathlib.Path(td)/'fresh.json'
                 args=['node',str(cli),'snapshot',str(SITE/'assets/qaiuick-spec'/f'{slug}.spec.js'),str(fresh)]
                 result=subprocess.run(args,capture_output=True,text=True,timeout=15)
                 self.assertEqual(result.returncode,0,result.stderr)
                 self.assertEqual(json.loads(fresh.read_text('utf8')),json.loads(existing.read_text('utf8')))
+                self.assertNotEqual(existing.read_text('utf8'),baseline.read_text('utf8'))
                 before=json.loads(existing.read_text('utf8'))
                 after=json.loads(existing.read_text('utf8'))
                 after['fields'][next(iter(after['fields']))]['required']=not after['fields'][next(iter(after['fields']))]['required']
@@ -46,6 +48,12 @@ class SpecCLITest(unittest.TestCase):
                 self.assertEqual(result.returncode,0,result.stderr)
                 self.assertIn('fields.',result.stdout)
                 self.assertIn('.logic',result.stdout)
+                self.assertIn('IMPACT',result.stdout)
+                impact=subprocess.run(['node',str(cli),'diff',str(baseline),str(existing)],
+                    capture_output=True,text=True,timeout=15)
+                self.assertEqual(impact.returncode,0,impact.stderr)
+                self.assertIn('DATA_REVIEW_REQUIRED',impact.stdout)
+                self.assertIn('フォーム配置',impact.stdout)
 
     def test_malicious_fields_and_unknown_types_are_rejected(self):
         snippet="""
@@ -62,6 +70,41 @@ console.log('SPEC_REJECTION_PASS');
         self.assertEqual(run.returncode,0,run.stderr)
 
 
+    def test_field_contract_and_section_validation_are_pure(self):
+        snippet = r"""
+import { normalizeSpec, validateRecord, impactReport } from './site/assets/qaiuick/spec.js';
+const spec={
+  id:'stock-check',version:2,title:'Stock',
+  fields:{
+    name:{label:'Name',required:true,unique:true,minLength:2},
+    qty:{label:'Qty',type:'number',integer:true,min:0},
+  },
+  ui:{sections:[{title:'Main',fields:['name','qty']}],detail:['name']},
+};
+const s=normalizeSpec(spec);
+const old=[{id:'one',name:'ABC',qty:4}];
+const mustReject=(draft,editing='') => {
+  let ok=false;
+  try {validateRecord(s,draft,old,editing);} catch (_) {ok=true;}
+  if (!ok) throw new Error('Validation unexpectedly passed');
+};
+mustReject({name:'abc',qty:1}); // case-insensitive unique
+mustReject({name:'DEF',qty:1.5}); // integer
+mustReject({name:'D',qty:1}); // minLength
+const good=validateRecord(s,{name:'ABC',qty:'8'},old,'one');
+if(good.qty!==8)throw new Error('Edit validation failed');
+let rejected=false;
+try{ normalizeSpec({...spec,ui:{sections:[{title:'Missing',fields:['name']}]}}); }
+catch(_){rejected=true;}
+if(!rejected)throw new Error('Missing form field was accepted');
+console.log('SPEC_VALIDATION_PASS');
+"""
+        result=subprocess.run(['node','--input-type=module','-e',snippet],cwd=ROOT,
+                              capture_output=True,text=True,timeout=15)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertIn('SPEC_VALIDATION_PASS',result.stdout)
+
+
 class SpecDistributionTest(unittest.TestCase):
     def test_v04_archive_integrity_and_single_source(self):
         from zipfile import ZipFile
@@ -75,9 +118,33 @@ class SpecDistributionTest(unittest.TestCase):
             self.assertIsNone(z.testzip())
             self.assertEqual(json.loads(z.read(prefix+'package.json'))['version'],'0.4.0')
             for f in ('spec.js','define.js','define.css'):
-                self.assertEqual(z.read(prefix+'src/'+f),(SITE/'assets/qaiuick'/f).read_bytes())
+                self.assertTrue(z.read(prefix+'src/'+f).startswith(b'/*'),
+                                'Older distributable must retain its frozen source')
             self.assertIn(b'../src/spec.js', z.read(prefix+'tools/qaiuick_spec.mjs'))
             self.assertIn(b'fields:', z.read(prefix+'examples/spec-inventory/spec.js'))
+
+
+    def test_v05_archive_contains_latest_spec_and_impact_tool(self):
+        from zipfile import ZipFile
+        import hashlib
+        path=SITE/'downloads/qaiuick-v0.5-beta-source.zip'
+        digest=hashlib.sha256(path.read_bytes()).hexdigest()
+        self.assertEqual(path.with_suffix('.zip.sha256').read_text('ascii').strip(),
+                         f'{digest}  {path.name}')
+        prefix='qAIUIck-v0.5-beta/'
+        with ZipFile(path) as z:
+            self.assertIsNone(z.testzip())
+            self.assertEqual(len(z.namelist()),45)
+            self.assertEqual(json.loads(z.read(prefix+'package.json'))['version'],'0.5.0')
+            for f in ('spec.js','define.js','define.css'):
+                self.assertEqual(z.read(prefix+'src/'+f),(SITE/'assets/qaiuick'/f).read_bytes())
+            self.assertIn(b'IMPACT',z.read(prefix+'tools/qaiuick_spec.mjs'))
+            for slug in ('inventory','tickets'):
+                self.assertEqual(
+                    json.loads(z.read(prefix+f'examples/spec-{slug}/current.json')),
+                    json.loads((SITE/'assets/qaiuick-spec'/f'current-{slug}.json').read_text('utf8'))
+                )
+                self.assertIn(b'ui:',z.read(prefix+f'examples/spec-{slug}/spec.js'))
 
 @unittest.skipUnless(sync_playwright,'Playwright missing')
 class SpecBrowserTest(unittest.TestCase):
@@ -127,7 +194,8 @@ class SpecBrowserTest(unittest.TestCase):
             page.locator('form[q-submit="save"] button[type="submit"]').click()
             self.assertEqual(page.locator('.qs-table tbody tr script').count(),0)
             page.locator('details.qs-inspector').evaluate('(el)=>el.open=true')
-            page.wait_for_function('() => document.querySelector(".qs-diff").textContent.includes("変更はありません")')
+            page.wait_for_function('() => document.querySelector(".qs-diff").textContent.includes("fields.name.unique")')
+            self.assertIn('保存済みレコード', page.locator('.qs-impact').inner_text())
             self.assertIn('"fields"',page.locator('.qs-inspector .qs-code').first.inner_text())
             self.assertLessEqual(page.evaluate('document.documentElement.scrollWidth - window.innerWidth'),2)
         finally:page.close()
@@ -155,6 +223,33 @@ class SpecBrowserTest(unittest.TestCase):
                  el.classList.contains('qs-panel') ? 'list' : 'other'));
             }""")
             self.assertEqual(order,['other','other','before','form','list','after','inspector'])
+        finally:
+            page.close()
+
+
+    def test_declarative_layout_detail_and_validation(self):
+        page=self.open('inventory')
+        try:
+            self.assertEqual(page.locator('.qs-form-section').count(),2)
+            self.assertEqual(page.locator('.qs-form-section legend').all_inner_texts(),
+                             ['品目情報','在庫と補充'])
+            page.locator('button[q-action="view"]').nth(1).click()
+            self.assertTrue(page.locator('.qs-detail').is_visible())
+            self.assertIn('USB-Cケーブル',page.locator('.qs-detail').inner_text())
+            page.locator('button[q-action="closeDetail"]').click()
+            self.assertFalse(page.locator('.qs-detail').is_visible())
+            page.locator('input[q-model="draft.name"]').fill('M3ボルト')
+            page.locator('form[q-submit="save"] button[type="submit"]').click()
+            self.assertEqual(page.locator('.qs-table tbody tr').count(),3)
+            self.assertIn('既に登録', page.locator('p.q-error').inner_text())
+            page.locator('input[q-model="draft.name"]').fill('M8ボルト')
+            page.locator('input[q-model="draft.qty"]').fill('1.5')
+            page.locator('form[q-submit="save"] button[type="submit"]').click()
+            self.assertEqual(page.locator('.qs-table tbody tr').count(),3)
+            page.locator('input[q-model="draft.qty"]').fill('7')
+            page.locator('form[q-submit="save"] button[type="submit"]').click()
+            self.assertEqual(page.locator('.qs-table tbody tr').count(),4)
+            self.assertLessEqual(page.evaluate('document.documentElement.scrollWidth-window.innerWidth'),2)
         finally:
             page.close()
 
