@@ -1,0 +1,125 @@
+# PRE-APPROVAL TEMPLATE: inactive until the SignPath enrollment and protected environment are configured.
+name: Security Trio - manual SignPath signing (approval required)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  sign:
+    if: startsWith(github.ref, 'refs/heads/release/security-trio-')
+    environment: signpath-approved
+    runs-on: windows-2022
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: apps/security-trio
+    steps:
+      - name: Check out reviewed source commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: Refuse unconfigured SignPath account
+        env:
+          SP_ORG: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          SP_PROJECT: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          SP_POLICY: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          SP_CONFIG: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG }}
+          SP_THUMB: ${{ vars.SIGNPATH_SIGNER_SHA1_THUMBPRINT }}
+          SP_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          foreach ($key in @('SP_ORG','SP_PROJECT','SP_POLICY','SP_CONFIG','SP_THUMB','SP_TOKEN')) {
+            if ([string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($key))) {
+              throw "BLOCK: SignPath configuration $key is not configured"
+            }
+          }
+          if ($env:SP_THUMB -notmatch '^[0-9a-fA-F]{40}$') {
+            throw 'BLOCK: known real certificate thumbprint required'
+          }
+      - name: Run security regression tests
+        shell: pwsh
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Run Windows acceptance tests
+        shell: pwsh
+        run: python tests/windows_acceptance.py
+      - name: Install pinned build tools
+        shell: pwsh
+        run: python -m pip install --disable-pip-version-check --no-input 'pyinstaller==6.22.3' 'tkinterdnd2==0.4.3'
+      - name: Build exact sources, never accept externally uploaded EXEs
+        shell: cmd
+        run: build_windows.bat
+      - name: Inspect PyInstaller archive contents for bundled foreign-platform libraries
+        shell: pwsh
+        run: python audit_frozen_archives.py
+      - name: Inventory bundled build-time dependency licenses
+        shell: pwsh
+        run: python audit_build_dependencies.py
+      - name: Verify and package license notices with exact executable checksums
+        shell: pwsh
+        run: python package_unsigned_review.py
+
+      - name: Refuse unlicensed or unexpected native runtime components
+        shell: pwsh
+        run: python audit_license_coverage.py
+
+      - name: Upload unsigned artifact to GitHub for provenance check
+        id: unsigned
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SecurityTrio-signing-input-3-EXE-unsigned
+          path: |
+            apps/security-trio/dist/ResoArcSecretScout.exe
+            apps/security-trio/dist/ResoArcLogLantern.exe
+            apps/security-trio/dist/ResoArcFileInspector.exe
+          if-no-files-found: error
+          retention-days: 7
+      - name: Request human-approved SignPath Foundation signing
+        id: signpath_request
+        uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092 # v3.0
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          artifact-configuration-slug: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG }}
+          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: 3600
+          output-artifact-directory: apps/security-trio/signed
+      - name: Verify actual signer, code-signing EKU, timestamp and hashes
+        shell: pwsh
+        env:
+          EXPECTED_SIGNER_THUMBPRINT: ${{ vars.SIGNPATH_SIGNER_SHA1_THUMBPRINT }}
+        run: |
+          & './verify_signed_release.ps1' -Dist 'signed' -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint $env:EXPECTED_SIGNER_THUMBPRINT -ManifestPath 'signed/SHA256SUMS.txt'
+          if ($LASTEXITCODE -ne 0) { throw 'BLOCK: signature verification failed' }
+      - name: Build signed candidate with fresh signed hashes, license originals and provenance
+        shell: pwsh
+        env:
+          EXPECTED_SIGNER_THUMBPRINT: ${{ vars.SIGNPATH_SIGNER_SHA1_THUMBPRINT }}
+          SIGNPATH_SIGNING_REQUEST_ID: ${{ steps.signpath_request.outputs.signing-request-id }}
+          SIGNPATH_SIGNING_REQUEST_URL: ${{ steps.signpath_request.outputs.signing-request-web-url }}
+        run: python package_signed_candidate.py
+      - name: Retain signed candidate ZIP for explicit release review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SecurityTrio-SIGNED-candidate-with-licenses-not-published
+          path: apps/security-trio/dist/ResoArc-Security-Trio-Windows-x64-SIGNED-candidate-not-released.zip
+          if-no-files-found: error
+          retention-days: 14
+      - name: Retain verified signed artifact for explicit release review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SecurityTrio-SIGNED-candidate-needs-manual-release
+          path: apps/security-trio/signed/
+          if-no-files-found: error
+          retention-days: 14

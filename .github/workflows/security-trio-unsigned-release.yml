@@ -1,0 +1,226 @@
+name: Security Trio - guarded AI-reviewed unsigned prerelease
+
+# The release path starts only on a trusted main push.
+# No workflow_run / pull_request_target / pull_request writer and no signing.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/security-trio/**"
+      - ".github/workflows/security-trio-unsigned-release.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-trio-unsigned-release-main-v0.3.0-rc4
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build source-verified UNSIGNED Windows x64 prerelease candidate
+    runs-on: windows-2022
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: apps/security-trio
+    steps:
+      - name: Check out the exact requested commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Use pinned Python major and minor version
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Run security regression tests
+        shell: pwsh
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Run Windows non-GUI acceptance tests
+        shell: pwsh
+        run: python tests/windows_acceptance.py
+
+      - name: Install exact build-tool versions
+        shell: pwsh
+        run: |
+          python -m pip install --disable-pip-version-check --no-input 'pyinstaller==6.22.3' 'tkinterdnd2==0.4.3'
+          python -m pip freeze > dist-build-dependencies.txt
+
+      - name: Compile exactly three Windows EXEs (unsigned)
+        shell: cmd
+        run: build_windows.bat
+
+      - name: Inspect PyInstaller archive contents for bundled foreign-platform libraries
+        shell: pwsh
+        run: python audit_frozen_archives.py
+      - name: Inventory pinned dependency licenses and native wheel files
+        shell: pwsh
+        run: python audit_build_dependencies.py
+
+      - name: Verify and package license notices with exact executable checksums
+        shell: pwsh
+        run: python package_unsigned_review.py
+
+      - name: Refuse unlicensed or unexpected native runtime components
+        shell: pwsh
+        run: python audit_license_coverage.py
+
+      - name: Assert build stays unsigned and the checksum manifest matches
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $names = @('ResoArcSecretScout.exe','ResoArcLogLantern.exe','ResoArcFileInspector.exe')
+          foreach ($name in $names) {
+            $path = Join-Path 'dist' $name
+            if (-not (Test-Path $path)) { throw "Missing $name" }
+            $signature = Get-AuthenticodeSignature $path
+            if ($signature.Status -ne 'NotSigned') { throw "Unexpected signature state on $name : $($signature.Status)" }
+            $v = (Get-Item $path).VersionInfo
+            if ($v.ProductName -ne 'ResoArc Security Trio') { throw "ProductName mismatch: $name" }
+            if ($v.ProductVersion -ne '0.3.0.4' -or $v.FileVersion -ne '0.3.0.4') { throw "PE version mismatch: $name" }
+            if ($v.OriginalFilename -ne $name) { throw "OriginalFilename mismatch: $name" }
+          }
+          $actual = Get-Content dist/SHA256SUMS.txt
+          foreach ($name in $names) {
+            $hash = (Get-FileHash (Join-Path 'dist' $name) -Algorithm SHA256).Hash.ToLowerInvariant()
+            if (-not ($actual -contains "$hash  $name")) { throw "Manifest mismatch: $name" }
+          }
+          Write-Output 'Unsigned EXEs: three present; signatures absent as expected; hashes agree.'
+
+      - name: Prove the signed-release gate rejects unsigned build outputs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # Build dist/ includes SHA256SUMS.txt by design. The SignPath output
+          # artifact contains exactly the three EXEs, so test that same shape.
+          $staging = Join-Path $env:RUNNER_TEMP 'SecurityTrio-negative-signing-gate'
+          New-Item -ItemType Directory -Path $staging -Force | Out-Null
+          foreach ($name in @('ResoArcSecretScout.exe','ResoArcLogLantern.exe','ResoArcFileInspector.exe')) {
+            Copy-Item -LiteralPath (Join-Path 'dist' $name) -Destination $staging
+          }
+          $blocked = $false
+          try {
+            & './verify_signed_release.ps1' -Dist $staging -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint ('0' * 40)
+          } catch {
+            if ($_.Exception.Message -notmatch '^BLOCK:.*signature: NotSigned') {
+              throw "Unexpected signing gate failure: $($_.Exception.Message)"
+            }
+            $blocked = $true
+          } finally {
+            Remove-Item -LiteralPath $staging -Recurse -Force -ErrorAction SilentlyContinue
+          }
+          if (-not $blocked) { throw 'FAIL: unsigned EXEs passed signed release gate' }
+          Write-Output 'PASS: unsigned Windows EXEs rejected for NotSigned status.'
+
+      - name: Persist review-only build evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SecurityTrio-Windows-UNSIGNED-review-only
+          path: |
+            apps/security-trio/dist/ResoArcSecretScout.exe
+            apps/security-trio/dist/ResoArcLogLantern.exe
+            apps/security-trio/dist/ResoArcFileInspector.exe
+            apps/security-trio/dist/SHA256SUMS.txt
+            apps/security-trio/dist/SUPPLY_CHAIN_REVIEW.json
+            apps/security-trio/dist/FROZEN_CONTENTS_REVIEW.json
+            apps/security-trio/dist/ResoArc-Security-Trio-Windows-x64-UNSIGNED-review.zip
+            apps/security-trio/dist/LICENSE_COVERAGE_REVIEW.json
+            apps/security-trio/dist-build-dependencies.txt
+          if-no-files-found: error
+          retention-days: 14
+
+  publish-unsigned:
+    name: Publish only if Windows build and safety checks succeed
+    needs: build
+    if: github.repository == 'resoarc/resoarc-site' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Check out the same trusted main commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Reject existing release tags and unexpected SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: security-trio-v0.3.0-rc4-unsigned
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 2
+          [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]] || exit 2
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'BLOCK: immutable release already exists.'
+            exit 2
+          fi
+          if git ls-remote --exit-code --tags "https://github.com/$GITHUB_REPOSITORY.git" "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo 'BLOCK: release tag already exists.'
+            exit 2
+          fi
+
+      - name: Retrieve exact artifact from this successful Windows build job
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/security-trio-release"
+          gh run download "$GITHUB_RUN_ID" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name SecurityTrio-Windows-UNSIGNED-review-only \
+            --dir "$RUNNER_TEMP/security-trio-release"
+
+      - name: Reverify artifact contents, hashes, license originals and native inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 apps/security-trio/verify_unsigned_release_payload.py \
+            --artifact-root "$RUNNER_TEMP/security-trio-release" \
+            > "$RUNNER_TEMP/security-trio-verification.json"
+          cat "$RUNNER_TEMP/security-trio-verification.json"
+
+      - name: Create distinct UNSIGNED GitHub public prerelease (never overwrite)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: security-trio-v0.3.0-rc4-unsigned
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE="$RUNNER_TEMP/security-trio-release/dist/ResoArc-Security-Trio-Windows-x64-UNSIGNED-review.zip"
+          ASSET="$RUNNER_TEMP/ResoArc-Security-Trio-v0.3.0-rc4-Windows-x64-UNSIGNED.zip"
+          cp "$SOURCE" "$ASSET"
+          SHA="$(sha256sum "$ASSET" | cut -d ' ' -f 1)"
+          cat > "$RUNNER_TEMP/security-trio-release-notes.md" <<EOF
+          # Security Trio v0.3.0-rc4, Windows x64 (UNSIGNED)
+
+          **Public prerelease: accepted under ResoArc's internal AI review policy.**
+          These three Windows EXEs are **NOT CODE SIGNED**. No SignPath certificate, independent human audit, SmartScreen reputation, Microsoft/Defender endorsement, or third-party security certification is claimed.
+
+          Apps: Secret Scout (secret exposure patterns), Log Lantern (offline web access-log triage), and File Inspector (static file-type/risk indicators). This ZIP includes all three EXEs, project MIT license, original third-party license notices and SHA-256 manifest.
+
+          Do not disable Defender, SmartScreen or organizational protection to run unknown binaries. These offline heuristic scanners cannot guarantee safety and may miss threats; handle exports as potentially sensitive.
+
+          Source commit: `$GITHUB_SHA`. Verified build: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID . ZIP SHA-256: `$SHA`.
+
+          AI review and limits: https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA/apps/security-trio/AI_UNSIGNED_RELEASE_REVIEW_20261111.md
+
+          This is a *new* GitHub-hosted unsigned package using Python 3.12/OpenSSL 3. Legacy unsigned RC4 downloads on the separate preview website are **not replaced** by this release. SignPath approval and real human manual signing approval remain outstanding.
+          EOF
+          gh release create "$TAG" \
+            "$ASSET" \
+            "$RUNNER_TEMP/security-trio-verification.json" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Security Trio v0.3.0-rc4 (Windows x64, UNSIGNED)" \
+            --notes-file "$RUNNER_TEMP/security-trio-release-notes.md" \
+            --prerelease
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --json url,isPrerelease,tagName,assets \
+            --jq '{url,isPrerelease,tagName,assets:[.assets[].name]}'

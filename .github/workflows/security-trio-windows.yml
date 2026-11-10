@@ -1,0 +1,136 @@
+name: Security Trio - Windows unsigned build and verification
+
+on:
+  pull_request:
+    paths:
+      - "apps/security-trio/**"
+      - ".github/workflows/security-trio-windows.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/security-trio/**"
+      - ".github/workflows/security-trio-windows.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-trio-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-unsigned:
+    name: Test and build unsigned EXEs (NOT a signed release)
+    runs-on: windows-2022
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: apps/security-trio
+    steps:
+      - name: Check out the exact requested commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Use pinned Python major and minor version
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Run security regression tests
+        shell: pwsh
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Run Windows non-GUI acceptance tests
+        shell: pwsh
+        run: python tests/windows_acceptance.py
+
+      - name: Install exact build-tool versions
+        shell: pwsh
+        run: |
+          python -m pip install --disable-pip-version-check --no-input 'pyinstaller==6.22.3' 'tkinterdnd2==0.4.3'
+          python -m pip freeze > dist-build-dependencies.txt
+
+      - name: Compile exactly three Windows EXEs (unsigned)
+        shell: cmd
+        run: build_windows.bat
+
+      - name: Inspect PyInstaller archive contents for bundled foreign-platform libraries
+        shell: pwsh
+        run: python audit_frozen_archives.py
+      - name: Inventory pinned dependency licenses and native wheel files
+        shell: pwsh
+        run: python audit_build_dependencies.py
+
+      - name: Verify and package license notices with exact executable checksums
+        shell: pwsh
+        run: python package_unsigned_review.py
+
+      - name: Refuse unlicensed or unexpected native runtime components
+        shell: pwsh
+        run: python audit_license_coverage.py
+
+      - name: Assert build stays unsigned and the checksum manifest matches
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $names = @('ResoArcSecretScout.exe','ResoArcLogLantern.exe','ResoArcFileInspector.exe')
+          foreach ($name in $names) {
+            $path = Join-Path 'dist' $name
+            if (-not (Test-Path $path)) { throw "Missing $name" }
+            $signature = Get-AuthenticodeSignature $path
+            if ($signature.Status -ne 'NotSigned') { throw "Unexpected signature state on $name : $($signature.Status)" }
+            $v = (Get-Item $path).VersionInfo
+            if ($v.ProductName -ne 'ResoArc Security Trio') { throw "ProductName mismatch: $name" }
+            if ($v.ProductVersion -ne '0.3.0.4' -or $v.FileVersion -ne '0.3.0.4') { throw "PE version mismatch: $name" }
+            if ($v.OriginalFilename -ne $name) { throw "OriginalFilename mismatch: $name" }
+          }
+          $actual = Get-Content dist/SHA256SUMS.txt
+          foreach ($name in $names) {
+            $hash = (Get-FileHash (Join-Path 'dist' $name) -Algorithm SHA256).Hash.ToLowerInvariant()
+            if (-not ($actual -contains "$hash  $name")) { throw "Manifest mismatch: $name" }
+          }
+          Write-Output 'Unsigned EXEs: three present; signatures absent as expected; hashes agree.'
+
+      - name: Prove the signed-release gate rejects unsigned build outputs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # Build dist/ includes SHA256SUMS.txt by design. The SignPath output
+          # artifact contains exactly the three EXEs, so test that same shape.
+          $staging = Join-Path $env:RUNNER_TEMP 'SecurityTrio-negative-signing-gate'
+          New-Item -ItemType Directory -Path $staging -Force | Out-Null
+          foreach ($name in @('ResoArcSecretScout.exe','ResoArcLogLantern.exe','ResoArcFileInspector.exe')) {
+            Copy-Item -LiteralPath (Join-Path 'dist' $name) -Destination $staging
+          }
+          $blocked = $false
+          try {
+            & './verify_signed_release.ps1' -Dist $staging -ExpectedPublisher 'SignPath Foundation' -ExpectedCertificateThumbprint ('0' * 40)
+          } catch {
+            if ($_.Exception.Message -notmatch '^BLOCK:.*signature: NotSigned') {
+              throw "Unexpected signing gate failure: $($_.Exception.Message)"
+            }
+            $blocked = $true
+          } finally {
+            Remove-Item -LiteralPath $staging -Recurse -Force -ErrorAction SilentlyContinue
+          }
+          if (-not $blocked) { throw 'FAIL: unsigned EXEs passed signed release gate' }
+          Write-Output 'PASS: unsigned Windows EXEs rejected for NotSigned status.'
+
+      - name: Persist review-only build evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: SecurityTrio-Windows-UNSIGNED-review-only
+          path: |
+            apps/security-trio/dist/ResoArcSecretScout.exe
+            apps/security-trio/dist/ResoArcLogLantern.exe
+            apps/security-trio/dist/ResoArcFileInspector.exe
+            apps/security-trio/dist/SHA256SUMS.txt
+            apps/security-trio/dist/SUPPLY_CHAIN_REVIEW.json
+            apps/security-trio/dist/FROZEN_CONTENTS_REVIEW.json
+            apps/security-trio/dist/ResoArc-Security-Trio-Windows-x64-UNSIGNED-review.zip
+            apps/security-trio/dist/LICENSE_COVERAGE_REVIEW.json
+            apps/security-trio/dist-build-dependencies.txt
+          if-no-files-found: error
+          retention-days: 14

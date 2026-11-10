@@ -1,0 +1,3 @@
+# Drag-and-drop is optional. Build-time dependencies are not imported by scan engines.
+tkinterdnd2>=0.4.2,<0.5
+pyinstaller==6.22.3

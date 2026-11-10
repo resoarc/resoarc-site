@@ -1,0 +1,69 @@
+"""Read PyInstaller CArchive TOCs from unsigned Windows executables.
+
+This is an inventory only: entries are NOT extracted or executed. The report
+cannot substitute for checking every embedded dependency's source and license.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from PyInstaller.archive.readers import CArchiveReader
+
+HERE = Path(__file__).resolve().parent
+DIST = HERE / "dist"
+STEMS = ("ResoArcSecretScout", "ResoArcLogLantern", "ResoArcFileInspector")
+
+
+def main() -> None:
+    results = []
+    for stem in STEMS:
+        path = DIST / (stem + ".exe")
+        archive = CArchiveReader(str(path))
+        names = sorted(archive.toc.keys())
+        tkdnd_entries = [n for n in names if "tkdnd" in n.lower()]
+        native_components = [n for n in names if n.lower().endswith((".dll", ".pyd", ".exe"))]
+        foreign = [
+            n for n in tkdnd_entries
+            if any(marker in n.lower() for marker in (
+                "linux-", "osx-", "macos-", "win-x86", "win-arm64"
+            ))
+        ]
+        # Strict unsigned-release preflight: do not ship unused Linux/macOS
+        # or other Windows architectures in these win-x64 executables.
+        normalized = [n.replace("\\", "/").lower() for n in tkdnd_entries]
+        if foreign:
+            raise RuntimeError(f"BLOCK: foreign-platform TkDND components in {path.name}: {len(foreign)}")
+        if not any("/win-x64/libtkdnd" in n and n.endswith(".dll") for n in normalized):
+            raise RuntimeError(f"BLOCK: Windows x64 TkDND DLL missing from {path.name}")
+        if not any("/win-x64/pkgindex.tcl" in n for n in normalized):
+            raise RuntimeError(f"BLOCK: Windows x64 TkDND Tcl package index missing from {path.name}")
+        results.append({
+            "binary": path.name,
+            "carchive_member_count": len(names),
+            "tkdnd_members": tkdnd_entries,
+            "native_runtime_members": native_components,
+            "foreign_platform_tkdnd_members": foreign,
+        })
+        print(
+            f"FROZEN INVENTORY {path.name}: entries={len(names)}, "
+            f"tkdnd={len(tkdnd_entries)}, cross-platform={len(foreign)}"
+        )
+        for n in tkdnd_entries:
+            print("  TKDND: " + n)
+        if stem == STEMS[0]:
+            for n in native_components:
+                print("  NATIVE_RUNTIME: " + n)
+    output = DIST / "FROZEN_CONTENTS_REVIEW.json"
+    output.write_text(
+        json.dumps({
+            "status": "UNSIGNED_BUILD_REVIEW_ONLY",
+            "description": "PyInstaller CArchive names; not full license approval",
+            "applications": results,
+        }, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    print("FROZEN INVENTORY REPORT: " + str(output))
+
+
+if __name__ == "__main__":
+    main()
