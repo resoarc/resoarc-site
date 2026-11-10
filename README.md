@@ -12,21 +12,6 @@
 - **確認できる品質:** 検証方法と実行結果は、誰でも確認できる形で残します。テストが通ったことと安全性が完全保証されることは別です。
 - **依存関係と権利を明示:** 第三者素材は固有のライセンスを保持します。詳細は [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
-## 第三者が確認できる技術実績
-
-[![OpenSSF Baseline](https://www.bestpractices.dev/projects/15597/baseline)](https://www.bestpractices.dev/projects/15597)
-
-*OpenSSF Baseline Level 1（24/24項目）：自己評価に基づくバッジです。第三者によるセキュリティ認定ではありません。*
-
-
-[![REUSE status](https://api.reuse.software/badge/github.com/resoarc/resoarc-site)](https://api.reuse.software/info/github.com/resoarc/resoarc-site)
-
-- **REUSE Specification 3.3 準拠:** [Free Software Foundation Europe の検査結果](https://api.reuse.software/info/github.com/resoarc/resoarc-site)で、著作権表示・ライセンス情報の準拠状況を確認できます。
-- **OpenSSF Scorecard:** [自動セキュリティ評価結果](https://scorecard.dev/viewer/?uri=github.com/resoarc/resoarc-site)を公開しています。点数は時点によって変わり、品質・安全性を保証するものではありません。
-- **OpenSSF OSPS Baseline Level 1：100%（24/24項目）:** [公式の自己評価結果と取得バッジ](https://www.bestpractices.dev/projects/15597/baseline-1)を公開しています。根拠・範囲・制約は[2026年11月7日の検証報告](docs/compliance/OSPS_BASELINE1_ACHIEVED_20261107.md)を参照してください。
-
-これらは種類の異なる取り組みです。REUSEはライセンス表記の検査、Scorecardは自動評価、OSPS Baseline Level 1は公開要件に対する任意の自己評価です。いずれもResoArcに対する独立セキュリティ監査、法的保証、OpenSSFの法人加盟を意味しません。
-
 ## 収録物
 
 - `site/`: 公開Webサイトの静的な実装。HTML/CSS/JavaScriptを含み、このディレクトリ自体が公開用の実装です。
@@ -34,14 +19,13 @@
 - `site/assets/tools/csv.js`: ブラウザー内で動くCSV構造検査ツール。
 - `site/llms.txt`: AI向けの公開索引と利用条件。
 - `scripts/verify_site.py`: 参照リンク・必須ファイル・公開前の機械的チェック。
-- `.github/workflows/verify.yml`: GitHub Actionsでの基本検証。
+- `.github/workflows/verify.yml`: 旧ホスティング向けのCI設定（保管用）。現在の公開判定は `scripts/verify_site.py` と中央の検査記録で行います。
 
 ## ローカルで動かす
 
 Python 3.10以降を推奨します。ビルドやクラウド鍵は不要です。
 
 ```bash
-python scripts/verify_external_archive_mirror.py --hydrate  # retrieve SHA-256-verified historical ZIP files
 python scripts/verify_site.py
 python -m http.server 8000 --directory site
 ```
@@ -54,10 +38,10 @@ ResoArc独自のソフトウェア・HTML・CSS・文章・SVGは、リポジト
 
 ## 公開・変更の記録
 
-公開後の変更はコミットとPull Requestで追跡できる形を目指します。リリース時には変更内容、確認結果、既知の制約を残します。[検証手順](docs/VERIFICATION.md) と [公開チェックリスト](docs/PUBLISHING.md) を参照してください。
+公開後の変更はCodebergのコミットとレビュー可能な差分で追跡できる形を目指します。リリース時には変更内容、確認結果、既知の制約を残します。[検証手順](docs/VERIFICATION.md) と [公開チェックリスト](docs/PUBLISHING.md) を参照してください。
 
-公式公開リポジトリ: https://github.com/resoarc/resoarc-site 。`main` のコードはGitHub Actionsで自動検証します。本番配信との一致は別途照合する必要があり、コードの公開だけで全インフラの安全性を保証するものではありません。
+公式公開リポジトリ: https://codeberg.org/ResoArc/resoarc-site 。公開用`main`は非公開VPS Gitで承認された固定コミットからCodebergに同期し、Cloudflare PagesへDirect Uploadします。サイトの公開判定はローカルの検証器・ブラウザー試験・SHA照合の証跡で管理し、特定のGitホスティングのCIを前提としません。本番配信との一致は別途照合します。
 
-## Security Trio（Windows向け・開発プレビュー）
+## Security Trio（Windows向け・未署名プレリリース準備）
 
-[Secret Scout / Log Lantern / File Inspector の公開ソース](apps/security-trio/) を収録しています。Windows向けEXEは現在 **未署名** です。[Code signing policy](apps/security-trio/CODE_SIGNING_POLICY.md)に署名方針、実際の署名状態、担当者ロール、承認前の残課題を記載しています。ソースのGitHub掲載と公式サイトの本番反映は別の工程です。
+[Secret Scout / Log Lantern / File Inspector の公開ソース](apps/security-trio/) を収録しています。Windows向けEXEは **未署名** です。ResoArcはAIレビューに基づく限定的な未署名v0.3.0-rc4公開プレリリースを許可し、新しいWindows CIが合格した後に専用のGitHub Releaseへ掲載します。[Code signing policy](apps/security-trio/CODE_SIGNING_POLICY.md)に署名方針、実際の署名状態、担当者ロール、承認前の残課題を記載しています。ソースのGitHub掲載と公式サイトの本番反映は別の工程です。
