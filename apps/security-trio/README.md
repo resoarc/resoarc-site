@@ -119,6 +119,12 @@ Copyright © 2026 ResoArc. MIT License (`LICENSE`)。
 
 v0.2の機能に加え、暗号化ZIPの未検査扱い、ZIP内実行形式の検出、二重エンコードURLの解析、フォルダ配下の既存ファイルやハードリンクの上書き防止を実装しました。詳細は `CHANGELOG.md`、品質状態は `QA_REPORT_20261108.md` を確認してください。
 
+## 第三者テスト・ソースレビューへの参加
+
+公開中の未署名プレビューに関する実利用テスト、使い勝手、再現可能な不具合、ソースレビューは [Security Trio 独立レビュー募集 Issue #104](https://github.com/resoarc/resoarc-site/issues/104) へお願いします。**実際の秘密情報・顧客ログ・個人情報・不審な実ファイルは添付せず、合成データを利用**してください。レビュー募集や内部自動テストだけでは、SignPathが求める独立した製品実績を証明したことにはなりません。
+
+[申請向けの証拠・人手承認要件](signpath/REVIEW_AND_REPUTATION_GATE_20261110.md)も参照してください。署名・一般向けリリースは引き続き保留です。
+
 ## Code signing policy（コード署名方針）
 
 [CODE_SIGNING_POLICY.md](CODE_SIGNING_POLICY.md) を参照してください。v0.3.0-rc4 のWindows EXEは **未署名** です。SignPath Foundationへの申請・審査・承認はまだ完了していません。署名付き版は承認済みの公開CIビルドからのみ作成し、署名・チェックサム・ビルド由来を確認してから別版として公開します。
