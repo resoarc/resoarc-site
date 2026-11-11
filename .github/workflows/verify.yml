@@ -68,6 +68,7 @@ jobs:
           python scripts/verify_site.py
           python -m unittest discover -s tests -p test_community_site.py -v
           python -m unittest discover -s tests -p test_live_route_preservation.py -v
+          python -m unittest discover -s tests -p test_live_data_preservation.py -v
       - name: Verify tracked release ZIP integrity and interim license notices
         run: python scripts/verify_historical_release_snapshots.py --check signed-release-license
       - name: Verify scoped OpenChain component inventory and file hashes
