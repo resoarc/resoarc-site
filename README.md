@@ -2,6 +2,10 @@
 
 **Open technology. Inspectable by everyone. Reusable by humans and AI.**
 
+[![OpenSSF Baseline](https://www.bestpractices.dev/projects/15597/baseline)](https://www.bestpractices.dev/projects/15597) [![REUSE status](https://api.reuse.software/badge/github.com/resoarc/resoarc-site)](https://api.reuse.software/info/github.com/resoarc/resoarc-site) [![Green Web hosting check](https://app.greenweb.org/api/v3/greencheckimage/resoarc.com)](https://app.greenweb.org/api/v3/greencheck/resoarc.com)
+
+**公開検証の記録（2026-11-11確認）:** OpenSSF Baseline Level 1は保守者による自己評価に基づく取得バッジです。FSFE REUSE 3.3は公開ファイルのライセンス表記に関するツール検査、Green Webはホスティング事業者の環境情報に関する検査です。製品の安全性を認証・保証するものではありません。[根拠と未達項目](docs/RECOGNITION_EVIDENCE_20261111.md)を公開しています。
+
 [ResoArc公式サイト](https://resoarc.com) の公開ソースコードです。ResoArcは独立した技術プロジェクトであり、法人・公的機関を名乗るものではありません。
 
 ## 公開原則
