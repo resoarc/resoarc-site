@@ -17,7 +17,41 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  release-preflight:
+    name: Verify published unsigned RC4 release before considering a new build
+    if: github.repository == 'resoarc/resoarc-site' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      publish_new: ${{ steps.check.outputs.publish_new }}
+    steps:
+      - name: Check canonical release asset identity
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: security-trio-v0.3.0-rc4-unsigned
+          EXPECTED_DIGEST: sha256:347da414b41157d4b181a8009e6e57ae34dee9ab38bcb88af6317fd74e2fecf8
+        shell: bash
+        run: |
+          set -euo pipefail
+          existing="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" \
+            --jq '.assets[] | select(.name == "ResoArc-Security-Trio-v0.3.0-rc4-Windows-x64-UNSIGNED.zip") | .digest' 2>/dev/null || true)"
+          if [[ "$existing" == "$EXPECTED_DIGEST" ]]; then
+            echo 'Previously published RC4 release matches pinned SHA-256; skip rebuild and republish.'
+            echo 'publish_new=false' >> "$GITHUB_OUTPUT"
+          elif [[ -n "$existing" ]]; then
+            echo 'BLOCK: previously published RC4 asset digest changed.' >&2
+            exit 2
+          else
+            echo 'No verified RC4 release asset; continue guarded build pipeline.'
+            echo 'publish_new=true' >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: release-preflight
+    if: needs.release-preflight.outputs.publish_new == 'true'
     name: Build source-verified UNSIGNED Windows x64 prerelease candidate
     runs-on: windows-2022
     timeout-minutes: 30
