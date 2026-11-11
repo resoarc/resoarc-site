@@ -25,6 +25,11 @@ A documented policy is **not evidence of execution**. Only mark **VERIFIED** aft
 | §3.6.1 Affirmation | Dated approval that **all** requirements are met | None | **UNMET**: do not self-declare |
 | §3.6.2 Validity review | Review conformance at least every 18 months | Schedule requirement written | **PARTIAL**: owner acceptance, initial actual review and follow-up mechanism missing |
 
+
+## 2026-11-11 read-only source-to-live test
+
+A new [seven-file comparison record](OPENCHAIN_LIVE_SOURCE_VERIFICATION_20261111.md) checks exact production bytes against public GitHub source on 2026-11-11. **Five of seven matched:** `hash.js`, `csv.js`, shared CSS, first-party MIT text and Noto OFL text. **Both HTML entrypoints did not match**; the precise SHA-256 digests are retained in the record. The existing provisional CycloneDX snapshot must be refreshed against a chosen canonical release after the source drift is reconciled. This partial evidence supports scoped delivery verification but **does not close** §3.1.4, §3.3.1, §3.3.2 or §3.4.1. Human approval, third-party rights review, actual inquiry procedure, legal escalation and complete release records remain unverified.
+
 ## Concrete next executions
 
 1. Confirm owner and all contributors of the scoped program, keep non-public identifying evidence private, record 2FA/competence training/awareness acknowledgments with dates.
