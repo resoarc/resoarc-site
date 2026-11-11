@@ -5,13 +5,13 @@ SPDX-License-Identifier: MIT
 
 # OSS Compass registration preparation (2026-11-11)
 
-**Status: PREPARED / NOT SUBMITTED / NO EXTERNAL REPORT.**
+**Status: OFFICIAL SUBMISSION PR OPEN / NOT MERGED / NO EVALUATION REPORT CONFIRMED.**
 
 Official entrypoint: https://oss-compass.org/submit-your-project  
 Official documentation: https://oss-compass.org/docs/quick-start/  
 Review queue: https://github.com/oss-compass/compass-projects-information/pulls
 
-Official documentation confirms two registration routes: (1) authenticate with GitHub or Gitee and submit through the website, or (2) fork `oss-compass/compass-projects-information` and open a compliant PR. The project submission creates an external pull request for evaluation. Search of the upstream project-information source did not find a ResoArc-specific report or submitted record on 2026-11-11, so no registration is claimed.
+Official documentation provides registration through the website or via a contribution to `oss-compass/compass-projects-information`. **ResoArc's submission was made successfully on 2026-11-11 14:36:03 UTC (23:36 JST).** The official upstream GitHub API confirms that [PR #11638](https://github.com/oss-compass/compass-projects-information/pull/11638) was opened by `@resoarc`, is currently **open and not merged**, and adds `single-repositories/github/resoarc/resoarc-site.yml` identifying exactly `https://github.com/resoarc/resoarc-site`. This is **application submission**, not admission, evaluation completion, badge issuance or certification.
 
 ## Minimal factual submission profile
 
@@ -29,12 +29,15 @@ Official documentation confirms two registration routes: (1) authenticate with G
 ## Registration guardrails
 
 - This GitHub repo is a public mirror; the canonical publication history is also managed through Codeberg and a separate Cloudflare deployment path. OSS Compass statistics on **GitHub** must not be presented as measurements of all ResoArc activity.
-- Authenticate using the dedicated ResoArc GitHub account. No machine/session authenticated to OSS Compass was established during this investigation, and the available local `gh` CLI reports **not logged in**. Do not impersonate or reuse personal GitHub accounts.
-- After a real submission, save the external PR URL, submission date, decision and any public report URL. Only link a badge if one is actually issued with truthful scope.
+- The application was submitted as `@resoarc` through the user's authenticated OSS Compass web session; the local `gh` CLI's separate login state is not evidence of the web session. Do not reuse personal GitHub accounts.
+- Submission evidence: [external upstream PR #11638](https://github.com/oss-compass/compass-projects-information/pull/11638), opened **2026-11-11 14:36:03 UTC**. After upstream review, record the actual merge/decision and any report URL. Only link a badge if one is actually issued with truthful scope.
 - Registration, external acceptance, community membership and independent security certification are different types of evidence.
 
-## Manual completion step still necessary
+## Next gate: review, merge, and actual project analysis
 
-Visit https://oss-compass.org/submit-your-project, sign in with the dedicated ResoArc GitHub identity, choose **Single repository**, enter `https://github.com/resoarc/resoarc-site`, and submit. Verify the resulting PR appears under the official external queue. If service login is unavailable, arrange a fork + compliant PR with the same ResoArc account.
+1. Monitor [external PR #11638](https://github.com/oss-compass/compass-projects-information/pull/11638) for bot checks and upstream reviewer comments; make changes only if requested by maintainers. **Do not duplicate the submission.**
+2. Verify the PR has actually merged and that the project is indexed in OSS Compass before stating the project is registered or evaluated.
+3. Check the analysis/report URL and its repository scope, collection period, available indicators and limitations. Document what the report measures rather than calling it a security audit.
+4. Only then add any confirmed project report link to the public ResoArc recognition page. The site's Cloudflare Pages Direct Upload deployment has an independent source reconciliation gate.
 
-**Disposition: no submitted application or report as of this record.**
+**Disposition as of the last checked official GitHub PR state on 2026-11-11: SUBMITTED / UPSTREAM REVIEW PENDING / NO PUBLIC SCORE OR BADGE CLAIM.**
