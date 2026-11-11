@@ -2,9 +2,21 @@
 
 Date: 2026-11-10 (JST). **Applicant preparation only.** This file is not an application, SignPath acceptance, approval record, security certificate or permission to release.
 
+## Update: unsigned release completed 2026-11-11 JST
+
+This document originally captured the **2026-11-10 pre-release status**. The historic evidence below remains valid only for that date. The project has since published source and an unsigned release, but **SignPath approval and signing remain HOLD**.
+
+- PR #91 is now **merged** into `main`, merge SHA `49515e094537e72728615960686df287d45ae3e1`.
+- GitHub signed-off **UNSIGNED** Windows prerelease: [Security Trio v0.3.0-rc4](https://github.com/resoarc/resoarc-site/releases/tag/security-trio-v0.3.0-rc4-unsigned); public ZIP SHA-256 `347da414b41157d4b181a8009e6e57ae34dee9ab38bcb88af6317fd74e2fecf8`. The 18-entry ZIP (3 EXEs, SHA-256 manifest, MIT license, 12 original third-party license notices, overview) was downloaded independently and checksummed after publication.
+- Release/build provenance: [CI run 42884793392](https://github.com/resoarc/resoarc-site/actions/runs/42884793392). **No SignPath signature** was applied.
+- The project's **AI-internal review was authorized for public unsigned prerelease only**. It is NOT an independently verifiable real-user reputation report, independent human source review or authorized manual signing approval.
+- [Issue #104](https://github.com/resoarc/resoarc-site/issues/104) has public feedback instructions, but its observed comments remain project-owner authored. External product-specific independent reviews: **zero verified** as of the update.
+- SignPath OSS support has not supplied a follow-up answer to the November 10 questions, so the formal Foundation application, organization/user/role enrollment, foundation certificate and signing request remain **not completed**.
+- Do not retroactively modify the existing unsigned tag or ZIP. Future successfully signed release requires a new tag, new post-sign SHA-256, verified genuine Authenticode publisher/timestamp and compliance with SignPath's separate eligibility and human/manual-origin requirements.
+
 ## Verified project facts
 
-- Source and review: [ResoArc Security Trio PR #91](https://github.com/resoarc/resoarc-site/pull/91), still unmerged and open for review. Keep `site/` and all existing unsigned downloads unchanged.
+- Source and review as of 2026-11-10: [ResoArc Security Trio PR #91](https://github.com/resoarc/resoarc-site/pull/91) was then unmerged; it has since merged. Keep existing unsigned downloads unchanged.
 - Dedicated unsigned preview: https://resoarc-security-trio.pages.dev/ with three Windows x64 v0.3.0-rc4 executables. They **are not Authenticode-signed**.
 - Recorded Windows CI on an earlier reviewed PR commit: [run 42625324389](https://github.com/resoarc/resoarc-site/actions/runs/42625324389) reported 163 tests passing, three unsigned Windows builds, failed-as-expected unsigned signature gate, 61 inventoried native components and 12 third-party notice originals. **Re-check the checks on the actual release commit.**
 - Source MIT licensing and third-party terms: [THIRD_PARTY.md](../THIRD_PARTY.md). The legacy Python 3.10/OpenSSL 1.1 preview and newer Python 3.12/OpenSSL 3 CI candidates have different notices.
@@ -18,7 +30,7 @@ Date: 2026-11-10 (JST). **Applicant preparation only.** This file is not an appl
 | Independently published Security Trio review | **0 verified** | URL to review by an identifiable external publisher with date and product identity | Self-authored press release or a review of another ResoArc product |
 | Independently described Security Trio use | **0 verified** | Public issue/post from a distinct user with reproducible usage context, consent to cite | Maintainer test, bot comment, star-only count |
 | External source/security review | **0 verified** | Review/PR by a human reviewer, scope and findings linked to commit SHA | AI-only analysis or CodeQL pass |
-| Project-specific release history | **Unsigned RC4 preview only** | Public release page, hashes, changelog, release date, archive of artifact | Other ResoArc product releases |
+| Project-specific release history (as of 2026-11-10) | **Unsigned RC4 preview at that time; GitHub prerelease now exists** | Public release page, hashes, changelog, release date, archive of artifact | Other ResoArc product releases |
 | Build provenance and testing | **Available for earlier PR CI** | Passing workflow, exact commit SHA, build artifact hashes | Any CI check treated as proof of external reputation |
 | Human code review / signing approval | **NOT ESTABLISHED** | Distinct authorized human identities/roles, recorded review and MFA verification, per-request manual approval | AI persona, alternate account owned by the same person, automated approval |
 
@@ -41,7 +53,7 @@ The Foundation decides how much reputation is sufficient. Do not invent a minimu
 - **GitHub rules**: protected `release/security-trio-*` branch or exact named release branch (verify policy compatibility); block force-push/bypass where available; required status checks and PR reviews; `signpath-approved` environment restricted to approved branches and human reviewers. Configure only when real approvers and enrollment exist.
 - **Origin**: GitHub Actions trusted build and SignPath Origin Verification; exact three own EXEs and consistent PE metadata. No local or uploaded executable may be silently substituted.
 - **Post-sign**: require `verify_signed_release.ps1` success, pinned expected signer thumbprint, valid Authenticode/EKU/timestamp, fresh signed SHA-256, complete license notices, distinct human release acceptance, and a new versioned download path.
-- **No authorization by this document**: do not submit a signing request, trigger the manual signing workflow, create a signed release, merge PR #91, overwrite old binaries or deploy `site/`.
+- **No authorization by this document**: do not submit a signing request, trigger the manual signing workflow, create a signed release, overwrite old binaries or deploy `site/`.
 
 ## Questions already sent to SignPath on 2026-11-10 (awaiting reply)
 
@@ -57,6 +69,6 @@ Do **not** disclose account IDs, tokens or credentials in the public repository.
 
 ## Release decision record
 
-**HOLD** on SignPath application as "ready", signing, publication and PR merge. Continue only non-destructive technical review, independent tester outreach and evidence collection. The current signed-package pipeline is an **inactive** candidate workflow that has not verified an actual SignPath-signed executable.
+**HOLD** on SignPath application as "ready", actual signing and signed-release publication. The project's unsigned release and PR merge are completed separately. Continue non-destructive evidence collection and applicant preparation. The current signed-package pipeline is an **inactive** candidate workflow that has not verified an actual SignPath-signed executable.
 
 Official rules: https://signpath.org/terms.html
