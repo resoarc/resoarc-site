@@ -53,7 +53,7 @@ The Foundation decides how much reputation is sufficient. Do not invent a minimu
 - **GitHub rules**: protected `release/security-trio-*` branch or exact named release branch (verify policy compatibility); block force-push/bypass where available; required status checks and PR reviews; `signpath-approved` environment restricted to approved branches and human reviewers. Configure only when real approvers and enrollment exist.
 - **Origin**: GitHub Actions trusted build and SignPath Origin Verification; exact three own EXEs and consistent PE metadata. No local or uploaded executable may be silently substituted.
 - **Post-sign**: require `verify_signed_release.ps1` success, pinned expected signer thumbprint, valid Authenticode/EKU/timestamp, fresh signed SHA-256, complete license notices, distinct human release acceptance, and a new versioned download path.
-- **No authorization by this document**: do not submit a signing request, trigger the manual signing workflow, create a signed release, merge PR #91, overwrite old binaries or deploy `site/`.
+- **No authorization by this document**: do not submit a signing request, trigger the manual signing workflow, create a signed release, overwrite old binaries or deploy `site/`.
 
 ## Questions already sent to SignPath on 2026-11-10 (awaiting reply)
 
