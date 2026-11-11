@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+# SPDX-License-Identifier: MIT
+
 # ResoArc 外部確認可能な技術実績と次の自己診断（2026-11-11 JST）
 
 本記録は、公開された外部検証結果を正確に区別するためのスナップショットです。自己申告、機械判定、独立した第三者監査を混同しません。2026年10月時点の記録は履歴として残します。
