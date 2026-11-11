@@ -107,7 +107,17 @@ jobs:
       - name: Install browser test runner
         run: |
           python -m pip install playwright==1.56.0 Pillow==11.2.1 beautifulsoup4==4.13.4
-          python -m playwright install --with-deps chromium
+          # Install the pinned browser first. The GitHub Ubuntu runner may already
+          # have everything Chromium needs. Avoid unconditional apt: when a runner's
+          # Ubuntu mirror DNS is down, --with-deps fails even if browser smoke tests
+          # could run with the preinstalled libraries.
+          python -m playwright install chromium
+          if ! python -c "from playwright.sync_api import sync_playwright; p=sync_playwright().start(); b=p.chromium.launch(headless=True); b.close(); p.stop()"; then
+            echo "::notice::Chromium launch failed; installing required OS packages before retry."
+            python -m playwright install-deps chromium
+            # Fail closed if the runtime still cannot actually launch a browser.
+            python -c "from playwright.sync_api import sync_playwright; p=sync_playwright().start(); b=p.chromium.launch(headless=True); b.close(); p.stop()"
+          fi
       - name: Run browser smoke and safety scenarios
         run: |
           python tests/alpha_configs_smoke.py
