@@ -1,0 +1,9 @@
+# NOTICE: ResoArc レコード再利用制御 v1.0.2
+
+Copyright (c) 2026 ResoArc. MIT License (see LICENSE).
+
+ResoArcが提供する独立したOSSプラグインであり、サイボウズ株式会社・kintoneの公式、認定、推奨、提携を意味しません。kintoneは権利者の商標です。
+
+このNOTICEは配布する署名ZIPのJavaScript、CSS、HTML、manifest、画像に適用します。第三者ライブラリの同梱や外部通信を新たに導入する変更は確認されていません。これは法律上の保証ではありません。
+
+kintone公式プラグインZIPとの互換性のため既存のRSA/SHA-1形式で署名しています。秘密鍵はZIPにもソース公開物にも含めません。

@@ -393,6 +393,21 @@
       ],
       "notice_state": "separate_public_license_evidence",
       "source_contents_not_modified": true
+    },
+    {
+      "path": "site/downloads/resoarc-reuse-reset-v1.0.2-20261113.zip",
+      "sha256": "c34bccd3e4ec7b18b232f5c06078a3ecbe19f61b8e9c1801dd276ca5ebe67016",
+      "payload_sha256": "de991449a59c26700fa1c2d0758b053dcc7823fc5296ff3190bca67dac549bb3",
+      "contains_signature_files": true,
+      "signature_cryptographically_verified": false,
+      "inner_count": 7,
+      "license_files_inside_signed_payload": [],
+      "source_files_with_spdx": [
+        "js/mobile.js"
+      ],
+      "third_party_code_signals": [],
+      "notice_state": "pending_separate_license_evidence",
+      "source_contents_not_modified": true
     }
   ]
 }
