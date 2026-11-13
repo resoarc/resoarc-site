@@ -265,6 +265,12 @@ be48f36a121254ef5de83e4a25cf179247df6a90683d00e0ec2f1fefd52444c9  site/downloads
 424ea7403b290243d46e682e977e497043c1c12567725fae20ac01515bac5254  site/downloads/resoarc-reuse-reset-v1.0.0-NOTICE.txt
 812185113b88d4339bf85479102985c5df80f44c6039c3e2456658159b2717a4  site/downloads/resoarc-reuse-reset-v1.0.0-RELEASE_NOTES.md
 4b14709afcf086aed6b754e1cc65cce0dcd1d384ae7d703a9aeb64795e50ac9c  site/downloads/resoarc-reuse-reset-v1.0.0-signed-source.zip
+c34bccd3e4ec7b18b232f5c06078a3ecbe19f61b8e9c1801dd276ca5ebe67016  site/downloads/resoarc-reuse-reset-v1.0.2-20261113.zip
+aefd44b4eabf9670a6b7dd4c095102595d7d3c830cef28d40c03a3644af299a2  site/downloads/resoarc-reuse-reset-v1.0.2-INSTALL_MIGRATION_GUIDE.md
+be48f36a121254ef5de83e4a25cf179247df6a90683d00e0ec2f1fefd52444c9  site/downloads/resoarc-reuse-reset-v1.0.2-LICENSE.txt
+739bd7f93f41ab6517fbc7f875a6b74a6b4cfc4c8e2118873db4318d4242af6d  site/downloads/resoarc-reuse-reset-v1.0.2-NOTICE.txt
+172351f80ced476876c2418b10c017f095aa42b9bbb214929508d3da7451ddd5  site/downloads/resoarc-reuse-reset-v1.0.2-RELEASE_NOTES.md
+e39723fbedd352334d6dc7ed290c9f4792f93dbf74aba397fd9e6fd9335613bd  site/downloads/resoarc-reuse-reset-v1.0.2-signed-source.zip
 6e281275e2eb276e7886d8dc562852e194b4002ce05625b75a10326b0e527fd8  site/downloads/resoarc-save-navigation-mobile-v0.1.3-rc-20261018.zip
 69265de6b9b81911f6591585939c3abcadce6fa34e0f1acabe0e6cb44036eba2  site/downloads/resoarc-sheet-v0.7.0-beta-source.zip
 0e30d21d988a654f2506cc53f579a8ba8d7f085a2e52de3d076589d8390794e3  site/downloads/resoarc-sheet-v0.7.0-beta.zip
@@ -313,7 +319,7 @@ c4bbcc000a4a83595170f69f47daf80c1f16b79b642271c38ee70e0eddf10e1f  site/products/
 540276f4311412c1af65b39bf2169e7bc6ca6b0d352ff01960dcdaa93ac50825  site/products/kintone/attachment-count/index.html
 5eb65ba3a67e17463d64bfc005216f0b7c63013f7c4e8c4a8b8ddd29f2ba4bc3  site/products/kintone/csv-export/index.html
 c3ecd7dd419b8a26f4ef348e06b4fd725881d96231c852181057ed8fc1004fc0  site/products/kintone/field-help/index.html
-dc33ab761237423baea30459eb9b57ffe7a4ee9132863a8bc97d6a4baf591f31  site/products/kintone/index.html
+e67724436e94ea9c15f0bed65fa2dcf820a292b71ab50a677f3276c7db8f4fef  site/products/kintone/index.html
 978677b0ba53ddd58599e08eb7174eeebc5e3c5a1e169c4ddefabe611b9adbb6  site/products/kintone/input-template/index.html
 13042ce81495466dda3c3437859ef2d1818743d17e627745163db26cce7bb128  site/products/kintone/list-aggregate/index.html
 db77c38ecc9cfc719fb5a4fcbb7e31fb9884859c6b00b411190263945b974b48  site/products/kintone/lookup-suggest/index.html
@@ -326,8 +332,8 @@ e3a1fb5be6cdfd6ed5bb9a750914cc35129ac6c75864b4cc20eeefcb3a087d02  site/products/
 f3ba93546781776fdb2a13a15cca9756ebe53ad6ce273a5f6e56c417469a7269  site/products/kintone/record-toc/index.html
 c1dfa712e75f27b00dd2a0079c7f8bc6b729a20326839fa453f4192eccdd5fd4  site/products/kintone/related-links/index.html
 d475dcf396cd4d04c4acb6fa1a77b5063a76dd0d3e5848d3f7b118d6dcd01420  site/products/kintone/release-evidence-20261019.json
-e17f65c256eb6fab7f2bae0b43e7bf6b2b47c4c7da52f9134a6cbb8c41bebda9  site/products/kintone/release-integrity/index.html
-4bb3375173bc7fa5dbda34b3e2799dc1bee6c62390ada5a9c36a1104dccf8cd2  site/products/kintone/reuse-reset/index.html
+d148002ef72d45ec05d06ac8efcc3ceee18d87138dbfa9ea31ba672a298b01de  site/products/kintone/release-integrity/index.html
+e029811df53db9cc3ed48277facd122aa75b37bb79f88a8b33b5dc8449079caf  site/products/kintone/reuse-reset/index.html
 cf36f6cf67b29daa9087ed1083a3312cd0eb6d5a325097af973cb44988e6ff14  site/products/kintone/save-navigation/index.html
 e0319794e82e212a34570473ed010c667ca08e7c420a4fa09dd0fae9e75b59d3  site/products/kintone/tabs/index.html
 b78b85e0de871739087a4aedbf8884a1ef91e83913c887ca0227fdb360a3a80d  site/products/kintone/text-normalizer/index.html

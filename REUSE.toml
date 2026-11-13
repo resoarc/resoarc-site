@@ -1213,3 +1213,18 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# Product-scoped exact release candidate, source archive and supplemental notices.
+[[annotations]]
+path = [
+  "docs/release-candidates/reuse-reset-v1.0.2-20261113.md",
+  "site/downloads/resoarc-reuse-reset-v1.0.2-20261113.zip",
+  "site/downloads/resoarc-reuse-reset-v1.0.2-signed-source.zip",
+  "site/downloads/resoarc-reuse-reset-v1.0.2-INSTALL_MIGRATION_GUIDE.md",
+  "site/downloads/resoarc-reuse-reset-v1.0.2-LICENSE.txt",
+  "site/downloads/resoarc-reuse-reset-v1.0.2-NOTICE.txt",
+  "site/downloads/resoarc-reuse-reset-v1.0.2-RELEASE_NOTES.md",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"

@@ -1,6 +1,6 @@
 {
   "schema": "resoarc-active-pages-public-binary-inventory-v1",
-  "observedDate": "2026-11-10",
+  "observedDate": "2026-11-13",
   "status": "SHA256_FORMAT_TECHNICAL_EVIDENCE_ONLY_NOT_LEGAL_SIGNOFF",
   "historicalOSPS34Immutable": "docs/compliance/BINARY_ASSET_REVIEW_20261106.json",
   "distributionBoundary": "site/downloads/*.zip only; no ZIP allowed in application-source paths",
@@ -1084,6 +1084,35 @@
       "legalApprovalNotInferred": true,
       "zipEntryCount": 78,
       "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-reuse-reset-v1.0.2-20261113.zip",
+      "sha256": "c34bccd3e4ec7b18b232f5c06078a3ecbe19f61b8e9c1801dd276ca5ebe67016",
+      "size": 6775,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 3,
+      "containsSignedKintonePayload": true,
+      "publicKeySHA256": "898ffd0de3afb4a4f7bdd651418efb997a52c79c3ac5414e708f2014135ff3c9",
+      "payloadSHA256": "de991449a59c26700fa1c2d0758b053dcc7823fc5296ff3190bca67dac549bb3"
+    },
+    {
+      "path": "site/downloads/resoarc-reuse-reset-v1.0.2-signed-source.zip",
+      "sha256": "e39723fbedd352334d6dc7ed290c9f4792f93dbf74aba397fd9e6fd9335613bd",
+      "size": 7787,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 9,
+      "containsSignedKintonePayload": false
     }
-  ]
+  ],
+  "technicalChangeNote": "Appended two exact-byte pinned reuse-reset v1.0.2 candidate ZIPs; existing 84 binary assets unchanged."
 }
