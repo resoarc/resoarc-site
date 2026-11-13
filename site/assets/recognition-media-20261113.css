@@ -1,0 +1,30 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc */
+/* SPDX-License-Identifier: MIT */
+/* 2026-11-13: verified editorial media coverage. No certification claims. */
+.rec-media-section{background:linear-gradient(150deg,#f2f6fa 0%,#f8fafc 72%,#edf3f7 100%)}
+.rec-media-section .rec-media-eyebrow{color:#315872}
+.rec-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:32px}
+.rec-media-card{min-width:0;background:#fff;border:1px solid #dce5ed;border-top:4px solid #c1a774;box-shadow:0 14px 34px rgba(15,42,67,.07);padding:clamp(22px,3vw,34px);display:flex;flex-direction:column}
+.rec-media-meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 16px}
+.rec-media-outlet{font-size:21px;font-weight:800;letter-spacing:.015em;color:#173753}
+.rec-media-outlet small{font-size:12px;font-weight:600;color:#586d80}
+.rec-media-meta time{font-size:12px;color:#465e72;font-weight:700}
+.rec-media-type{font-size:11px;letter-spacing:.07em;color:#60758a;font-weight:700;margin:19px 0 2px}
+.rec-media-card h3{font-size:clamp(17px,2vw,22px);line-height:1.55;color:#173753;margin:6px 0 10px}
+.rec-media-card>p:not(.rec-media-type){font-size:13px;color:#445c70;line-height:1.95;margin-bottom:20px}
+.rec-media-link{display:inline-flex;align-items:center;gap:10px;color:#154e75;font-weight:750;font-size:13px;text-decoration:none;line-height:1.6;border-bottom:1px solid #95b1c2;align-self:flex-start;margin-top:auto;padding-bottom:4px}
+.rec-media-link:hover,.rec-media-link:focus-visible{color:#006ca4;border-color:currentColor}
+.rec-media-disclaimer{font-size:12px;line-height:1.85;color:#52677b;margin-top:22px}
+.rec-home-media{display:grid;grid-template-columns:minmax(200px,.85fr) minmax(0,2fr);gap:26px;align-items:center;padding:25px 28px;margin:16px 0 38px;background:linear-gradient(115deg,#123651,#1c4969);color:#fff;border:1px solid rgba(196,218,232,.22);border-left:4px solid #d4b67e}
+.rec-home-media-label{display:block;font:700 11px/1.4 Arial,sans-serif;letter-spacing:.17em;color:#e8d5a9}
+.rec-home-media-lead h3{color:#fff;font-size:clamp(19px,2.2vw,24px);margin:8px 0}
+.rec-home-media-lead p{font-size:12px;color:#dae7ef;line-height:1.7}
+.rec-home-media-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rec-home-media-links>a:not(.rec-home-media-details){display:flex;flex-direction:column;gap:5px;border:1px solid rgba(224,237,245,.32);background:rgba(255,255,255,.08);padding:14px 16px;text-decoration:none;color:#fff;min-width:0}
+.rec-home-media-links>a:hover,.rec-home-media-links>a:focus-visible{background:rgba(255,255,255,.16)}
+.rec-home-media-links time{font-size:11px;color:#e1d0a5;letter-spacing:.06em}
+.rec-home-media-links strong{font-size:18px;color:#fff}
+.rec-home-media-links a span{font-size:11px;line-height:1.55;color:#e9f1f7}
+.rec-home-media-details{grid-column:1/-1;font-size:12px;color:#fff;text-align:right;text-underline-offset:4px}
+@media(max-width:850px){.rec-home-media{grid-template-columns:1fr;gap:14px}.rec-media-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.rec-home-media{padding:22px 18px}.rec-home-media-links{grid-template-columns:1fr}.rec-home-media-details{text-align:left}.rec-media-meta{display:block}.rec-media-meta time{display:block;margin-top:6px}}
