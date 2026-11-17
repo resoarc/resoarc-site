@@ -1,0 +1,49 @@
+name: ResoArc Sheet RC1 isolated CI
+on:
+  push:
+    branches: ['qa/sheet-v1.0.0-rc.1-ci-20261118']
+    paths:
+      - 'apps/sheet/rc/**'
+      - '.github/workflows/sheet-rc1-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/sheet/rc/**'
+      - '.github/workflows/sheet-rc1-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  acceptance:
+    name: Unit and build on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Verify pinned RC source SHA256
+        shell: pwsh
+        run: |
+          $path='apps/sheet/rc/ResoArc-Sheet-v1.0.0-rc.1-source.zip'
+          $actual=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()
+          $expected='8afa750ce76a5d42b7e7a5952b7f581d45933318d387c381d8a83e9599a946fb'
+          if($actual -ne $expected){throw "RC source hash mismatch: $actual"}
+      - name: Extract RC source
+        shell: pwsh
+        run: Expand-Archive -LiteralPath 'apps/sheet/rc/ResoArc-Sheet-v1.0.0-rc.1-source.zip' -DestinationPath 'sheet-rc-build' -Force
+      - name: Clean dependency install
+        working-directory: sheet-rc-build
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Unit tests
+        working-directory: sheet-rc-build
+        run: npm test
+      - name: Production build
+        working-directory: sheet-rc-build
+        run: npm run build
