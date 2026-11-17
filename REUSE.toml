@@ -1228,3 +1228,10 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# Reviewed first-party ResoArc Sheet RC1 source mirror (no npm vendored binaries).
+[[annotations]]
+path = ["apps/sheet/rc1-src/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
