@@ -1,0 +1,104 @@
+/* ResoArc Sheet v0.5 desktop ribbon: inspired by common spreadsheet conventions, not copied brand assets. */
+:root{--xl-green:#167c56;--xl-deep:#116a4a;--xl-tint:#e6f3ec;--xl-border:#d7dedb;--xl-font:"Yu Gothic","Noto Sans JP",Meiryo,system-ui,sans-serif}
+body{background:#f8f9f8}.masthead{height:49px;background:#146c4b;border-bottom:1px solid #125e42;gap:18px;padding:0 15px}
+.logo-symbol{width:29px;height:29px;border-radius:6px;border-color:#b3e7ca;font-size:18px;transform:none;color:#f4fff8}.logo-symbol span{display:none}
+.logo strong{font-size:16px;color:#fff}.logo i{color:#c7f7d5}.logo small{font-size:7px;color:#c3e1d0}
+.masthead-divider{background:#56a080;height:23px}.name-field{gap:0;width:220px}.name-field small{display:none}.name-field input{font-size:14px}.meta .saved-indicator{font-size:11px;color:#c4edce}.meta .saved-indicator.unsaved{color:#fff1bb}.version{font-size:9px;border-color:#59a080;color:#d9f5e1}
+.legacy-toolbar{display:none!important}
+.excel-ribbon{flex:none;background:white;border-bottom:1px solid var(--xl-border);font-family:var(--xl-font);color:#24322d}
+.ribbon-tabs{height:37px;display:flex;align-items:stretch;gap:1px;padding:0 11px;background:#fff;border-bottom:1px solid #dbe3df;white-space:nowrap;overflow-x:auto}
+.ribbon-tab{border:0;background:transparent;color:#283e31;padding:0 14px;min-width:max-content;position:relative;cursor:pointer;font-size:12px;font-weight:500}
+.ribbon-tab:hover{background:#edf7f0}.ribbon-tab.active{font-weight:700;color:#126841}.ribbon-tab.active:after{content:"";height:3px;background:#16824c;position:absolute;bottom:0;left:8px;right:8px;border-radius:2px}
+.ribbon-tab.file-tab{background:#17764b;color:white;margin-left:-11px;margin-right:7px;padding:0 19px}.ribbon-tab.file-tab.active:after{background:#d3f0dd}
+.ribbon-tabs-spacer{flex:1}.ribbon-name-hint{align-self:center;max-width:180px;text-overflow:ellipsis;overflow:hidden;color:#728178;font-size:10px;margin:0 14px}
+.ribbon-content{height:103px;display:flex;align-items:stretch;gap:0;padding:5px 8px;overflow-x:auto;scrollbar-width:thin;min-width:0}
+.ribbon-group{display:flex;flex-direction:column;flex:none;min-width:56px;border-right:1px solid #e7ede9;padding:3px 10px 0}
+.ribbon-group-content{display:flex;align-items:center;justify-content:center;gap:3px;flex:1}.ribbon-group-label{font-size:10px;color:#85958c;text-align:center;line-height:18px}
+.ribbon-item{border:1px solid transparent;background:transparent;color:#2a3930;padding:3px 5px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;border-radius:3px;min-width:37px;height:59px;cursor:pointer}
+.ribbon-item:hover{background:#edf5ee;border-color:#c8dfd2}.ribbon-item:active{background:#d7eddf}.ribbon-item:disabled{color:#b0b9b1;cursor:not-allowed;background:transparent;border-color:transparent}
+.ribbon-item-mark{font-family:Arial,sans-serif;min-height:20px;display:grid;place-items:center;color:#247c55;font-size:19px;font-weight:700;line-height:1}
+.ribbon-item-label{font-size:10px;white-space:nowrap;font-family:var(--xl-font)}
+.ribbon-formatrow{display:flex;align-items:center;gap:2px}.ribbon-formatrow .ribbon-item{height:30px;min-width:27px;padding:1px 4px}.ribbon-formatrow .ribbon-item-mark{font-size:15px;min-height:12px}.ribbon-formatrow .ribbon-item-label{display:none}
+.ribbon-stack{min-width:240px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.ribbon-selectrow{display:flex;gap:5px;padding:0 4px}.ribbon-selectrow select{border:1px solid #c9d7ce;background:white;border-radius:3px;padding:3px 5px;height:26px;font-size:11px;color:#283d2f}
+.ribbon-selectrow select:first-of-type{width:162px}.ribbon-selectrow select:last-of-type{width:58px}
+.color-label{min-width:28px;min-height:30px;position:relative;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer}.color-label input{position:absolute;bottom:0;left:3px;width:23px;height:6px;padding:0;border:none;background:transparent;cursor:pointer}
+.ribbon-explainer{display:flex;align-items:center;padding:15px;color:#6e7e75;max-width:570px;font-size:12px;white-space:normal;line-height:1.55}
+.excel-formula-bar{height:35px;flex:none;background:#fff;border-bottom:1px solid #d6ded9;display:flex;align-items:center;padding:0 12px;gap:10px;font-size:12px}
+.formula-name{width:95px;flex:none;min-width:0}.formula-name input{width:100%;height:26px;border:1px solid #d6ded9;border-radius:2px;padding:2px 9px;font-family:var(--xl-font);font-size:12px}
+.formula-name input:focus,.formula-input-form input:focus{outline:1px solid #338859;border-color:#338859}
+.formula-divider{height:22px;width:1px;background:#d9e4dd}
+.formula-fx{color:#6e8b76;font-weight:700;font-style:italic;min-width:22px;text-align:center;font-family:Georgia,serif;font-size:15px}
+.formula-input-form{min-width:0;flex:1}.formula-input-form input{display:block;width:100%;height:27px;border:1px solid transparent;padding:3px 5px;border-radius:2px;font-family:var(--xl-font);font-size:12px}
+.notice-line{background:#f3faf6;border-color:#e4efe8;padding:5px 13px;font-size:10px}
+.statusbar{min-height:28px;padding:4px 11px;background:#f4f7f5;border-color:#d7e5dc;font-size:10px}
+.grid-wrap{background:white}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:900px){.ribbon-tabs{padding:0 4px}.ribbon-tab{padding:0 10px}.ribbon-content{height:95px}.ribbon-name-hint{display:none}.masthead{gap:11px;padding:0 9px}.name-field{width:140px}.meta{gap:6px}.version{display:none}.notice-line .warn{display:none}}
+@media(max-width:700px){html,body,#root{min-width:320px}.app{min-width:320px}.name-field{min-width:90px}.masthead-divider{display:none}.logo strong{font-size:13px}.logo small{display:none}.saved-indicator{display:none}.ribbon-content{min-height:94px}.grid-wrap{min-width:0;overflow:hidden}}
+
+/* FortuneSheet context menu: Japanese visual labels, original event targets retained */
+.fortune-context-menu .luckysheet-cols-menuitem[data-resoarc-label]{
+ position:relative;
+}
+.fortune-context-menu .luckysheet-cols-menuitem[data-resoarc-label] .luckysheet-cols-menuitem-content{
+ color:transparent!important;
+}
+.fortune-context-menu .luckysheet-cols-menuitem[data-resoarc-label] .luckysheet-cols-menuitem-content > span{
+ color:transparent!important;
+}
+.fortune-context-menu .luckysheet-cols-menuitem[data-resoarc-label] input{
+ color:#1c2d23!important;
+}
+.fortune-context-menu .luckysheet-cols-menuitem[data-resoarc-label]::after{
+ content:attr(data-resoarc-label);
+ color:#223d2c;
+ position:absolute;
+ top:50%;
+ left:12px;
+ transform:translateY(-50%);
+ font-size:12px;
+ white-space:nowrap;
+ pointer-events:none;
+}
+
+/* v0.6 keyboard-assisted Excel-style cell format dialog */
+.format-modal-overlay{position:fixed;inset:0;background:#0a241c80;z-index:10020;display:flex;align-items:center;justify-content:center;padding:20px}
+.format-modal{display:flex;flex-direction:column;width:min(610px,100%);max-height:min(90vh,800px);background:white;border:1px solid #cbd7ce;border-radius:8px;box-shadow:0 15px 70px #091f1a45;color:#213c2d;font-family:var(--xl-font)}
+.format-modal-header{display:flex;align-items:center;justify-content:space-between;background:#f4f9f6;padding:14px 20px;border-bottom:1px solid #d6e7d9}
+.format-modal-header h2{margin:0;font-size:16px}
+.format-modal-close{border:0;background:transparent;font-size:22px;padding:0 5px;cursor:pointer}
+.format-modal-body{overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px}
+.format-modal-body fieldset{border:1px solid #d2dfd5;border-radius:5px;min-width:0;padding:14px;display:flex;flex-direction:column;gap:8px}
+.format-modal-body fieldset:first-child{grid-row:span 2}
+.format-modal-body legend{font-weight:700;font-size:13px;color:#176b48;padding:0 4px}
+.format-modal-body select{padding:7px 9px;background:#fff;border:1px solid #b9d0c0;border-radius:3px;width:100%;font-size:12px}
+.format-modal-body label{font-size:12px}
+.format-modal-body small{font-size:11px;line-height:1.55;color:#5e7868}
+.format-field-row{display:grid;grid-template-columns:minmax(0,1fr) 82px;gap:6px}
+.format-field-row label{grid-column:1/-1}
+.format-field-row label[for="format-font-size"]{grid-column:2;grid-row:1}
+.format-field-row #format-font-family{grid-column:1}
+.format-field-row #format-font-size{grid-column:2}
+.format-checkboxes{display:flex;gap:15px;flex-wrap:wrap}
+.format-checkboxes label{display:flex;align-items:center;gap:5px}
+.format-modal-footer{border-top:1px solid #d6e7d9;padding:12px 18px;display:flex;justify-content:flex-end;gap:10px;background:#f9fcfa}
+.format-modal-footer button{border:1px solid #b9d0c0;border-radius:4px;background:#fff;padding:8px 20px;cursor:pointer;font-size:12px}
+.format-modal-footer .format-apply{background:#137d51;color:white;border-color:#137d51}
+.format-modal :focus-visible{outline:2px solid #148651;outline-offset:2px}
+@media(max-width:600px){.format-modal-body{grid-template-columns:1fr}.format-modal-body fieldset:first-child{grid-row:auto}}
+
+.paste-values-modal{max-width:670px}
+.paste-values-body{padding:14px 20px 18px;display:flex;flex-direction:column;gap:10px}
+.paste-values-body p{margin:0;font-size:12px;line-height:1.6}
+.paste-values-body textarea{width:100%;min-height:135px;padding:11px;background:#fcfefc;color:#1b3326;border:1px solid #bdd3c5;border-radius:4px;resize:vertical;white-space:pre;overflow:auto;font-family:Consolas,"Noto Sans JP",monospace;font-size:13px}
+.paste-values-body .paste-preview{font-weight:700;color:#126c47;min-height:24px}
+.paste-values-body .paste-values-note{font-size:11px;color:#657a69}
+.paste-values-modal .format-apply:disabled{opacity:.45;cursor:not-allowed}
+
+.size-dialog{max-width:440px}
+.size-dialog-body{padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.size-dialog-body p{margin:0;font-size:12px;line-height:1.6}
+.size-dialog-body label{font-size:12px;font-weight:700}
+.size-dialog-body input{font-size:14px;padding:9px;border:1px solid #b9d0c0;border-radius:3px}
+.size-dialog-body .paste-values-note{color:#657a69;font-size:11px}

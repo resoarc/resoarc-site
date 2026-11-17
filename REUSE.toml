@@ -1228,3 +1228,17 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# Reviewed first-party ResoArc Sheet RC1 source mirror (no npm vendored binaries).
+[[annotations]]
+path = ["apps/sheet/rc1-src/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"
+
+# SPDX-reviewed ResoArc Sheet RC1 direct dependency inventory (MIT document).
+[[annotations]]
+path = ["docs/compliance/SHEET_RC1_DIRECT_DEPENDENCIES_20261118.json"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
+SPDX-License-Identifier = "MIT"

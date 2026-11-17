@@ -1,0 +1,186 @@
+{
+  "commit": "a2cd63b3429e18bf5ad4fe7042f7f0d6f802d744",
+  "version": "1.0.0-rc.1",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "146102c342d821775871900e96a23ff05ad369bc605731950a3bfd78b9a3cbca"
+    },
+    {
+      "path": "RC_ACCEPTANCE.md",
+      "sha256": "67b64518f1d80270123f382d7d36b137b959f11a33e48d0efe9739bb02f62d48"
+    },
+    {
+      "path": "README.md",
+      "sha256": "4259b18ec42bd2627220aba4336c8d2e40eda040d68c2aea0d00cd15d93d71bf"
+    },
+    {
+      "path": "index.html",
+      "sha256": "59c4bee2549ccb0dd4142ee74d1b399b8c35d961f125953921d3d0311241326c"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "843cb5721d7d0048cb303265b8cfe48139b3a8ad09fb6616e37b475581d958c7"
+    },
+    {
+      "path": "package.json",
+      "sha256": "791c12109e7e264fb9eff9ec8a4b1a3dfd81a47dbae34c6753c3f9e81ba6b2fa"
+    },
+    {
+      "path": "src/App.jsx",
+      "sha256": "1c9d7c8d693830798af649a830300bdb76526e1fa6ffde4b933c2e53ddf6f3e0"
+    },
+    {
+      "path": "src/CellSizeDialog.jsx",
+      "sha256": "42ba00b26aa86cd24b0996c39ec7d61822f0b232d844126a55728419098c226e"
+    },
+    {
+      "path": "src/FormatDialog.jsx",
+      "sha256": "c986b709dbba3dea7bbd6f9bce62fe7bb7cf6034384bc064c92da8119688b6c9"
+    },
+    {
+      "path": "src/FormulaBar.jsx",
+      "sha256": "2f1c0e93daf88b995604c3b2638837aba2deceb61370691326f5285f5425d5ce"
+    },
+    {
+      "path": "src/PasteValuesDialog.jsx",
+      "sha256": "13daed0c82ab726367fa5100fe2b70538f8e7099ced0d4ad13840289a3c9cf67"
+    },
+    {
+      "path": "src/Ribbon.jsx",
+      "sha256": "fae16b831f7a051a702699f2b60676d80df85732af4ce03347cb23bc71b3aa32"
+    },
+    {
+      "path": "src/SaveFormatDialog.jsx",
+      "sha256": "c1b1adebeba38af89ab7eda2889846d054268e99fcb913088effcf08fb8eb2d6"
+    },
+    {
+      "path": "src/SheetExtras.jsx",
+      "sha256": "12afdc86ececacaa84aa20c61bf1cbe230503becfe1011dab5858fa4694bf94a"
+    },
+    {
+      "path": "src/SheetToolsDialog.jsx",
+      "sha256": "43600717e013cfdf5741c8f78fb6258b48e27263c4d5db45caf52651e1782c4a"
+    },
+    {
+      "path": "src/compat-audit.mjs",
+      "sha256": "0e33c579a0c064eed8cf13610ea7c80755776de4018fa42262f592f62c138251"
+    },
+    {
+      "path": "src/deferred-dimensions.mjs",
+      "sha256": "42e62cce1d28a896613b9d7c264b3eb639f4b2161b75c920e27da27acd3686d6"
+    },
+    {
+      "path": "src/localize-menu.mjs",
+      "sha256": "4303cd29306f265291c181bfe58d1e73d6230f56b407d5afc13989531575aa38"
+    },
+    {
+      "path": "src/main.jsx",
+      "sha256": "2d169c8bee5f0b1ebe6f0e6d9ec03b6c0cac86dfc0adae12fd2bc5a684ca8917"
+    },
+    {
+      "path": "src/numeric-types.mjs",
+      "sha256": "80585222f0aadecc6822dd830b71ee589d937ed5def31d499e65d70414ddbab5"
+    },
+    {
+      "path": "src/paste-values.mjs",
+      "sha256": "1108417aa414a1fbcdce231590b9f92df5ede22ca22436a93006147425bc3f42"
+    },
+    {
+      "path": "src/preflight.mjs",
+      "sha256": "28025cce0912b3fe8da7f4364da0f4e0388464f5e0305136e58164a8a4d6419e"
+    },
+    {
+      "path": "src/ribbon.css",
+      "sha256": "b2586a3fbab788415450ad9d6dfb9e7359123189924ab5ccea1b7df3d6eb033b"
+    },
+    {
+      "path": "src/safe-diff.mjs",
+      "sha256": "602f298880fffc88c192f1d203a035175a6a6f2fdd52ff58d374e1f1c1be0f23"
+    },
+    {
+      "path": "src/safe-ooxml.mjs",
+      "sha256": "91ed9c3c9a8a5a7d519d5eb4993a0eef64c3362d54ca75d0d31ef61114e9c688"
+    },
+    {
+      "path": "src/save-format.css",
+      "sha256": "9b369f5206658d11ffb79d4775b56ef4edf13decefa837764d7afca8a5002f5e"
+    },
+    {
+      "path": "src/sheet-extras.css",
+      "sha256": "1a0c5360a166a3e914f64798f4c3b3a566b49378346c33466e613fff355a91a8"
+    },
+    {
+      "path": "src/sheet-operations.mjs",
+      "sha256": "84f0e70bdd8a31748e4d5be1530ae8f147365ff48b175afb649d6d14ad154c01"
+    },
+    {
+      "path": "src/snapshot.mjs",
+      "sha256": "90c6f37bbbca763e00cb0b8447a194724e6a5b0da81f215b153dca4f2dd9b581"
+    },
+    {
+      "path": "src/style.css",
+      "sha256": "0e0bd4efa96a231412180ce845cd3ad5d35586448741c2ebf62c1bbdd5f28626"
+    },
+    {
+      "path": "src/xlsx-export-compat.mjs",
+      "sha256": "198880fbeeafd89cf96f930db81ff615a7f3cbe533f3693821d7ab89666b6a1f"
+    },
+    {
+      "path": "src/xlsx-import-compat.mjs",
+      "sha256": "1ce665a857e93109aea350bb131e8d2355bee9f805534701229f4cd65ee8f19b"
+    },
+    {
+      "path": "src/xlsx-save-policy.mjs",
+      "sha256": "01329b1618cce5709569bcefa4d09237e9c6d15a1f5dde147454e599fc274b70"
+    },
+    {
+      "path": "tests/compat-audit.test.mjs",
+      "sha256": "dc082d88a8fd60c73bc429233ba39a71470ab3f007430cb59d9cb7804f8df1a8"
+    },
+    {
+      "path": "tests/compat.test.mjs",
+      "sha256": "0763f5c191e9b24e662cfa5cdfd0e4aea70e19cbbcce274674af30c0b745192b"
+    },
+    {
+      "path": "tests/deferred-dimensions.test.mjs",
+      "sha256": "1ac8911218df8bdf1d4b507dc61bda800a03c7af17f71001e55343404342fff5"
+    },
+    {
+      "path": "tests/paste-values.test.mjs",
+      "sha256": "2aca2abf38e920602c308f559c707240a58c84f97d70d44615c9d34e977eb781"
+    },
+    {
+      "path": "tests/preflight.test.mjs",
+      "sha256": "5fc70b3751967f926c6bf544ef956b31f6db51ac596fa5e4aa37c44580ab7853"
+    },
+    {
+      "path": "tests/safe-ooxml.test.mjs",
+      "sha256": "117bb1085a8443b91133fcb44c65bb6635f9cd8b5a548ddf42c9055dbcef3438"
+    },
+    {
+      "path": "tests/sheet-operations.test.mjs",
+      "sha256": "d1d49c46a2edd1c71448f1ea36d8eac8dc69f8b6b7b143166e79c3df9cc4827a"
+    },
+    {
+      "path": "tests/xlsx-export-compat.test.mjs",
+      "sha256": "0ffea5f06f9f39cb640f704c8a7f54b09885e255fc9897c5a36a319e31bbd9f1"
+    },
+    {
+      "path": "tests/xlsx-import-compat.test.mjs",
+      "sha256": "2c75217098ca5196b3d9ab252837d1c3402a328ab83e40223798793c81c51af8"
+    },
+    {
+      "path": "tests/xlsx-save-policy.test.mjs",
+      "sha256": "440717fa99d1f760c34a5b64e7f2c0bbbbebb4e624c24758794cbb32cfc779dd"
+    },
+    {
+      "path": "vite.config.js",
+      "sha256": "b90ae9ab0b40ab4bc60fe13c9aa286c9dfbc4e00858825325ff974bf8e440f97"
+    },
+    {
+      "path": "vite.license-audit.config.js",
+      "sha256": "f2d7936caf416e2d4c44da493f9a2ade7adb9d43c5901285e660a008430b4163"
+    }
+  ]
+}

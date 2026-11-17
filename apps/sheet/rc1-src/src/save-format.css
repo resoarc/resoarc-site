@@ -1,0 +1,20 @@
+.save-choice-overlay{position:fixed;inset:0;background:#07162baf;z-index:10020;display:grid;place-items:center;padding:18px}
+.save-choice-dialog{display:flex;flex-direction:column;max-height:94vh;overflow:hidden;width:min(700px,100%);background:#fff;border:1px solid #dbe5ef;border-radius:15px;box-shadow:0 24px 70px #07162b60;color:#19324e}
+.save-choice-dialog>header{padding:20px 24px 14px;border-bottom:1px solid #e4ebf2;display:flex;justify-content:space-between;align-items:start}
+.save-choice-dialog h2{margin:4px 0;font-size:22px}.save-choice-dialog header small{color:#487cae;font-size:10px;letter-spacing:.15em}
+.save-choice-dialog header button{background:none;border:0;font-size:26px;color:#52647a;cursor:pointer}
+.save-choice-content{padding:16px 24px;overflow-y:auto}.save-choice-content>p{font-size:13px;margin:0 0 12px;color:#52647a}
+.save-choice-content fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
+.save-choice-option{display:flex;gap:12px;align-items:flex-start;padding:12px 13px;border:1px solid #dbe5ee;border-radius:10px;cursor:pointer}
+.save-choice-option.chosen{background:#f1f7fc;border-color:#247cb7}.save-choice-option.unavailable{background:#f5f6f8;color:#78879b;cursor:not-allowed}
+.save-choice-option input{margin-top:4px;accent-color:#176cac}.save-choice-copy{display:flex;flex-direction:column;gap:4px;line-height:1.5;min-width:0}
+.save-choice-copy strong{font-size:14px}.save-choice-copy strong small{font-weight:500;color:#5a6e80;margin-left:8px}.save-choice-copy>span{font-size:12px;color:#51667a}
+.save-choice-copy em{font-size:11px;color:#9b6357;font-style:normal}
+.save-choice-warning{margin-top:12px;padding:12px 14px;background:#fff9ed;border:1px solid #edcd91;border-radius:9px;font-size:12px}
+.save-choice-warning>strong{color:#704910}.save-choice-warning p{margin:5px 0 10px;line-height:1.6}.save-choice-warning label{display:flex;gap:9px;align-items:flex-start;line-height:1.55;cursor:pointer}
+.save-choice-warning input{accent-color:#a66c17;margin-top:4px}
+.save-choice-info{margin-top:12px!important;font-size:12px!important;line-height:1.65!important}
+.save-choice-dialog>footer{display:flex;justify-content:end;gap:12px;padding:14px 24px;background:#f5f8fb;border-top:1px solid #e4ebf2}
+.save-choice-dialog>footer button{padding:10px 17px;border:1px solid #c7d5e2;border-radius:8px;cursor:pointer;background:#fff;color:#213750}
+.save-choice-dialog>footer .save-choice-apply{background:#176cac;color:white;border-color:#176cac;font-weight:700}
+.save-choice-dialog button:disabled{opacity:.48;cursor:not-allowed}
