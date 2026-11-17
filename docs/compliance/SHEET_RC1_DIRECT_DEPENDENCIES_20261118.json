@@ -1,0 +1,110 @@
+{
+  "scope": "ResoArc Sheet v1.0.0-rc.1 CI-only mirror in resoarc/resoarc-site",
+  "review_date_utc": "2026-11-18",
+  "release_git_commit": "a2cd63b3429e18bf5ad4fe7042f7f0d6f802d744",
+  "manifest_path": "apps/sheet/rc1-src/package.json",
+  "lock_path": "apps/sheet/rc1-src/package-lock.json",
+  "manifest_sha256": "791c12109e7e264fb9eff9ec8a4b1a3dfd81a47dbae34c6753c3f9e81ba6b2fa",
+  "lock_sha256": "843cb5721d7d0048cb303265b8cfe48139b3a8ad09fb6616e37b475581d958c7",
+  "lockfileVersion": 3,
+  "lock_package_entries": 281,
+  "direct_runtime_count": 7,
+  "direct_development_count": 2,
+  "direct_dependencies": [
+    {
+      "name": "@corbe30/fortune-excel",
+      "role": "runtime",
+      "manifest_spec": "2.3.4",
+      "locked_version": "2.3.4",
+      "lock_integrity": "sha512-KuX2QXyxK/NYL0HojPiAlb1SbtszYvhj20sIUVtXEzjXkTsZxyE8k4VIFhHw7YLo0Qd0CzKzRzAWrUVDq1aLiA==",
+      "lock_registry_url": "https://registry.npmjs.org/@corbe30/fortune-excel/-/fortune-excel-2.3.4.tgz",
+      "installed_license_metadata": "MIT",
+      "metadata_verified": true
+    },
+    {
+      "name": "@fortune-sheet/react",
+      "role": "runtime",
+      "manifest_spec": "1.0.4",
+      "locked_version": "1.0.4",
+      "lock_integrity": "sha512-v+BU5mmp2hhUe4gRF+vOJ3j8zZkzHU0kzhTZzp+Nn00wA/RArMr+CO+SAluKlCPAsTZgPwmgOEK685WPqJ5XNw==",
+      "lock_registry_url": "https://registry.npmjs.org/@fortune-sheet/react/-/react-1.0.4.tgz",
+      "installed_license_metadata": "MIT",
+      "metadata_verified": true
+    },
+    {
+      "name": "@xmldom/xmldom",
+      "role": "runtime",
+      "manifest_spec": "^0.9.12",
+      "locked_version": "0.9.12",
+      "lock_integrity": "sha512-5AXjrcMClTryPe9LgZrygpB1lj7s0S9E0+W+AHaVKAVyHanafK86iPSvG5xHVSp/jC+VH1UXu0TAEmY279xH7A==",
+      "lock_registry_url": "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.9.12.tgz",
+      "installed_license_metadata": "MIT",
+      "metadata_verified": true
+    },
+    {
+      "name": "exceljs",
+      "role": "runtime",
+      "manifest_spec": "4.4.0",
+      "locked_version": "4.4.0",
+      "lock_integrity": "sha512-XctvKaEMaj1Ii9oDOqbW/6e1gXknSY4g/aLCDicOXqBE4M0nRWkUu0PTp++UPNzoFY12BNHMfs/VadKIS6llvg==",
+      "lock_registry_url": "https://registry.npmjs.org/exceljs/-/exceljs-4.4.0.tgz",
+      "installed_license_metadata": "MIT",
+      "metadata_verified": true
+    },
+    {
+      "name": "jszip",
+      "role": "runtime",
+      "manifest_spec": "3.10.1",
+      "locked_version": "3.10.1",
+      "lock_integrity": "sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==",
+      "lock_registry_url": "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz",
+      "installed_license_metadata": "(MIT OR GPL-3.0-or-later)",
+      "metadata_verified": true
+    },
+    {
+      "name": "react",
+      "role": "runtime",
+      "manifest_spec": "18.3.1",
+      "locked_version": "18.3.1",
+      "lock_integrity": "sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==",
+      "lock_registry_url": "https://registry.npmjs.org/react/-/react-18.3.1.tgz",
+      "installed_license_metadata": "MIT",
+      "metadata_verified": true
+    },
+    {
+      "name": "react-dom",
+      "role": "runtime",
+      "manifest_spec": "18.3.1",
+      "locked_version": "18.3.1",
+      "lock_integrity": "sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==",
+      "lock_registry_url": "https://registry.npmjs.org/react-dom/-/react-dom-18.3.1.tgz",
+      "installed_license_metadata": "MIT",
+      "metadata_verified": true
+    },
+    {
+      "name": "playwright-core",
+      "role": "development",
+      "manifest_spec": "^1.64.1",
+      "locked_version": "1.64.1",
+      "lock_integrity": "sha512-BC4s8y6SEVA6Q1rSxZTto8hI1KUI3xXlHGZgvGqP4IqPdI/a6FX9H29IDNz7vKo9l21b6LfYosScPL6M3xxyDQ==",
+      "lock_registry_url": "https://registry.npmjs.org/playwright-core/-/playwright-core-1.64.1.tgz",
+      "installed_license_metadata": "Apache-2.0",
+      "metadata_verified": true
+    },
+    {
+      "name": "vite",
+      "role": "development",
+      "manifest_spec": "6.4.6",
+      "locked_version": "6.4.6",
+      "lock_integrity": "sha512-RtsraAwEG68idOA6iUOoIpOlcSKROnf815aIq9qHTSrDNpLoBrBa12suyfcEd8qn0xwOVQI1Yhm1GbmTjF600A==",
+      "lock_registry_url": "https://registry.npmjs.org/vite/-/vite-6.4.6.tgz",
+      "installed_license_metadata": "MIT",
+      "metadata_verified": true
+    }
+  ],
+  "limits": [
+    "npm metadata and registry hashes verified, independent legal review not claimed",
+    "nine transformed browserified vendor modules still need exact edition proof",
+    "CI-only mirror is not a public distribution approval"
+  ]
+}
