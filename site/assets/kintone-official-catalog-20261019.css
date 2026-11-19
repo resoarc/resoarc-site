@@ -80,3 +80,15 @@
 .kc-feature-products strong{font-size:15px}
 .kc-feature-products span{flex-basis:100%;font-size:12px;color:#517286}
 @media(max-width:780px){.kc-home-box,.kc-feature-header{display:block}.kc-home-pictos{margin-top:22px}.kc-feature-products{grid-template-columns:1fr}.kc-home-box{padding:25px}.kc-home-pictos img{width:53px;height:53px}}
+
+/* 2026-11-19: browsable groups for the published plugin catalog. */
+.kc-grouped-products{display:flex;flex-direction:column;gap:38px}
+.kc-category-section{min-width:0;scroll-margin-top:160px}
+.kc-category-heading{display:flex;align-items:center;flex-wrap:wrap;gap:7px 12px;margin:0 0 15px;padding-bottom:13px;border-bottom:1px solid #dce8ed}
+.kc-category-heading h3{font-size:20px;font-weight:800;line-height:1.55;color:#24465b;margin:0}
+.kc-category-heading p{font-size:12px;line-height:1.6;color:#617d8b;margin:0;flex:1 0 100%}
+.kc-category-count{font-size:11px;font-weight:800;letter-spacing:.03em;color:#237082;background:#eaf4f6;border-radius:50px;padding:5px 10px}
+.kc-product[hidden],.kc-category-section[hidden]{display:none!important}
+.kc-grouped-products .kc-product-grid{gap:17px}
+.kc-filter-buttons button{min-height:38px}
+@media(max-width:760px){.kc-grouped-products{gap:30px}.kc-category-heading h3{font-size:18px}}
