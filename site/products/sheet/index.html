@@ -1,49 +1,97 @@
 <!doctype html>
 <!-- SPDX-FileCopyrightText: 2026 ResoArc -->
 <!-- SPDX-License-Identifier: MIT -->
-<html lang="ja"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#071522">
-<meta name="description" content="ResoArc Sheet v0.7.0 beta。インストール不要、Excel形式XLSXをローカルで開いて編集・保存できる無料の表計算ツール。Edge・Chrome・Firefox対応。">
+<meta name="description" content="ResoArc Sheet v1.0.0 正式版。無料・オフラインで使える日本語表計算ツール。Excel形式XLSX、CSV、JSONに対応し、原本を守る安全保存を提供します。">
 <link rel="canonical" href="https://resoarc.com/products/sheet/">
 <link rel="icon" href="/assets/resoarc-icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/prelaunch-20261110.css">
-<meta property="og:type" content="website"><meta property="og:site_name" content="ResoArc">
-<meta property="og:title" content="ResoArc Sheet v0.7.0 beta | 無料オフライン表計算">
-<meta property="og:description" content="ファイルを外部送信せず、Excel形式の編集・保存。1つのHTMLで使える無料ベータ版。">
-<meta property="og:image" content="https://resoarc.com/assets/resoarc-og-card-20261023.png">
-<title>ResoArc Sheet v0.7.0 beta | 無料オフライン表計算 | ResoArc</title>
 <link rel="stylesheet" href="/assets/navigation.css">
-</head><body data-product="sheet" data-release-state="beta">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ResoArc">
+<meta property="og:title" content="ResoArc Sheet v1.0.0 | 無料オフライン表計算">
+<meta property="og:description" content="XLSXの安全保存に対応した日本語ローカル表計算ツール。Windows・Linux・iOSへのアプリ展開も開発中。">
+<meta property="og:image" content="https://resoarc.com/assets/resoarc-og-card-20261023.png">
+<title>ResoArc Sheet v1.0.0 | 無料オフライン表計算 | ResoArc</title>
+<style>
+.sheet-release{max-width:840px;margin:1.5rem auto 2rem;line-height:1.75}
+.sheet-release .release-pill{display:inline-block;padding:.3rem .8rem;border:1px solid #6acabe;border-radius:2rem;color:#b6fff2;letter-spacing:.08em;font-weight:700}
+.sheet-release .release-links{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0}
+.sheet-release .release-links a{display:inline-block;padding:.75rem 1.2rem;border-radius:.6rem;border:1px solid #7ac1cf;color:#eafcff;text-decoration:none;font-weight:700}
+.sheet-release .release-links a.primary{background:#0c707e;border-color:#39b6b3;color:white}
+.sheet-release .release-links a:hover,.sheet-release .release-links a:focus-visible{outline:2px solid #f8cc72;outline-offset:2px}
+.sheet-release .release-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.75rem;margin:1rem 0 2rem}
+.sheet-release .release-checks div{padding:1rem;border:1px solid #366371;border-radius:.7rem;background:rgba(8,35,53,.7)}
+.sheet-release .release-checks strong{display:block;font-size:1.2rem}
+.sheet-release code{overflow-wrap:anywhere}
+.sheet-release section{margin:2.2rem 0}
+.sheet-release ul{padding-left:1.4rem}
+.sheet-release .honesty{padding:1rem 1.2rem;border-left:4px solid #e4b45f;background:rgba(54,46,22,.55);border-radius:.3rem}
+@media(max-width:600px){.sheet-release .release-links{flex-direction:column}.sheet-release .release-links a{text-align:center}}
+</style>
+</head>
+<body data-product="sheet" data-release-state="stable">
 <a href="#main" class="skip">本文へ移動</a>
 <header><div class="wrap"><a href="/" class="logo"><img src="/assets/resoarc-icon.svg" width="40" height="40" alt=""><strong>ResoArc</strong></a>
-<nav aria-label="主要メニュー"><a href="/">ホーム</a><a href="/products/">無料ツール</a><a href="/products/roadmap/">ロードマップ</a><a href="/principles/">品質方針</a><a href="/os/">ResoArcOS</a></nav></div></header>
+<nav aria-label="主要メニュー"><a href="/">ホーム</a><a href="/products/">無料ツール</a><a href="/products/roadmap/">開発ロードマップ</a><a href="/principles/">品質方針</a><a href="/os/">ResoArcOS</a></nav></div></header>
 <main id="main" class="wrap"><div class="hero">
-<div class="eyebrow">FREE SPREADSHEET / 100% LOCAL</div>
-<span class="state">v0.7.0 beta · 2026.11.10</span>
+<div class="sheet-release">
+<div class="eyebrow">FREE SPREADSHEET / LOCAL FIRST</div>
+<p class="release-pill">正式版 v1.0.0 · 2026.11.20</p>
 <h1>ResoArc Sheet</h1>
-<p class="tagline">表計算を、もっと手軽に。ファイルはあなたの端末の中に。</p>
-<p class="intro">インストールも会員登録も不要。ZIPを展開してHTMLをダブルクリックするだけの、無料のオフライン表計算ツールです。Excel形式のXLSXやCSVを読み込み、セルを編集して別ファイルとして保存できます。</p>
-<div class="rule" aria-hidden="true"></div>
-<div class="facts"><div class="fact"><small>利用方法</small><strong>ZIPを展開 → HTMLを開く</strong></div><div class="fact"><small>ブラウザー</small><strong>Edge / Chrome / Firefox</strong></div><div class="fact"><small>内部テスト</small><strong>26/26合格 + 3環境E2E</strong></div></div>
-<section class="notice" aria-labelledby="downloads-title"><h2 id="downloads-title">無料ベータ版をダウンロード</h2>
-<p>ソフトウェア・ソースコード・第三者ライセンス文書を公開しています。すべて無料で利用できます。</p>
-<p style="margin-top:1.25rem"><a class="back" href="/downloads/resoarc-sheet-v0.7.0-beta.zip" download>ResoArc Sheet v0.7.0 beta（ZIP・約1.2MB）</a></p>
-<p style="margin-top:.65rem"><a href="/downloads/resoarc-sheet-v0.7.0-beta-source.zip" download>ソースコード（ZIP・約117KB）</a></p>
-<p style="margin-top:1rem;font-size:.88rem">アプリZIP SHA-256：<code>0e30d21d988a654f2506cc53f579a8ba8d7f085a2e52de3d076589d8390794e3</code></p>
-<p style="font-size:.88rem">ソースZIP SHA-256：<code>69265de6b9b81911f6591585939c3abcadce6fa34e0f1acabe0e6cb44036eba2</code></p>
+<p class="tagline">表計算を、もっと自由に。あなたのデータは、あなたの端末に。</p>
+<p class="intro">インストール不要・会員登録不要の無料日本語表計算ツールです。ZIPを展開して <code>ResoArc-Sheet.html</code> をEdge・Chrome・Firefoxで開くだけ。Excel形式のXLSXやCSVを読み込み、編集したコピーを保存できます。</p>
+<section class="notice" aria-labelledby="download-title">
+<h2 id="download-title">無料ダウンロード</h2>
+<div class="release-links">
+<a class="primary" href="/downloads/resoarc-sheet-v1.0.0.zip" download>v1.0.0 アプリZIP（約1.2MB）</a>
+<a href="/downloads/resoarc-sheet-v1.0.0-source.zip" download>v1.0.0 ソースZIP</a>
+</div>
+<p>Webブラウザー内で処理し、表の内容を当プロジェクトのサーバーへ送信しません。ダウンロード後はオフラインで使えます。</p>
+<p><small>アプリZIP SHA-256</small> <code>a0eac59409692e8cb249d3cbb744854c98948d29d9213a7a53ce05aa8bd385d1</code></p>
+<p><small>ソースZIP SHA-256</small> <code>85d9c4ead979d9a61051d0d0329ef52c2c1e616977042897b68bce32c46ab0a7</code></p>
+<p><small>旧版：</small><a href="/downloads/resoarc-sheet-v0.7.0-beta.zip">v0.7.0 beta（アーカイブ）</a></p>
 </section>
-<h2 style="margin-top:3rem">できること</h2>
-<p>セルの編集、Excel形式の読み込み・保存、CSV/JSON書き出し、数式の編集、値のみ貼り付け、セルの書式、列幅・行高の変更などに対応しています。Excelの高度な機能は完全には再現できません。</p>
-<h2>初めての方へ</h2>
-<p>ダウンロードしたZIPを展開し、<code>ResoArc-Sheet.html</code>をEdge・Chrome・Firefoxで開きます。ファイルを選ぶと、処理は原則ブラウザー内で行われ、外部サーバーへExcelファイルを送信しません。保存は新しいファイルをダウンロードします。</p>
-<h2>ベータ版のご注意</h2>
-<p>Microsoft Excelとは別のソフトウェアです。マクロを含むXLSM・XLSB形式は開けません。複雑なグラフ・高度な書式・独自機能が含まれるExcelファイルでは、再保存後の完全な互換性を保証しません。元ファイルを必ず保管してください。</p>
-<p>第三者ソフトウェアのライセンス・著作権表示は配布ZIPの <code>THIRD_PARTY_NOTICES.md</code> と <code>licenses/</code> に同梱しています。ExcelJS内部の一部のブラウザー変換済みコードは、npm版との正確なソース版数が未確定であり、その旨を同梱資料に記載しています。</p>
-<p class="next">ベータ版の動作報告やご意見は <a href="https://github.com/resoarc/resoarc-site/issues">ResoArc公式GitHub Issues</a> で受け付けています。</p>
+<h2>確認済みの品質</h2>
+<div class="release-checks">
+<div><strong>61 / 61</strong><span>単体テスト合格</span></div>
+<div><strong>12 / 12</strong><span>3ブラウザー × 4保存形式</span></div>
+<div><strong>50,000行</strong><span>読み込み・最終行・保存検証</span></div>
+<div><strong>Windows / Linux CI</strong><span>両OSでビルド成功</span></div>
+</div>
+<section>
+<h2>主な機能</h2>
+<ul>
+<li>XLSX・CSVの読み込みと、XLSX・CSV・ResoArc JSONへの書き出し</li>
+<li>数式バー、セルの書式・行高・列幅の変更、検索と文字列置換</li>
+<li>オートフィル、値のみのコピー・貼り付け、1行目を見出しとする並べ替え、簡易フィルター</li>
+<li>グラフ・画像・書式などの消失リスクを検出して保存時に確認</li>
+<li>Excel機能保持XLSXの安全保存：元ファイルを上書きせず、既存セルの値・数式だけを書き換え</li>
+</ul>
+</section>
+<section class="honesty">
+<h2>Excelの完全な代替ではありません</h2>
+<p>本製品はMicrosoft Excelとは別のソフトウェアです。ピボットテーブル、高度なグラフの編集、マクロ、XLSM・XLSB・旧XLSなどは未対応または制限があります。安全保存もExcel全機能の再現を保証しません。重要なファイルは原本を保管し、保存後のコピーをExcelで確認してください。</p>
+<p>「標準XLSX（簡易版）」では画像・グラフ・条件付き書式などが失われる場合があります。消失項目を表示し、明示的な了承があったときだけ別名保存します。</p>
+</section>
+<section>
+<h2>Windows・Linux・iOS向けアプリについて</h2>
+<p>v1.0.0の正式配布物はブラウザーで動作するオフラインHTML版です。Windows用EXE、Linux用デスクトップアプリ、iOS向けのホーム画面対応版・ネイティブ版は別途開発・実機検証中です。まだ完成した実行ファイルとしては案内していません。</p>
+</section>
+<section>
+<h2>ライセンスと検証可能性</h2>
+<p>ResoArcの自作部分はMITライセンスです。第三者コードのライセンス・著作権表示はソース・アプリ両ZIPにある <code>THIRD_PARTY_NOTICES.md</code> と <code>licenses/</code> に同梱しています。</p>
+<p>ExcelJS 4.4.0に含まれる変換済みソース10件の正確な元バージョンは未特定です。通知同梱・開示・変更時の再監査などを条件に例外承認していますが、完全な来歴証明・法的保証ではありません。</p>
+<p><a href="/trust/">品質・信頼性の方針</a> ／ <a href="/products/roadmap/">開発ロードマップ</a> ／ <a href="https://github.com/resoarc/resoarc-site/issues">バグ報告・要望</a></p>
+</section>
 <a class="back" href="/products/">ほかの無料ツールを見る</a>
-</div></main>
-<footer><div class="wrap">© 2026 ResoArc Open Technology Project · MIT（自作部分）および同梱の第三者ライセンス</div></footer>
-<script defer src="/assets/navigation.js"></script></body></html>
+</div></div></main>
+<footer><div class="wrap">© 2026 ResoArc Open Technology Project · 自作部分はMIT、第三者部分は各ライセンス</div></footer>
+<script defer src="/assets/navigation.js"></script>
+</body></html>
