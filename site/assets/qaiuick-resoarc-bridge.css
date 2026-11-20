@@ -1,0 +1,19 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+ * SPDX-License-Identifier: MIT
+ * ResoArc canonical site chrome for qAIUIck sandbox demos.
+ */
+body.q-app{min-width:320px}
+body.q-app .site-header{font-family:var(--body),serif;color:var(--ink);background:#fff}
+body.q-app .site-header p,body.q-app>.footer p{color:#51667d}
+body.q-app .site-header .brand,body.q-app .site-header .desktop-nav a,body.q-app .site-header .mobile-panel a{color:#233951}
+body.q-app .site-header .nav-action{color:#fff}
+body.q-app .site-header .header-inner{max-width:1248px}
+body.q-app>.footer{font-family:var(--body),serif;background:#14283f;color:#f1f6f9}
+body.q-app>.footer h3{font-family:var(--body),serif;font-size:14px;line-height:1.5;letter-spacing:.06em}
+body.q-app>.footer a{color:inherit}
+body.q-app .q-page{max-width:1100px}
+body.q-app .q-page a:focus-visible{outline:2px solid var(--q-ring);outline-offset:3px}
+body.q-app .q-footer{border-top:1px solid var(--q-border);padding-top:20px}
+@media(min-width:960px){body.q-app.ra-nav-ready>main{margin-left:266px}body.q-app.ra-nav-ready.ra-sidebar-hidden>main{margin-left:0}}
+@media(max-width:959px){body.q-app .q-page{padding-top:28px}}
+@media(max-width:700px){body.q-app .header-inner{padding-left:0;padding-right:0}body.q-app .q-page{padding-left:18px;padding-right:18px}}
