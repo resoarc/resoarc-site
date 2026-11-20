@@ -1112,7 +1112,37 @@
       "legalApprovalNotInferred": true,
       "zipEntryCount": 9,
       "containsSignedKintonePayload": false
+    },
+    {
+      "path": "site/downloads/resoarc-sheet-v1.0.0.zip",
+      "sha256": "a0eac59409692e8cb249d3cbb744854c98948d29d9213a7a53ce05aa8bd385d1",
+      "size": 1188997,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT AND ISC AND BSD-3-Clause AND Apache-2.0"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 109,
+      "containsSignedKintonePayload": false,
+      "evidence": "ResoArc Sheet v1.0.0 release-prep commit c5a4cfa, 61/61 Windows and Ubuntu CI, 12/12 3-browser 4-save-mode QA, user GUI no-repair confirmation for XLSX, per-entry SHA256SUMS.json, owner conditional exception dated 2026-11-20",
+      "originalArchiveSource": "ResoArc Sheet v1.0.0 staged artifacts, SHA256 verified 2026-11-20, locally produced unsigned ZIP; no application code signature asserted"
+    },
+    {
+      "path": "site/downloads/resoarc-sheet-v1.0.0-source.zip",
+      "sha256": "85d9c4ead979d9a61051d0d0329ef52c2c1e616977042897b68bce32c46ab0a7",
+      "size": 300399,
+      "type": "zip",
+      "reuseLicenseExpressions": [
+        "MIT AND ISC AND BSD-3-Clause AND Apache-2.0"
+      ],
+      "reviewScope": "format-hash-distribution-technical-only",
+      "legalApprovalNotInferred": true,
+      "zipEntryCount": 189,
+      "containsSignedKintonePayload": false,
+      "evidence": "ResoArc Sheet v1.0.0 release-prep commit c5a4cfa, 61/61 Windows and Ubuntu CI, 12/12 3-browser 4-save-mode QA, user GUI no-repair confirmation for XLSX, per-entry SHA256SUMS.json, owner conditional exception dated 2026-11-20",
+      "originalArchiveSource": "ResoArc Sheet v1.0.0 staged artifacts, SHA256 verified 2026-11-20, locally produced unsigned ZIP; no application code signature asserted"
     }
   ],
-  "technicalChangeNote": "Appended two exact-byte pinned reuse-reset v1.0.2 candidate ZIPs; existing 84 binary assets unchanged."
+  "technicalChangeNote": "Appended two exact-byte pinned reuse-reset v1.0.2 candidate ZIPs; existing 84 binary assets unchanged. | 2026-11-20: appended exactly two ResoArc Sheet v1.0.0 verified archives; prior 86 records unchanged. Nontext provenance only; not rights/legal certification."
 }

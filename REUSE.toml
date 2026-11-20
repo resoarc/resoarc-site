@@ -1228,3 +1228,14 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 ResoArc Open Technology Project"
 SPDX-License-Identifier = "MIT"
+
+# ResoArc Sheet v1.0.0 ZIPs carry compound third-party notices; the underlying
+# source editions have conditional exemptions, not legal certification.
+[[annotations]]
+path = [
+  "site/downloads/resoarc-sheet-v1.0.0.zip",
+  "site/downloads/resoarc-sheet-v1.0.0-source.zip",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "MIT AND ISC AND BSD-3-Clause AND Apache-2.0"
