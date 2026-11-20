@@ -1,0 +1,37 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+ * SPDX-License-Identifier: MIT
+ * ResoArc Sheet public product page within the canonical corporate shell.
+ */
+.sheet-main{padding:48px 0 104px;background:linear-gradient(180deg,#f3f7fa 0%,#fff 380px);}
+.sheet-main>.container{max-width:1100px}
+.sheet-release{background:#fff;border:1px solid #dbe4ed;box-shadow:0 18px 48px rgba(22,48,74,.055);padding:clamp(24px,5vw,62px);line-height:1.9}
+.sheet-release .eyebrow{font-family:var(--latin),sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;color:#54718b}
+.sheet-release .release-pill{display:inline-flex;align-items:center;gap:9px;border:1px solid #aac4d8;background:#eef4f9;padding:5px 13px;color:#285477;font-family:var(--latin),sans-serif;font-size:12px;letter-spacing:.04em;margin:16px 0}
+.sheet-release h1{font-size:clamp(33px,5vw,54px);letter-spacing:.035em;margin:12px 0 8px;color:#17334e}
+.sheet-release .tagline{font-size:clamp(17px,2.4vw,22px);font-weight:700;color:#284d70;margin:0 0 17px}
+.sheet-release .intro{font-size:15px;line-height:2.05;color:#476074;max-width:850px}
+.sheet-release h2{font-size:clamp(19px,2.6vw,25px);color:#1a3956;margin:0 0 20px;padding-bottom:9px;border-bottom:1px solid #d6e1ec}
+.sheet-release section{margin:44px 0}
+.sheet-release .notice{background:#f3f7fb;border:1px solid #d3e0ec;padding:clamp(20px,3vw,36px);margin:40px 0}
+.sheet-release .notice h2{margin-top:0}
+.sheet-release .notice p{font-size:13px;line-height:1.9;overflow-wrap:anywhere}
+.sheet-release .release-links{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 16px}
+.sheet-release .release-links a{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;padding:14px 19px;border:1px solid #7893af;background:#fff;color:#224567;font-weight:700;font-size:14px;line-height:1.5;min-height:52px}
+.sheet-release .release-links a.primary{background:#1b4469;border-color:#1b4469;color:#fff}
+.sheet-release .release-links a:hover{background:#e5f0f8}
+.sheet-release .release-links a.primary:hover{background:#123554}
+.sheet-release .release-links a:focus-visible{outline:3px solid #ba8237;outline-offset:2px}
+.sheet-release .release-checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 38px}
+.sheet-release .release-checks>div{padding:18px 14px;background:#f5f8fc;border-left:3px solid #527da6;min-width:0}
+.sheet-release .release-checks strong{display:block;color:#1b4269;font:700 clamp(16px,2.2vw,21px)/1.4 var(--latin),sans-serif;margin-bottom:7px;overflow-wrap:anywhere}
+.sheet-release .release-checks span{display:block;font-size:12px;color:#5c7085;line-height:1.7}
+.sheet-release ul{padding-left:1.5em;margin:16px 0;color:#4a6075}
+.sheet-release li{padding:4px 0}
+.sheet-release .honesty{border:1px solid #e6d9be;border-left:4px solid #bd9252;background:#fbf8f2;padding:clamp(18px,3vw,30px)}
+.sheet-release .honesty h2{color:#685034;border-bottom-color:#e4d7be}
+.sheet-release .honesty p{color:#675a4b}
+.sheet-release code{overflow-wrap:anywhere;font:500 .93em/1.7 ui-monospace,SFMono-Regular,Consolas,monospace}
+.sheet-release .back{display:inline-block;margin-top:15px;color:#27587a;font-weight:700}
+@media(max-width:930px){.sheet-release .release-checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.sheet-main{padding:18px 0 60px}.sheet-main>.container{width:min(calc(100% - 30px),1248px)}.sheet-release{padding:21px 17px}.sheet-release .release-checks{gap:8px}.sheet-release .release-links{flex-direction:column}.sheet-release .release-links a{width:100%}.sheet-release section{margin:34px 0}}
+@media(max-width:400px){.sheet-release .release-checks{grid-template-columns:1fr}}

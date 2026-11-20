@@ -35,6 +35,11 @@ def main():
    errors.append(f'Unreleased or noindex page exposed: {url}')
   if url in sm and not pages[url]['visible']:errors.append(f'Published page missing in menu: {url}')
   if url in sm and 'noindex' in doc.robots:errors.append(f'Sitemap lists noindex page: {url}')
+  # Public product and demo pages must keep the canonical ResoArc shell.
+  if url in sm and '<header class="site-header">' not in s:
+   errors.append(f'Published page missing shared site header: {url}')
+  if url in sm and '<footer class="footer">' not in s:
+   errors.append(f'Published page missing shared site footer: {url}')
  for url,info in pages.items():
   rel='index.html' if url=='/' else url.lstrip('/')+'index.html' if url.endswith('/') else url.lstrip('/')
   if not (SITE/rel).is_file():errors.append('Stale page '+url)
