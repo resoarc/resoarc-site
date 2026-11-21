@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 HISTORICAL=ROOT/"docs/compliance/BINARY_ASSET_REVIEW_20261106.json"
 ACTIVE=ROOT/"docs/compliance/ACTIVE_PAGES_BINARY_INVENTORY_20261109.json"
+BADGE_ASSETS=ROOT/"docs/compliance/CREDLY_BADGE_ASSETS_20261122.json"
 PROHIBITED={".exe",".dll",".iso",".jar",".class",".wasm",
             ".o",".a",".so",".dylib",".app",".bin",".rom",".pyc"}
 SIGNATURE_MEMBERS={"contents.zip","PUBKEY","SIGNATURE"}
@@ -58,12 +59,22 @@ def audit()->list[str]:
  problems=[]
  historical=json.loads(HISTORICAL.read_text(encoding="utf8"))
  active=json.loads(ACTIVE.read_text(encoding="utf8"))
+ badge_inventory=json.loads(BADGE_ASSETS.read_text(encoding="utf8"))
+ badges={x["path"]:x for x in badge_inventory["assets"]}
  older={x["path"]:x for x in historical["assets"]}
  newer={x["path"]:x for x in active["assets"]}
  if len(older)!=34:problems.append("historical 34 reviewed assets changed")
  # The original beta archives and v1.0.0 archives were individually hash- and ZIP-verified.
  if len(newer)!=88:problems.append("active distribution inventory count drifted")
  if len(set(older)&set(newer)):problems.append("overlapping immutable inventories")
+ expected_badges={
+  "site/assets/recognition/credly-advocate-20261122.png",
+  "site/assets/recognition/credly-cleaner-20261122.png"
+ }
+ if set(badges)!=expected_badges or len(badge_inventory["assets"])!=2:
+  problems.append("Credly 2-badge review set missing, extra, or duplicated")
+ if set(badges)&(set(older)|set(newer)):
+  problems.append("Credly badge inventory overlaps immutable prior inventories")
  tracked=subprocess.check_output(["git","ls-files"],cwd=ROOT,text=True).splitlines()
  for rel in tracked:
   p=ROOT/rel
@@ -95,9 +106,21 @@ def audit()->list[str]:
    elif not rel.startswith("site/assets/"):
     problems.append("graphics outside reviewed static assets "+rel)
    continue
+  if rel in badges:
+   x=badges[rel]
+   if typ!="png" or x["type"]!="png" or len(data)!=x["size"] or sha(data)!=x["sha256"]:
+    problems.append("Credly reviewed PNG byte/format mismatch "+rel)
+   if (x.get("reuseLicenseExpressions")!=["LicenseRef-Service-Marks"] or
+       x.get("legalApprovalNotInferred") is not True or
+       x.get("issuer")!="The Linux Foundation" or
+       x.get("issuedTo")!="ResoArc Maintainer" or
+       not x.get("sourceUrl","").startswith("https://images.credly.com/images/") or
+       not x.get("credentialVerificationUrl","").startswith("https://www.credly.com/badges/")):
+    problems.append("Credly credential source and legal claim boundaries missing "+rel)
+   continue
   if typ is not None or b"\x00" in data[:4096]:
    problems.append("unreviewed binary source file "+rel)
- missing=(set(older)|set(newer))-set(tracked)
+ missing=(set(older)|set(newer)|set(badges))-set(tracked)
  if missing:problems.append("missing pinned reviewed files "+", ".join(sorted(missing)[:10]))
  if sum(x["type"]=="zip" for x in newer.values())!=53:
   problems.append("active published ZIP list changed without provenance")
@@ -107,6 +130,6 @@ if __name__=="__main__":
  except Exception as exc:
   issues=["auditor exception "+type(exc).__name__+": "+str(exc)]
  for issue in issues:print("FAIL:",issue,file=sys.stderr)
- print("Immutable binary verification: 34 historical reviewed assets + 88 active site distributions; issues",len(issues))
+ print("Immutable binary verification: 34 historical reviewed assets + 88 active site distributions + 2 reviewed Credly badge PNGs; issues",len(issues))
  print("This is byte/format/signature/declared-license evidence, NOT legal rights conformance.")
  raise SystemExit(1 if issues else 0)
