@@ -16,3 +16,7 @@ Machine-readable 34-file filename, size, binary magic and SHA-256 manifest: [BIN
 The 20 original ZIPs and sidecar LICENSE/NOTICE are retained as GitHub Release assets with exact SHA-256 matching the archived historical audit: [artifact release](https://github.com/resoarc/resoarc-site/releases/tag/resoarc-osps-distribution-mirror-20261106). CI retrieves the originals only **after** verifying the repository-pinned expected byte hashes. No private signing keys are stored.
 
 **Precise claim boundary:** This is a reviewable-format and provenance-record check for the *current source tree*. It is not a malware scan of compiled fonts, an independent font provenance audit, a rewritten git history, or a product security certification. The actual public website deployment may continue to serve the same original ZIPs under legacy URLs after a deliberate verified publication.
+
+## Credly issuer-badge images added in November 2026
+
+Two issuer-controlled badge PNG images are reviewed separately under CREDLY_BADGE_ASSETS_20261122.json. The historical 34-file and active 88-file inventories remain unchanged. The binary gate insists on exactly these two named PNGs, matching their fixed sizes, SHA-256, file formats, issuer, recipient and verification URLs. Executable/ZIP allowlists are not relaxed. Rights belong to the relevant issuer; this is not independent copyright clearance or product certification.

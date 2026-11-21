@@ -1,0 +1,39 @@
+{
+  "schema": "resoarc-third-party-issued-credential-badges-v1",
+  "observedDate": "2026-11-22",
+  "credentialPublicState": "accepted",
+  "explanation": "Two issued public Credly credentials. Original frozen 34 and 88 inventories remain unchanged.",
+  "rightsNote": "Issuer marks are displayed to identify earned credentials with verification links, not as product certification, endorsement, rights clearance, or a ResoArc copyright claim.",
+  "assets": [
+    {
+      "path": "site/assets/recognition/credly-advocate-20261122.png",
+      "sha256": "77f3a1d0d74a8700c2c55f9c3b1e7fd73bffb626f791927de5280e4cae658d88",
+      "size": 573837,
+      "type": "png",
+      "issuer": "The Linux Foundation",
+      "issuedTo": "ResoArc Maintainer",
+      "sourceUrl": "https://images.credly.com/images/ddbb517d-eddf-4cb5-ad98-82ead31a191d/blob",
+      "credentialVerificationUrl": "https://www.credly.com/badges/7a218223-0217-407e-ae8b-e04d4dd4b1a9/public_url",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "issuer-badge-display-format-and-byte-hash-only",
+      "legalApprovalNotInferred": true
+    },
+    {
+      "path": "site/assets/recognition/credly-cleaner-20261122.png",
+      "sha256": "fb123e2342dbe34b27564716ee0bd16eb88d076d3f25bbcbf947f56ede9a0060",
+      "size": 195986,
+      "type": "png",
+      "issuer": "The Linux Foundation",
+      "issuedTo": "ResoArc Maintainer",
+      "sourceUrl": "https://images.credly.com/images/f5b2443c-a281-4694-8ed5-eaf8384e2817/blob",
+      "credentialVerificationUrl": "https://www.credly.com/badges/c48f7499-79ac-482c-9d1d-b130ccd5265f/public_url",
+      "reuseLicenseExpressions": [
+        "LicenseRef-Service-Marks"
+      ],
+      "reviewScope": "issuer-badge-display-format-and-byte-hash-only",
+      "legalApprovalNotInferred": true
+    }
+  ]
+}

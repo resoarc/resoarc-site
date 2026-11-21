@@ -32,6 +32,8 @@ SPDX-License-Identifier = "LicenseRef-ResoArc-Screenshots"
 [[annotations]]
 path = [
   "site/assets/recognition/badge-reuse-20261017.svg",
+  "site/assets/recognition/credly-advocate-20261122.png",
+  "site/assets/recognition/credly-cleaner-20261122.png",
   "site/assets/recognition/green-web-verified-20261017.png",
   "site/assets/recognition/icon-mdn.svg",
   "site/assets/recognition/icon-securityheaders.png",

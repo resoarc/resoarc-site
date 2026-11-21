@@ -1,0 +1,19 @@
+/* SPDX-FileCopyrightText: 2026 ResoArc Open Technology Project
+   SPDX-License-Identifier: MIT */
+.credly-feature{margin:2rem 0;padding:1.6rem;border:1px solid #b5c9d5;border-radius:16px;background:linear-gradient(135deg,#edf5f7 0%,#f7fafc 70%);color:#173544}
+.credly-feature .credly-kicker{display:block;font:700 .75rem/1.3 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#38637b}
+.credly-feature h3,.credly-feature h2{margin:.5rem 0 .7rem;color:#12374b;font-size:clamp(1.35rem,2.6vw,1.7rem);line-height:1.4}
+.credly-feature p{color:#365665;line-height:1.85}
+.credly-badge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.2rem 0 0}
+.credly-badge-card{display:flex;align-items:center;gap:1rem;padding:1.1rem;border:1px solid #d0dfe7;border-radius:12px;background:#fff;min-width:0;box-shadow:0 6px 18px rgba(15,45,65,.055)}
+.credly-badge-card img{width:96px;height:96px;flex:0 0 96px;object-fit:contain}
+.credly-badge-card .credly-badge-copy{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:.35rem}
+.credly-badge-card strong{font-size:1rem;color:#15394c;line-height:1.45;overflow-wrap:anywhere}
+.credly-badge-card small{font-size:.8rem;color:#526d7b;line-height:1.6}
+.credly-badge-card a{font-weight:700;color:#075d7c;text-decoration:underline;text-underline-offset:3px}
+.credly-badge-card a:focus-visible{outline:3px solid #1d769c;outline-offset:3px}
+.credly-disclaimer{font-size:.78rem;line-height:1.75;color:#486572;margin-top:1rem}
+.credly-details{margin:2rem auto}
+.credly-details .credly-badge-card{align-items:flex-start}
+.credly-details .credly-badge-card img{width:118px;height:118px;flex-basis:118px}
+@media(max-width:760px){.credly-feature{padding:1rem;margin:1.2rem 0}.credly-badge-grid{grid-template-columns:1fr}.credly-badge-card{padding:.8rem}.credly-badge-card img,.credly-details .credly-badge-card img{width:84px;height:84px;flex-basis:84px}}
